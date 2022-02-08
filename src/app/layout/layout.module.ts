@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { SharedModule } from '../shared/shared.module';
 import { NotificationsModule } from '../notifications/notifications.module';

@@ -1,8 +1,7 @@
-<app-header
-  [isMobile]="isMobile"
-  [isAuthenticated]="isAuthenticated"
-  (onToggleSidebar)="onToggleSidebar($event)"
+<app-header [isMobile]="isMobile" [isAuthenticated]="isAuthenticated" (onToggleSidebar)="onToggleSidebar($event)"
   [ngClass]="{ 'house-africa-theme-dark': themeService.darkTheme }">
 </app-header>
-<router-outlet></router-outlet>
+<div class="main-content full-height">
+  <router-outlet></router-outlet>
+</div>
 <app-footer></app-footer>

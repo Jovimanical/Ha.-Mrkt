@@ -1,53 +1,55 @@
 #!/bin/bash
 if ! [ -x "$(command -v apache2)" ]; then
-
-  # Update Package Index
-  sudo apt-get update && sudo apt-get upgrade -y
-  sudo apt-get install lsb-release ca-certificates apt-transport-https software-properties-common -y
-
-  sudo apt install -y ruby-full wget -y
-
-  wget https://aws-codedeploy-us-west-2.s3.us-west-2.amazonaws.com/latest/install
-  sudo chmod +x ./install
-  sudo ./install auto > /tmp/logfile
-
-  # Install Apache2
-  sudo apt install -y apache2
-  echo "Apache2 server installed"
-  # Allow to run Apache on boot up
-  sudo systemctl enable apache2
-  echo "Apache2 server enabled"
-  # Adjust Firewall
-  sudo ufw allow in "Apache Full"
-
-  #sudo apt -y install wget unzip
-  # I want to make sure that the directory is clean and has nothing left over from
-  # previous deployments. The servers auto scale so the directory may or may not
-  # exist.
-  echo "Directories and permission"
-  echo "System Checking Directories Exits"
-  if [ -d /var/www/html ]; then
-      sudo rm -rf /var/www/html/*
-      echo "System Directory Cleared"
-  fi
-
-  # Allow Read/Write for Owner and App to write
-  sudo usermod -aG www-data ubuntu
-  sudo addgroup www-data
-  sudo chown -R www-data:www-data /var/www/html
-  sudo chmod -R 0777 /var/www/html/
-
-  echo "System script Exiting"
-  exit 0
+    
+    # Update Package Index
+    sudo apt-get update && sudo apt-get upgrade -y
+    sudo apt-get install lsb-release ca-certificates apt-transport-https software-properties-common -y
+    
+    sudo apt install -y ruby-full wget -y
+    
+    wget https://aws-codedeploy-us-west-2.s3.us-west-2.amazonaws.com/latest/install
+    sudo chmod +x ./install
+    sudo ./install auto > /tmp/logfile
+    
+    # Install Apache2
+    sudo apt install -y apache2
+    echo "Apache2 server installed"
+    # Allow to run Apache on boot up
+    sudo systemctl enable apache2
+    echo "Apache2 server enabled"
+    # Adjust Firewall
+    sudo ufw allow in "Apache Full"
+    
+    #sudo apt -y install wget unzip
+    # I want to make sure that the directory is clean and has nothing left over from
+    # previous deployments. The servers auto scale so the directory may or may not
+    # exist.
+    echo "Directories and permission"
+    echo "System Checking Directories Exits"
+    if [ -d /var/www/html ]; then
+        sudo rm -rf /var/www/html/*
+        echo "System Directory Cleared"
+    fi
+    
+    # Allow Read/Write for Owner and App to write
+    sudo usermod -aG www-data ubuntu
+    sudo addgroup www-data
+    sudo chown -R www-data:www-data /var/www/html
+    sudo chmod -R 0777 /var/www/html/
+    
+    echo "System script Exiting"
+    exit 0
 else
-  # I want to make sure that the directory is clean and has nothing left over from
-  # previous deployments. The servers auto scale so the directory may or may not
-  # exist.
-  echo "System Checking Directories Exits"
-  if [ -d /var/www/html ]; then
-    sudo rm -rf /var/www/html/*
-    echo "System Directory Cleared"
-  fi
+    # I want to make sure that the directory is clean and has nothing left over from
+    # previous deployments. The servers auto scale so the directory may or may not
+    # exist.
+    sudo chown -R ubuntu /var/www/html
+    sudo chmod -R 0777 /var/www/html/
+    echo "System Checking Directories Exits"
+    if [ -d /var/www/html ]; then
+        sudo rm -rf /var/www/html/*
+        echo "System Directory Cleared"
+    fi
 fi # install apache if not already installed
 
 
