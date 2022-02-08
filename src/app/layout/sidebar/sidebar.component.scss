@@ -1,0 +1,99 @@
+// mat-sidenav {
+//   width: 250px;
+//   background-color: #565656;
+//   padding-top: 20px;
+// }
+
+// mat-sidenav ul {
+//   list-style-type: none;
+//   padding: 0;
+// }
+
+// .mobile {
+//   width: 100%;
+//   background-color: #3ed94f;
+// }
+
+// .logo {
+//   width: 120px;
+// }
+
+// // When not authenticated, we don't show the toolbar, meaning we need the height to be 100%.
+// .sidenav-height-full {
+//   height: 100%;
+// }
+
+// /* Since we have the toolbar over the sidenav, we need to give it 100% height minus the toolbar's height. */
+// .sidenav-height {
+//   // height: calc(100% - 64px);
+// }
+
+// @media screen and (max-width: 600px) {
+//   /* The toolbar shrinks to 56px at this breakpoint, need to update the sidenav height in that case. */
+//   // .sidenav-height {
+//   //   height: calc(100% - 56px);
+//   // }
+// }
+
+// .nav-item-container {
+//   align-items: center;
+//   justify-content: center;
+//   cursor: pointer;
+//   display: flex;
+//   font-size: 26px;
+//   font-weight: 400;
+//   height: 43px;
+//   line-height: 20px;
+//   outline: none;
+//   overflow: hidden;
+//   padding: 0;
+//   text-decoration: none;
+//   white-space: nowrap;
+
+//   i {
+//     margin-left: 26px;
+//     margin-right: 30px;
+//   }
+
+//   &:hover {
+//     background-color: #3ed94f;
+//     color: #fff;
+//   }
+// }
+
+// .active {
+//   background-color: #3ed94f;
+// }
+
+// a {
+//   color: white;
+
+//   &:visited {
+//     color: white;
+//   }
+
+//   &:hover {
+//     color: inherit;
+//   }
+
+//   &:active {
+//     color: inherit;
+//   }
+// }
+
+// .house-africa-icon {
+//   width: 50px;
+// }
+
+// .powered-by-label {
+//   color: white;
+//   margin-top: 30px;
+// }
+
+// .powered-text {
+//   font-size: 10px;
+// }
+
+// .logo-text {
+//   color: white;
+// }

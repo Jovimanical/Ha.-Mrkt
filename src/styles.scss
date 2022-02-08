@@ -1,0 +1,207 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,500&display=swap');
+@import '~ngx-toastr/toastr';
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+mat-toolbar-row {
+  justify-content: space-between;
+}
+
+mat-card {
+  margin-bottom: 10px;
+}
+
+.card-title {
+  color: #3a405b;
+  font-size: 1.125rem !important;
+  font-weight: 500 !important;
+}
+
+.card-divider {
+  margin-left: -1.5rem !important;
+  margin-right: -1.5rem !important;
+}
+
+@media only screen and (min-width: 960px) {
+  mat-card {
+    margin: 5px;
+  }
+}
+
+/*
+There's a bug with transform conflicting with position:fixed. This fixes the issue.
+https://github.com/angular/material2/issues/998 */
+.mat-sidenav-container, .mat-sidenav-content {
+  transform: none !important;
+}
+
+.done {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 5px 3px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-color: #777;
+  border-radius: 10px;
+}
+
+.badge-notification {
+  margin-top: 15px;
+  margin-left: -10px;
+  background-color: #565656;
+}
+
+.full-height {
+  height: 100% !important;
+}
+
+.action-buttons {
+  margin-top: 10px;
+}
+
+.divider {
+  display: block;
+  border-top: 1px solid rgba(0, 0, 0, .12);
+  width: 100%
+}
+
+.masthead {
+  background: white;
+  background-position: center top;
+  background-size: cover;
+  min-height: 100%;
+  height: 100%;
+}
+
+.page-padding {
+  padding: 20px;
+}
+
+.success-snack {
+  background-color: green !important;
+}
+
+.error-snack {
+  background-color: red !important;
+}
+
+.title {
+  letter-spacing: 2px;
+  color: rgb(104, 103, 112);
+}
+
+.action-button {
+  background-color: #4caf50 !important;
+  color: #FFF !important;
+
+  &:disabled {
+    opacity: .5;
+  }
+}
+
+.separator {
+  border-bottom: 1px solid lightgray;
+}
+
+.logo-top {
+  font-weight: bold;
+  font-size: 22pt;
+  color: #424242;
+}
+
+.logo-bottom {
+  font-weight: bold;
+  font-size: 15pt;
+  color: #424242;
+}
+
+.logo-subtext {
+  color: #3ed94f;
+  font-weight: 400;
+}
+
+.light-input .mat-input-element {
+  font-family: Lato;
+  font-weight: 300;
+  font-size: 20px;
+}
+
+.light-input .mat-form-field {
+  height: 60px;
+  width: 550px;
+}
+
+/* Pure CSS spinner, used on page load when Angular Material hasn't loaded yet. */
+.loading-spinner {
+  /* Overrides the margins on the masthead style if showing the Loading spinner */
+  .masthead {
+    margin: 0;
+  }
+
+  .lds-ring {
+    display: inline-block;
+    position: absolute;
+    left: calc(50% - 64px);
+    top: calc(50% - 64px);
+    width: 128px;
+    height: 128px;
+  }
+
+  .lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 102px;
+    height: 102px;
+    margin: 12px;
+    border: 12px solid #000;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #000 transparent transparent transparent;
+  }
+
+  .lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+  }
+
+  .lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+
+  .lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+  }
+
+  @keyframes lds-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

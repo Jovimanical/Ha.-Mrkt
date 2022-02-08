@@ -1,0 +1,22 @@
+<div class="masthead" fxLayoutAlign="center center">
+  <div fxLayout="column" fxLayoutGap="30px" class="form-container">
+    <div fxLayout="column" fxFlexAlign="center" fxLayoutGap="20px">
+      <div class="banner" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <img class="lighthouse-logo" src="/assets/images/house-africa-logo-green.png" alt="lighthouse logo" />
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <span class="logo-top">HOUSE-AFRICA</span>
+          <span class="logo-bottom">PROPERTY MARKETPLACE</span>
+        </div>
+        <div fxLayout="row" class="logo-subtext" fxLayoutGap="50px">
+          <span>SUPPORT</span>
+          <span>MODERNIZE</span>
+          <span>INTEGRATE</span>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+      <button class="linkedin-button" type="button" (click)="syncWithLinkedIn()" [disabled]="working"></button>
+      <button color="primary" (click)="dismiss()" mat-button>DO THIS LATER</button>
+    </div>
+  </div>
+</div>

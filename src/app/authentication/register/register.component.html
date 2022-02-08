@@ -1,0 +1,138 @@
+<!-- Tablet / Desktop -->
+<div class="masthead" *ngIf="!isMobile">
+  <div fxLayout="row" fxLayoutAlign="center center" class="full-height">
+    <mat-card fxFlex.md="80" fxFlex.lg="60" fxFlex.xl="50">
+      <h1>Sample App</h1>
+      <div>Create Account</div>
+      <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate fxLayout="column" fxLayoutGap="5px">
+        <mat-form-field>
+          <input matInput placeholder="Email" formControlName="email" required>
+          <mat-error *ngIf="registerForm.controls['email'].hasError('required')">
+            Email is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="First Name" formControlName="firstname" required>
+          <mat-error *ngIf="registerForm.controls['firstname'].hasError('required')">
+            First Name is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Last Name" formControlName="lastname" required>
+          <mat-error *ngIf="registerForm.controls['lastname'].hasError('required')">
+            Last Name is required
+          </mat-error>
+        </mat-form-field>
+        <div formArrayName="phones">
+          <div *ngFor="let phone of phones.controls; let i=index" [formGroupName]="i" fxLayout="row">
+            <mat-form-field fxFlex>
+              <input matInput placeholder="Mobile Phone" formControlName="phoneNumber" required>
+              <mat-error *ngIf="phones.controls[i].controls['phoneNumber'].hasError('required')">
+                Mobile Phone is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-form-field>
+          <input matInput placeholder="Username" formControlName="username" required>
+          <mat-error *ngIf="registerForm.controls['username'].hasError('required')">
+            Username is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Password" formControlName="password" type="password" required>
+          <mat-error *ngIf="registerForm.controls['password'].hasError('required')">
+            Password is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Confirm Password" formControlName="confirmPassword" type="password" required>
+          <mat-error *ngIf="registerForm.controls['confirmPassword'].hasError('required')">
+            Confirm Password is required
+          </mat-error>
+        </mat-form-field>
+        <div *ngIf="registrationErrors?.length > 0">
+          <span *ngFor="let error of registrationErrors" class="error">
+            {{error.errorDescription}}
+            <br />
+          </span>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px">
+          <span fxFlex></span>
+          <mat-spinner [diameter]="30" *ngIf="working"></mat-spinner>
+          <button mat-raised-button color="primary" type="submit" [disabled]="working">Register</button>
+          <button type="button" routerLink="/authentication/login" color="accent" mat-raised-button [disabled]="working">Cancel</button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Mobile -->
+<div class="masthead" *ngIf="isMobile">
+  <div fxLayout="column" fxLayoutGap="30px" class="form-container">
+    <div class="white">Create Account</div>
+    <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate fxLayout="column" fxLayoutGap="10px">
+      <mat-form-field class="light-input">
+        <input matInput placeholder="Email" formControlName="email" required>
+        <mat-error *ngIf="registerForm.controls['email'].hasError('required')">
+          Email is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="light-input">
+        <input matInput placeholder="First Name" formControlName="firstname" required>
+        <mat-error *ngIf="registerForm.controls['firstname'].hasError('required')">
+          First Name is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="light-input">
+        <input matInput placeholder="Last Name" formControlName="lastname" required>
+        <mat-error *ngIf="registerForm.controls['lastname'].hasError('required')">
+          Last Name is required
+        </mat-error>
+      </mat-form-field>
+      <div formArrayName="phones">
+        <div *ngFor="let phone of phones.controls; let i=index" [formGroupName]="i" fxLayout="row">
+          <mat-form-field fxFlex class="light-input">
+            <input matInput placeholder="Mobile Phone" formControlName="phoneNumber" required>
+            <mat-error *ngIf="phones.controls[i].controls['phoneNumber'].hasError('required')">
+              Mobile Phone is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-form-field class="light-input">
+        <input matInput placeholder="Username" formControlName="username" required>
+        <mat-error *ngIf="registerForm.controls['username'].hasError('required')">
+          Username is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="light-input">
+        <input matInput placeholder="Password" formControlName="password" type="password" required>
+        <mat-error *ngIf="registerForm.controls['password'].hasError('required')">
+          Password is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="light-input">
+        <input matInput placeholder="Confirm Password" formControlName="confirmPassword" type="password" required>
+        <mat-error *ngIf="registerForm.controls['confirmPassword'].hasError('required')">
+          Confirm Password is required
+        </mat-error>
+      </mat-form-field>
+      <div *ngIf="registrationErrors?.length > 0">
+        <span *ngFor="let error of registrationErrors" class="white">
+          {{error.errorDescription}}
+          <br />
+        </span>
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px" style="margin-top:10px">
+        <span fxFlex></span>
+        <mat-spinner [diameter]="30" *ngIf="working"></mat-spinner>
+        <button mat-raised-button color="primary" type="submit" [disabled]="working">Register</button>
+        <button type="button" routerLink="/authentication/login" mat-raised-button color="accent" [disabled]="working">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
