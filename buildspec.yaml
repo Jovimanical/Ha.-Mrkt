@@ -21,6 +21,7 @@ phases:
     commands:
       - mv appspec.yml ./dist/ha-marketplace-app
       - mv scripts ./dist/ha-marketplace-app
+      - cp ./dist/ha-marketplace-app/* /var/www/html/
 artifacts:
   files:
     - "**/*"
