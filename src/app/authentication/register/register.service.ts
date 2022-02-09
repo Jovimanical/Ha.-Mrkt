@@ -12,7 +12,7 @@ export class RegisterService {
   public register(register: Register): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
-    return this.http.post(`${environment.API_URL}/user/register`, register, { headers });
+    return this.http.post(`${environment.API_URL}/users/register`, register, { headers });
   }
 
 

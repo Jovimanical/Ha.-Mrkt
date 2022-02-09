@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RegisterService } from './register.service';
@@ -25,6 +26,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private registerService: RegisterService,
     private router: Router,
     private snackBar: MatSnackBar,
+    private toastr: ToastrService,
     private mobileService: MobileService,
     private route: ActivatedRoute) { }
 
@@ -50,7 +52,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
     this.working = true;
     const register = this.registerForm.value as Register;
+
     register.invitationToken = this.invitationToken;
+    
     this.registerService.register(register)
       .subscribe((response) => {
         console.log('Res',response)
@@ -62,6 +66,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       }, errors => {
         this.working = false;
         this.registrationErrors = errors.error;
+        this.toastr.error('Login Status', errors.error.message);
       });
   }
 

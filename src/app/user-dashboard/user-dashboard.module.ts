@@ -37,7 +37,6 @@ import { UserLandRegistryComponent } from './user-land-registry/user-land-regist
         LayoutModule
     ],
     declarations: [
-        // DashboardMenuStatusComponent,
         UserDashboardComponent,
         UserTransactionHistoryComponent,
         UserMyPropertiesComponent,
