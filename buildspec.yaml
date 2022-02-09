@@ -7,7 +7,7 @@ phases:
       # Download and Install NodeJS 12
       - echo installing nodejs...
       - curl -sL https://deb.nodesource.com/setup_12.x | bash -
-      - sudo apt-get install -y nodejs npm
+      - sudo apt-get install -y nodejs
 
       # Install http drivers for node
       - echo Installing source NPM dependencies...

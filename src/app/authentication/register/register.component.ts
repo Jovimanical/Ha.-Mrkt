@@ -30,10 +30,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initializeForm();
-    // this.isMobile = this.mobileService.isMobile();
-    // this.watcher = this.mobileService.mobileChanged$.subscribe((isMobile: boolean) => {
-    //   this.isMobile = isMobile;
-    // });
+    this.isMobile = this.mobileService.isMobile();
+    this.watcher = this.mobileService.mobileChanged$.subscribe((isMobile: boolean) => {
+      this.isMobile = isMobile;
+    });
 
     this.route.queryParams.subscribe(async params => {
       this.invitationToken = params['invitationToken'];
@@ -73,15 +73,25 @@ export class RegisterComponent implements OnInit, OnDestroy {
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       email: ['', Validators.required],
-      username: ['', Validators.required],
       password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
-      phones: this.formBuilder.array([
-        this.formBuilder.group({
-          phoneNumber: ['', Validators.required],
-          phoneType: ['Mobile', Validators.required]
-        })
-      ])
+      country_code: ['234', Validators.required],
+      mobile: ['', Validators.required]
     });
   }
+  // private initializeForm(): void {
+  //   this.registerForm = this.formBuilder.group({
+  //     firstname: ['', Validators.required],
+  //     lastname: ['', Validators.required],
+  //     email: ['', Validators.required],
+  //     username: ['', Validators.required],
+  //     password: ['', Validators.required],
+  //     confirmPassword: ['', Validators.required],
+  //     phones: this.formBuilder.array([
+  //       this.formBuilder.group({
+  //         phoneNumber: ['', Validators.required],
+  //         phoneType: ['Mobile', Validators.required]
+  //       })
+  //     ])
+  //   });
+  // }
 }
