@@ -52,7 +52,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     const register = this.registerForm.value as Register;
     register.invitationToken = this.invitationToken;
     this.registerService.register(register)
-      .subscribe(() => {
+      .subscribe((response) => {
+        console.log('Res',response)
         this.working = false;
         this.snackBar.open('Registration successful', null, {
           duration: 2000

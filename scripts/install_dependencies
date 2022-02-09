@@ -31,7 +31,7 @@ if ! [ -x "$(command -v apache2)" ]; then
     # exist.
     echo "Directories and permission"
     echo "System Checking Directories Exits"
-
+    
     if [ -d /var/www/html ]; then
         sudo rm -rf /var/www/html/*
         echo "System Directory Cleared"
@@ -52,10 +52,10 @@ else
     sudo chown -R ubuntu /var/www/html
     sudo chmod -R 0777 /var/www/html/
     echo "System Checking Directories Exits"
-    if [ -d /var/www/html ]; then
-        #sudo rm -rf /var/www/html/*
-        echo "System Directory Cleared"
-    fi
+    #if [ -d /var/www/html ]; then
+    #sudo rm -rf /var/www/html/*
+    echo "System Directory Cleared -1"
+    #fi
 fi # install apache if not already installed
 
 

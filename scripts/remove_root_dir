@@ -1,5 +1,6 @@
 #!/bin/bash
 
-if [ -d /var/www/html ]; then
-    #sudo rm -rf /var/www/html/*
-fi
+#if [ -d /var/www/html ]; then
+#sudo rm -rf /var/www/html/*
+echo "Clear directory"
+#fi

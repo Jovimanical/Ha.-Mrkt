@@ -10,7 +10,9 @@ export class RegisterService {
   constructor(private http: HttpClient) { }
 
   public register(register: Register): Observable<any> {
-    return this.http.post(`${environment.API_URL}/user/register`, register);
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
+    return this.http.post(`${environment.API_URL}/user/register`, register, { headers });
   }
 
 
