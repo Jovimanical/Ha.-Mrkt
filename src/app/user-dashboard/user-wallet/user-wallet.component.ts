@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-wallet.component.scss']
 })
 export class UserWalletComponent implements OnInit {
-
+  public PageName = "Wallet"
   constructor() { }
 
   ngOnInit(): void {

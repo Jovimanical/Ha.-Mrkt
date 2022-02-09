@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.watcher.unsubscribe();
+    // this.watcher.unsubscribe();
   }
 
 
@@ -62,11 +62,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       loginObj.password = this.loginForm.value.password;
       // console.log('loginObj', loginObj)
       this.loginService.loginAction(loginObj).subscribe((response) => {
-        console.log('login response', response)
+        // console.log('login response', response)
         this.working = false;
-
-
-        switch (response.user.role) {
+        switch (response.user.roles) {
           case 'user':
             this.router.navigate(['/user-dashboard']);
             break;
@@ -106,5 +104,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginMobileForm = this.formBuilder.group({
       phone: ['', Validators.required]
     });
+  }
+
+  public goToRegister(){
+    this.router.navigate(['/authentication/register']);
   }
 }

@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-transaction-history.component.scss']
 })
 export class UserTransactionHistoryComponent implements OnInit {
-
+  public PageName = "Transaction History"
   constructor() { }
 
   ngOnInit(): void {

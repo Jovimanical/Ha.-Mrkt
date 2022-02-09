@@ -60,7 +60,7 @@
   <!--  cart-btn end -->
   <!--  login btn -->
   <div *ngIf="!isAuthenticated && !isVerificationRequired" class="show-reg-form">
-    <a routerLink="/user-dashboard" routerLinkActive="active" class="add-list color-bg">
+    <a routerLink="/authentication/register" class="add-list color-bg">
     <i class="fas fa-user"></i><span>Sign In</span>
     </a>
   </div>
@@ -79,7 +79,7 @@
           <a routerLink="/store" routerLinkActive="active" class="act-link">Listing</a>
         </li>
         <li>
-          <a routerLink="/store-map-view" routerLinkActive="active" class="act-link">MapView</a>
+          <a routerLink="/store-map-view" routerLinkActive="active">MapView</a>
         </li>
         <li><a routerLink="/help-center" routerLinkActive="active">Help FAQ</a></li>
         <li><a routerLink="/contact-us" routerLinkActive="active">Contact Us</a></li>

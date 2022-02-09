@@ -13,6 +13,7 @@ import { UserMortgageComponent} from './user-mortgage/user-mortgage.component';
 import { UserBookingsComponent } from './user-bookings/user-bookings.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserWalletComponent } from './user-wallet/user-wallet.component';
+import { UserLandRegistryComponent } from './user-land-registry/user-land-registry.component';
 // import { UserAdminComponent } from './user-admin/user-admin.component';
 // import { InviteComponent } from './invite/invite.component';
 // import { UserDetailsComponent } from './user-admin/user-details/user-details.component';
@@ -32,6 +33,7 @@ const userRoutes: Routes = [
     { path: 'user-bookings', component: UserBookingsComponent },
     { path: 'user-profile', component: UserProfileComponent },
     { path: 'user-wallet', component: UserWalletComponent },
+    { path: 'user-land-registry', component: UserLandRegistryComponent },
     
 
     //   { path: 'invite', component: InviteComponent },

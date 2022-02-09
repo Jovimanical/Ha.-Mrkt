@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-messaging.component.scss']
 })
 export class UserMessagingComponent implements OnInit {
-
+  public PageName = "Messages"
   constructor() { }
 
   ngOnInit(): void {

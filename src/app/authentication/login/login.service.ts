@@ -19,7 +19,7 @@ export class LoginService {
       .pipe(
         map((response: any) => {
           this.authService.setToken(response.token.access_token);
-          this.authService.setUserInfo(response.token.user);
+          this.authService.setUserInfo(response.user);
           return response;
         })
       );

@@ -80,6 +80,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
       agreement: [true, Validators.required],
     });
   }
+
+  
   // private initializeForm(): void {
   //   this.registerForm = this.formBuilder.group({
   //     firstname: ['', Validators.required],

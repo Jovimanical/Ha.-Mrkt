@@ -18,9 +18,8 @@ import { UserViewPropertyComponent } from './user-view-property/user-view-proper
 import { UserBookingsComponent } from './user-bookings/user-bookings.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserWalletComponent } from './user-wallet/user-wallet.component';
-// import { DashboardMenuStatusComponent } from 'app/layout/dashboard-menu-status/dashboard-menu-status.component';
-// import { DashboardFooterMenuComponent } from 'app/layout/dashboard-footer-menu/dashboard-footer-menu.component';
 import { LayoutModule } from 'app/layout/layout.module';
+import { UserLandRegistryComponent } from './user-land-registry/user-land-registry.component';
 // import { InviteComponent } from './invite/invite.component';
 // import { InviteService } from './invite/invite.service';
 // import { UserDetailsComponent } from './user-admin/user-details/user-details.component';
@@ -52,6 +51,7 @@ import { LayoutModule } from 'app/layout/layout.module';
         UserBookingsComponent,
         UserProfileComponent,
         UserWalletComponent,
+        UserLandRegistryComponent,
         // InviteComponent,
         //     UserDetailsComponent,
         //     OrderAdminComponent,

@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-my-referral.component.scss']
 })
 export class UserMyReferralComponent implements OnInit {
-
+  public PageName = "Referrals"
   constructor() { }
 
   ngOnInit(): void {

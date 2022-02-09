@@ -36,9 +36,7 @@ export class AuthenticationService {
 
     try {
       // Attempt to retrieve the token from session storage.
-      let token: any = sessionStorage.getItem(this.sessionStorageUserInfo);
-
-      console.log('getUserInfo', token)
+      let token: any = sessionStorage.getItem(this.sessionStorageUserInfo);    
       // If not in session storage, attempt to get it from the URL.
       if (token === 'undefined' || token === 'null') {
         const userInfo: any = await this.fetchDataAsPromise();
@@ -50,9 +48,11 @@ export class AuthenticationService {
         } else {
           this.logout();
         }
+      } else {
+        return JSON.parse(token);
       }
 
-      return JSON.parse(token);
+
     } catch (error) {
       // console.log('Erroruuuuuiiiioooo', error.error.message)
       if (error.error.message === 'Error : Expired token') {
