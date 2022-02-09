@@ -35,27 +35,49 @@
                           First Name is required
                         </mat-error>
                       </div>
-
-                      <label>LastName * <span class="dec-icon"><i class="fal fa-user"></i></span></label>
-                      <input name="lastname" type="text" formControlName="lastname" placeholder="Your Name"
-                        onClick="this.select()" required>
-                      <label>Email Address * <span class="dec-icon"><i class="fal fa-envelope"></i></span></label>
-                      <input name="email" type="text" formControlName="email" placeholder="Your Mail"
-                        onClick="this.select()" required>
-                      <div class="pass-input-wrap fl-wrap">
-                        <label>Password * <span class="dec-icon"><i class="fal fa-key"></i></span></label>
-                        <input name="password" type="password" formControlName="password" placeholder="Your Password"
-                          autocomplete="off" onClick="this.select()" required>
-                        <span class="eye"><i class="fal fa-eye"></i> </span>
+                      <div>
+                        <label>LastName * <span class="dec-icon"><i class="fal fa-user"></i></span></label>
+                        <input name="lastname" type="text" formControlName="lastname" placeholder="Your Name"
+                          onClick="this.select()" required>
+                        <mat-error *ngIf="registerForm.controls['lastname'].hasError('required')">
+                          Last Name is required
+                        </mat-error>
                       </div>
-                      <label>Phone Number * <span class="dec-icon"><i class="fal fa-phone"></i></span></label>
-                      <input name="mobile" type="text" formControlName="mobile" placeholder="Your Name"
-                        onClick="this.select()" required>
+                      <div>
+                        <label>Email Address * <span class="dec-icon"><i class="fal fa-envelope"></i></span></label>
+                        <input name="email" type="text" formControlName="email" placeholder="Your Mail"
+                          onClick="this.select()" required>
+                        <mat-error *ngIf="registerForm.controls['email'].hasError('required')">
+                          Email is required
+                        </mat-error>
+                      </div>
+                      <div>
+                        <div class="pass-input-wrap fl-wrap">
+                          <label>Password * <span class="dec-icon"><i class="fal fa-key"></i></span></label>
+                          <input name="password" type="password" formControlName="password" placeholder="Your Password"
+                            autocomplete="off" onClick="this.select()" required>
+                          <span class="eye"><i class="fal fa-eye"></i> </span>
+                        </div>
+                        <mat-error *ngIf="registerForm.controls['password'].hasError('required')">
+                          Password is required
+                        </mat-error>
+                      </div>
+                      <div>
+                        <label>Phone Number * <span class="dec-icon"><i class="fal fa-phone"></i></span></label>
+                        <input name="mobile" type="text" formControlName="mobile" placeholder="Your Name"
+                          onClick="this.select()" required>
+                        <mat-error *ngIf="registerForm.controls['mobile'].hasError('required')">
+                          Mobile Phone is required
+                        </mat-error>
+                      </div>
                       <div class="filter-tags ft-list">
-                        <input id="check-a2" type="checkbox" name="check">
+                        <input id="check-a2" type="checkbox" name="agreement" formControlName="agreement">
                         <label for="check-a2">I agree to the <a routerLink="/terms-of-use">Privacy Policy</a> and <a
                             routerLink="/privacy-policy">Terms and
                             Conditions</a></label>
+                        <mat-error *ngIf="registerForm.controls['agreement'].hasError('required')">
+                          You would have to accept our terms and conditions to proceed
+                        </mat-error>
                       </div>
                       <div class="clearfix"></div>
                       <button type="submit" class="log_btn color-bg"> Register </button>

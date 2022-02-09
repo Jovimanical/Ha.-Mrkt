@@ -1,12 +1,12 @@
 import { Phone } from '../../core/user/phone.model';
 
 export class Register {
-  email: string;
   firstname: string;
   lastname: string;
-  username: string;
+  email: string;
   password: string;
-  confirmPassword: string;
-  phones: Array<Phone>;
+  agreement: boolean;
+  mobile: string;
+  country_code: string;
   invitationToken?: string;
 }

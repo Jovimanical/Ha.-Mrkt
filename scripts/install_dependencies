@@ -53,7 +53,7 @@ else
     sudo chmod -R 0777 /var/www/html/
     echo "System Checking Directories Exits"
     if [ -d /var/www/html ]; then
-        sudo rm -rf /var/www/html/*
+        #sudo rm -rf /var/www/html/*
         echo "System Directory Cleared"
     fi
 fi # install apache if not already installed
