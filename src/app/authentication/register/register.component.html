@@ -27,20 +27,30 @@
                   <div class="custom-form">
                     <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate class="main-register-form"
                       id="main-register-form2">
-                      <label>FirstName * <span class="dec-icon"><i class="fal fa-user"></i></span></label>
-                      <input name="firstname" type="text"formControlName="firstname" placeholder="Your First name" onClick="this.select()" required>
+                      <div>
+                        <label>FirstName * <span class="dec-icon"><i class="fal fa-user"></i></span></label>
+                        <input name="firstname" type="text" formControlName="firstname" placeholder="Your First name"
+                          onClick="this.select()" required>
+                        <mat-error *ngIf="registerForm.controls['firstname'].hasError('required')">
+                          First Name is required
+                        </mat-error>
+                      </div>
+
                       <label>LastName * <span class="dec-icon"><i class="fal fa-user"></i></span></label>
-                      <input name="lastname" type="text" formControlName="lastname" placeholder="Your Name" onClick="this.select()" required>
+                      <input name="lastname" type="text" formControlName="lastname" placeholder="Your Name"
+                        onClick="this.select()" required>
                       <label>Email Address * <span class="dec-icon"><i class="fal fa-envelope"></i></span></label>
-                      <input name="email" type="text" formControlName="email" placeholder="Your Mail" onClick="this.select()" required>
+                      <input name="email" type="text" formControlName="email" placeholder="Your Mail"
+                        onClick="this.select()" required>
                       <div class="pass-input-wrap fl-wrap">
                         <label>Password * <span class="dec-icon"><i class="fal fa-key"></i></span></label>
-                        <input name="password" type="password" formControlName="password" placeholder="Your Password" autocomplete="off"
-                          onClick="this.select()" required>
+                        <input name="password" type="password" formControlName="password" placeholder="Your Password"
+                          autocomplete="off" onClick="this.select()" required>
                         <span class="eye"><i class="fal fa-eye"></i> </span>
                       </div>
                       <label>Phone Number * <span class="dec-icon"><i class="fal fa-phone"></i></span></label>
-                      <input name="mobile" type="text" formControlName="mobile" placeholder="Your Name" onClick="this.select()" required>
+                      <input name="mobile" type="text" formControlName="mobile" placeholder="Your Name"
+                        onClick="this.select()" required>
                       <div class="filter-tags ft-list">
                         <input id="check-a2" type="checkbox" name="check">
                         <label for="check-a2">I agree to the <a routerLink="/terms-of-use">Privacy Policy</a> and <a
