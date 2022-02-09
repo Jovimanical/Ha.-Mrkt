@@ -13,7 +13,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-confirmation.component';
 
 const storeRoutes: Routes = [
-  { path: '', component: StoreComponent, canActivate: [AuthGuardService] },
+  { path: '', component: StoreComponent },
   { path: 'block-listing', component: ProductBlockListingComponent },
   { path: 'products/:id', component: ProductDetailComponent, canActivate: [AuthGuardService] },
   { path: 'cart', component: CartComponent, canActivate: [AuthGuardService] },

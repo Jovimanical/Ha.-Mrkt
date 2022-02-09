@@ -59,8 +59,10 @@
   </div>
   <!--  cart-btn end -->
   <!--  login btn -->
-  <div *ngIf="!isAuthenticated && !isVerificationRequired" class="show-reg-form modal-open">
+  <div *ngIf="!isAuthenticated && !isVerificationRequired" class="show-reg-form">
+    <a routerLink="/user-dashboard" routerLinkActive="active" class="add-list color-bg">
     <i class="fas fa-user"></i><span>Sign In</span>
+    </a>
   </div>
   <!--  login btn  end -->
   <div class="add-list_wrap" *ngIf="isAuthenticated && !isVerificationRequired">

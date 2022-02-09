@@ -6,7 +6,7 @@ import { AuthGuardService } from './authentication/auth-guard.service';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/store', pathMatch: 'full' },
-  { path: 'store', loadChildren: () => import('app/store/store.module').then(m => m.StoreModule), canActivate: [AuthGuardService] },
+  { path: 'store', loadChildren: () => import('app/store/store.module').then(m => m.StoreModule) },
   { path: 'store-map-view', loadChildren: () => import('./store/store-maplayout/store-maplayout.module').then(m => m.StoreMaplayoutModule) },
   { path: 'admin', loadChildren: () => import('app/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuardService] },
   { path: 'user-dashboard', loadChildren: () => import('app/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule), canActivate: [AuthGuardService] },
