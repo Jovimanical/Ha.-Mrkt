@@ -3,9 +3,16 @@ version: 0.1
 phases:
   install:
     commands:
+      #aws code build use ubuntu environement
+      # Download and Install NodeJS 12
       - echo installing nodejs...
       - curl -sL https://deb.nodesource.com/setup_12.x | bash -
-      - apt-get install -y nodejs  #aws code build use ubuntu environement
+      - apt-get install -y nodejs
+
+      # Install http drivers for node
+      - echo Installing source NPM dependencies...
+      - sudo apt-get update -y
+      - sudo apt-get install -y apt-transport-https
   pre_build:
     commands:
       - echo installing dependencies...

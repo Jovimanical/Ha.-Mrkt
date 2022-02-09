@@ -6,7 +6,7 @@ import { AuthGuardService } from './authentication/auth-guard.service';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/store', pathMatch: 'full' },
-  { path: 'store', loadChildren: () => import('app/store/store.module').then(m => m.StoreModule),canActivate: [AuthGuardService] },
+  { path: 'store', loadChildren: () => import('app/store/store.module').then(m => m.StoreModule), canActivate: [AuthGuardService] },
   { path: 'store-map-view', loadChildren: () => import('./store/store-maplayout/store-maplayout.module').then(m => m.StoreMaplayoutModule) },
   { path: 'admin', loadChildren: () => import('app/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuardService] },
   { path: 'user-dashboard', loadChildren: () => import('app/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule), canActivate: [AuthGuardService] },
@@ -22,9 +22,7 @@ const appRoutes: Routes = [
   { path: 'terms-of-use', loadChildren: () => import('./term-of-use/term-of-use.module').then(m => m.TermOfUseModule) },
   { path: 'privacy-policy', loadChildren: () => import('./privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyModule) },
   { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
-  { path: '**', loadChildren: () => import('./page-not-found/page-not-found.module').then(m => m.PageNotFoundModule) },
-  { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
-
+  // { path: '**', loadChildren: () => import('./page-not-found/page-not-found.module').then(m => m.PageNotFoundModule) },
 ];
 
 @NgModule({

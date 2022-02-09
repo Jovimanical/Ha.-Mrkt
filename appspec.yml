@@ -5,20 +5,30 @@ files:
     destination: /var/www/html/
     file_exists_behavior: OVERWRITE
     overwrite: true
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
+
 hooks:
   BeforeInstall:
     - location: scripts/remove_root_dir
       timeout: 900
-      runas: ubuntu
+      runas: root
+  AfterInstall:
+    - location: scripts/after_install.sh
+      timeout: 300
+      runas: root
   ApplicationStart:
     - location: scripts/install_dependencies
       timeout: 300
-      runas: ubuntu
+      runas: root
     - location: scripts/start_server
       timeout: 300
-      runas: ubuntu
+      runas: root
   ApplicationStop:
     - location: scripts/stop_server
       timeout: 300
-      runas: ubuntu
-
+      runas: root

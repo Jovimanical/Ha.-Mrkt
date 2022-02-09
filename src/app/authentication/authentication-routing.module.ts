@@ -21,6 +21,7 @@ const authRoutes: Routes = [
   { path: 'authentication/linked-in-sync', component: LinkedInSyncComponent, canActivate: [AuthGuardService] }
 ];
 
+
 @NgModule({
   imports: [
     CommonModule,

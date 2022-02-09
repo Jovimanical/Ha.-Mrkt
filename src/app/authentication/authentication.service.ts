@@ -20,13 +20,13 @@ export class AuthenticationService {
 
   getToken(): string {
     // Attempt to retrieve the token from session storage.
-    let token = localStorage.getItem(this.sessionStorageTokenKey);
+    let token = sessionStorage.getItem(this.sessionStorageTokenKey);
     // If not in session storage, attempt to get it from the URL.
     if (!token) {
       token = this.getTokenFromUrl();
       // If it was in the URL, save it to session storage.
       if (token) {
-        localStorage.setItem(this.sessionStorageTokenKey, token);
+        sessionStorage.setItem(this.sessionStorageTokenKey, token);
       }
     }
     return token;
@@ -36,7 +36,7 @@ export class AuthenticationService {
 
     try {
       // Attempt to retrieve the token from session storage.
-      let token: any = localStorage.getItem(this.sessionStorageUserInfo);
+      let token: any = sessionStorage.getItem(this.sessionStorageUserInfo);
 
       console.log('getUserInfo', token)
       // If not in session storage, attempt to get it from the URL.
@@ -44,14 +44,15 @@ export class AuthenticationService {
         const userInfo: any = await this.fetchDataAsPromise();
         // If it was in the URL, save it to session storage.
         if (userInfo.data instanceof Object && Object.keys(userInfo).length !== 0) {
-          localStorage.setItem(this.sessionStorageTokenKey, userInfo.data);
+          sessionStorage.setItem(this.sessionStorageUserInfo, JSON.stringify(userInfo.data));
           token = userInfo.data
           return token;
         } else {
           this.logout();
         }
       }
-      return token;
+
+      return JSON.parse(token);
     } catch (error) {
       // console.log('Erroruuuuuiiiioooo', error.error.message)
       if (error.error.message === 'Error : Expired token') {
@@ -62,11 +63,11 @@ export class AuthenticationService {
   }
 
   public setToken(token: string): void {
-    localStorage.setItem(this.sessionStorageTokenKey, token);
+    sessionStorage.setItem(this.sessionStorageTokenKey, token);
   }
 
   public setUserInfo(token: string): void {
-    localStorage.setItem(this.sessionStorageUserInfo, token);
+    sessionStorage.setItem(this.sessionStorageUserInfo, JSON.stringify(token));
   }
 
 
@@ -84,8 +85,8 @@ export class AuthenticationService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.sessionStorageTokenKey);
-    localStorage.removeItem(this.sessionStorageUserInfo);
+    sessionStorage.removeItem(this.sessionStorageTokenKey);
+    sessionStorage.removeItem(this.sessionStorageUserInfo);
     this.router.navigate(['authentication/login']);
   }
 

@@ -1736,7 +1736,7 @@ nav li ul a:before , nav li ul a:after {
 	background:rgba(37,44,65,.7);
 }
 .main-register-wrap-login , .reg-overlay-login {
-	position:fixed;
+	position:relative;
 	top:0;
 	left:0;
 	width:100%;
@@ -1761,6 +1761,12 @@ nav li ul a:before , nav li ul a:after {
     overflow:hidden;
 }
 .main-register-holder {
+	max-width:850px;
+	margin:50px auto 50px;
+	position:relative;
+	z-index:5;
+}
+.main-register-holder-login {
 	max-width:850px;
 	margin:150px auto 50px;
 	position:relative;
@@ -1814,6 +1820,11 @@ nav li ul a:before , nav li ul a:after {
 	transition: all .4s ease-in-out;
 	margin-top:50px;
 	opacity:0;	
+}
+.modal_main_login {
+	transition: all .4s ease-in-out;
+	margin-top:50px;
+	opacity:1;	
 }
 .modal_main.vis_mr {
 	opacity:1;
@@ -1959,6 +1970,7 @@ nav li ul a:before , nav li ul a:after {
     font-family: 'Jost', sans-serif;
 	font-weight:500;
 	margin-top:5px;
+	width: 100%;
 }
 .main-register-bg {
 	position:absolute;
@@ -1980,7 +1992,7 @@ nav li ul a:before , nav li ul a:after {
 }
 .main-register-logo img {
 	width:auto;
-	height:40px;
+	height:80px;
 }
 .mrb_pin  {
 	position:absolute;

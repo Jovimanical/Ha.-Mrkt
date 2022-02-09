@@ -5,11 +5,16 @@ if ! [ -x "$(command -v apache2)" ]; then
     sudo apt-get update && sudo apt-get upgrade -y
     sudo apt-get install lsb-release ca-certificates apt-transport-https software-properties-common -y
     
-    sudo apt install -y ruby-full wget -y
+    sudo apt install -y ruby-full curl wget
     
     wget https://aws-codedeploy-us-west-2.s3.us-west-2.amazonaws.com/latest/install
     sudo chmod +x ./install
     sudo ./install auto > /tmp/logfile
+    
+    # Install Nodejs
+    curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+    sudo apt install -y nodejs npm
+    npm i -g @angular/cli@10
     
     # Install Apache2
     sudo apt install -y apache2
@@ -26,6 +31,7 @@ if ! [ -x "$(command -v apache2)" ]; then
     # exist.
     echo "Directories and permission"
     echo "System Checking Directories Exits"
+
     if [ -d /var/www/html ]; then
         sudo rm -rf /var/www/html/*
         echo "System Directory Cleared"
