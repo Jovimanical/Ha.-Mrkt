@@ -1,0 +1,17 @@
+<div [hidden]="data.image" class="profile-image" appProfileImage [image]="currentImage"></div>
+<input type="file" (change)="onFileChanged($event)" #uploaderInput style="display:none" />
+<div [hidden]="!data.image">
+  <img-cropper #cropper [image]="data" [settings]="cropperSettings" (onCrop)="onCropped($event)"></img-cropper>
+</div>
+<button [ngClass]="{'margin-small': !data.image, 'margin-large': data.image }" mat-button color="primary"
+  (click)="initFileUpload()">
+  Change Cover
+</button>
+
+
+<!-- <div class="change-photo-btn cpb-2  ">
+  <div class="photoUpload color-bg">
+      <span> <i class="far fa-camera"></i> Change Cover </span>
+      <input type="file" class="upload">
+  </div>
+</div> -->

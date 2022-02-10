@@ -10,8 +10,8 @@ import * as mapboxgl from 'mapbox-gl';
 export class StoreMaplayoutComponent implements OnInit {
   public map: mapboxgl.Map;
   public style = 'mapbox://styles/mapbox/satellite-v9';//'mapbox://styles/mapbox/outdoors-v9';
-  public lat = 45.137451;
-  public lng = -68.137343;
+  public lat = 9.077751;
+  public lng = 8.6774567;
   public message = 'HA MarketPlace!';
 
   // data
@@ -60,12 +60,12 @@ export class StoreMaplayoutComponent implements OnInit {
       center: [this.lng, this.lat]
     });
 
-
     /// Add map controls
     this.map.addControl(new mapboxgl.NavigationControl());
 
     this.map.on('load', () => {
       // Add a data source containing GeoJSON data.
+
       this.map.addSource('maine', {
         'type': 'geojson',
         'data': {

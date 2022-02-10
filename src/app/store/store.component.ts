@@ -21,11 +21,13 @@ export class StoreComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.storeService.getProducts()
+    this.storeService.listAllEstate()
       .subscribe((result: any) => {
-        if (result.data instanceof Array && result.data.length > 0) {
-          this.propertyListing = result.data;
-          this.createProductRows();
+        console.log('result', result)
+        if (result.contentData instanceof Array && result.contentData.length > 0) {
+          this.propertyListing = result.contentData;
+          console.log('this.propertyListing', this.propertyListing)
+          // this.createProductRows();
         }
       });
   }

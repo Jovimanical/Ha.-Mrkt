@@ -5,6 +5,8 @@ import { FileDownloadService } from './services/file-download.service';
 import { NotificationService } from './services/notification.service';
 import { AccountService } from './accounts/account.service';
 import { StoreService } from './services/store.service';
+import { MapService } from './services/map.service';
+import { TranscationHistoryService } from './services/transcation-history.service';
 import { ConfirmCancelOrderComponent } from './confirm-cancel-order/confirm-cancel-order.component';
 import { AngularMaterialModule } from 'app/angular-material/angular-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -24,7 +26,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     NotificationService,
     NotificationService,
     AccountService,
-    StoreService
+    StoreService,
+    MapService,
+    TranscationHistoryService
   ],
   exports: [
     ProfileImageDirective,

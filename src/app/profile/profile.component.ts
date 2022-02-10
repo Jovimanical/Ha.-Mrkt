@@ -12,11 +12,13 @@ import { NotificationService } from 'app/shared/services/notification.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  profileForm: FormGroup;
-  profileErrors: any[] = [];
-  user: User;
-  profileImage: string;
-  loading = false;
+  public profileForm: FormGroup;
+  public changePasswordForm: FormGroup;
+  public socialMediaForm: FormGroup;
+  public profileErrors: any[] = [];
+  public user: User;
+  public profileImage: string;
+  public loading = false;
 
   constructor(
     private userService: UserService,
@@ -36,7 +38,7 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  saveProfile(): void {
+  public saveProfile(): void {
     if (this.profileForm.invalid) {
       return;
     }
@@ -74,40 +76,13 @@ export class ProfileComponent implements OnInit {
       firstname: [user.firstname, Validators.required],
       lastname: [user.lastname, Validators.required],
       email: [user.email, Validators.required],
-      company: [user.company, Validators.required],
+      mobile: [user.mobile, Validators.required],
       currentPassword: [''],
       newPassword: [''],
       confirmNewPassword: [''],
       phones: this.formBuilder.array([])
     });
 
-    user.phones.forEach(phone => {
-      this.phones.push(this.formBuilder.group({
-        phoneNumber: [phone.phoneNumber, Validators.required],
-        phoneType: 'Mobile'
-      }));
-    });
-
-    if (this.phones.length === 0) {
-      this.phones.push(this.formBuilder.group({
-        phoneNumber: [null, Validators.required],
-        phoneType: 'Mobile'
-      }));
-    }
-
-    this.profileForm.get('newPassword').valueChanges.subscribe(value => {
-      if (value) {
-        this.profileForm.get('currentPassword').setValidators([Validators.required]);
-        this.profileForm.get('confirmNewPassword').setValidators([ConfirmPasswordValidator.MatchPassword]);
-        this.profileForm.get('currentPassword').updateValueAndValidity();
-        this.profileForm.get('confirmNewPassword').updateValueAndValidity();
-      } else {
-        this.profileForm.get('currentPassword').clearValidators();
-        this.profileForm.get('confirmNewPassword').clearValidators();
-        this.profileForm.get('currentPassword').updateValueAndValidity();
-        this.profileForm.get('confirmNewPassword').updateValueAndValidity();
-      }
-    });
   }
 
   private resetPasswordFields(): void {
@@ -118,4 +93,36 @@ export class ProfileComponent implements OnInit {
     this.profileForm.get('newPassword').clearValidators();
     this.profileForm.get('confirmNewPassword').clearValidators();
   }
+
+
+  private initChangePasswordForm(): void {
+    this.changePasswordForm = this.formBuilder.group({
+      currentPassword: [''],
+      newPassword: [''],
+      confirmNewPassword: ['']
+    });
+
+    this.changePasswordForm.get('newPassword').valueChanges.subscribe(value => {
+      if (value) {
+        this.changePasswordForm.get('currentPassword').setValidators([Validators.required]);
+        this.changePasswordForm.get('confirmNewPassword').setValidators([ConfirmPasswordValidator.MatchPassword]);
+        this.changePasswordForm.get('currentPassword').updateValueAndValidity();
+        this.changePasswordForm.get('confirmNewPassword').updateValueAndValidity();
+      } else {
+        this.changePasswordForm.get('currentPassword').clearValidators();
+        this.changePasswordForm.get('confirmNewPassword').clearValidators();
+        this.changePasswordForm.get('currentPassword').updateValueAndValidity();
+        this.changePasswordForm.get('confirmNewPassword').updateValueAndValidity();
+      }
+    });
+  }
+
+  public saveSocial(){
+
+  }
+
+  public changePassword(){
+
+  }
+
 }

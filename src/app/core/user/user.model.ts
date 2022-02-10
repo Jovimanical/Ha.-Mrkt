@@ -1,16 +1,17 @@
-import { Phone } from './phone.model';
-
 export class User {
+  id: string;
   email: string;
   firstname: string;
   lastname: string;
   company: string;
   username: string;
-  id: string;
+  address: string;
+  website: string;
+  bio: string;
   isActive: boolean;
   isVerifyRequired: boolean;
   roles: Array<string>;
-  phones: Array<Phone>;
+  mobile: string;
   profileImage: string;
   isOAuth: boolean;
 }

@@ -1,24 +1,27 @@
- <!-- wrapper  -->	
- <div id="wrapper">
+<!-- wrapper  -->
+<div id="wrapper">
     <!-- dashbard-menu-wrap -->
     <app-sidebar></app-sidebar>
-    <!-- dashbard-menu-wrap end  -->		
-    <!-- content -->	
+    <!-- dashbard-menu-wrap end  -->
+    <!-- content -->
     <div class="dashboard-content">
-        <div class="dashboard-menu-btn color-bg"><span><i class="fas fa-bars"></i></span>Dasboard Menu</div>
+        <div class="dashboard-menu-btn color-bg">
+            <span><i class="fas fa-bars"></i></span>
+            Dasboard Menu
+        </div>
         <div class="container dasboard-container">
-            <!-- dashboard-title -->	
+            <!-- dashboard-title -->
             <app-dashboard-menu-status [dashboardTitle]="PageName"></app-dashboard-menu-status>
-            <!-- dashboard-title end -->		
+            <!-- dashboard-title end -->
             <div class="dasboard-wrapper fl-wrap">
-              	
+
             </div>
         </div>
         <!-- dashboard-footer -->
         <app-dashboard-footer-menu></app-dashboard-footer-menu>
-        <!-- dashboard-footer end -->			
+        <!-- dashboard-footer end -->
     </div>
-    <!-- content end -->	
+    <!-- content end -->
     <div class="dashbard-bg gray-bg"></div>
 </div>
 <!-- wrapper end -->

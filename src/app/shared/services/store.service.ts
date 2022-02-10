@@ -12,8 +12,10 @@ export class StoreService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<Array<Product>> {
-    return this.http.get<Array<Product>>(`${environment.API_URL}/marketplace/properties/1/30`);
+  listAllEstate(): Observable<Array<any>> {
+    // return this.http.get<Array<Product>>(`${environment.API_URL}/marketplace/properties/1/30`);
+    return this.http.get<Array<any>>(`https://rest.sytemap.com/v1/properties/user-property/list-all-properties?resourceId=1&offset=0&limit=10`);
+
   }
 
   getProduct(id: number): Observable<Product> {

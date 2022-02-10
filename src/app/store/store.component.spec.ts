@@ -27,7 +27,7 @@ describe('StoreComponent', () => {
 
   beforeEach(() => {
     storeService = TestBed.inject(StoreService);
-    spyOn(storeService, 'getProducts').and.callFake(() => new Observable(observer => observer.next()));
+    spyOn(storeService, 'listAllEstate').and.callFake(() => new Observable(observer => observer.next()));
     fixture = TestBed.createComponent(StoreComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -35,6 +35,6 @@ describe('StoreComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(storeService.getProducts).toHaveBeenCalled();
+    expect(storeService.listAllEstate).toHaveBeenCalled();
   });
 });

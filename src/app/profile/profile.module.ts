@@ -5,9 +5,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ImageCropperModule } from 'ngx-img-cropper';
 import { SharedModule } from '../shared/shared.module';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
+import { LayoutModule } from 'app/layout/layout.module';
+/* This is a routing module that contains the routes for the profile page. */
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
-import { ProfileImageComponent } from './profile-image/profile-image.component';
+
 
 @NgModule({
   imports: [
@@ -17,11 +19,11 @@ import { ProfileImageComponent } from './profile-image/profile-image.component';
     FlexLayoutModule,
     ProfileRoutingModule,
     ImageCropperModule,
-    SharedModule
+    SharedModule,
+    LayoutModule
   ],
   declarations: [
-    ProfileComponent,
-    ProfileImageComponent
+    ProfileComponent,   
   ],
   exports: [],
   providers: []
