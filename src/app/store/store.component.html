@@ -96,17 +96,17 @@
               <div class="listing-item">
                 <article class="geodir-category-listing fl-wrap">
                   <div class="geodir-category-img fl-wrap">
-                    <a href="listing-single.html" class="geodir-category-img_item">
+                    <div (click)="openProductDetail(property.PropertyId)" class="geodir-category-img_item">
                       <img src="/assets/images/all/3.jpg" alt="">
                       <div class="overlay"></div>
-                    </a>
+                    </div>
                     <div class="geodir-category-location">
                       <a href="#" class="single-map-item tolt" data-newlatitude="40.72956781"
                         data-newlongitude="-73.99726866" data-microtip-position="top-left" data-tooltip="On the map"><i
-                          class="fas fa-map-marker-alt"></i> <span> {{property.Metadata.property_address?.FieldValue}}</span></a>
+                          class="fas fa-map-marker-alt"></i> <span> {{property.Metadata.property_address}}</span></a>
                     </div>
                     <ul class="list-single-opt_header_cat">
-                      <li><a href="#" class="cat-opt blue-bg">{{property.Metadata.property_type?.FieldValue}}</a></li>
+                      <li><a href="#" class="cat-opt blue-bg">{{property.Metadata.property_type}}</a></li>
                       <li><a href="#" class="cat-opt color-bg">Apartment</a></li>
                     </ul>
                     <a href="#" class="geodir_save-btn tolt" data-microtip-position="left" data-tooltip="Save"><span><i
@@ -120,7 +120,7 @@
                   <div class="geodir-category-content fl-wrap">
                     <h3 class="title-sin_item"><a href="listing-single.html">{{property.PropertyTitle}}</a></h3>
                     <div class="geodir-category-content_price"> &#8358;600,000 - &#8358;1,000,000.00</div>
-                    <p>{{property.Metadata.property_description.FieldValue}}</p>
+                    <p>{{property.Metadata.property_description}}</p>
                     <div class="geodir-category-content-details">
                       <ul>                        
                         <li><i class="fal fa-cube"></i><span>450 ft2</span></li>

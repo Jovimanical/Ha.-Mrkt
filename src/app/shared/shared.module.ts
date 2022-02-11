@@ -6,6 +6,7 @@ import { NotificationService } from './services/notification.service';
 import { AccountService } from './accounts/account.service';
 import { StoreService } from './services/store.service';
 import { MapService } from './services/map.service';
+import { LocalForageService } from './services/localforage.service';
 import { TranscationHistoryService } from './services/transcation-history.service';
 import { ConfirmCancelOrderComponent } from './confirm-cancel-order/confirm-cancel-order.component';
 import { AngularMaterialModule } from 'app/angular-material/angular-material.module';
@@ -28,7 +29,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     AccountService,
     StoreService,
     MapService,
-    TranscationHistoryService
+    TranscationHistoryService,
+    LocalForageService
   ],
   exports: [
     ProfileImageDirective,

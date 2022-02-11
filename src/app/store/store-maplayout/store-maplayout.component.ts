@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { StoreService } from 'app/shared/services/store.service';
 import * as mapboxgl from 'mapbox-gl';
 
 @Component({
@@ -13,11 +14,15 @@ export class StoreMaplayoutComponent implements OnInit {
   public lat = 9.077751;
   public lng = 8.6774567;
   public message = 'HA MarketPlace!';
+  public STORAGE_NAME = 'HABlockUnits';
+  public EstateName: string = ''
+  public EstateInfo: any = {}
+  public EstateBlockAndUnits: any;
 
   // data
   source: any;
   markers: any;
-  constructor() {
+  constructor(private storeService: StoreService) {
     mapboxgl.accessToken = environment.MAPBOX_ACCESS_TOKEN.accessToken;
   }
 
@@ -42,7 +47,7 @@ export class StoreMaplayoutComponent implements OnInit {
     const inputs = layerList.getElementsByTagName('input');
 
     for (const input of inputs) {
-      input.onclick = (layer:any) => {
+      input.onclick = (layer: any) => {
         const layerId = layer.target.id;
         this.style = `mapbox://styles/mapbox/${layerId}`;
         this.map.setStyle(this.style);
@@ -125,5 +130,106 @@ export class StoreMaplayoutComponent implements OnInit {
       });
     });
   }
+
+
+
+  public resolveObjectAndMerge(Metadata: any) {
+    var blockListing: any = {}
+    blockListing.payment_plans = Metadata.payment_plans ? Metadata.payment_plans.FieldValue : 'Not Available';
+    blockListing.property_address = Metadata.property_address ? Metadata.property_address.FieldValue : 'Not Available';
+    blockListing.property_amenities = Metadata.property_amenities ? Metadata.property_amenities.FieldValue : 'Not Available';
+    blockListing.property_bathroom_count = Metadata.property_bathroom_count ? Metadata.property_bathroom_count.FieldValue : 'Not Available';
+    blockListing.property_bedroom_count = Metadata.property_bedroom_count ? Metadata.property_bedroom_count.FieldValue : 'Not Available';
+    blockListing.property_country = Metadata.property_country ? Metadata.property_country.FieldValue : 'Not Available';
+    blockListing.property_description = Metadata.property_description ? Metadata.property_description.FieldValue : 'Not Available';
+    blockListing.property_feature_photo = Metadata.property_feature_photo ? Metadata.property_feature_photo.FieldValue : 'Not Available';
+    blockListing.property_features = Metadata.property_features ? Metadata.property_features.FieldValue : 'Not Available';
+    blockListing.property_floor_plan = Metadata.property_floor_plan ? Metadata.property_floor_plan.FieldValue : 'Not Available';
+    blockListing.property_lga = Metadata.property_lga ? Metadata.property_lga.FieldValue : 'Not Available';
+    blockListing.property_name = Metadata.property_name ? Metadata.property_name.FieldValue : 'Not Available';
+    blockListing.property_parking_space_count = Metadata.property_parking_space_count ? Metadata.property_parking_space_count.FieldValue : 'Not Available';
+    blockListing.property_payment_plans = Metadata.property_payment_plans ? Metadata.property_payment_plans.FieldValue : 'Not Available';
+    blockListing.property_photos = Metadata.property_photos ? Metadata.property_photos.FieldValue : 'Not Available';
+    blockListing.property_price = Metadata.property_price ? Metadata.property_price.FieldValue : 'Not Available';
+    blockListing.property_sittingroom_count = Metadata.property_sittingroom_count ? Metadata.property_sittingroom_count.FieldValue : 'Not Available';
+    blockListing.property_size = Metadata.property_size ? Metadata.property_size.FieldValue : 'Not Available';
+    blockListing.property_state = Metadata.property_state ? Metadata.property_state.FieldValue : 'Not Available';
+    blockListing.property_status = Metadata.property_status ? Metadata.property_status.FieldValue : 'Not Available';
+    blockListing.property_title = Metadata.property_title ? Metadata.property_title.FieldValue : 'Not Available';
+    blockListing.property_title_photos = Metadata.property_title_photos ? Metadata.property_title_photos.FieldValue : 'Not Available';
+    blockListing.property_type = Metadata.property_type ? Metadata.property_type.FieldValue : 'Not Available';
+    blockListing.property_video_url = Metadata.property_video_url ? Metadata.property_video_url.FieldValue : 'Not Available';
+
+    // console.log(blockListing);
+    return blockListing
+  }
+
+  public formatLoadedData(propertyObjectListing: any) {
+    let propertyObj = [];
+    propertyObjectListing.forEach((property: any) => {
+      var objectElement: any = {}
+      objectElement = property;
+      objectElement.Metadata = this.resolveObjectAndMerge(property.Metadata);
+      objectElement.Entity = property.Entity.EntityGeometry;
+      propertyObj.push(objectElement);
+    });
+    return propertyObj
+  }
+
+  public savePropertyObj(propObjListing: any) {
+    localStorage.setItem(`${this.STORAGE_NAME}-${this.EstateName}`, JSON.stringify(propObjListing));
+  }
+
+
+  public loopBlockAndUnit(BlockParam: any) {
+    var blockParamsListing = []
+
+    BlockParam.forEach(async (property: any) => {
+      var objectElement: any = {}
+      const blockUnitInfo: any = await this.storeService.fetchBlockUnitsAsPromise(property.PropertyId);
+      objectElement = property;
+      objectElement.Metadata = this.resolveObjectAndMerge(property.Metadata);
+      objectElement.Entity = property.Entity.EntityGeometry;
+      objectElement.BlockUnit = blockUnitInfo.contentData.length > 0 ? this.formatLoadedData(blockUnitInfo.contentData) : []
+      blockParamsListing.push(objectElement);
+    });
+
+    //saveTOLocalStore    
+    this.savePropertyObj(blockParamsListing);
+
+    return blockParamsListing;
+
+  }
+
+
+  async checkPropertyObj(EstateID: any) {
+
+    try {
+      const propertyListing = localStorage.getItem(`${this.STORAGE_NAME}-${this.EstateName}`);
+      // console.log(propertyListing)
+      if (propertyListing === null || propertyListing === undefined) {
+        const blockListingInfo: any = await this.storeService.fetchEstateBlockAsPromise(EstateID)
+        if (blockListingInfo) {
+          // console.log('result', result)
+          if (blockListingInfo.contentData instanceof Array && blockListingInfo.contentData.length > 0) {
+            this.EstateBlockAndUnits = this.formatLoadedData(blockListingInfo.contentData)
+            console.log('this.propertyListing', this.EstateBlockAndUnits)
+            // this.createProductRows();
+          }
+          return this.EstateBlockAndUnits = []
+        }
+      } else {
+
+        return this.EstateBlockAndUnits = JSON.parse(propertyListing);
+      }
+    } catch (error) {
+      console.log('checkPropertyObj', error);
+      return this.EstateBlockAndUnits = []
+    }
+  }
+
+
+
+
 
 }

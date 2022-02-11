@@ -18,6 +18,22 @@ export class StoreService {
 
   }
 
+
+  public fetchEstateBlockAsPromise(estateNo:any) {
+    return this.http
+      .get(`https://rest.sytemap.com/v1/properties/user-property/view-property-children?resourceId=${estateNo}&floorLevel=0`)
+      .toPromise();
+  }
+
+
+  public fetchBlockUnitsAsPromise(blockNo:any) {
+    return this.http
+      .get(`https://rest.sytemap.com/v1/properties/user-property/view-property-children?resourceId=${blockNo}&floorLevel=0`)
+      .toPromise();
+  }
+
+
+
   getProduct(id: number): Observable<Product> {
     return this.http.get<Product>(`${environment.API_URL}/marketplace/properties/${id}`);
   }

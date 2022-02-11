@@ -1,39 +1,25 @@
-<div fxLayout="row" fxLayoutAlign="center center">
-  <div fxLayout="column" *ngIf="product" fxFlex fxFlex.gt-sm="50">
-    <img [src]="product.imageUrl" alt="{{product.name}}" class="product-image clickable" [ngClass]="{'large': !mobile}">
-    <div fxLayout="column" class="page-padding" fxLayoutGap="15px">
-      <div fxLayout="row">
-        <span fxFlex>{{product.name}}</span>
-        <span fxFlexAlign="end">{{product.price | currency}}</span>
-      </div>
-      <div>
-        {{product.description}}
-      </div>
-      <div class="separator"></div>
-      <div fxLayout="column" fxLayoutGap="5px" *ngIf="product.sizes?.length">
-        <span>SELECT SIZE</span>
-        <div fxLayout="row" fxLayoutGap="10px">
-          <div *ngFor="let size of product.sizes" class="size-button clickable" [ngClass]="{'selected': size === selectedSize}"
-            fxFlex (click)="setSize(size)" fxLayout="row" fxLayoutAlign="center center">
-            <span>{{size}}</span>
+<!-- wrapper  -->
+<div id="wrapper">
+  <!-- content -->
+  <div class="content">
+      <!-- Map -->
+      <div class="map-container fw-map big_map">
+          <div class="estateMap" id="estateMap"></div>
+          <div id="menu">
+              <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
+              <!-- See a list of Mapbox-hosted public styles at -->
+              <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
+              <label for="satellite-v9">satellite</label>
+              <input id="light-v10" type="radio" name="rtoggle" value="light">
+              <label for="light-v10">light</label>
+              <input id="dark-v10" type="radio" name="rtoggle" value="dark">
+              <label for="dark-v10">dark</label>
+              <input id="streets-v11" type="radio" name="rtoggle" value="streets">
+              <label for="streets-v11">streets</label>
+              <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+              <label for="outdoors-v11">outdoors</label>
           </div>
-        </div>
-        <span class="error" *ngIf="!selectedSize && submitted">Size is required</span>
       </div>
-      <div class="separator" *ngIf="product.sizes?.length"></div>
-      <div fxLayout="column" fxLayoutGap="5px">
-        <span>QUANTITY</span>
-        <mat-form-field>
-          <mat-select [(ngModel)]="quantity">
-            <mat-option [value]="1">1</mat-option>
-            <mat-option [value]="2">2</mat-option>
-            <mat-option [value]="3">3</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <button type="submit" mat-raised-button class="action-button" (click)="addToCart()">
-        ADD TO CART
-      </button>
-    </div>
+      <!-- Map end -->
   </div>
 </div>
