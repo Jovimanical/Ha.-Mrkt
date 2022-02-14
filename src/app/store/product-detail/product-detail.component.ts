@@ -2,11 +2,13 @@ import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectionStrategy, C
 import { ActivatedRoute, Router } from '@angular/router';
 import * as mapboxgl from 'mapbox-gl';
 import rewind from '@mapbox/geojson-rewind';
+import * as L from 'leaflet';
 import { environment } from '../../../environments/environment';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { BroadcastService } from 'app/core/broadcast.service';
 import { MobileService } from 'app/core/mobile.service';
 import { Subscription } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 import { StoreService } from 'app/shared/services/store.service';
 
 
@@ -15,14 +17,14 @@ import { StoreService } from 'app/shared/services/store.service';
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public quantity = 1;
   public loading = false;
   public submitted = false;
   public mobile = false;
-  public map: mapboxgl.Map;
+  public map: any;
   public style = 'mapbox://styles/mapbox/satellite-v9';//'mapbox://styles/mapbox/outdoors-v9';
   public lat = 9.077751;
   public lng = 8.6774567;
@@ -30,8 +32,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public EstateName: string = ''
   public EstateInfo: any = null
   public EstateBlockAndUnits: Array<any> = [];
-  public EstateMapSouce: any;
+  public ESTATE_MAPSOURCE: any;
+  public ESTATE_BLOCK_MAP: any;
+  public ESTATE_BLOCK_UNITS: any;
   private watcher: Subscription;
+  public simpCounter = 0;
 
   // data
   public source: any;
@@ -64,109 +69,138 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.initializeMap();
-    }, 5000);
-
-  }
-
-
-  private initializeMap() {
-    /// locate the user
-    // if (navigator.geolocation) {
-    //    navigator.geolocation.getCurrentPosition(position => {
-    //     this.lat = position.coords.latitude;
-    //     this.lng = position.coords.longitude;
-    //     this.map.flyTo({
-    //       center: [this.lng, this.lat]
-    //     })
-    //   });
-    // }
-    this.buildMap()
-    const layerList = (<any>window).document.getElementById('menu');
-    const inputs = layerList.getElementsByTagName('input');
-    for (const input of inputs) {
-      input.onclick = (layer: any) => {
-        const layerId = layer.target.id;
-        this.style = `mapbox://styles/mapbox/${layerId}`;
-        this.map.setStyle(this.style);
-        this.buildMap()
-      };
+    if (this.map) {
+      //to remove any initiallization of a previous map
+      this.map.off();
+      this.map.remove();
     }
-
   }
 
+  ngOnDestroy(): void {
+    if (this.map) {
+      this.map.off();
+      this.map.remove();
+    }
+    this.watcher.unsubscribe();
+  }
 
-
-
-  buildMap() {
+  private initMap(): void {
     console.log('map-called');
+    const data = this.ESTATE_MAPSOURCE;
+    const coordinates = data.features[0].geometry.coordinates;
+    const coord = coordinates[0][0][0]
+    // console.log('center', coordinates[0][0][0])
+    const mbAttr = "";
+    const mbUrl =
+      "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw";
 
-    this.map = new mapboxgl.Map({
-      container: 'estateMap',
-      style: this.style,
-      zoom: 5,
-      center: [this.lng, this.lat]
+    const streets = L.tileLayer(mbUrl, {
+      id: "mapbox/streets-v11",
+      tileSize: 512,
+      zoomOffset: -1,
+      attribution: mbAttr
     });
 
-    /// Add map controls
-    this.map.addControl(new mapboxgl.NavigationControl());
+    const sattelite = L.tileLayer(mbUrl, {
+      id: "mapbox/satellite-v9",
+      tileSize: 512,
+      zoomOffset: -1,
+      attribution: mbAttr
+    });
 
-    this.map.on('load', () => {
-      const data = JSON.parse(this.EstateInfo.Entity);// rewind(JSON.parse('{ "type": "FeatureCollection", "name": "PALMGROVE_HAVEN ESTATE BOUNDARY", "features": [{ "type": "Feature", "properties": { "id": null, "PALMGROVE": "HAVEN ESTATE BOUNDARY" }, "geometry": { "type": "MultiPolygon", "coordinates": [[[[6.96469289759868, 4.991927164409412], [6.964550500009216, 4.991630062084359], [6.964332042813202, 4.991222351376575], [6.964106961408866, 4.990818259890458], [6.963875315739172, 4.990417895242365], [6.963637167495256, 4.990021364056136], [6.963392580100007, 4.9896287719347], [6.963141618691156, 4.989240223431936], [6.962884350103953, 4.988855822024852], [6.962620842853345, 4.988475670086006], [6.962351167115748, 4.988099868856255], [6.962075394710348, 4.987728518417787], [6.961793599079974, 4.987361717667469], [6.961505855271542, 4.986999564290514], [6.96121223991607, 4.986642154734455], [6.961859060717777, 4.986078307579015], [6.962515538693158, 4.98552573411597], [6.963181477374119, 4.984984599717307], [6.963856677461199, 4.984455066331556], [6.964540936883224, 4.983937292435351], [6.965234050857771, 4.983431432985991], [6.965935811952465, 4.982937639375064], [6.96569806085697, 4.982578447119955], [6.965176500081051, 4.981741721884361], [6.961368007767871, 4.983971023946484], [6.961258601253502, 4.984033781383563], [6.958388880100952, 4.98570218061607], [6.959123408092267, 4.986907030395274], [6.959183220334345, 4.986960875678063], [6.959813656247458, 4.987968819434314], [6.962799812093265, 4.992778485033118], [6.962914382552619, 4.992854992964397], [6.964259093224757, 4.992169918091826], [6.96469289759868, 4.991927164409412]]]] } }] }'));
+    this.map = L.map('estateMap', {
+      center: [coord[1], coord[0]],
+      minZoom: 5,
+      maxZoom: 50,
+      zoom: 7,
+      layers: [streets]
+    });
 
-      this.map.addSource(`${this.EstateName}`, {
-        type: 'geojson',
-        data: data,
-      });
+    var baseLayers = {
+      Streets: streets,
+      Sattelite: sattelite
+    };
 
-      this.map.addLayer({
-        'id': `${this.EstateName}`,
-        'type': 'fill',
-        'source': `${this.EstateName}`, // reference the data source
-        'layout': {},
-        'paint': {
-          'fill-color': '#0080ff', // blue color fill
-          'fill-opacity': 0.5
+    var controlLayers = L.control.layers(baseLayers).addTo(this.map);
+    var geojsonLayer1 = new L.geoJson(this.ESTATE_MAPSOURCE, {
+      style: function (feature) {
+        return {
+          stroke: true,
+          color: "#ffffff",
+          weight: 5,
+          opacity: 0.7,
+          fill: true,
+          fillColor: "#7300e6",
+          fillOpacity: 0,
+          smoothFactor: 0.5,
+          interactive: true,
+        };
+      }
+    }).addTo(this.map);
+
+
+    var geojsonLayer = L.geoJson(this.ESTATE_BLOCK_UNITS, {
+      style: (feature) => {
+        return {
+          stroke: true,
+          color: "#808080",
+          weight: 2,
+          opacity: 0.7,
+          fill: true,
+          fillColor: "#f2f2f2",
+          fillOpacity: 0.15,
+          smoothFactor: 0.5,
+          interactive: true,
+        };
+      },
+      onEachFeature: function (feature, layer) {
+        layer.bindPopup('<h1>' + feature.properties.property_name + '</h1><p>name: ' + feature.properties.property_title + '</p>');
+      }
+    })
+    //.addTo(this.map);
+    //controlLayers.addOverlay(geojsonLayer1, 'Estate layer');
+
+    this.map.fitBounds(geojsonLayer1.getBounds());
+    this.map.on('zoomend', (e) => {
+      // console.log('map.getZoom()', this.map.getZoom())
+      if (this.map.getZoom() >= 7 && this.map.getZoom() <= 18) {
+        if (this.simpCounter == 0 || this.simpCounter == 2) {
+          this.map.removeLayer(geojsonLayer);
+          console.log('Showing removing units')
+          this.simpCounter = 1;
         }
-      });
-      // Add a black outline around the polygon.
-      this.map.addLayer({
-        'id': 'outline',
-        'type': 'line',
-        'source': `${this.EstateName}`,
-        'layout': {},
-        'paint': {
-          'line-color': '#000',
-          'line-width': 3
+      }
+      else if (this.map.getZoom() >= 19) {
+        if (this.simpCounter == 0 || this.simpCounter == 1) {
+          this.map.addLayer(geojsonLayer);
+          console.log('Showing units -1')
+          this.simpCounter = 2;
         }
-      });
+      }
+      else if (this.map.getZoom() <= 7) {
+        if (this.simpCounter == 1 || this.simpCounter == 2) {
+          console.log('Showing units')
+          this.simpCounter = 0;
+        }
+      }
+    });
 
-      const coordinates = data.features[0].geometry.coordinates;
-      this.map.jumpTo({ 'center': coordinates[0][0][0], 'zoom': 14 });
-      this.map.setPitch(30);
+  }
 
 
-      setTimeout(() => {
-        console.log('chhhjj', this.EstateBlockAndUnits)
-
-        if (this.EstateBlockAndUnits instanceof Array && this.EstateBlockAndUnits.length > 0) {
-
-          this.EstateBlockAndUnits.forEach((propertyBlock: any) => {
-            this.map.addLayer({
-              'id': `blocks-${propertyBlock.PropertyId}-ha`,
-              'type': 'line',
-              'source': JSON.parse(propertyBlock.Entity),
-              'paint': {
-                'line-color': 'yellow',
-                'line-opacity': 0.75,
-                'line-width': 5
-              }
-            });
+  private getCurrentPosition(): any {
+    return new Observable((observer: Subscriber<any>) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position: any) => {
+          observer.next({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
           });
-        }
-      }, 500);
-
+          observer.complete();
+        });
+      } else {
+        observer.error();
+      }
     });
   }
 
@@ -177,9 +211,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     return JSON.stringify(patchedJson)
   }
 
-  ngOnDestroy() {
-    this.watcher.unsubscribe();
-  }
+
 
   // addToCart(): void {
   //   this.submitted = true;
@@ -243,20 +275,27 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public formatLoadedData(propertyObjectListing: any) {
     let propertyObj = [];
     propertyObjectListing.forEach((property: any) => {
-      var objectElement: any = {}
+      var objectElement: any = {};
+      const unitsData = rewind(JSON.parse(property.Entity.EntityGeometry));
       objectElement = property;
       objectElement.Metadata = this.resolveObjectAndMerge(property.Metadata);
       objectElement.Entity = this.patchGeoJson(property.Entity.EntityGeometry);
       propertyObj.push(objectElement);
+
+      let properties = Object.assign(unitsData.features[0].properties, objectElement.Metadata);
+      properties.isUnit = true
+      unitsData.features[0].properties = properties;
+      this.ESTATE_BLOCK_UNITS.features.push(unitsData.features[0]);
+      this.changeDectection.detectChanges()
     });
-    this.changeDectection.detectChanges()
+
     return propertyObj
   }
 
   public saveBlockAndUnits(propObjListing: any) {
-    console.log('saveBlockAndUnits', propObjListing)
+    //console.log('saveBlockAndUnits', propObjListing)
     if (JSON.stringify(propObjListing) !== "[]") {
-      console.log('Java')
+      //console.log('Java')
       localStorage.setItem(`${this.STORAGE_NAME}${this.EstateName}`, JSON.stringify(propObjListing));
     }
   }
@@ -275,13 +314,21 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         BlockParam.forEach(async (property: any) => {
           var objectElement: any = {}
           const blockUnitInfo: any = await this.storeService.fetchBlockUnitsAsPromise(property.PropertyId);
+          const blockData = rewind(JSON.parse(property.Entity.EntityGeometry));
           objectElement = property;
           objectElement.Metadata = this.resolveObjectAndMerge(property.Metadata);
           objectElement.Entity = this.patchGeoJson(property.Entity.EntityGeometry);
           objectElement.BlockUnit = blockUnitInfo.contentData.length > 0 ? this.formatLoadedData(blockUnitInfo.contentData) : []
           blockParamsListing.push(objectElement);
+
+
+          let properties = Object.assign(blockData.features[0].properties, objectElement.Metadata);
+          properties.group = 'Block'
+          blockData.features[0].properties = properties;
+          this.ESTATE_MAPSOURCE.features.push(blockData.features[0]);
+          this.changeDectection.detectChanges()
         });
-        this.changeDectection.detectChanges()
+
         return blockParamsListing;
       }
       return blockParamsListing;
@@ -306,16 +353,32 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           if (blockListingInfo.contentData instanceof Array && blockListingInfo.contentData.length > 0) {
             const BlockAndUnits = this.loopBlockAndUnit(blockListingInfo.contentData);
             this.EstateBlockAndUnits = BlockAndUnits
-            this.saveBlockAndUnits(BlockAndUnits);
+
           }
-          this.changeDectection.detectChanges()
-        }
+         }
+
+        setTimeout(() => {
+          this.ESTATE_BLOCK_MAP = {};
+          this.ESTATE_BLOCK_MAP.Estate = this.ESTATE_MAPSOURCE;
+          this.ESTATE_BLOCK_MAP.units = this.ESTATE_BLOCK_UNITS;
+          this.saveBlockAndUnits(this.ESTATE_BLOCK_MAP);
+          // console.log('ESTATE_MAPSOURCE', this.ESTATE_MAPSOURCE)
+          // console.log('ESTATE_BLOCK_UNITS', this.ESTATE_BLOCK_UNITS)
+
+          this.initMap();
+        }, 5000);
+
 
       } else {
 
         const savedProp = JSON.parse(propertyListing);
-        if (savedProp !== []) {
-          return this.EstateBlockAndUnits = savedProp;
+        if (savedProp instanceof Object && Object.keys(savedProp).length !== 0) {
+          this.ESTATE_MAPSOURCE = this.ESTATE_BLOCK_MAP.Estate
+          this.ESTATE_BLOCK_UNITS = this.ESTATE_BLOCK_MAP.units;
+          setTimeout(() => {
+            this.initMap();
+          }, 5000);
+
         } else {
           this.removeBlockAndUnit(`${this.STORAGE_NAME}-${this.EstateName}`)
         }
@@ -337,8 +400,24 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       if (propertyObjListing instanceof Array && propertyObjListing.length > 0) {
         propertyObjListing.forEach((propertyInfo) => {
           if (propertyInfo.PropertyId === PropertyID) {
+            const estateData = JSON.parse(propertyInfo.Entity)
             this.EstateInfo = propertyInfo
-            this.EstateName = `hae_${propertyInfo.PropertyTitle}`;
+            this.EstateName = `hae-${propertyInfo.PropertyTitle}`;
+            this.ESTATE_MAPSOURCE = {};
+            this.ESTATE_MAPSOURCE.name = this.EstateName;
+            this.ESTATE_MAPSOURCE.type = "FeatureCollection";
+            this.ESTATE_MAPSOURCE.features = [];
+
+
+            let properties = Object.assign(estateData.features[0].properties, propertyInfo.Metadata);
+            properties.group = "Estate"
+            estateData.features[0].properties = properties;
+            this.ESTATE_MAPSOURCE.features.push(estateData.features[0]);
+            this.ESTATE_BLOCK_UNITS = {
+              "name": "estate_block_unit",
+              "type": "FeatureCollection",
+              "features": []
+            };
             return;
           }
         });
