@@ -37,6 +37,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public ESTATE_BLOCK_UNITS: any;
   private watcher: Subscription;
   public simpCounter = 0;
+  public isMapLoading = true;
 
   // data
   public source: any;
@@ -50,8 +51,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     private changeDectection: ChangeDetectorRef,
     private notificationService: NotificationService,
     private broadcastService: BroadcastService,
-    private mobileService: MobileService) {
+    private mobileService: MobileService
+  ) {
     mapboxgl.accessToken = environment.MAPBOX_ACCESS_TOKEN.accessToken;
+    this.isMapLoading = true;
   }
 
   ngOnInit() {
@@ -122,68 +125,182 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     };
 
     var controlLayers = L.control.layers(baseLayers).addTo(this.map);
-    var geojsonLayer1 = new L.geoJson(this.ESTATE_MAPSOURCE, {
+    var estateLayer = new L.geoJson(this.ESTATE_MAPSOURCE, {
       style: function (feature) {
-        return {
-          stroke: true,
-          color: "#ffffff",
-          weight: 5,
-          opacity: 0.7,
-          fill: true,
-          fillColor: "#7300e6",
-          fillOpacity: 0,
-          smoothFactor: 0.5,
-          interactive: true,
-        };
+        switch (feature.properties.group) {
+          case 'Estate': return {
+            stroke: true,
+            color: "#ffffff",
+            weight: 5,
+            opacity: 1,
+            fill: true,
+            fillColor: "#f0d1b1",
+            fillOpacity: 1,
+            smoothFactor: 0.5,
+            interactive: true,
+          };
+          case 'Block': return {
+            stroke: true,
+            color: "#ffffff",
+            weight: 5,
+            opacity: 1,
+            fill: true,
+            fillColor: "#f2f2f2",
+            fillOpacity: 1,
+            smoothFactor: 0.5,
+            interactive: true,
+          };
+        }
+
+      },
+      onEachFeature: function (feature, layer) {
+        layer.on({
+          mouseover: function () {
+            this.setStyle({
+              'fillColor': feature.properties.group === 'Estate' ? '#b45501' : "#808080",
+            });
+          },
+          mouseout: function () {
+            this.setStyle({
+              'fillColor': feature.properties.group === 'Estate' ? '#f0d1b1' : "#f2f2f2",
+            });
+          },
+          click: (e) => {
+            if (feature.properties.group !== 'Estate') {
+              // var layer = e.target;
+              // this.map.fitBounds(layer.getBounds());
+              // console.log('Clicked on ', layer.feature.properties.property_name); //country info from geojson
+              // alert('Clicked on ' + feature.properties.name)
+              // const coordinates = feature.geometry.coordinates;
+              // const coord = coordinates[0][0][0]
+              // this.map.flyTo(coord[1], coord[0], 5);
+              //zoom in
+            }
+          }
+        });
+        if (feature.properties.group === 'Estate') {
+          layer.bindTooltip(feature.properties.property_name, { permanent: true, direction: 'center', className: 'estateLabel' });
+        }
       }
     }).addTo(this.map);
 
 
-    var geojsonLayer = L.geoJson(this.ESTATE_BLOCK_UNITS, {
-      style: (feature) => {
-        return {
-          stroke: true,
-          color: "#808080",
-          weight: 2,
-          opacity: 0.7,
-          fill: true,
-          fillColor: "#f2f2f2",
-          fillOpacity: 0.15,
-          smoothFactor: 0.5,
-          interactive: true,
-        };
-      },
-      onEachFeature: function (feature, layer) {
-        layer.bindPopup('<h1>' + feature.properties.property_name + '</h1><p>name: ' + feature.properties.property_title + '</p>');
+    var estateUnitsLayer = L.geoJson(this.ESTATE_BLOCK_UNITS, {
+      style: style,
+      onEachFeature: onEachFeature
+    })
+    // .addTo(this.map);
+    // controlLayers.addOverlay(estateUnitsLayer, 'Estate Units');
+
+    this.map.fitBounds(estateLayer.getBounds());
+
+    estateLayer.on("click", (event) => {
+      if (event.layer.feature.properties.group === 'Block') {
+        this.map.fitBounds(event.layer.getBounds());
+        //zoom in
       }
     })
-    //.addTo(this.map);
-    //controlLayers.addOverlay(geojsonLayer1, 'Estate layer');
 
-    this.map.fitBounds(geojsonLayer1.getBounds());
     this.map.on('zoomend', (e) => {
-      // console.log('map.getZoom()', this.map.getZoom())
-      if (this.map.getZoom() >= 7 && this.map.getZoom() <= 18) {
+      // console.log('map.getZoom()-1', this.map.getZoom())
+      if (this.map.getZoom() >= 7 && this.map.getZoom() <= 16) {
         if (this.simpCounter == 0 || this.simpCounter == 2) {
-          this.map.removeLayer(geojsonLayer);
-          console.log('Showing removing units')
+          this.map.removeLayer(estateUnitsLayer);
+          //console.log('Showing removing units')
           this.simpCounter = 1;
         }
       }
-      else if (this.map.getZoom() >= 19) {
+      else if (this.map.getZoom() >= 17) {
         if (this.simpCounter == 0 || this.simpCounter == 1) {
-          this.map.addLayer(geojsonLayer);
-          console.log('Showing units -1')
+          this.map.addLayer(estateUnitsLayer);
+          //console.log('Showing units -1')
           this.simpCounter = 2;
         }
       }
       else if (this.map.getZoom() <= 7) {
         if (this.simpCounter == 1 || this.simpCounter == 2) {
-          console.log('Showing units')
+          //console.log('Showing units')
           this.simpCounter = 0;
         }
       }
     });
+
+
+    // Edit ranges and colors to match your data; see http://colorbrewer.org
+    // Any values not listed in the ranges below displays as the last color
+    function getColor(color_status) {
+      switch (color_status) {
+        case 'sold': return '#FF0000';
+        case 'available': return '#7CFC00';
+        case '1': return '#FF0000';
+        case '': return '#7CFC00';
+        default:
+          return "#f2f2f2";
+      }
+    }
+
+    // Edit the getColor property to match data column header in your GeoJson file
+    function style(feature) {
+      return {
+        fillColor: getColor(feature.properties.property_status),
+        weight: 2,
+        opacity: 0.6,
+        color: 'white',
+        fillOpacity: 1,
+        smoothFactor: 0.5,
+        interactive: true,
+      };
+    }
+
+    // This highlights the layer on hover, also for mobile
+    function highlightFeature(e) {
+      resetHighlight(e);
+      var layer = e.target;
+      var color = getColor(layer.feature.properties.property_status)
+      layer.setStyle({
+        weight: 10,
+        color: 'white',
+        opacity: 0.6,
+        fillOpacity: 0.65,
+        fillColor: color
+      });
+      // info.update(layer.feature.properties);
+      layer.bindPopup('<h1>' + layer.feature.properties.property_name + '</h1><p>name: ' + layer.feature.properties.property_title + '</p>');
+    }
+
+    // This resets the highlight after hover moves away
+    function resetHighlight(e) {
+      estateUnitsLayer.setStyle(style);
+      info.update();
+    }
+
+    // This instructs highlight and reset functions on hover movement
+    function onEachFeature(feature, layer) {
+      layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: highlightFeature
+      });
+    }
+
+    // Creates an info box on the map
+    var info = L.control({ position: 'topleft' });
+    info.onAdd = function (map) {
+      this._div = L.DomUtil.create('div', 'info');
+      this.update();
+      return this._div;
+    };
+
+    // Edit info box text and variables (such as props.density2010) to match those in your GeoJSON data
+    info.update = function (props) {
+      this._div.innerHTML = '<h3>Zoom Closer to view available units</h3>';
+      var value = props && props.percent ? props.percent + '%' : 'No data'
+      this._div.innerHTML += (props
+        ? '<b>' + props.property_name + '</b><br />' + props.property_title + '</b><br />'
+        + (props.property_price ? 'Most recent data: ' + props.property_price : '')
+        : 'Hover over Block Units');
+    };
+    info.addTo(this.map);
 
   }
 
@@ -262,10 +379,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     blockListing.property_sittingroom_count = Metadata.property_sittingroom_count ? Metadata.property_sittingroom_count.FieldValue : 'Not Available';
     blockListing.property_size = Metadata.property_size ? Metadata.property_size.FieldValue : 'Not Available';
     blockListing.property_state = Metadata.property_state ? Metadata.property_state.FieldValue : 'Not Available';
-    blockListing.property_status = Metadata.property_status ? Metadata.property_status.FieldValue : 'Not Available';
+    blockListing.property_status = Metadata.property_status ? Metadata.property_status.FieldValue : 'available';
     blockListing.property_title = Metadata.property_title ? Metadata.property_title.FieldValue : 'Not Available';
     blockListing.property_title_photos = Metadata.property_title_photos ? Metadata.property_title_photos.FieldValue : 'Not Available';
-    blockListing.property_type = Metadata.property_type ? Metadata.property_type.FieldValue : 'Not Available';
+    blockListing.property_type = Metadata.property_type ? Metadata.property_type.FieldValue : 'Land';
     blockListing.property_video_url = Metadata.property_video_url ? Metadata.property_video_url.FieldValue : 'Not Available';
 
     // console.log(blockListing);
@@ -283,7 +400,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       propertyObj.push(objectElement);
 
       let properties = Object.assign(unitsData.features[0].properties, objectElement.Metadata);
-      properties.isUnit = true
+      properties.group = 'unit'
+      properties.PropertyFloor = property.PropertyFloor ? property.PropertyFloor : 0;
       unitsData.features[0].properties = properties;
       this.ESTATE_BLOCK_UNITS.features.push(unitsData.features[0]);
       this.changeDectection.detectChanges()
@@ -295,7 +413,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public saveBlockAndUnits(propObjListing: any) {
     //console.log('saveBlockAndUnits', propObjListing)
     if (JSON.stringify(propObjListing) !== "[]") {
-      //console.log('Java')
       localStorage.setItem(`${this.STORAGE_NAME}${this.EstateName}`, JSON.stringify(propObjListing));
     }
   }
@@ -326,7 +443,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           properties.group = 'Block'
           blockData.features[0].properties = properties;
           this.ESTATE_MAPSOURCE.features.push(blockData.features[0]);
-          this.changeDectection.detectChanges()
+          this.changeDectection.detectChanges();
         });
 
         return blockParamsListing;
@@ -355,12 +472,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
             this.EstateBlockAndUnits = BlockAndUnits
 
           }
-         }
+        }
 
         setTimeout(() => {
           this.ESTATE_BLOCK_MAP = {};
           this.ESTATE_BLOCK_MAP.Estate = this.ESTATE_MAPSOURCE;
           this.ESTATE_BLOCK_MAP.units = this.ESTATE_BLOCK_UNITS;
+          this.isMapLoading = false;
+          this.changeDectection.detectChanges();
           this.saveBlockAndUnits(this.ESTATE_BLOCK_MAP);
           // console.log('ESTATE_MAPSOURCE', this.ESTATE_MAPSOURCE)
           // console.log('ESTATE_BLOCK_UNITS', this.ESTATE_BLOCK_UNITS)
@@ -375,7 +494,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         if (savedProp instanceof Object && Object.keys(savedProp).length !== 0) {
           this.ESTATE_MAPSOURCE = this.ESTATE_BLOCK_MAP.Estate
           this.ESTATE_BLOCK_UNITS = this.ESTATE_BLOCK_MAP.units;
+
           setTimeout(() => {
+            this.isMapLoading = false;
+            this.changeDectection.detectChanges();
             this.initMap();
           }, 5000);
 

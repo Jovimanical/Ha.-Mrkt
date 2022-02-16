@@ -2,10 +2,16 @@
 <div id="wrapper">
   <!-- content -->
   <div class="content">
-      <!-- Map -->
+    <div class="map-loading fw-map big_map" *ngIf="isMapLoading; else mapLoaded">
+      <div class="pin"></div>
+      <div class="pulse"></div>
+    </div>
+    <!-- Map -->
+    <ng-template #mapLoaded>
       <div class="map-container fw-map big_map">
-          <div class="estateMap" id="estateMap"></div>
-       </div>
-      <!-- Map end -->
+        <div class="estateMap" id="estateMap"></div>
+      </div>
+    </ng-template>
+    <!-- Map end -->
   </div>
 </div>

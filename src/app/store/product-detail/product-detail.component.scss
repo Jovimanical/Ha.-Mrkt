@@ -1,9 +1,27 @@
+section {
+  position: relative;
+  /* float: left; */
+  width: 100%;
+  padding: 0 !important;
+  background: #fff !important;
+}
+
 .product-image {
   width: 100%;
 
   &.large {
     height: 500px;
   }
+}
+
+.leaflet-tooltip.estateLabel {
+  // background: rgba(255, 255, 255, 0);
+  // border:0;
+  // border-radius:0px;
+  // box-shadow: 0 0px 0px;
+  background-color: transparent;
+  border: transparent;
+  box-shadow: none;
 }
 
 .size-button {
@@ -66,4 +84,123 @@
   float: left;
   margin-right: 8px;
   opacity: 0.7;
+}
+
+/** Map Loading */
+.map-loading {
+  background: #f5f5f5;
+  float: left;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+  z-index: 1;
+}
+.pin {
+  -webkit-animation-name: pin;
+  animation-duration: 1.2s;
+  animation-iteration-count: infinite;
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  background: #312783;
+  position: absolute;
+  transform: rotate(-45deg);
+  left: 50%;
+  top: 50%;
+  margin: -20px 0 0 -20px;
+}
+.pin:after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  margin: 8px 0 0 8px;
+  background: #ffe388;
+  position: absolute;
+  border-radius: 50%;
+}
+.pulse {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: 11px 0px 0px -12px;
+  transform: rotateX(55deg);
+  z-index: -2;
+}
+.pulse:after {
+  content: "";
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  margin: -13px 0 0 -13px;
+  -webkit-animation: pulsate 1s ease-out;
+  -webkit-animation-iteration-count: infinite;
+  opacity: 0;
+  box-shadow: 0 0 1px 2px #312783;
+}
+@-webkit-keyframes pulsate {
+  0% {
+    -webkit-transform: scale(0.1, 0.1);
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1.2, 1.2);
+    transform: scale(1.2, 1.2);
+  }
+}
+@-webkit-keyframes bounce {
+  0% {
+    -webkit-transform: translateY(-2000px) rotate(-45deg);
+  }
+  60% {
+    -webkit-transform: translateY(30px) rotate(-45deg);
+  }
+  80% {
+    -webkit-transform: translateY(-10px) rotate(-45deg);
+  }
+  100% {
+    -webkit-transform: translateY(0) rotate(-45deg);
+  }
+}
+
+@-webkit-keyframes pin {
+  100% {
+    top: 45%;
+    bottom: 60px;
+  }
+}
+
+.info {
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0);
+  border-radius: 5px;
+}
+.info h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  color: #000;
+}
+.legend {
+  text-align: left;
+  line-height: 18px;
+  color: #555;
+}
+.legend i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+  opacity: 0.9;
 }

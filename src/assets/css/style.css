@@ -2405,10 +2405,10 @@ nav li ul a:before , nav li ul a:after {
 /*------section ------------------------------------------------*/
 section {
 	position: relative;
-	float: left;
 	width: 100%;
-	padding: 90px 0;
-	background: #fff;
+	float: left;	
+	/* padding: 90px 0; */
+	background: #fff !important;
 }
 .hidden-section {
 	overflow: hidden;
