@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as mapboxgl from 'mapbox-gl';
 import rewind from '@mapbox/geojson-rewind';
 import * as L from 'leaflet';
+import EventService from "eventservice";
 import { environment } from '../../../environments/environment';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { BroadcastService } from 'app/core/broadcast.service';
@@ -44,11 +45,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public markers: any;
 
 
+
   constructor(
     private storeService: StoreService,
     private route: ActivatedRoute,
-    private router: Router,
-    private changeDectection: ChangeDetectorRef,
+    public router: Router,
+    public changeDectection: ChangeDetectorRef,
     private notificationService: NotificationService,
     private broadcastService: BroadcastService,
     private mobileService: MobileService
@@ -72,8 +74,16 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   ngAfterViewInit(): void {
+    // subscribe to event with name "SomeEventName"
+    EventService.on("DisplayPropertyInfo", async (properties) => {
+      //do something
+      console.log("Did something!");
+      this.router.navigate([`/store/marketplace/${this.EstateInfo.PropertyTitle}/unit/${properties.id}`]);
+      await EventService.fire<string>("ShowProperty", properties);
+
+    });
+    //to remove any initiallization of a previous map
     if (this.map) {
-      //to remove any initiallization of a previous map
       this.map.off();
       this.map.remove();
     }
@@ -85,6 +95,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       this.map.remove();
     }
     this.watcher.unsubscribe();
+    // unsubscribe to event with name "SomeEventName"
+    EventService.off("DisplayPropertyInfo", "SomeKey");
   }
 
   private initMap(): void {
@@ -93,14 +105,34 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     const coordinates = data.features[0].geometry.coordinates;
     const coord = coordinates[0][0][0]
     // console.log('center', coordinates[0][0][0])
-    const mbAttr = "";
+    const mbAttr = 'Marketplace &copy; Integration by <a href="https://houseafrica.io/">HouseAfrica</a>';
     const mbUrl =
       "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw";
+
+    const template = '<div id="popup-form">\
+      <H3">Unit info:</H3>\
+      <table class="popup-table">\
+        <tr class="popup-table-row">\
+          <th class="popup-table-header">Name:</th>\
+          <td id="value-arc" class="popup-table-data"></td>\
+        </tr>\
+        <tr class="popup-table-row">\
+          <th class="popup-table-header">Size:</th>\
+          <td id="value-speed" class="popup-table-data"></td>\
+        </tr>\
+      </table>\
+      <div>\
+      <button id="button-submit" class="balloon-btn grey" type="button"><i class="fa fa-info"></i>&nbsp;Details</button>\
+      <button id="button-enquire" class="balloon-btn" type="button"><i class="fa fa-envelope"></i></button>\
+      <button id="button-favourite" class="balloon-btn" type="button"><i class="fa fa-star"></i></button>\
+      </div>\
+    </div>';
 
     const streets = L.tileLayer(mbUrl, {
       id: "mapbox/streets-v11",
       tileSize: 512,
       zoomOffset: -1,
+      maxZoom: 50,
       attribution: mbAttr
     });
 
@@ -108,6 +140,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       id: "mapbox/satellite-v9",
       tileSize: 512,
       zoomOffset: -1,
+      maxZoom: 25,
       attribution: mbAttr
     });
 
@@ -126,7 +159,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
     var controlLayers = L.control.layers(baseLayers).addTo(this.map);
     var estateLayer = new L.geoJson(this.ESTATE_MAPSOURCE, {
-      style: function (feature) {
+      style: function (feature: any) {
         switch (feature.properties.group) {
           case 'Estate': return {
             stroke: true,
@@ -153,17 +186,27 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         }
 
       },
-      onEachFeature: function (feature, layer) {
+      onEachFeature: function (feature: any, layer: any) {
         layer.on({
           mouseover: function () {
             this.setStyle({
               'fillColor': feature.properties.group === 'Estate' ? '#b45501' : "#808080",
             });
+
+            if (feature.properties.group !== 'Estate') {
+              layer.bindTooltip('Click to load units').openTooltip();
+            }
+
           },
           mouseout: function () {
             this.setStyle({
               'fillColor': feature.properties.group === 'Estate' ? '#f0d1b1' : "#f2f2f2",
             });
+
+            if (feature.properties.group !== 'Estate') {
+              layer.unbindTooltip();
+            }
+
           },
           click: (e) => {
             if (feature.properties.group !== 'Estate') {
@@ -194,53 +237,36 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
     this.map.fitBounds(estateLayer.getBounds());
 
-    estateLayer.on("click", (event) => {
-      if (event.layer.feature.properties.group === 'Block') {
-        this.map.fitBounds(event.layer.getBounds());
-        //zoom in
-      }
-    })
 
-    this.map.on('zoomend', (e) => {
-      // console.log('map.getZoom()-1', this.map.getZoom())
-      if (this.map.getZoom() >= 7 && this.map.getZoom() <= 16) {
-        if (this.simpCounter == 0 || this.simpCounter == 2) {
-          this.map.removeLayer(estateUnitsLayer);
-          //console.log('Showing removing units')
-          this.simpCounter = 1;
-        }
-      }
-      else if (this.map.getZoom() >= 17) {
-        if (this.simpCounter == 0 || this.simpCounter == 1) {
-          this.map.addLayer(estateUnitsLayer);
-          //console.log('Showing units -1')
-          this.simpCounter = 2;
-        }
-      }
-      else if (this.map.getZoom() <= 7) {
-        if (this.simpCounter == 1 || this.simpCounter == 2) {
-          //console.log('Showing units')
-          this.simpCounter = 0;
-        }
-      }
-    });
 
 
     // Edit ranges and colors to match your data; see http://colorbrewer.org
     // Any values not listed in the ranges below displays as the last color
-    function getColor(color_status) {
+    function getColor(color_status: any) {
       switch (color_status) {
         case 'sold': return '#FF0000';
         case 'available': return '#7CFC00';
         case '1': return '#FF0000';
-        case '': return '#7CFC00';
-        default:
-          return "#f2f2f2";
+        case 'Unreleased': return '#7d7d7d';
+        case 'Available for Resale': return '#0e4382';
+        case 'Sold': return '#ac0e0b';
+        case 'Available': return '#338a0e';
+        case "Available for Rental": return "#00ADCD";
+        case "Reserved": return "#cab60e";
+        case "Pending": return "#d06200";
+        case "Sold": return "#ac0e0b";
+        case "Granted": return "#ffafc8";
+        case "Bankable": return "#ee0e0b";
+        case "Transferred": return "#ac0ec3";
+        case "Rented": return "#ac0e0b";
+        case "Show House": return "#6900C3";
+        default: return "black";
+
       }
     }
 
     // Edit the getColor property to match data column header in your GeoJson file
-    function style(feature) {
+    function style(feature: any) {
       return {
         fillColor: getColor(feature.properties.property_status),
         weight: 2,
@@ -253,19 +279,63 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     // This highlights the layer on hover, also for mobile
-    function highlightFeature(e) {
+    function highlightFeature(e: any) {
       resetHighlight(e);
-      var layer = e.target;
-      var color = getColor(layer.feature.properties.property_status)
-      layer.setStyle({
+      var marker = e.target,
+        properties = e.target.feature.properties;
+      var color = getColor(properties.property_status)
+      marker.setStyle({
         weight: 10,
         color: 'white',
         opacity: 0.6,
         fillOpacity: 0.65,
         fillColor: color
       });
-      // info.update(layer.feature.properties);
-      layer.bindPopup('<h1>' + layer.feature.properties.property_name + '</h1><p>name: ' + layer.feature.properties.property_title + '</p>');
+      // info.update(properties);
+      // if (marker.hasOwnProperty('_popup')) {
+      //   marker.unbindPopup();
+      // }
+
+      // marker.bindPopup(template);
+      // marker.openPopup();
+
+      // L.DomUtil.get('value-arc').textContent = properties.property_name;
+      // L.DomUtil.get('value-speed').textContent = properties.property_title;
+
+      // var inputSpeed = L.DomUtil.get('input-speed');
+      // inputSpeed.value = properties.speed;
+      // L.DomEvent.addListener(inputSpeed, 'change', function (e) {
+      //   properties.speed = e.target.value;
+      // });
+
+      // var buttonSubmit = L.DomUtil.get('button-submit');
+      // L.DomEvent.addListener(buttonSubmit, 'click', function (e) {
+      //   marker.closePopup();
+      // });
+
+      //marker.bindPopup('<h1>' + properties.property_name + '</h1><p>name: ' + properties.property_title + '</p>');
+    }
+
+    function layerClickHandler(e: any) {
+      var marker = e.target,
+        properties = e.target.feature.properties;
+
+      if (marker.hasOwnProperty('_popup')) {
+        marker.unbindPopup();
+      }
+
+      marker.bindPopup(template);
+      marker.openPopup();
+
+      L.DomUtil.get('value-arc').textContent = properties.property_name;
+      L.DomUtil.get('value-speed').textContent = properties.property_title;
+
+      var buttonSubmit = L.DomUtil.get('button-submit');
+      L.DomEvent.addListener(buttonSubmit, 'click', async (e) => {
+        await EventService.fire("DisplayPropertyInfo", properties);
+        marker.closePopup();
+      });
+
     }
 
     // This resets the highlight after hover moves away
@@ -279,28 +349,120 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
-        click: highlightFeature
+        click: layerClickHandler
       });
     }
 
     // Creates an info box on the map
     var info = L.control({ position: 'topleft' });
     info.onAdd = function (map) {
-      this._div = L.DomUtil.create('div', 'info');
+      this._div = L.DomUtil.create('div', 'estateInfo');
+      this._div.style.padding = '10px';
+      this._div.style.display = 'flex';
+      this._div.style.flexDirection = 'column';
+      this._div.style.alignItems = 'flex-start'
+      this._div.style.margin = '5px';
+      this._div.style.borderRadius = "5px";
+      this._div.style.backgroundColor = "white";
+      this._div.style.marginTop = '10px';
+      this._div.style.fontWeight = 'bold';
+      this._div.style.color = '#000';
+
       this.update();
       return this._div;
     };
 
     // Edit info box text and variables (such as props.density2010) to match those in your GeoJSON data
     info.update = function (props) {
-      this._div.innerHTML = '<h3>Zoom Closer to view available units</h3>';
+      this._div.innerHTML = '<h3>Zoom Closer to Explore Estate and view available units</h3>';
       var value = props && props.percent ? props.percent + '%' : 'No data'
       this._div.innerHTML += (props
         ? '<b>' + props.property_name + '</b><br />' + props.property_title + '</b><br />'
         + (props.property_price ? 'Most recent data: ' + props.property_price : '')
-        : 'Hover over Block Units');
+        : 'OR Click over Block Units');
     };
     info.addTo(this.map);
+
+
+    let legend = new L.Control({ position: 'topright' });
+    legend.onAdd = function (map: any) {
+      let labels = ['Available', 'Sold', 'Unreleased', 'Available for Resale'];
+      var legendDiv = document.createElement('div');
+      legendDiv.id = 'legendDiv';
+      legendDiv.style.padding = '10px';
+      legendDiv.style.display = 'flex';
+      legendDiv.style.flexDirection = 'column';
+      legendDiv.style.alignItems = 'flex-start'
+      legendDiv.style.margin = '5px';
+      legendDiv.style.borderRadius = "3px 3px 3px 3px";
+      legendDiv.style.backgroundColor = "white";
+      legendDiv.style.marginTop = '10px';
+
+      var legend = document.createElement('div');
+      legend.innerHTML = '<span>Status &nbsp; &nbsp; <i class="fa fa-angle-double-right" style="font-size: 140%; cursor: pointer;" id="legendToggler"></i></span>';
+      legend.style.fontWeight = "bold";
+      legendDiv.appendChild(legend);
+
+      for (var l in labels) {
+        var color = getColor(labels[l]);
+        var legEl = document.createElement('div');
+        legEl.innerHTML = '<span><i class="fa fa-circle" style="color: ' + color + ';opacity:0.8;" ></i> &nbsp; ' + labels[l] + '</span>';
+        legEl.style.marginTop = "10px";
+        legEl.className = "legEl";
+        legendDiv.appendChild(legEl);
+      }
+      return legendDiv;
+    };
+
+
+
+
+    estateLayer.on("click", (event: any) => {
+      if (event.layer.feature.properties.group === 'Block') {
+        this.map.fitBounds(event.layer.getBounds());
+        //zoom in
+      }
+    })
+
+    this.map.on('zoomend', (e) => {
+      // console.log('map.getZoom()-1', this.map.getZoom())
+      if (this.map.getZoom() >= 7 && this.map.getZoom() <= 16) {
+        if (this.simpCounter == 0 || this.simpCounter == 2) {
+          this.map.removeLayer(estateUnitsLayer);
+          // REMOVING PREVIOUS INFO BOX
+          if (legend !== undefined) {
+            legend.remove(this.map)
+          }
+
+          if (info !== undefined) {
+            info.addTo(this.map)
+          }
+
+          //console.log('Showing removing units')
+          this.simpCounter = 1;
+        }
+      }
+      else if (this.map.getZoom() >= 17) {
+        if (this.simpCounter == 0 || this.simpCounter == 1) {
+          this.map.addLayer(estateUnitsLayer);
+          if (legend !== undefined) {
+            legend.addTo(this.map);
+          }
+
+          if (info !== undefined) {
+            info.remove(this.map)
+          }
+          //console.log('Showing units -1')
+          this.simpCounter = 2;
+        }
+      }
+      else if (this.map.getZoom() <= 7) {
+        if (this.simpCounter == 1 || this.simpCounter == 2) {
+          //console.log('Showing units')
+          this.simpCounter = 0;
+        }
+      }
+    });
 
   }
 
@@ -327,7 +489,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     delete patchedJson.crs;
     return JSON.stringify(patchedJson)
   }
-
 
 
   // addToCart(): void {
@@ -363,8 +524,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     blockListing.payment_plans = Metadata.payment_plans ? Metadata.payment_plans.FieldValue : 'Not Available';
     blockListing.property_address = Metadata.property_address ? Metadata.property_address.FieldValue : 'Not Available';
     blockListing.property_amenities = Metadata.property_amenities ? Metadata.property_amenities.FieldValue : 'Not Available';
-    blockListing.property_bathroom_count = Metadata.property_bathroom_count ? Metadata.property_bathroom_count.FieldValue : 'Not Available';
-    blockListing.property_bedroom_count = Metadata.property_bedroom_count ? Metadata.property_bedroom_count.FieldValue : 'Not Available';
+    blockListing.property_bathroom_count = Metadata.property_bathroom_count ? Metadata.property_bathroom_count.FieldValue : 1;
+    blockListing.property_bedroom_count = Metadata.property_bedroom_count ? Metadata.property_bedroom_count.FieldValue : 1;
     blockListing.property_country = Metadata.property_country ? Metadata.property_country.FieldValue : 'Not Available';
     blockListing.property_description = Metadata.property_description ? Metadata.property_description.FieldValue : 'Not Available';
     blockListing.property_feature_photo = Metadata.property_feature_photo ? Metadata.property_feature_photo.FieldValue : 'Not Available';
@@ -372,11 +533,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     blockListing.property_floor_plan = Metadata.property_floor_plan ? Metadata.property_floor_plan.FieldValue : 'Not Available';
     blockListing.property_lga = Metadata.property_lga ? Metadata.property_lga.FieldValue : 'Not Available';
     blockListing.property_name = Metadata.property_name ? Metadata.property_name.FieldValue : 'Not Available';
-    blockListing.property_parking_space_count = Metadata.property_parking_space_count ? Metadata.property_parking_space_count.FieldValue : 'Not Available';
+    blockListing.property_parking_space_count = Metadata.property_parking_space_count ? Metadata.property_parking_space_count.FieldValue : 1;
     blockListing.property_payment_plans = Metadata.property_payment_plans ? Metadata.property_payment_plans.FieldValue : 'Not Available';
     blockListing.property_photos = Metadata.property_photos ? Metadata.property_photos.FieldValue : 'Not Available';
     blockListing.property_price = Metadata.property_price ? Metadata.property_price.FieldValue : 'Not Available';
-    blockListing.property_sittingroom_count = Metadata.property_sittingroom_count ? Metadata.property_sittingroom_count.FieldValue : 'Not Available';
+    blockListing.property_sittingroom_count = Metadata.property_sittingroom_count ? Metadata.property_sittingroom_count.FieldValue : 1;
     blockListing.property_size = Metadata.property_size ? Metadata.property_size.FieldValue : 'Not Available';
     blockListing.property_state = Metadata.property_state ? Metadata.property_state.FieldValue : 'Not Available';
     blockListing.property_status = Metadata.property_status ? Metadata.property_status.FieldValue : 'available';
@@ -402,6 +563,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       let properties = Object.assign(unitsData.features[0].properties, objectElement.Metadata);
       properties.group = 'unit'
       properties.PropertyFloor = property.PropertyFloor ? property.PropertyFloor : 0;
+      properties.PropertyId = property.PropertyId;
+      properties.LinkedEntity = property.LinkedEntity;
+      properties.EntityParent = property.EntityParent;
+      properties.id = property.LinkedEntity;
+
       unitsData.features[0].properties = properties;
       this.ESTATE_BLOCK_UNITS.features.push(unitsData.features[0]);
       this.changeDectection.detectChanges()
