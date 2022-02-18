@@ -39,6 +39,10 @@ export class CartComponent implements OnInit {
     });
   }
 
+  showItem(index: number){
+
+  }
+
   goToCheckout(): void {
     if (this.balance < this.subtotal) {
       this.notificationService.showErrorMessage('Insufficient funds for checkout');

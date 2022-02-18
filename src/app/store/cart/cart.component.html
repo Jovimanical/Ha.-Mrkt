@@ -1,45 +1,141 @@
-<div class="page-padding" fxLayout="column" fxLayoutGap="20px">
-  <div class="title">
-    <h1>SHOPPING CART</h1>
-  </div>
-
-  <div fxLayout="row" *ngIf="cartProducts.length === 0">
-    Your cart is empty.
-  </div>
-
-  <div fxLayout="column" fxLayoutGap="10px" *ngIf="cartProducts?.length">
-    <div fxLayout="row" class="cart-header separator">
-      <div fxFlex="10"></div>
-      <div fxFlex="60">ITEM</div>
-      <div fxFlex>QTY</div>
-      <div fxFlexAlign="start end">PRICE</div>
-    </div>
-    <div fxLayout="row" *ngFor="let cartProduct of cartProducts; let i = index" class="cart-row separator" fxLayoutAlign="center center">
-      <div fxFlex="10">
-        <div>
-          <span class="clickable" (click)="removeItem(i)" matTooltip="Remove" [matTooltipPosition]="'after'">
-            <mat-icon>delete</mat-icon>
-          </span>
+<!-- wrapper  -->
+<div id="wrapper">
+  <!-- content -->
+  <div class="content">
+    <!-- breadcrumbs-->
+    <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
+      <div class="container">
+        <div class="breadcrumbs-list">
+          <a>Home</a><a>Marketplace</a> <span>SHOPPING CART</span>
+        </div>
+        <div class="share-holder hid-share">
+          <a href="#" class="share-btn showshare sfcs"> <i class="fas fa-share-alt"></i> Share </a>
+          <div class="share-container  isShare"></div>
         </div>
       </div>
-      <div fxFlex="60" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-        <img class="thumbnail" src="{{cartProduct.imageUrl}}" alt="product-image" />
-        <div fxLayout="column">
-          <span>{{ cartProduct.name }}</span>
-          <span *ngIf="cartProduct.size">{{ cartProduct.size }}</span>
+    </div>
+    <div class="container-fluid page-padding" style="margin-top: 10%;" *ngIf="cartProducts.length === 0">
+      <div class="cart">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h3><strong>Cart Status</strong></h3>
+              </div>
+              <div class="card-body cart">
+                <div class="empty-cart-cls">
+                  <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3">
+
+                  <div class="cart-title">Your cart is currently empty</div>
+                  <p>Before proceed to checkout you must add some products to your shopping cart.
+                    <br>
+                    You will find a lot of interesting products on our "MarketPlace" page.
+                  </p>
+                  <a routerLink="/store" routerLinkActive="active" class="btn btn-primary cart-btn-transform m-3"
+                    data-abc="true">
+                    continue shopping
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div fxFlex>{{ cartProduct.quantity }}</div>
-      <div fxFlexAlign="start end">{{ (cartProduct.price * cartProduct.quantity) | currency }}</div>
     </div>
-  </div>
 
-  <div fxLayout="row" fxLayoutAlign="end end" fxLayoutGap="10px" *ngIf="cartProducts?.length">
-    <span>SUBTOTAL</span>
-    <span>{{ subtotal | currency }}</span>
-  </div>
+    <!-- <div fxLayout="column" fxLayoutGap="10px" *ngIf="cartProducts?.length">
+      <div fxLayout="row" class="cart-header separator">
+        <div fxFlex="10"></div>
+        <div fxFlex="60">ITEM</div>
+        <div fxFlex>QTY</div>
+        <div fxFlexAlign="start end">PRICE</div>
+      </div>
+      <div fxLayout="row" *ngFor="let cartProduct of cartProducts; let i = index" class="cart-row separator"
+        fxLayoutAlign="center center">
+        <div fxFlex="10">
+          <div>
+            <span class="clickable" (click)="removeItem(i)" matTooltip="Remove" [matTooltipPosition]="'after'">
+              <mat-icon>delete</mat-icon>
+            </span>
+          </div>
+        </div>
+        <div fxFlex="60" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <img class="thumbnail" src="{{cartProduct.imageUrl}}" alt="product-image" />
+          <div fxLayout="column">
+            <span>{{ cartProduct.name }}</span>
+            <span *ngIf="cartProduct.size">{{ cartProduct.size }}</span>
+          </div>
+        </div>
+        <div fxFlex>{{ cartProduct.quantity }}</div>
+        <div fxFlexAlign="start end">{{ (cartProduct.price * cartProduct.quantity) | currency }}</div>
+      </div>
+    </div> -->
 
-  <div fxLayout="row" *ngIf="cartProducts?.length">
-    <a class="action-button" fxFlex mat-raised-button (click)="goToCheckout()">CHECKOUT</a>
+    <section class="gray-bg small-padding" *ngIf="cartProducts?.length">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <!-- listing-item-wrap-->
+            <div class="listing-item-container one-column-grid-wrap box-list_ic agency-list fl-wrap"
+              *ngFor="let cartProduct of cartProducts; let i = index">
+              <!--  agecy card item -->
+              <div class="listing-item">
+                <article class="geodir-category-listing fl-wrap">
+                  <div class="geodir-category-img fl-wrap">
+                    <a href="agency-single.html" class="geodir-category-img_item">
+                      <img src="assets/images/agency/1.png" alt="">
+                    </a>
+                  </div>
+                  <div class="geodir-category-content fl-wrap">
+                    <div class="card-verified tolt" data-microtip-position="left" data-tooltip="Verified">
+                      <i class="fal fa-user-check"></i>
+                    </div>
+                    <div class="agent_card-title fl-wrap">
+                      <h4><a href="agency-single.html">CondorHome RealEstate Agency</a></h4>
+                      <div class="geodir-category-location fl-wrap">
+                        <a><i class="fas fa-map-marker-alt"></i> 70 Bright St New York, USA</a>
+                        <div class="listing-rating card-popup-rainingvis" data-starrating2="4"><span
+                            class="re_stars-title">Good</span></div>
+                      </div>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla
+                      finibus
+                      lobortis pulvinar. Donec a consectetur nulla.</p>
+                    <div class="small-facts fl-wrap">
+                      <ul>
+                        <li><i class="fal fa-home"></i> <span><strong>36</strong>Listing</span></li>
+                        <li><i class="fal fa-users-class"></i> <span><strong>10</strong>Agents</span></li>
+                        <li><i class="fal fa-comment-alt"></i> <span><strong>56</strong>Reviews</span></li>
+                      </ul>
+                    </div>
+                    <div class="geodir-category-footer fl-wrap">
+                      <button (click)="showItem(1)" class="btn float-btn color-bg small-btn">View Details</button>
+                      <button (click)="removeItem(i)" class="btn float-btn color-bg small-btn">
+                        <mat-icon>delete</mat-icon>
+                        Delete Property
+                      </button>
+                      <a href="mailto:yourmail@email.com" class="tolt ftr-btn" data-microtip-position="top-left"
+                        data-tooltip="Write Message"><i class="fal fa-envelope"></i></a>
+                      <a href="tel:123-456-7890" class="tolt ftr-btn" data-microtip-position="top-left"
+                        data-tooltip="Call Now"><i class="fal fa-phone"></i></a>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="cartProducts?.length">
+              <span>SUBTOTAL</span>
+              <span>{{ subtotal | currency }}</span>
+            </div>
+
+            <div class="row" *ngIf="cartProducts?.length">
+              <a class="action-button" fxFlex mat-raised-button (click)="goToCheckout()">CHECKOUT</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="limit-box fl-wrap"></div>
   </div>
 </div>

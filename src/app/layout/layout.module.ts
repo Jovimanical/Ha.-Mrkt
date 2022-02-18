@@ -18,6 +18,7 @@ import { DashboardFooterMenuComponent } from './dashboard-footer-menu/dashboard-
 import { EmptyStateComponent } from './empty-state/empty-state.component';
 import { ProfileImageComponent } from './profile-image/profile-image.component';
 import { PageIsLoadingComponent } from './page-is-loading/page-is-loading.component';
+import { DashboardToggleComponent } from './dashboard-toggle/dashboard-toggle.component';
 
 @NgModule({
   imports: [
@@ -41,9 +42,18 @@ import { PageIsLoadingComponent } from './page-is-loading/page-is-loading.compon
     DashboardFooterMenuComponent,
     EmptyStateComponent,
     ProfileImageComponent,
-    PageIsLoadingComponent
+    PageIsLoadingComponent,
+    DashboardToggleComponent
   ],
-  exports: [ShellComponent, DashboardMenuStatusComponent, DashboardFooterMenuComponent, SidebarComponent, EmptyStateComponent,
-    ProfileImageComponent, PageIsLoadingComponent]
+  exports: [
+    ShellComponent,
+    DashboardMenuStatusComponent,
+    DashboardFooterMenuComponent,
+    SidebarComponent,
+    EmptyStateComponent,
+    ProfileImageComponent,
+    PageIsLoadingComponent,
+    DashboardToggleComponent
+  ]
 })
 export class LayoutModule { }

@@ -12,6 +12,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
+            "allowedCommonJsDependencies": ["eventservice"],
             "outputPath": "dist/ha-marketplace-app",
             "index": "src/index.html",
             "main": "src/main.ts",

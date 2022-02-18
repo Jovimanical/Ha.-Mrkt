@@ -59,10 +59,10 @@
     <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
       <div class="container">
         <div class="breadcrumbs-list">
-          <a href="#">Home</a> <span>Home Image</span>
+          <a>Store</a> <span>Marketplace</span>
         </div>
         <div class="share-holder hid-share">
-          <a href="#" class="share-btn showshare sfcs"> <i class="fas fa-share-alt"></i> Share </a>
+          <button class="share-btn showshare sfcs"> <i class="fas fa-share-alt"></i> Share </button>
           <div class="share-container  isShare"></div>
         </div>
       </div>
@@ -90,60 +90,78 @@
         <!-- grid-item-holder-->
         <div class="grid-item-holder gallery-items gisp fl-wrap">
           <!-- <ng-container *ngIf="propertyListing.length > 0"> -->
-            <!-- gallery-item-->
-            <div class="gallery-item for_sale" *ngFor="let property of propertyListing">
-              <!-- listing-item -->
-              <div class="listing-item">
-                <article class="geodir-category-listing fl-wrap">
-                  <div class="geodir-category-img fl-wrap">
-                    <div (click)="openProductDetail(property.PropertyId)" class="geodir-category-img_item">
-                      <img src="/assets/images/all/3.jpg" alt="">
-                      <div class="overlay"></div>
-                    </div>
-                    <div class="geodir-category-location">
-                      <a href="#" class="single-map-item tolt" data-newlatitude="40.72956781"
-                        data-newlongitude="-73.99726866" data-microtip-position="top-left" data-tooltip="On the map"><i
-                          class="fas fa-map-marker-alt"></i> <span> {{property.Metadata.property_address}}</span></a>
-                    </div>
-                    <ul class="list-single-opt_header_cat">
-                      <li><a href="#" class="cat-opt blue-bg">{{property.Metadata.property_type}}</a></li>
-                      <li><a href="#" class="cat-opt color-bg">Apartment</a></li>
+          <!-- gallery-item-->
+          <div class="gallery-item for_sale" *ngFor="let property of propertyListing">
+            <!-- listing-item -->
+            <div class="listing-item">
+              <article class="geodir-category-listing fl-wrap">
+                <div class="geodir-category-img fl-wrap">
+                  <div (click)="openProductDetail(property.PropertyId)" class="geodir-category-img_item">
+                    <img src="/assets/images/all/3.jpg" alt="">
+                    <div class="overlay"></div>
+                  </div>
+                  <div class="geodir-category-location">
+                    <a class="single-map-item tolt" data-newlatitude="40.72956781" data-newlongitude="-73.99726866"
+                      data-microtip-position="top-left" data-tooltip="On the map"><i class="fas fa-map-marker-alt"></i>
+                      <span> {{property.Metadata.property_address}}</span></a>
+                  </div>
+                  <ul class="list-single-opt_header_cat">
+                    <li><a class="cat-opt blue-bg">{{property.Metadata.property_type}}</a></li>         
+                  </ul>
+                  <button class="geodir_save-btn tolt" data-microtip-position="left" data-tooltip="Save">
+                    <span><i class="fal fa-heart"></i></span>
+                  </button>
+                  <button class="compare-btn tolt" data-microtip-position="left" data-tooltip="Compare">
+                    <span><i class="fal fa-random"></i></span>
+                  </button>
+                  <div class="geodir-category-listing_media-list">
+                    <span><i class="fas fa-camera"></i> 8</span>
+                  </div>
+                </div>
+                <div class="geodir-category-content fl-wrap">
+                  <h3 class="title-sin_item">{{property.PropertyTitle}}</h3>
+                  <div class="geodir-category-content_price"> &#8358;600,000 - &#8358;1,000,000.00</div>
+                  <p>{{property.Metadata.property_description}}</p>
+                  <div class="geodir-category-content-details">
+                    <ul>
+                      <li><i class="fal fa-cube"></i><span>{{property.Metadata.property_size}} ft2</span></li>
                     </ul>
-                    <a href="#" class="geodir_save-btn tolt" data-microtip-position="left" data-tooltip="Save"><span><i
-                          class="fal fa-heart"></i></span></a>
-                    <a href="#" class="compare-btn tolt" data-microtip-position="left" data-tooltip="Compare"><span><i
-                          class="fal fa-random"></i></span></a>
-                    <div class="geodir-category-listing_media-list">
-                      <span><i class="fas fa-camera"></i> 8</span>
-                    </div>
                   </div>
-                  <div class="geodir-category-content fl-wrap">
-                    <h3 class="title-sin_item"><a href="listing-single.html">{{property.PropertyTitle}}</a></h3>
-                    <div class="geodir-category-content_price"> &#8358;600,000 - &#8358;1,000,000.00</div>
-                    <p>{{property.Metadata.property_description}}</p>
-                    <div class="geodir-category-content-details">
-                      <ul>                        
-                        <li><i class="fal fa-cube"></i><span>450 ft2</span></li>
-                      </ul>
-                    </div>
-                    <div class="geodir-category-footer fl-wrap">
-                      <a href="agent-single.html" class="gcf-company">
-                        <img src="/assets/images/avatar/2.jpg" alt="">
-                        <span>By LizaRose</span>
-                      </a>
-                      <div class="listing-rating card-popup-rainingvis tolt" data-microtip-position="top"
-                        data-tooltip="Good" data-starrating2="4"></div>
-                    </div>
+                  <div class="geodir-category-footer fl-wrap">
+                    <ul class="list-single-opt_header_cat">
+                      <li>
+                        <a routerLink="/store/products/{{property.PropertyId}}" class="cat-opt blue-bg">
+                          <i class="fas fa-map-marker-alt"></i>
+                          &nbsp;
+                          <span>Explore</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="agent-single.html" class="cat-opt blue-bg">
+                          <i class="fas fa-phone-alt"></i>
+                          &nbsp;
+                          <span>Call</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="agent-single.html" class="cat-opt blue-bg">
+                          <i class="fab fa-whatsapp"></i>
+                          &nbsp;
+                          <span>Whatsapp</span>
+                        </a>
+                      </li>
+                    </ul>
                   </div>
-                </article>
-              </div>
-              <!-- listing-item end-->
+                </div>
+              </article>
             </div>
+            <!-- listing-item end-->
+          </div>
           <!-- </ng-container> -->
           <!-- gallery-item end-->
         </div>
         <!-- grid-item-holder-->
-        <a href="listing.html" class="btn float-btn small-btn color-bg">View All Properties</a>
+    
       </div>
     </section>
     <!-- section end-->

@@ -20,7 +20,7 @@
                         <ul class="list-single-opt_header_cat">
                             <li><a href="#" class="cat-opt color-bg">Rent</a></li>
                             <li><a href="#" class="cat-opt blue-bg">Sale</a></li>
-                            <li><a href="#" class="cat-opt color-bg">Apartment</a></li>
+                            <li><a href="#" class="cat-opt color-bg">Add to cart</a></li>
                         </ul>
                     </div>
                     <!--  list-single-opt_header end -->
@@ -35,11 +35,13 @@
                                     <a href="#"><i class="fas fa-map-marker-alt"></i>{{propertView.property_address}}
                                         {{propertView.property_country}}</a>
                                     <div class="listing-rating card-popup-rainingvis" data-starrating2="4"><span
-                                            class="re_stars-title">Good</span></div>
+                                            class="re_stars-title">{{propertView.property_status}}</span></div>
                                 </div>
                                 <div class="share-holder hid-share">
-                                    <a href="#" class="share-btn showshare sfcs"> <i class="fas fa-share-alt"></i> Share
-                                    </a>
+                                    <button (click)="shareProperty()" class="share-btn showshare sfcs">
+                                        <i class="fas fa-share-alt"></i>
+                                        Share
+                                    </button>
                                     <div class="share-container  isShare"></div>
                                 </div>
                             </div>
@@ -47,7 +49,7 @@
                         <div class="list-single-header-footer fl-wrap">
                             <div class="list-single-header-price"
                                 data-propertyprise="{{propertView.property_address}} ">
-                                <strong>Price:</strong><span>$</span>{{propertView.property_address}}
+                                <strong>Price:</strong><span>&#8358;</span>{{propertView.property_address}}
                             </div>
                             <div class="list-single-header-date"><span>Date:</span>20.05.2020</div>
                             <div class="list-single-stats">
@@ -66,7 +68,9 @@
             <div class="breadcrumbs fw-breadcrumbs smpar fl-wrap">
                 <div class="container">
                     <div class="breadcrumbs-list">
-                        <a href="#">Home</a><a href="#">Listings</a><a href="#">New York</a><span>Property Single</span>
+                        <a>Home</a>
+                        <a>Listings</a>
+                        <a>{{estateName}}</a><span>{{unitName}}</span>
                     </div>
                     <div class="show-more-snopt smact"><i class="fal fa-ellipsis-v"></i></div>
                     <div class="show-more-snopt-tooltip">
@@ -78,7 +82,7 @@
                         data-tooltip="Print"><i class="fas fa-print"></i></a>
                     <a class="compare-top-btn tolt" data-microtip-position="bottom" data-tooltip="Compare" href="#"><i
                             class="fas fa-random"></i></a>
-                    <div class="like-btn"><i class="fas fa-heart"></i> Save</div>
+                    <button class="like-btn" (click)="addToFavorite()"><i class="fas fa-heart"></i> Save</button>
                 </div>
             </div>
             <div class="gray-bg small-padding fl-wrap">
@@ -91,8 +95,11 @@
                                 <div class="scroll-nav-wrap">
                                     <nav class="scroll-nav scroll-init fixed-column_menu-init">
                                         <ul class="no-list-style">
-                                            <li><a class="act-scrlink" href="#sec1"><i
-                                                        class="fal fa-home-lg-alt"></i></a><span>Main</span></li>
+                                            <li><a class="act-scrlink" href="#sec1">
+                                                    <i class="fal fa-home-lg-alt"></i>
+                                                </a>
+                                                <span>Main</span>
+                                            </li>
                                             <li><a href="#sec2"><i class="fal fa-image"></i></a><span>Gallery</span>
                                             </li>
                                             <li><a href="#sec3"><i class="fal fa-info"></i> </a><span>Details</span>
@@ -253,11 +260,11 @@
                                                     <li><span>Rooms:</span>{{totalRooms}}</li>
                                                     <li><span>Bedrooms:</span>{{propertView.property_bedroom_count}}
                                                     </li>
-                                                    <li><span>Garage
-                                                            Size:</span>{{propertView.property_parking_space_count}}
+                                                    <li><span>Garage Size:</span>
+                                                        {{propertView.property_parking_space_count}}
                                                     </li>
                                                     <li><span>Available from:</span>25.05.2020</li>
-                                                    <li><span>Type:</span>{{propertView.property_price}}</li>
+                                                    <li><span>Type:</span>{{propertView.property_type}}</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -353,7 +360,8 @@
                                     </div>
                                     <!-- list-single-main-item end -->
                                     <!-- list-single-main-item -->
-                                    <div class="list-single-main-item fl-wrap" id="sec7">
+                                    <div class="list-single-main-item fl-wrap" id="sec7"
+                                        *ngIf="listPropertyReviews.length > 0">
                                         <div class="list-single-main-item-title">
                                             <h3>Reviews <span>2</span></h3>
                                         </div>
@@ -367,7 +375,8 @@
                                                     </div>
                                                 </div>
                                                 <!-- reviews-comments-item -->
-                                                <div class="reviews-comments-item">
+                                                <div class="reviews-comments-item"
+                                                    *ngFor="let reviews of listPropertyReviews">
                                                     <div class="review-comments-avatar">
                                                         <img src="assets/images/avatar/2.jpg" alt="">
                                                     </div>
@@ -394,12 +403,17 @@
                                                             rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam
                                                             dictum
                                                             felis eu pede mollis pretium. "</p>
-                                                        <div class="reviews-comments-item-date"><span
-                                                                class="reviews-comments-item-date-item"><i
-                                                                    class="far fa-calendar-check"></i>12 April
-                                                                2018</span><a href="#" class="rate-review"><i
-                                                                    class="fal fa-thumbs-up"></i> Helpful Review
-                                                                <span>6</span> </a></div>
+                                                        <div class="reviews-comments-item-date">
+                                                            <span class="reviews-comments-item-date-item">
+                                                                <i class="far fa-calendar-check"></i>
+                                                                12 April 2018
+                                                            </span>
+                                                            <a href="#" class="rate-review">
+                                                                <i class="fal fa-thumbs-up"></i>
+                                                                Helpful Review
+                                                                <span>6</span>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <!--reviews-comments-item end-->
@@ -564,70 +578,38 @@
                                     <!--widget-posts-->
                                     <div class="widget-posts  fl-wrap">
                                         <ul class="no-list-style">
-                                            <li>
-                                                <div class="widget-posts-img"><a href="listing-single.html"><img
-                                                            src="assets/images/all/small/1.jpg" alt=""></a>
+                                            <li *ngFor="let property of listFeaturedProperty">
+                                                <div class="widget-posts-img">
+                                                    <a routerLink="/store/products/{{property.PropertyId}}"
+                                                        routerLinkActive="active">
+                                                        <img src="assets/images/all/small/1.jpg" alt="">
+                                                    </a>
                                                 </div>
                                                 <div class="widget-posts-descr">
-                                                    <h4><a href="listing-single.html">Affordable Urban Room</a></h4>
-                                                    <div class="geodir-category-location fl-wrap"><a href="#"><i
-                                                                class="fas fa-map-marker-alt"></i> 40 Journal Square ,
-                                                            NJ,
-                                                            USA</a></div>
-                                                    <div class="widget-posts-descr-price"><span>Price: </span> $ 1500 /
-                                                        per
-                                                        month</div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="widget-posts-img"><a href="listing-single.html"><img
-                                                            src="assets/images/all/small/2.jpg" alt=""></a>
-                                                </div>
-                                                <div class="widget-posts-descr">
-                                                    <h4><a href="listing-single.html">Family House</a></h4>
-                                                    <div class="geodir-category-location fl-wrap"><a href="#"><i
-                                                                class="fas fa-map-marker-alt"></i> 70 Bright St New
-                                                            York,
-                                                            USA </a></div>
-                                                    <div class="widget-posts-descr-price"><span>Price: </span> $ 50000
+                                                    <h4><a routerLink="/store/products/{{property.PropertyId}}"
+                                                            routerLinkActive="active">
+                                                            {{property.PropertyTitle}}
+                                                        </a>
+                                                    </h4>
+                                                    <div class="geodir-category-location fl-wrap">
+                                                        <a href="#">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            {{property.Metadata.property_address}},
+                                                            {{property.Metadata.property_country}}
+                                                        </a>
                                                     </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="widget-posts-img"><a href="listing-single.html"><img
-                                                            src="assets/images/all/small/3.jpg" alt=""></a>
-                                                </div>
-                                                <div class="widget-posts-descr">
-                                                    <h4><a href="listing-single.html">Apartment to Rent</a></h4>
-                                                    <div class="geodir-category-location fl-wrap"><a href="#"><i
-                                                                class="fas fa-map-marker-alt"></i>75 Prince St, NY,
-                                                            USA</a>
+                                                    <div class="widget-posts-descr-price">
+                                                        <span>Type: </span> {{property.Metadata.property_type}}
                                                     </div>
-                                                    <div class="widget-posts-descr-price"><span>Price: </span> $100 /
-                                                        per
-                                                        night</div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="widget-posts-img"><a href="listing-single.html"><img
-                                                            src="assets/images/all/small/3.jpg" alt=""></a>
-                                                </div>
-                                                <div class="widget-posts-descr">
-                                                    <h4><a href="listing-single.html">Apartment to Rent</a></h4>
-                                                    <div class="geodir-category-location fl-wrap"><a href="#"><i
-                                                                class="fas fa-map-marker-alt"></i>75 Prince St, NY,
-                                                            USA</a>
-                                                    </div>
-                                                    <div class="widget-posts-descr-price"><span>Price: </span> $100 /
-                                                        per
-                                                        night</div>
                                                 </div>
                                             </li>
                                         </ul>
                                     </div>
                                     <!-- widget-posts end-->
-                                    <a href="listing.html" class="btn float-btn color-bg small-btn">View All
-                                        Properties</a>
+                                    <a routerLink="/store" routerLinkActive="active"
+                                        class="btn float-btn color-bg small-btn">
+                                        View All Properties
+                                    </a>
                                 </div>
                             </div>
                             <!--box-widget end -->
@@ -677,12 +659,15 @@
                                 <div class="box-widget-title fl-wrap">Propertie Documents</div>
                                 <div class="box-widget-content fl-wrap">
                                     <div class="bwc_download-list">
-                                        <a href="#" download><span><i class="fal fa-file-pdf"></i></span>Property
-                                            Presentation</a>
-                                        <a href="#" download><span><i class="fal fa-file-word"></i></span>Energetic
-                                            Certificate</a>
-                                        <a href="#" download><span><i class="fal fa-file-pdf"></i></span>Property
-                                            Plans</a>
+                                        <a href="#" download><span><i class="fal fa-file-pdf"></i></span>
+                                            Property Presentation
+                                        </a>
+                                        <a href="#" download><span><i class="fal fa-file-word"></i></span>
+                                            Energetic Certificate
+                                        </a>
+                                        <a href="#" download><span><i class="fal fa-file-pdf"></i></span>
+                                            Property Plans
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -728,7 +713,8 @@
                                                     </div>
                                                 </div>
                                                 <button type="submit" class="btn float-btn color-bg fw-btn">
-                                                    Send</button>
+                                                    Send
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
@@ -739,231 +725,6 @@
                         <!--  sidebar end-->
                     </div>
                     <div class="fl-wrap limit-box"></div>
-                    <div class="listing-carousel-wrapper carousel-wrap fl-wrap">
-                        <div class="list-single-main-item-title">
-                            <h3>Similar Properties</h3>
-                        </div>
-                        <div class="listing-carousel carousel ">
-                            <!-- slick-slide-item -->
-                            <div class="slick-slide-item">
-                                <!-- listing-item -->
-                                <div class="listing-item">
-                                    <article class="geodir-category-listing fl-wrap">
-                                        <div class="geodir-category-img fl-wrap">
-                                            <a href="listing-single.html" class="geodir-category-img_item">
-                                                <img src="assets/images/all/3.jpg" alt="">
-                                                <div class="overlay"></div>
-                                            </a>
-                                            <div class="geodir-category-location">
-                                                <a href="#4" class="map-item"><i class="fas fa-map-marker-alt"></i> 70
-                                                    Bright St New York, USA</a>
-                                            </div>
-                                            <ul class="list-single-opt_header_cat">
-                                                <li><a href="#" class="cat-opt blue-bg">Sale</a></li>
-                                                <li><a href="#" class="cat-opt color-bg">Apartment</a></li>
-                                            </ul>
-                                            <a href="#" class="geodir_save-btn tolt" data-microtip-position="left"
-                                                data-tooltip="Save"><span><i class="fal fa-heart"></i></span></a>
-                                            <a href="#" class="compare-btn tolt" data-microtip-position="left"
-                                                data-tooltip="Compare"><span><i class="fal fa-random"></i></span></a>
-                                            <div class="geodir-category-listing_media-list">
-                                                <span><i class="fas fa-camera"></i> 8</span>
-                                            </div>
-                                        </div>
-                                        <div class="geodir-category-content fl-wrap">
-                                            <h3><a href="listing-single.html">Gorgeous house for sale</a></h3>
-                                            <div class="geodir-category-content_price">$ 600,000</div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in
-                                                pulvinar
-                                                neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla.</p>
-                                            <div class="geodir-category-content-details">
-                                                <ul>
-                                                    <li><i class="fal fa-bed"></i><span>3</span></li>
-                                                    <li><i class="fal fa-bath"></i><span>2</span></li>
-                                                    <li><i class="fal fa-cube"></i><span>450 ft2</span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="geodir-category-footer fl-wrap">
-                                                <a href="agent-single.html" class="gcf-company"><img
-                                                        src="assets/images/avatar/2.jpg" alt=""><span>By Liza
-                                                        Rose</span></a>
-                                                <div class="listing-rating card-popup-rainingvis tolt"
-                                                    data-microtip-position="top" data-tooltip="Good"
-                                                    data-starrating2="4">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </div>
-                                <!-- listing-item end-->
-                            </div>
-                            <!-- slick-slide-item end-->
-                            <!-- slick-slide-item -->
-                            <div class="slick-slide-item">
-                                <!-- listing-item -->
-                                <div class="listing-item">
-                                    <article class="geodir-category-listing fl-wrap">
-                                        <div class="geodir-category-img fl-wrap">
-                                            <a href="listing-single.html" class="geodir-category-img_item">
-                                                <img src="assets/images/all/1.jpg" alt="">
-                                                <div class="overlay"></div>
-                                            </a>
-                                            <div class="geodir-category-location">
-                                                <a href="#4" class="map-item"><i class="fas fa-map-marker-alt"></i> 40
-                                                    Journal Square , NJ, USA</a>
-                                            </div>
-                                            <ul class="list-single-opt_header_cat">
-                                                <li><a href="#" class="cat-opt blue-bg">Sale</a></li>
-                                                <li><a href="#" class="cat-opt color-bg">Apartment</a></li>
-                                            </ul>
-                                            <a href="#" class="geodir_save-btn tolt" data-microtip-position="left"
-                                                data-tooltip="Save"><span><i class="fal fa-heart"></i></span></a>
-                                            <a href="#" class="compare-btn tolt" data-microtip-position="left"
-                                                data-tooltip="Compare"><span><i class="fal fa-random"></i></span></a>
-                                            <div class="geodir-category-listing_media-list">
-                                                <span><i class="fas fa-camera"></i> 47</span>
-                                            </div>
-                                        </div>
-                                        <div class="geodir-category-content fl-wrap">
-                                            <h3><a href="listing-single.html">Luxury Family Home</a></h3>
-                                            <div class="geodir-category-content_price">$ 300,000</div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in
-                                                pulvinar
-                                                neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla.</p>
-                                            <div class="geodir-category-content-details">
-                                                <ul>
-                                                    <li><i class="fal fa-bed"></i><span>4</span></li>
-                                                    <li><i class="fal fa-bath"></i><span>2</span></li>
-                                                    <li><i class="fal fa-cube"></i><span>460 ft2</span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="geodir-category-footer fl-wrap">
-                                                <a href="agent-single.html" class="gcf-company"><img
-                                                        src="assets/images/avatar/1.jpg" alt=""><span>By Anna
-                                                        Lips</span></a>
-                                                <div class="listing-rating card-popup-rainingvis tolt"
-                                                    data-microtip-position="top" data-tooltip="Excellent"
-                                                    data-starrating2="5"></div>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </div>
-                                <!-- listing-item end-->
-                            </div>
-                            <!-- slick-slide-item end-->
-                            <!-- slick-slide-item -->
-                            <div class="slick-slide-item">
-                                <!-- listing-item -->
-                                <div class="listing-item">
-                                    <article class="geodir-category-listing fl-wrap">
-                                        <div class="geodir-category-img fl-wrap">
-                                            <a href="listing-single.html" class="geodir-category-img_item">
-                                                <img src="assets/images/all/9.jpg" alt="">
-                                                <div class="overlay"></div>
-                                            </a>
-                                            <div class="geodir-category-location">
-                                                <a href="#4" class="map-item"><i class="fas fa-map-marker-alt"></i>
-                                                    34-42
-                                                    Montgomery St , NY, USA</a>
-                                            </div>
-                                            <ul class="list-single-opt_header_cat">
-                                                <li><a href="#" class="cat-opt blue-bg">Sale</a></li>
-                                                <li><a href="#" class="cat-opt color-bg">Apartment</a></li>
-                                            </ul>
-                                            <a href="#" class="geodir_save-btn tolt" data-microtip-position="left"
-                                                data-tooltip="Save"><span><i class="fal fa-heart"></i></span></a>
-                                            <a href="#" class="compare-btn tolt" data-microtip-position="left"
-                                                data-tooltip="Compare"><span><i class="fal fa-random"></i></span></a>
-                                            <div class="geodir-category-listing_media-list">
-                                                <span><i class="fas fa-camera"></i> 4</span>
-                                            </div>
-                                        </div>
-                                        <div class="geodir-category-content fl-wrap">
-                                            <h3><a href="listing-single.html">Gorgeous house for sale</a></h3>
-                                            <div class="geodir-category-content_price">$ 120,000</div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in
-                                                pulvinar
-                                                neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla.</p>
-                                            <div class="geodir-category-content-details">
-                                                <ul>
-                                                    <li><i class="fal fa-bed"></i><span>2</span></li>
-                                                    <li><i class="fal fa-bath"></i><span>1</span></li>
-                                                    <li><i class="fal fa-cube"></i><span>220 ft2</span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="geodir-category-footer fl-wrap">
-                                                <a href="agent-single.html" class="gcf-company"><img
-                                                        src="assets/images/avatar/3.jpg" alt=""><span>By Mark
-                                                        Frosty</span></a>
-                                                <div class="listing-rating card-popup-rainingvis tolt"
-                                                    data-microtip-position="top" data-tooltip="Good"
-                                                    data-starrating2="4">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </div>
-                                <!-- listing-item end-->
-                            </div>
-                            <!-- slick-slide-item end-->
-                            <!-- slick-slide-item -->
-                            <div class="slick-slide-item">
-                                <!-- listing-item -->
-                                <div class="listing-item">
-                                    <article class="geodir-category-listing fl-wrap">
-                                        <div class="geodir-category-img fl-wrap">
-                                            <a href="listing-single.html" class="geodir-category-img_item">
-                                                <img src="assets/images/all/6.jpg" alt="">
-                                                <div class="overlay"></div>
-                                            </a>
-                                            <div class="geodir-category-location">
-                                                <a href="#4" class="map-item"><i class="fas fa-map-marker-alt"></i> W
-                                                    85th
-                                                    St, New York, USA </a>
-                                            </div>
-                                            <ul class="list-single-opt_header_cat">
-                                                <li><a href="#" class="cat-opt blue-bg">Sale</a></li>
-                                                <li><a href="#" class="cat-opt color-bg">Apartment</a></li>
-                                            </ul>
-                                            <a href="#" class="geodir_save-btn tolt" data-microtip-position="left"
-                                                data-tooltip="Save"><span><i class="fal fa-heart"></i></span></a>
-                                            <a href="#" class="compare-btn tolt" data-microtip-position="left"
-                                                data-tooltip="Compare"><span><i class="fal fa-random"></i></span></a>
-                                            <div class="geodir-category-listing_media-list">
-                                                <span><i class="fas fa-camera"></i> 13</span>
-                                            </div>
-                                        </div>
-                                        <div class="geodir-category-content fl-wrap">
-                                            <h3><a href="listing-single.html">Contemporary Apartment</a></h3>
-                                            <div class="geodir-category-content_price">$ 1,600,000</div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in
-                                                pulvinar
-                                                neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla.</p>
-                                            <div class="geodir-category-content-details">
-                                                <ul>
-                                                    <li><i class="fal fa-bed"></i><span>4</span></li>
-                                                    <li><i class="fal fa-bath"></i><span>1</span></li>
-                                                    <li><i class="fal fa-cube"></i><span>550 ft2</span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="geodir-category-footer fl-wrap">
-                                                <a href="agent-single.html" class="gcf-company"><img
-                                                        src="assets/images/avatar/4.jpg" alt=""><span>By Bill
-                                                        Trust</span></a>
-                                                <div class="listing-rating card-popup-rainingvis tolt"
-                                                    data-microtip-position="top" data-tooltip="Excellent
-                                                " data-starrating2="5"></div>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </div>
-                                <!-- listing-item end-->
-                            </div>
-                            <!-- slick-slide-item end-->
-                        </div>
-                        <div class="swiper-button-prev lc-wbtn lc-wbtn_prev"><i class="far fa-angle-left"></i></div>
-                        <div class="swiper-button-next lc-wbtn lc-wbtn_next"><i class="far fa-angle-right"></i></div>
-                    </div>
                 </div>
             </div>
         </ng-template>

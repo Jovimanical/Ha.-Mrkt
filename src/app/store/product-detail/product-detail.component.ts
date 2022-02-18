@@ -4,6 +4,7 @@ import * as mapboxgl from 'mapbox-gl';
 import rewind from '@mapbox/geojson-rewind';
 import * as L from 'leaflet';
 import EventService from "eventservice";
+import { EventsService } from 'angular4-events';
 import { environment } from '../../../environments/environment';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { BroadcastService } from 'app/core/broadcast.service';
@@ -43,6 +44,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   // data
   public source: any;
   public markers: any;
+  public publishProperty: any;
 
 
 
@@ -53,6 +55,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     public changeDectection: ChangeDetectorRef,
     private notificationService: NotificationService,
     private broadcastService: BroadcastService,
+    private eventService: EventsService,
     private mobileService: MobileService
   ) {
     mapboxgl.accessToken = environment.MAPBOX_ACCESS_TOKEN.accessToken;
@@ -74,13 +77,15 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   ngAfterViewInit(): void {
-    // subscribe to event with name "SomeEventName"
+    // subscribe to event with name "DisplayPropertyInfo"
     EventService.on("DisplayPropertyInfo", async (properties) => {
       //do something
-      console.log("Did something!");
+      //console.log("recieved something!");
       this.router.navigate([`/store/marketplace/${this.EstateInfo.PropertyTitle}/unit/${properties.id}`]);
-      await EventService.fire<string>("ShowProperty", properties);
-
+      setTimeout(() => {
+        this.eventService.publish("ShowProperty", properties);
+        //console.log("Did something!");
+      }, 500);
     });
     //to remove any initiallization of a previous map
     if (this.map) {
@@ -95,12 +100,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       this.map.remove();
     }
     this.watcher.unsubscribe();
-    // unsubscribe to event with name "SomeEventName"
+    // unsubscribe to event with name "DisplayPropertyInfo"
     EventService.off("DisplayPropertyInfo", "SomeKey");
   }
 
   private initMap(): void {
-    console.log('map-called');
+    //console.log('map-called');
     const data = this.ESTATE_MAPSOURCE;
     const coordinates = data.features[0].geometry.coordinates;
     const coord = coordinates[0][0][0]
@@ -123,7 +128,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       </table>\
       <div>\
       <button id="button-submit" class="balloon-btn grey" type="button"><i class="fa fa-info"></i>&nbsp;Details</button>\
-      <button id="button-enquire" class="balloon-btn" type="button"><i class="fa fa-envelope"></i></button>\
+      <button id="button-enquire" class="balloon-btn" type="button" onclick="close()"><i class="fa fa-envelope"></i></button>\
       <button id="button-favourite" class="balloon-btn" type="button"><i class="fa fa-star"></i></button>\
       </div>\
     </div>';
@@ -221,6 +226,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
             }
           }
         });
+
         if (feature.properties.group === 'Estate') {
           layer.bindTooltip(feature.properties.property_name, { permanent: true, direction: 'center', className: 'estateLabel' });
         }
@@ -316,9 +322,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       //marker.bindPopup('<h1>' + properties.property_name + '</h1><p>name: ' + properties.property_title + '</p>');
     }
 
+
     function layerClickHandler(e: any) {
-      var marker = e.target,
-        properties = e.target.feature.properties;
+      var marker = e.target;
+      var properties = e.target.feature.properties;
+      var allFeatures = e.target.feature
 
       if (marker.hasOwnProperty('_popup')) {
         marker.unbindPopup();
@@ -339,13 +347,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     // This resets the highlight after hover moves away
-    function resetHighlight(e) {
+    function resetHighlight(e: any) {
       estateUnitsLayer.setStyle(style);
       info.update();
     }
 
     // This instructs highlight and reset functions on hover movement
-    function onEachFeature(feature, layer) {
+    function onEachFeature(feature: any, layer: any) {
       layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
@@ -355,7 +363,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
     // Creates an info box on the map
     var info = L.control({ position: 'topleft' });
-    info.onAdd = function (map) {
+    info.onAdd = function (map: any) {
       this._div = L.DomUtil.create('div', 'estateInfo');
       this._div.style.padding = '10px';
       this._div.style.display = 'flex';
@@ -373,7 +381,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     };
 
     // Edit info box text and variables (such as props.density2010) to match those in your GeoJSON data
-    info.update = function (props) {
+    info.update = function (props: any) {
       this._div.innerHTML = '<h3>Zoom Closer to Explore Estate and view available units</h3>';
       var value = props && props.percent ? props.percent + '%' : 'No data'
       this._div.innerHTML += (props
@@ -424,6 +432,15 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       }
     })
 
+
+    this.map.on('popupclose', (e) => {
+      // setTimeout(function(){
+      //     if(LS.Send.IsDragging == false){
+      //         map.removeLayer(LS.Send.Marker);
+      //     }
+      // },300);
+    });
+
     this.map.on('zoomend', (e) => {
       // console.log('map.getZoom()-1', this.map.getZoom())
       if (this.map.getZoom() >= 7 && this.map.getZoom() <= 16) {
@@ -467,6 +484,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
 
+
   private getCurrentPosition(): any {
     return new Observable((observer: Subscriber<any>) => {
       if (navigator.geolocation) {
@@ -488,6 +506,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     const patchedJson: any = rewind(JSON.parse(geoJsonObj));
     delete patchedJson.crs;
     return JSON.stringify(patchedJson)
+  }
+
+  public close() {
+    console.log('Close');
   }
 
 

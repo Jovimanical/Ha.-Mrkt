@@ -7,6 +7,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NgHttpLoaderModule } from 'ng-http-loader';
+import { EventsModule } from 'angular4-events';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
@@ -33,6 +34,7 @@ import { environment } from '../environments/environment';
     }),
     NgxSkeletonLoaderModule,
     NgHttpLoaderModule.forRoot(),
+    EventsModule.forRoot(),
     AngularMaterialModule,
     BrowserAnimationsModule,    
     FlexLayoutModule,

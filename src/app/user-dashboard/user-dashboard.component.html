@@ -3,12 +3,10 @@
     <!-- dashbard-menu-wrap -->
     <app-sidebar></app-sidebar>
     <!-- dashbard-menu-wrap end  -->
+
     <!-- content -->
     <div class="dashboard-content">
-        <div class="dashboard-menu-btn color-bg">
-            <span><i class="fas fa-bars"></i></span>
-            Dasboard Menu
-        </div>
+       <app-dashboard-toggle></app-dashboard-toggle>
         <div class="container dasboard-container">
             <!-- dashboard-title -->
             <app-dashboard-menu-status [dashboardTitle]="PageName"></app-dashboard-menu-status>
