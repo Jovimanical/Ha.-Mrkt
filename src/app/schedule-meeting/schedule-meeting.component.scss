@@ -1,0 +1,30 @@
+.meeting-container {
+  width: 55%;
+  margin: auto;
+  margin-top: 5%;
+
+  .mat-card-content {
+    padding-top: 15px;
+    padding: 20px;
+
+    .full-width-element {
+      .mat-form-field {
+        width: 100%;
+      }
+    }
+
+    .inline-block-element {
+      display: flex;
+      width: 80%;
+
+      .mat-form-field {
+        width: 50%;
+        margin-right: 15px;
+      }
+    }
+  }
+
+  .mat-card-actions {
+    padding-left: 20px;
+  }
+}

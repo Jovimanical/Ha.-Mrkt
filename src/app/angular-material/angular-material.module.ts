@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
@@ -17,6 +17,13 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+
 
 @NgModule({
   imports: [
@@ -37,7 +44,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTabsModule,
     MatExpansionModule,
     MatStepperModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDividerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSlideToggleModule,
+    MatFormFieldModule
+
   ],
   exports: [
     MatButtonModule,
@@ -57,7 +70,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTabsModule,
     MatExpansionModule,
     MatStepperModule,
-    MatTooltipModule
-  ]
+    MatTooltipModule,
+    MatDividerModule,
+    MatSlideToggleModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatDatepickerModule
+  ],
+  providers: [],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AngularMaterialModule { }

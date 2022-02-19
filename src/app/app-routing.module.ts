@@ -24,6 +24,7 @@ const appRoutes: Routes = [
   { path: 'privacy-policy', loadChildren: () => import('./privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyModule) },
   { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
   { path: 'page-not-found', loadChildren: () => import('./page-not-found/page-not-found.module').then(m => m.PageNotFoundModule) },
+  { path: 'schedule-meeting', loadChildren: () => import('./schedule-meeting/schedule-meeting.module').then(m => m.ScheduleMeetingModule) },
 ];
 
 @NgModule({

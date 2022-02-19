@@ -729,11 +729,7 @@ initIsotope();
         $(this).toggleClass("rot_tfp-btn");
         $(".tfp-det").toggleClass("vis_tfp-det ");
     });
-    $(".submenu-link").on("click", function (ef) {
-        ef.preventDefault();
-        $(this).toggleClass("sl_tog");
-        $(this).parent("li").find("ul").slideToggle(300);
-    });
+  
     //   Video------------------
     var v = $(".background-youtube-wrapper").data("vid");
     var f = $(".background-youtube-wrapper").data("mv");
