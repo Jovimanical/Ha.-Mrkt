@@ -18,9 +18,10 @@
                     <!--  list-single-opt_header-->
                     <div class="list-single-opt_header fl-wrap">
                         <ul class="list-single-opt_header_cat">
-                            <li><a href="#" class="cat-opt color-bg">Rent</a></li>
-                            <li><a href="#" class="cat-opt blue-bg">Sale</a></li>
-                            <li><a href="#" class="cat-opt color-bg">Add to cart</a></li>
+                            <li><a class="cat-opt color-bg">Rent</a></li>
+                            <li><a class="cat-opt blue-bg">Sale</a></li>
+                            <li><button (click)="packageUnitForExport(1)" class="cat-opt color-bg">Add to cart</button>
+                            </li>
                         </ul>
                     </div>
                     <!--  list-single-opt_header end -->
@@ -74,15 +75,20 @@
                     </div>
                     <div class="show-more-snopt smact"><i class="fal fa-ellipsis-v"></i></div>
                     <div class="show-more-snopt-tooltip">
-                        <a href="#sec15" class="custom-scroll-link"> <i class="fas fa-comment-alt"></i> Write a
-                            review</a>
+                        <a href="#sec15" class="custom-scroll-link"> <i class="fas fa-comment-alt"></i>
+                            Write areview
+                        </a>
                         <a href="#"> <i class="fas fa-exclamation-triangle"></i> Report </a>
                     </div>
                     <a class="print-btn tolt" href="javascript:window.print()" data-microtip-position="bottom"
-                        data-tooltip="Print"><i class="fas fa-print"></i></a>
-                    <a class="compare-top-btn tolt" data-microtip-position="bottom" data-tooltip="Compare" href="#"><i
-                            class="fas fa-random"></i></a>
-                    <button class="like-btn" (click)="addToFavorite()"><i class="fas fa-heart"></i> Save</button>
+                        data-tooltip="Print">
+                        <i class="fas fa-print"></i>
+                    </a>
+                    <a class="compare-top-btn tolt" data-microtip-position="bottom" data-tooltip="Compare" href="#">
+                        <i class="fas fa-random"></i>
+                    </a>
+                    <button class="like-btn" (click)="packageUnitForExport(0)"><i class="fas fa-heart"></i>
+                        Save</button>
                 </div>
             </div>
             <div class="gray-bg small-padding fl-wrap">

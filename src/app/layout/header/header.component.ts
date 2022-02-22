@@ -54,11 +54,19 @@ export class HeaderComponent implements OnInit {
       return;
     }
     this.accountService.getUserAccounts()
-      .subscribe(accounts => {
+      .subscribe((accounts: any) => {
         // We're just supporting one account right now. Grab the first result.
-        const account = accounts[0];
-        this.totalBalance = account.balance;
-        this.broadcastService.emitBalanceUpdated(this.totalBalance);
+        if (accounts.data instanceof Array && accounts.data.length > 0) {
+          const account = accounts[0];
+          this.totalBalance = account.balance;
+          this.broadcastService.emitBalanceUpdated(this.totalBalance);
+        }
+      }, (error) => {
+        // console.log('getAccounts - Error', error)
+        if (error.error.message === 'Error : Expired token') {
+          console.log('getAccounts call logout')
+          this.userService.logout();
+        }
       });
   }
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as mapboxgl from 'mapbox-gl';
 import rewind from '@mapbox/geojson-rewind';
 import * as L from 'leaflet';
 import EventService from "eventservice";
@@ -45,7 +44,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public source: any;
   public markers: any;
   public publishProperty: any;
-
+  public sessionStorageBookmarks = 'houseAfrica.bookmarks';
+  public userBookMarks: Array<any> = [];
 
 
   constructor(
@@ -58,7 +58,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     private eventService: EventsService,
     private mobileService: MobileService
   ) {
-    mapboxgl.accessToken = environment.MAPBOX_ACCESS_TOKEN.accessToken;
+
     this.isMapLoading = true;
   }
 
@@ -78,15 +78,45 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
   ngAfterViewInit(): void {
     // subscribe to event with name "DisplayPropertyInfo"
-    EventService.on("DisplayPropertyInfo", async (properties) => {
-      //do something
-      //console.log("recieved something!");
-      this.router.navigate([`/store/marketplace/${this.EstateInfo.PropertyTitle}/unit/${properties.id}`]);
+    EventService.on("DisplayPropertyInfo", async (propertyFeature) => {
+      this.router.navigate([`/store/marketplace/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}`]);
       setTimeout(() => {
-        this.eventService.publish("ShowProperty", properties);
+        // create estate with single unit
+        let RepakageUnit = this.ESTATE_MAPSOURCE;
+        RepakageUnit.features.push(propertyFeature);
+        this.eventService.publish("ShowProperty", propertyFeature.properties);
+        this.eventService.publish("UnitOptions", RepakageUnit);
         //console.log("Did something!");
       }, 500);
     });
+
+    // subscribe to event with name "DoEnquire"
+    EventService.on("DoEnquire", async (propertyFeature) => {
+      this.router.navigate([`/store/marketplace/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}/#enquire`]);
+      setTimeout(() => {
+        // create estate with single unit
+        let RepakageUnit = this.ESTATE_MAPSOURCE;
+        RepakageUnit.features.push(propertyFeature);
+        this.eventService.publish("ShowProperty", propertyFeature.properties);
+        this.eventService.publish("UnitOptions", RepakageUnit);
+        //console.log("Did something!");
+      }, 500);
+    });
+
+
+    // subscribe to event with name "AddToFavorite"
+    EventService.on("AddToFavorite", async (propertyFeature) => {
+      let RepakageUnit = this.ESTATE_MAPSOURCE;
+      RepakageUnit.features.push(propertyFeature);
+      setTimeout(() => {
+        // create estate with single unit
+        this.packageUnitForExport(RepakageUnit, propertyFeature.properties);
+
+      }, 500);
+    });
+
+    this.loadFavorite();
+
     //to remove any initiallization of a previous map
     if (this.map) {
       this.map.off();
@@ -102,6 +132,90 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     this.watcher.unsubscribe();
     // unsubscribe to event with name "DisplayPropertyInfo"
     EventService.off("DisplayPropertyInfo", "SomeKey");
+    EventService.off("DoEnquire", "SomeKey");
+    EventService.off("AddToFavorite", "SomeKey");
+  }
+
+  public loadFavorite() {
+    const bookmarks = localStorage.getItem(this.sessionStorageBookmarks);
+    if (bookmarks === null || bookmarks === undefined) {
+      this.userBookMarks = [];
+    } else {
+      this.userBookMarks = JSON.parse(bookmarks);
+    }
+  }
+
+
+
+  public saveBookmarks(propObjListing: any) {
+    //console.log('saveBlockAndUnits', propObjListing)
+    if (JSON.stringify(propObjListing) !== "[]") {
+      localStorage.setItem(this.sessionStorageBookmarks, JSON.stringify(propObjListing));
+    }
+  }
+
+  public addToFavorite(property: any): void {
+    this.submitted = true;
+    let alreadyExit:boolean = false
+
+    if (this.userBookMarks instanceof Array && this.userBookMarks.length > 0) {
+      this.userBookMarks.forEach((element) => {
+        if (element.LinkedEntity === property.LinkedEntity) {
+          this.notificationService.showErrorMessage('Item has already been bookmarked');
+          alreadyExit = true;
+          return;
+        }
+      });
+    }
+
+    if (!alreadyExit) {
+
+      this.userBookMarks.push(property);
+      this.loading = true;
+      setTimeout(() => {
+        this.saveBookmarks(this.userBookMarks)
+        this.notificationService.showSuccessMessage('Item added to bookmark');
+        this.loading = false;
+      }, 1000);
+
+    // this.storeService.addToBookmark(property)
+    //   .subscribe(() => {
+    //     //this.broadcastService.emitGetCart();
+    //     //this.router.navigate(['/store/cart']);
+    //     this.notificationService.showSuccessMessage('Successfully added to cart');
+    //     this.saveBookmarks(this.userBookMarks)
+    //     this.loading = false;
+    //     this.submitted = false;
+    //   }, errors => {
+    //     this.notificationService.showErrorMessage(errors.error.errorDescription);
+    //     this.loading = false;
+    //     this.submitted = false;
+    //   });
+    }
+  }
+
+
+
+
+  public packageUnitForExport(UnitMap: any, UnitInfo: any) {
+    let repakagedUnit: any = {};
+
+    if (Object.keys(UnitInfo).length !== 0 && Object.keys(UnitMap).length !== 0) {
+
+      repakagedUnit.EntityParent = UnitInfo.EntityParent
+      repakagedUnit.LinkedEntity = UnitInfo.LinkedEntity
+      repakagedUnit.PropertyFloor = UnitInfo.PropertyFloor
+      repakagedUnit.PropertyId = UnitInfo.PropertyId
+      repakagedUnit.PropertyName = UnitInfo.PropertyName
+      repakagedUnit.PropertyJson = UnitMap;
+      repakagedUnit.PropertyType = 3
+      repakagedUnit.PropertyStatus = UnitInfo.property_status
+      repakagedUnit.userid
+
+      this.addToFavorite(repakagedUnit);
+    }
+
+
   }
 
   private initMap(): void {
@@ -128,7 +242,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       </table>\
       <div>\
       <button id="button-submit" class="balloon-btn grey" type="button"><i class="fa fa-info"></i>&nbsp;Details</button>\
-      <button id="button-enquire" class="balloon-btn" type="button" onclick="close()"><i class="fa fa-envelope"></i></button>\
+      <button id="button-enquire" class="balloon-btn" type="button"><i class="fa fa-envelope"></i></button>\
       <button id="button-favourite" class="balloon-btn" type="button"><i class="fa fa-star"></i></button>\
       </div>\
     </div>';
@@ -297,29 +411,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         fillOpacity: 0.65,
         fillColor: color
       });
-      // info.update(properties);
-      // if (marker.hasOwnProperty('_popup')) {
-      //   marker.unbindPopup();
-      // }
-
-      // marker.bindPopup(template);
-      // marker.openPopup();
-
-      // L.DomUtil.get('value-arc').textContent = properties.property_name;
-      // L.DomUtil.get('value-speed').textContent = properties.property_title;
-
-      // var inputSpeed = L.DomUtil.get('input-speed');
-      // inputSpeed.value = properties.speed;
-      // L.DomEvent.addListener(inputSpeed, 'change', function (e) {
-      //   properties.speed = e.target.value;
-      // });
-
-      // var buttonSubmit = L.DomUtil.get('button-submit');
-      // L.DomEvent.addListener(buttonSubmit, 'click', function (e) {
-      //   marker.closePopup();
-      // });
-
-      //marker.bindPopup('<h1>' + properties.property_name + '</h1><p>name: ' + properties.property_title + '</p>');
     }
 
 
@@ -340,7 +431,19 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
       var buttonSubmit = L.DomUtil.get('button-submit');
       L.DomEvent.addListener(buttonSubmit, 'click', async (e) => {
-        await EventService.fire("DisplayPropertyInfo", properties);
+        await EventService.fire("DisplayPropertyInfo", allFeatures);
+        marker.closePopup();
+      });
+
+      var buttonSubmit = L.DomUtil.get('button-enquire');
+      L.DomEvent.addListener(buttonSubmit, 'click', async (e) => {
+        await EventService.fire("DoEnquire", allFeatures);
+        marker.closePopup();
+      });
+
+      var buttonSubmit = L.DomUtil.get('button-favourite');
+      L.DomEvent.addListener(buttonSubmit, 'click', async (e) => {
+        await EventService.fire("AddToFavorite", allFeatures);
         marker.closePopup();
       });
 
@@ -511,34 +614,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public close() {
     console.log('Close');
   }
-
-
-  // addToCart(): void {
-  //   this.submitted = true;
-  //   if ((this.product.sizes && this.product.sizes.length && !this.selectedSize) || !this.quantity) {
-  //     return;
-  //   }
-  //   this.loading = true;
-  //   const model: AddToCart = {
-  //     productId: this.product.productId,
-  //     size: this.selectedSize,
-  //     quantity: this.quantity
-  //   };
-  //   this.storeService.addToCart(model)
-  //     .subscribe(() => {
-  //       this.broadcastService.emitGetCart();
-  //       this.router.navigate(['/store/cart']);
-  //       this.notificationService.showSuccessMessage('Successfully added to cart');
-  //       this.loading = false;
-  //       this.submitted = false;
-  //     }, errors => {
-  //       this.notificationService.showErrorMessage(errors.error.errorDescription);
-  //       this.loading = false;
-  //       this.submitted = false;
-  //     });
-  // }
-
-
 
 
   public resolveObjectAndMerge(Metadata: any) {

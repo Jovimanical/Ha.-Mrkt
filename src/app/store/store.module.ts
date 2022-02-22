@@ -12,6 +12,10 @@ import { CartComponent } from './cart/cart.component';
 import { RouterModule } from '@angular/router';
 import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-confirmation.component';
 import { ProductBlockListingComponent } from './product-block-listing/product-block-listing.component';
+import { LandOnlyListingComponent } from './land-only-listing/land-only-listing.component';
+import { BuildingOnlyListingComponent } from './building-only-listing/building-only-listing.component';
+import { CompareListingsComponent } from './compare-listings/compare-listings.component';
+import { MarketPlaceSearchComponent } from './market-place-search/market-place-search.component';
 
 @NgModule({
   imports: [
@@ -30,7 +34,11 @@ import { ProductBlockListingComponent } from './product-block-listing/product-bl
     CartComponent,
     CheckoutComponent,
     CheckoutConfirmationComponent,
-    ProductBlockListingComponent
+    ProductBlockListingComponent,
+    LandOnlyListingComponent,
+    BuildingOnlyListingComponent,
+    CompareListingsComponent,
+    MarketPlaceSearchComponent
   ],
   providers: [],
   exports: [

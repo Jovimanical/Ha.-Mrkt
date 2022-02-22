@@ -46,7 +46,11 @@ export class StoreService {
     return this.http.get<Product>(`${environment.API_URL}/marketplace/properties/${id}`);
   }
 
-  addToCart(addToCart: AddToCart) {
+  addToCart(addToCart: any) {
+    return this.http.put(`${environment.API_URL}/shopping-cart/add`, addToCart);
+  }
+
+  addToBookmark(addToCart: any) {
     return this.http.put(`${environment.API_URL}/shopping-cart/add`, addToCart);
   }
 

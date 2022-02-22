@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { User } from './user.model';
 import { UserStatus } from './user-status.model';
@@ -8,6 +9,8 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class UserService {
+  private sessionStorageTokenKey = 'houseAfrica.token';
+  private sessionStorageUserInfo = 'houseAfrica.user';
   private userSubscription = new BehaviorSubject<User>(null);
   userChanged$ = this.userSubscription.asObservable();
 
@@ -22,7 +25,7 @@ export class UserService {
 
   private isAuthenticated = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router,) { }
 
   getUsers(): Observable<Array<User>> {
     return this.http.get<Array<User>>(`${environment.API_URL}/users`);
@@ -60,5 +63,12 @@ export class UserService {
   emitIsMenuShowing(showMenu: boolean): void {
     this.isMenuShowing.next(showMenu);
   }
+
+  logout(): void {
+    sessionStorage.removeItem(this.sessionStorageTokenKey);
+    sessionStorage.removeItem(this.sessionStorageUserInfo);
+    this.router.navigate(['authentication/login']);
+  }
+
 
 }

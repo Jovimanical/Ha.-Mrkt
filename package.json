@@ -27,6 +27,7 @@
     "@angular/router": "10.0.3",
     "@angular/service-worker": "10.0.3",
     "@mapbox/geojson-rewind": "^0.5.1",
+    "@ngx-formly/core": "^5.10.32",
     "@turf/rewind": "^6.5.0",
     "@types/geojson": "^7946.0.8",
     "angular4-events": "^10.0.1",

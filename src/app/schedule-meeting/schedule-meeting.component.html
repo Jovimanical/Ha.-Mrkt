@@ -10,7 +10,7 @@
             </div>
             <div class="container">
                 <div class="section-title center-align big-title">
-                    <h2><span>About Us</span></h2>
+                    <h2><span>Schedule Meetings</span></h2>
                     <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec tincidunt arcu, sit amet
                         fermentum sem.</h4>
                 </div>
@@ -50,43 +50,49 @@
                             <div class="full-width-element">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Topic</mat-label>
-                                    <input matInput placeholder="Topic" formControlName="name">
+                                    <input matInput placeholder="Topic" formControlName="meeting_topic">
                                 </mat-form-field>
                             </div>
                             <div class="full-width-element">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Fullname</mat-label>
-                                    <input matInput placeholder="Your Fullname" formControlName="fullname">
+                                    <input matInput placeholder="Your Fullname" formControlName="meeting_fullname">
+                                </mat-form-field>
+                            </div>
+                            <div class="full-width-element">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Phone</mat-label>
+                                    <input matInput placeholder="Your Phone" formControlName="meeting_phone">
                                 </mat-form-field>
                             </div>
                             <div class="full-width-element">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Email Address</mat-label>
-                                    <input matInput placeholder="Your Email" formControlName="email">
+                                    <input matInput placeholder="Your Email" formControlName="meeting_email">
                                 </mat-form-field>
                             </div>
                             <div class="inline-block-element">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Date</mat-label>
-                                    <input matInput [matDatepicker]="picker" formControlName="date">
+                                    <input matInput [matDatepicker]="picker" formControlName="meeting_date">
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
                                 </mat-form-field>
                                 <mat-form-field appearance="outline">
                                     <mat-label>Time</mat-label>
-                                    <input matInput placeholder="Time" type="time" formControlName="time">
+                                    <input matInput placeholder="Time" type="time" formControlName="meeting_time">
                                 </mat-form-field>
                             </div>
                             <div class="inline-block-element">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Duration (hours)</mat-label>
                                     <input type="number" matInput placeholder="Duration"
-                                        formControlName="duration_hours">
+                                        formControlName="meeting_duration_hours">
                                 </mat-form-field>
                                 <mat-form-field appearance="outline">
                                     <mat-label>Duration (minutes)</mat-label>
                                     <input type="number" matInput placeholder="Placeholder"
-                                        formControlName="duration_minutes">
+                                        formControlName="meeting_duration_minutes">
                                 </mat-form-field>
                             </div>
 

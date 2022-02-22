@@ -22,8 +22,10 @@ export class CartComponent implements OnInit {
     private notificationService: NotificationService) { }
 
   ngOnInit() {
-    this.storeService.fetchCart().subscribe(response => {
-      this.cartProducts = response ? response.products : [];
+    
+    this.storeService.fetchCart().subscribe((response:any) => {
+      this.cartProducts = response ? response.data : [];
+      // save to loal store
       this.subtotal = response ? response.totalCost : 0;
     });
     this.broadcastService.balanceUpdated$
