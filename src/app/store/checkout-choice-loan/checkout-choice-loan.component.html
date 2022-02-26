@@ -1,0 +1,25 @@
+<!-- wrapper  -->
+<div id="wrapper">
+    <!-- content -->
+    <div class="content">
+        <section>
+            <div class="contianer">
+                <form [formGroup]="form" (ngSubmit)="submit()">
+                    <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form">
+                        <div style="display: flex; justify-content: center;">
+                            <button type="reset" color="warn" mat-raised-button>
+                                Reset
+                            </button>
+                            <button type="submit" color="primary" mat-raised-button  [disabled]="!form.valid">
+                                Submit
+                            </button>
+                        </div>
+                    </formly-form>
+                </form>
+            </div>
+        </section>
+        <div class="limit-box fl-wrap"></div>
+    </div>
+     <!-- content-end -->
+</div>
+<!-- wrapper-end  -->

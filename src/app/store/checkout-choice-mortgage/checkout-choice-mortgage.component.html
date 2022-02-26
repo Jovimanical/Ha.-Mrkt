@@ -1,0 +1,191 @@
+<!-- wrapper  -->
+<div id="wrapper">
+    <!-- content -->
+    <div class="content">
+        <!-- breadcrumbs-->
+        <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
+            <div class="container">
+                <div class="breadcrumbs-list">
+                    <a>Home</a><a>MarketPlace</a> <span>Checkout | Mortgage</span>
+                </div>
+                <div class="share-holder hid-share">
+                    <a class="share-btn showshare sfcs"> <i class="fas fa-exclamation"></i> Help </a>
+                    <div class="share-container  isShare"></div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumbs end -->
+        <section>
+            <div class="contianer">
+                <aw-wizard #wizard [navBarLayout]="'large-filled-symbols'" [disableNavigationBar]="true">
+                    <aw-wizard-step [stepTitle]="'Steptitle 1'">
+                        <ng-template awWizardStepTitle>
+                            <span class="hidden-sm-down">PERSONAL INFORMATION</span>
+                            <span class="hidden-md-up">PERSONAL INFORMATION</span>
+                        </ng-template>
+                        <section class="gray-bg small-padding">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="centered-content">
+                                            <form [formGroup]="form" (ngSubmit)="submit()">
+                                                <formly-form [model]="model" [fields]="fields" [options]="options"
+                                                    [form]="form">
+                                                    <div style="display: flex; justify-content: center;">
+                                                        <button type="submit" color="primary" mat-raised-button
+                                                            [disabled]="!form.valid">
+                                                            Submit personal Info
+                                                        </button>
+                                                    </div>
+                                                </formly-form>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </aw-wizard-step>
+                    <aw-wizard-step [stepTitle]="'Steptitle 2'" [navigationSymbol]="{ symbol: '2' }">
+                        <ng-template awWizardStepTitle>
+                            <span class="hidden-sm-down">EMPLOYMENT STATUS</span>
+                            <span class="hidden-md-up">EMPLOYMENT STATUS</span>
+                        </ng-template>
+                        <section class="gray-bg small-padding">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="centered-content">
+                                            <form [formGroup]="formEmployerInfo" (ngSubmit)="submitEmployerInfo()">
+                                                <formly-form [model]="modelEmployerInfo" [fields]="fieldsEmployerInfo"
+                                                    [options]="optionsEmployerInfo" [form]="formEmployerInfo">
+                                                    <div style="display: flex; justify-content: center;">
+                                                        <button type="submit" color="primary" mat-raised-button
+                                                            [disabled]="!formEmployerInfo.valid">
+
+                                                            Submit Emploment status
+                                                        </button>
+                                                    </div>
+                                                </formly-form>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </aw-wizard-step>
+                    <!-- <aw-wizard-step [stepTitle]="'Steptitle 3'" [navigationSymbol]="{ symbol: '3' }">
+                        <ng-template awWizardStepTitle>
+                            <span class="hidden-sm-down">REQUIRED DOCUMENTS</span>
+                            <span class="hidden-md-up">REQUIRED DOCUMENTS</span>
+                        </ng-template>
+                        <section class="gray-bg small-padding">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="centered-content">
+                                            <form [formGroup]="formRequiredDocs" (ngSubmit)="submitRequiredDocs()">
+                                                <formly-form [model]="modelRequiredDocs" [fields]="fieldsRequiredDocs"
+                                                    [options]="optionsRequiredDocs" [form]="formRequiredDocs">
+                                                    <div style="display: flex; justify-content: center;">
+                                                        <button type="submit" color="primary" mat-raised-button
+                                                            [disabled]="!formRequiredDocs.valid">
+                                                            Submit Documents
+                                                        </button>
+                                                    </div>
+                                                </formly-form>
+                                            </form>
+
+                                            <div class="btn-group" style="display: flex; justify-content: flex-end;">
+                                                <button type="button" class="btn btn-secondary"
+                                                    awPreviousStep>Back</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    awNextStep>Continue</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </aw-wizard-step> -->
+                    <aw-wizard-step [stepTitle]="'Steptitle 3'" [navigationSymbol]="{ symbol: '3' }">
+                        <ng-template awWizardStepTitle>
+                            <span class="hidden-sm-down">REQUIRED DOCUMENTS</span>
+                            <span class="hidden-md-up">REQUIRED DOCUMENTS</span>
+                        </ng-template>
+                        <section class="gray-bg small-padding">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <form [formGroup]="myForm" (ngSubmit)="submit_()">
+                                                <div class="col-sm-4 col-md-4 ">
+                                                    <div class="form-group file-input">
+                                                        <span style="display: block;">Staff ID</span>
+                                                        <input formControlName="staffIdFile" id="staffIdFile"
+                                                            type="file" class="form-control"
+                                                            (change)="onFileChange($event,1)">
+                                                        <span class='button'>Choose</span>
+                                                        <span class='label' data-js-label #labelStaffID>No file
+                                                            selected</span>
+                                                        <div *ngIf="f['staffIdFile'].touched && f['staffIdFile'].invalid"
+                                                            class="alert alert-danger">
+                                                            <div
+                                                                *ngIf="f['staffIdFile'].errors && f['staffIdFile'].errors['required']">
+                                                                File is required.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 col-md-4 ">
+                                                    <div class="form-group file-input">
+                                                        <span style="display: block;">Government Issued ID</span>
+                                                        <input formControlName="governmentIdFile" id="governmentIdFile"
+                                                            type="file" class="form-control"
+                                                            (change)="onFileChange($event,2)">
+                                                        <span class='button'>Choose</span>
+                                                        <label class='label' #labelGovtID>No file selected</label>
+                                                        <div *ngIf="f['governmentIdFile'].touched && f['governmentIdFile'].invalid"
+                                                            class="alert alert-danger">
+                                                            <div
+                                                                *ngIf="f['governmentIdFile'].errors && f['governmentIdFile'].errors['required']">
+                                                                File is required.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 col-md-4 ">
+                                                    <div class="form-group file-input">
+                                                        <span style="display: block;">Utility Bill</span>
+                                                        <input formControlName="utilityBillFile" id="utilityBillFile"
+                                                            type="file" class="form-control"
+                                                            (change)="onFileChange($event,3)">
+                                                        <span class='button'>Choose</span>
+                                                        <span class='label' data-js-label #labelUtlity>No file
+                                                            selected</span>
+                                                        <div *ngIf="f['utilityBillFile'].touched && f['utilityBillFile'].invalid"
+                                                            class="alert alert-danger">
+                                                            <div
+                                                                *ngIf="f['utilityBillFile'].errors && f['utilityBillFile'].errors['required']">
+                                                                File is required.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-12 ">
+                                                    <button color="primary" mat-raised-button type="submit"
+                                                        [disabled]="myForm.invalid">
+                                                        Submit Documents
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </aw-wizard-step>
+                </aw-wizard>
+            </div>
+        </section>
+        <div class="limit-box fl-wrap"></div>
+    </div>
+    <!-- content-end -->
+</div>
+<!-- wrapper-end  -->

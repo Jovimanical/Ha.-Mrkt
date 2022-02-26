@@ -12,7 +12,7 @@ export class StoreService {
 
   constructor(private http: HttpClient) { }
 
-  listAllEstate(): Observable<Array<any>> {
+  public listAllEstate(): Observable<Array<any>> {
     // return this.http.get<Array<Product>>(`${environment.API_URL}/marketplace/properties/1/30`);
     return this.http.get<Array<any>>(`https://rest.sytemap.com/v1/properties/user-property/list-all-properties?resourceId=1&offset=0&limit=10`);
 
@@ -42,31 +42,53 @@ export class StoreService {
 
 
 
-  getProduct(id: number): Observable<Product> {
+  public getProduct(id: number): Observable<Product> {
     return this.http.get<Product>(`${environment.API_URL}/marketplace/properties/${id}`);
   }
 
-  addToCart(addToCart: any) {
-    return this.http.put(`${environment.API_URL}/shopping-cart/add`, addToCart);
+  public addToCart(addToCart: any) {
+    return this.http.post(`${environment.API_URL}/shopping-cart/add/`, addToCart);
   }
 
-  addToBookmark(addToCart: any) {
-    return this.http.put(`${environment.API_URL}/shopping-cart/add`, addToCart);
+  public addToBookmark(addBookmark: any) {
+    return this.http.post(`${environment.API_URL}/wishlists/add/`, addBookmark);
   }
 
-  fetchCart() {
+  public fetchCart() {
     return this.http.get<Cart>(`${environment.API_URL}/shopping-cart/list/1/30`);
   }
 
-  getLastCompletedCart() {
+  public fetchBookmarks() {
+    return this.http.get<Cart>(`${environment.API_URL}/wishlists/list/1/30`);
+  }
+
+
+  public removeFromBookMark(id: number): Observable<Cart> {
+    return this.http.delete<Cart>(`${environment.API_URL}/wishlists/remove/${id}`);
+  }
+
+  public getLastCompletedCart() {
     return this.http.get<Cart>(`${environment.API_URL}/shopping-cart/last-completed`);
   }
 
-  removeFromCart(id: number): Observable<Cart> {
-    return this.http.delete<Cart>(`${environment.API_URL}/shopping-cart/remove` + id);
+  public removeFromCart(id: number): Observable<Cart> {
+    return this.http.delete<Cart>(`${environment.API_URL}/shopping-cart/remove/${id}`);
   }
 
-  checkout(checkout: Checkout): Observable<void> {
+  public checkout(checkout: Checkout): Observable<void> {
     return this.http.post<void>(`${environment.API_URL}/shopping-cart/checkout`, checkout);
   }
+
+
+  public addKYCPersonalInfo(personalInfo: any) {
+    return this.http.post(`${environment.API_URL}/kyc-personal-info/add/`, personalInfo)
+    .toPromise();
+  }
+
+  public addKYCEmploymentStatus(employerStatus: any) {
+    return this.http.post(`${environment.API_URL}/kyc-employment-status/add/`, employerStatus)
+    .toPromise();
+  }
+
+
 }

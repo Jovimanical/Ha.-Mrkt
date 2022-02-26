@@ -8,6 +8,9 @@ import { User } from 'app/core/user/user.model';
 import { StoreService } from 'app/shared/services/store.service';
 import { Checkout } from 'app/shared/models/checkout.model';
 
+
+declare var MonnifySDK: any;
+
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -15,7 +18,7 @@ import { Checkout } from 'app/shared/models/checkout.model';
 })
 export class CheckoutComponent implements OnInit {
   public checkoutForm: FormGroup;
-  public balance = 0;
+  public balance = 3000;
   public loading = false;
 
   constructor(
@@ -27,13 +30,13 @@ export class CheckoutComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.userService.getCurrentUser().subscribe((user:any) => {
+    this.userService.getCurrentUser().subscribe((user: any) => {
       this.initializeForm(user.data);
-    },(error)=>{
-      
+    }, (error) => {
+
     });
-    this.broadcastService.balanceUpdated$
-      .subscribe(balance => this.balance = balance);
+    // this.broadcastService.balanceUpdated$
+    //   .subscribe(balance => this.balance = balance);
   }
 
   checkout(): void {
@@ -71,5 +74,46 @@ export class CheckoutComponent implements OnInit {
       this.checkoutForm.get('name').setValue(`${user.firstname} ${user.lastname}`);
       this.checkoutForm.updateValueAndValidity();
     }
+  }
+
+  public payWithMonnify() {
+    MonnifySDK.initialize({
+      amount: 5000,
+      currency: "NGN",
+      reference: '' + Math.floor((Math.random() * 1000000000) + 1),
+      customerName: "John Doe",
+      customerEmail: "monnify@monnify.com",
+      apiKey: "MK_TEST_SAF7HR5F3F",
+      contractCode: "4934121693",
+      paymentDescription: "Test Pay",
+      isTestMode: true,
+      metadata: {
+        "name": "Damilare",
+        "age": 45
+      },
+      paymentMethods: ["CARD", "ACCOUNT_TRANSFER"],
+      incomeSplitConfig: [
+        {
+          "subAccountCode": "MFY_SUB_342113621921",
+          "feePercentage": 50,
+          "splitAmount": 1900,
+          "feeBearer": true
+        },
+        {
+          "subAccountCode": "MFY_SUB_342113621922",
+          "feePercentage": 50,
+          "splitAmount": 2100,
+          "feeBearer": true
+        }
+      ],
+      onComplete: function (response) {
+        //Implement what happens when transaction is completed.
+        console.log(response);
+      },
+      onClose: function (data) {
+        //Implement what should happen when the modal is closed here
+        console.log(data);
+      }
+    });
   }
 }

@@ -9,7 +9,7 @@
           <a>Home</a><a>Marketplace</a> <span>SHOPPING CART</span>
         </div>
         <div class="share-holder hid-share">
-          <a href="#" class="share-btn showshare sfcs"> <i class="fas fa-share-alt"></i> Share </a>
+          <a class="share-btn showshare sfcs"> <i class="fas fa-exclamation"></i> Help </a>
           <div class="share-container  isShare"></div>
         </div>
       </div>
@@ -42,47 +42,18 @@
         </div>
       </div>
     </div>
-
-    <!-- <div fxLayout="column" fxLayoutGap="10px" *ngIf="cartProducts?.length">
-      <div fxLayout="row" class="cart-header separator">
-        <div fxFlex="10"></div>
-        <div fxFlex="60">ITEM</div>
-        <div fxFlex>QTY</div>
-        <div fxFlexAlign="start end">PRICE</div>
-      </div>
-      <div fxLayout="row" *ngFor="let cartProduct of cartProducts; let i = index" class="cart-row separator"
-        fxLayoutAlign="center center">
-        <div fxFlex="10">
-          <div>
-            <span class="clickable" (click)="removeItem(i)" matTooltip="Remove" [matTooltipPosition]="'after'">
-              <mat-icon>delete</mat-icon>
-            </span>
-          </div>
-        </div>
-        <div fxFlex="60" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-          <img class="thumbnail" src="{{cartProduct.imageUrl}}" alt="product-image" />
-          <div fxLayout="column">
-            <span>{{ cartProduct.name }}</span>
-            <span *ngIf="cartProduct.size">{{ cartProduct.size }}</span>
-          </div>
-        </div>
-        <div fxFlex>{{ cartProduct.quantity }}</div>
-        <div fxFlexAlign="start end">{{ (cartProduct.price * cartProduct.quantity) | currency }}</div>
-      </div>
-    </div> -->
-
-    <section class="gray-bg small-padding" *ngIf="cartProducts?.length">
-      <div class="container">
+    <section class="gray-bg small-padding" *ngIf="cartProducts?.length > 0">
+      <div class="container-fluid">
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-sm-12 col-md-12">
             <!-- listing-item-wrap-->
             <div class="listing-item-container one-column-grid-wrap box-list_ic agency-list fl-wrap"
               *ngFor="let cartProduct of cartProducts; let i = index">
               <!--  agecy card item -->
-              <div class="listing-item">
+              <div class="listing-item has_one_column">
                 <article class="geodir-category-listing fl-wrap">
                   <div class="geodir-category-img fl-wrap">
-                    <a href="agency-single.html" class="geodir-category-img_item">
+                    <a class="geodir-category-img_item">
                       <img src="assets/images/agency/1.png" alt="">
                     </a>
                   </div>
@@ -91,30 +62,27 @@
                       <i class="fal fa-user-check"></i>
                     </div>
                     <div class="agent_card-title fl-wrap">
-                      <h4><a href="agency-single.html">CondorHome RealEstate Agency</a></h4>
+                      <h4>{{cartProduct.PropertyName}}</h4>
                       <div class="geodir-category-location fl-wrap">
-                        <a><i class="fas fa-map-marker-alt"></i> 70 Bright St New York, USA</a>
+                        <a><i class="fas fa-map-marker-alt"></i> {{cartProduct.PropertyJson?.name}}</a>
                         <div class="listing-rating card-popup-rainingvis" data-starrating2="4"><span
-                            class="re_stars-title">Good</span></div>
+                            class="re_stars-title">{{cartProduct.PropertyStatus}}</span></div>
                       </div>
                     </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla
-                      finibus
-                      lobortis pulvinar. Donec a consectetur nulla.</p>
                     <div class="small-facts fl-wrap">
                       <ul>
                         <li><i class="fal fa-home"></i> <span><strong>36</strong>Listing</span></li>
-                        <li><i class="fal fa-users-class"></i> <span><strong>10</strong>Agents</span></li>
+                        <li><i class="fal fa-users-class"></i> <span><strong>10</strong>Views</span></li>
                         <li><i class="fal fa-comment-alt"></i> <span><strong>56</strong>Reviews</span></li>
                       </ul>
                     </div>
                     <div class="geodir-category-footer fl-wrap">
-                      <button (click)="showItem(1)" class="btn float-btn color-bg small-btn">View Details</button>
+                      <button (click)="showItem(i)" class="btn float-btn color-bg small-btn">View Details</button>
                       <button (click)="removeItem(i)" class="btn float-btn color-bg small-btn">
-                        <mat-icon>delete</mat-icon>
-                        Delete Property
+                        <i class="fal fa-trash-alt"></i>
+                        Remove from Cart
                       </button>
-                      <a href="mailto:yourmail@email.com" class="tolt ftr-btn" data-microtip-position="top-left"
+                      <a href="mailto:support@houseafrica.io" class="tolt ftr-btn" data-microtip-position="top-left"
                         data-tooltip="Write Message"><i class="fal fa-envelope"></i></a>
                       <a href="tel:123-456-7890" class="tolt ftr-btn" data-microtip-position="top-left"
                         data-tooltip="Call Now"><i class="fal fa-phone"></i></a>
@@ -123,14 +91,22 @@
                 </article>
               </div>
             </div>
-
             <div class="row" *ngIf="cartProducts?.length">
-              <span>SUBTOTAL</span>
-              <span>{{ subtotal | currency }}</span>
-            </div>
-
-            <div class="row" *ngIf="cartProducts?.length">
-              <a class="action-button" fxFlex mat-raised-button (click)="goToCheckout()">CHECKOUT</a>
+              <div class="col-sm-8 col-md-8" *ngIf="cartProducts?.length">
+                <span class="title">SUBTOTAL</span>
+                <span class="form-title">{{ subtotal | currency }}</span>
+              </div>
+              <div class="col-sm-4 col-md-4">
+                <div style="display: flex; flex-direction: column; justify-content: space-around;">
+                  <a routerLink="/store" routerLinkActive="active" class="btn btn-primary">
+                    <i class="fa fa-shopping-cart"></i>
+                    continue shopping
+                  </a>
+                  <a class="action-button" fxFlex mat-raised-button accent
+                    (click)="goToCheckout(0)">CHECKOUT MORTGAGE OPTION</a>
+                  <a class="action-button" fxFlex mat-raised-button (click)="goToCheckout(1)">CHECKOUT LOAN OPTION</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

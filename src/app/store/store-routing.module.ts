@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FlutterwaveModule } from "flutterwave-angular-v3"
 import { Angular4PaystackModule } from 'angular4-paystack';
+import { NgWizardComponent } from '@cmdap/ng-wizard';
 import { StoreComponent } from './store.component';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { AuthGuardService } from '../authentication/auth-guard.service';
@@ -13,8 +14,24 @@ import { BuildingOnlyListingComponent } from './building-only-listing/building-o
 import { CompareListingsComponent } from './compare-listings/compare-listings.component';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { CheckoutChoiceLoanComponent } from './checkout-choice-loan/checkout-choice-loan.component';
+import { CheckoutChoiceMortgageComponent } from './checkout-choice-mortgage/checkout-choice-mortgage.component';
 import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-confirmation.component';
 import { MarketPlaceSearchComponent } from './market-place-search/market-place-search.component';
+import { CheckoutOptionStep2Component } from './checkout-option-step2/checkout-option-step2.component';
+import { CheckoutOptionStep3Component } from './checkout-option-step3/checkout-option-step3.component';
+import { CheckoutProcessOrderComponent } from './checkout-process-order/checkout-process-order.component';
+
+const wizardConfig = {
+  name: 'LoanWizard',
+  navBar: {
+    icons: {
+      previous: '<i class="material-icons ng-wizard-icon">cake</i>',
+      current: '<i class="material-icons ng-wizard-icon">star</i>',
+      next: '<i class="material-icons ng-wizard-icon">pool</i>',
+    },
+  },
+};
 
 const storeRoutes: Routes = [
   { path: '', component: StoreComponent },
@@ -24,7 +41,17 @@ const storeRoutes: Routes = [
   { path: 'compare-listing', component: CompareListingsComponent },
   { path: 'search', component: MarketPlaceSearchComponent },
   { path: 'marketplace/:estate/unit/:id', component: ProductBlockListingComponent },
-  { path: 'cart', component: CartComponent, canActivate: [AuthGuardService] },
+  { path: 'cart', component: CartComponent, canActivate: [AuthGuardService] }, 
+  {
+    path: 'checkout-option-loan', component: NgWizardComponent, canActivate: [AuthGuardService], children: [
+      { path: 'personal-information', component: CheckoutChoiceLoanComponent },
+      { path: 'employment-information', component: CheckoutOptionStep2Component },
+      { path: 'required-documents', component: CheckoutOptionStep3Component },
+      { path: 'process-order', component: CheckoutProcessOrderComponent },
+      { path: '**', redirectTo: 'personal-information' },
+    ], data: { name: 'LoanWizard'}
+  },
+  { path: 'checkout-option-mortgage', component: CheckoutChoiceMortgageComponent, canActivate: [AuthGuardService] },
   { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuardService] },
   { path: 'checkout/confirmation', component: CheckoutConfirmationComponent, canActivate: [AuthGuardService] },
 ];

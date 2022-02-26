@@ -46,6 +46,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public publishProperty: any;
   public sessionStorageBookmarks = 'houseAfrica.bookmarks';
   public userBookMarks: Array<any> = [];
+  public sessionStorageCarts = 'houseAfrica.carts';
+  public userCarts: Array<any> = [];
 
 
   constructor(
@@ -110,12 +112,21 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       RepakageUnit.features.push(propertyFeature);
       setTimeout(() => {
         // create estate with single unit
-        this.packageUnitForExport(RepakageUnit, propertyFeature.properties);
+        this.packageUnitForExport(RepakageUnit, propertyFeature.properties, 0);
+      }, 500);
+    });
 
+    EventService.on("AddToCart", async (propertyFeature) => {
+      let RepakageUnit = this.ESTATE_MAPSOURCE;
+      RepakageUnit.features.push(propertyFeature);
+      setTimeout(() => {
+        // create estate with single unit
+        this.packageUnitForExport(RepakageUnit, propertyFeature.properties, 1);
       }, 500);
     });
 
     this.loadFavorite();
+    this.loadUserCart();
 
     //to remove any initiallization of a previous map
     if (this.map) {
@@ -134,6 +145,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     EventService.off("DisplayPropertyInfo", "SomeKey");
     EventService.off("DoEnquire", "SomeKey");
     EventService.off("AddToFavorite", "SomeKey");
+    EventService.off("AddToCart", "SomeKey");
   }
 
   public loadFavorite() {
@@ -145,18 +157,25 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+  public loadUserCart() {
+    const carts = localStorage.getItem(this.sessionStorageCarts);
+    if (carts === null || carts === undefined) {
+      this.userCarts = [];
+    } else {
+      this.userCarts = JSON.parse(carts);
+    }
+  }
 
-
-  public saveBookmarks(propObjListing: any) {
+  public saveToLocalStorage(propObjListing: any, tableName: any) {
     //console.log('saveBlockAndUnits', propObjListing)
     if (JSON.stringify(propObjListing) !== "[]") {
-      localStorage.setItem(this.sessionStorageBookmarks, JSON.stringify(propObjListing));
+      localStorage.setItem(tableName, JSON.stringify(propObjListing));
     }
   }
 
   public addToFavorite(property: any): void {
     this.submitted = true;
-    let alreadyExit:boolean = false
+    let alreadyExit: boolean = false
 
     if (this.userBookMarks instanceof Array && this.userBookMarks.length > 0) {
       this.userBookMarks.forEach((element) => {
@@ -172,32 +191,44 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
       this.userBookMarks.push(property);
       this.loading = true;
-      setTimeout(() => {
-        this.saveBookmarks(this.userBookMarks)
-        this.notificationService.showSuccessMessage('Item added to bookmark');
-        this.loading = false;
-      }, 1000);
 
-    // this.storeService.addToBookmark(property)
-    //   .subscribe(() => {
-    //     //this.broadcastService.emitGetCart();
-    //     //this.router.navigate(['/store/cart']);
-    //     this.notificationService.showSuccessMessage('Successfully added to cart');
-    //     this.saveBookmarks(this.userBookMarks)
-    //     this.loading = false;
-    //     this.submitted = false;
-    //   }, errors => {
-    //     this.notificationService.showErrorMessage(errors.error.errorDescription);
-    //     this.loading = false;
-    //     this.submitted = false;
-    //   });
+
+      this.storeService.addToBookmark(JSON.stringify(property))
+        .subscribe(() => {
+          //this.broadcastService.emitGetCart();
+          //this.router.navigate(['/store/cart']);
+          this.notificationService.showSuccessMessage('Successfully added to cart');
+          this.loading = false;
+          this.submitted = false;
+          setTimeout(() => {
+            this.saveToLocalStorage(this.userBookMarks, this.sessionStorageBookmarks)
+            this.notificationService.showSuccessMessage('Item added to bookmark');
+            this.loading = false;
+          }, 1000);
+
+        }, errors => {
+          this.notificationService.showErrorMessage(errors.error.message);
+          this.loading = false;
+          this.submitted = false;
+        });
     }
   }
 
+  /**
+   * Returns a random integer between min (inclusive) and max (inclusive).
+   * The value is no lower than min (or the next integer greater than min
+   * if min isn't an integer) and no greater than max (or the next integer
+   * lower than max if max isn't an integer).
+   * Using Math.round() will give you a non-uniform distribution!
+   */
+  public getRandomInt(min: any, max: any) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
 
-
-  public packageUnitForExport(UnitMap: any, UnitInfo: any) {
+  public packageUnitForExport(UnitMap: any, UnitInfo: any, params: any = 1) {
     let repakagedUnit: any = {};
 
     if (Object.keys(UnitInfo).length !== 0 && Object.keys(UnitMap).length !== 0) {
@@ -206,16 +237,60 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       repakagedUnit.LinkedEntity = UnitInfo.LinkedEntity
       repakagedUnit.PropertyFloor = UnitInfo.PropertyFloor
       repakagedUnit.PropertyId = UnitInfo.PropertyId
-      repakagedUnit.PropertyName = UnitInfo.PropertyName
+      repakagedUnit.PropertyName = UnitInfo.PropertyName ? UnitInfo.PropertyName : 'Not Available'
       repakagedUnit.PropertyJson = UnitMap;
       repakagedUnit.PropertyType = 3
-      repakagedUnit.PropertyStatus = UnitInfo.property_status
-      repakagedUnit.userid
+      repakagedUnit.PaymentMethod = 1;
+      repakagedUnit.PropertyStatus = UnitInfo.property_status;
+      repakagedUnit.PropertyAmount = this.getRandomInt(1111111, 999999);
 
-      this.addToFavorite(repakagedUnit);
+      if (params === 1) {
+        this.addToCart(repakagedUnit);
+      } else {
+        this.addToFavorite(repakagedUnit);
+      }
     }
 
 
+  }
+
+  public addToCart(property: any): void {
+    this.submitted = true;
+    this.loading = true;
+    let cartItemExit: boolean = false
+
+    if (this.userCarts instanceof Array && this.userCarts.length > 0) {
+      this.userCarts.forEach((element) => {
+        if (element.LinkedEntity === property.LinkedEntity) {
+          this.notificationService.showErrorMessage('Item has already added to cart');
+          cartItemExit = true;
+          return;
+        }
+      });
+    }
+
+
+    if (!cartItemExit) {
+      this.userCarts.push(property);
+
+      this.storeService.addToCart(JSON.stringify(property))
+        .subscribe(() => {
+          this.broadcastService.emitGetCart();
+          this.router.navigate(['/store/cart']);
+          this.notificationService.showSuccessMessage('Successfully added to cart');
+          setTimeout(() => {
+            this.saveToLocalStorage(this.userCarts, this.sessionStorageCarts)
+            this.notificationService.showSuccessMessage('Added to Cart');
+            this.loading = false;
+          }, 1000);
+          this.loading = false;
+          this.submitted = false;
+        }, errors => {
+          this.notificationService.showErrorMessage(errors.error.message);
+          this.loading = false;
+          this.submitted = false;
+        });
+    }
   }
 
   private initMap(): void {
@@ -244,6 +319,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       <button id="button-submit" class="balloon-btn grey" type="button"><i class="fa fa-info"></i>&nbsp;Details</button>\
       <button id="button-enquire" class="balloon-btn" type="button"><i class="fa fa-envelope"></i></button>\
       <button id="button-favourite" class="balloon-btn" type="button"><i class="fa fa-star"></i></button>\
+      <button id="button-cart" class="balloon-btn" type="button"><i class="fa fa-shopping-cart"></i></button>\
       </div>\
     </div>';
 
@@ -435,15 +511,21 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         marker.closePopup();
       });
 
-      var buttonSubmit = L.DomUtil.get('button-enquire');
-      L.DomEvent.addListener(buttonSubmit, 'click', async (e) => {
+      var buttonEnquire = L.DomUtil.get('button-enquire');
+      L.DomEvent.addListener(buttonEnquire, 'click', async (e) => {
         await EventService.fire("DoEnquire", allFeatures);
         marker.closePopup();
       });
 
-      var buttonSubmit = L.DomUtil.get('button-favourite');
-      L.DomEvent.addListener(buttonSubmit, 'click', async (e) => {
+      var buttonFavorite = L.DomUtil.get('button-favourite');
+      L.DomEvent.addListener(buttonFavorite, 'click', async (e) => {
         await EventService.fire("AddToFavorite", allFeatures);
+        marker.closePopup();
+      });
+
+      var buttonAddToCart = L.DomUtil.get('button-cart');
+      L.DomEvent.addListener(buttonAddToCart, 'click', async (e) => {
+        await EventService.fire("AddToCart", allFeatures);
         marker.closePopup();
       });
 
@@ -664,6 +746,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       properties.LinkedEntity = property.LinkedEntity;
       properties.EntityParent = property.EntityParent;
       properties.id = property.LinkedEntity;
+      properties.PropertyName = property.PropertyTitle;
+
 
       unitsData.features[0].properties = properties;
       this.ESTATE_BLOCK_UNITS.features.push(unitsData.features[0]);

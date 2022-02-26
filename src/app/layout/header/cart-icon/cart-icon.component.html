@@ -1,7 +1,9 @@
-<span class="clickable circle-icon" routerLink="/store/cart">
-  <mat-icon style="font-size: 24px; color: white;">shopping_cart</mat-icon>
-  <span class="badge badge-notification">
+<div class="add-list_wrap">
+  <a routerLink="/store/cart" routerLinkActive="active" class="add-list color-bg">
+    <i class="fal fa-shopping-cart"></i>
+    <span>Cart</span>
+    <span class="badge badge-notification">
       {{cartLength > 99 ? '99+': cartLength}}
-  </span>
-</span>
-
+    </span>
+  </a>
+</div>

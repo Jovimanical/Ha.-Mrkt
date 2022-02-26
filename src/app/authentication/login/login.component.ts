@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { LoginService } from './login.service';
 import { MobileService } from '../../core/mobile.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,15 +19,22 @@ export class LoginComponent implements OnInit, OnDestroy {
   public working = false;
   private watcher: Subscription;
   public hide: boolean = true;
+  public returnUrl: string;
 
   constructor(
     private loginService: LoginService,
     private formBuilder: FormBuilder,
     private mobileService: MobileService,
+    private route: ActivatedRoute,
     private toastr: ToastrService,
-    private router: Router) { }
+    private router: Router) {
+
+  }
 
   ngOnInit(): void {
+    // get return url from route parameters or default to ‘/’
+    this.returnUrl = this.route.snapshot.queryParams["redirectUrl"] || '/user-dashboard';
+
     this.initializeForm();
     // this.isMobile = this.mobileService.isMobile();
     // this.watcher = this.mobileService.mobileChanged$.subscribe((isMobile: boolean) => {
@@ -66,7 +73,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.working = false;
         switch (response.user.roles) {
           case 'user':
-            this.router.navigate(['/user-dashboard']);
+           // this.router.navigate(['/user-dashboard']);
+            this.router.navigate([this.returnUrl]);
             break;
           case 'agents':
 
@@ -106,7 +114,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  public goToRegister(){
+  public goToRegister() {
     this.router.navigate(['/authentication/register']);
   }
 }

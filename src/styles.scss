@@ -1,10 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400,500&display=swap');
-@import '~ngx-toastr/toastr';
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500");
+@import url("https://fonts.googleapis.com/css?family=Lato:300,400,500&display=swap");
+@import "~ngx-toastr/toastr";
+@import "./node_modules/@cmdap/ng-wizard/themes/arrows";
+@import "./node_modules/angular-archwizard/styles/archwizard";
+//HACKS
+.ng-wizard-container {
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+  border: solid 1px #e9e7dc;
+  top: 75px;
+}
 
-html, body {
+.ng-wizard-buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.ng-wizard-buttons button {
+  margin: 10px;
+}
+
+.form-title {
+  display: inline-block;
+  font-size: large;
+  font-weight: 800;
+  padding: 10px;
+}
+
+html,
+body {
   margin: 0;
   width: 100%;
   height: 100%;
@@ -38,7 +68,8 @@ mat-card {
 /*
 There's a bug with transform conflicting with position:fixed. This fixes the issue.
 https://github.com/angular/material2/issues/998 */
-.mat-sidenav-container, .mat-sidenav-content {
+.mat-sidenav-container,
+.mat-sidenav-content {
   transform: none !important;
 }
 
@@ -69,9 +100,8 @@ https://github.com/angular/material2/issues/998 */
 }
 
 .badge-notification {
-  margin-top: 15px;
-  margin-left: -10px;
-  background-color: #565656;
+  margin-left: 6px;
+  background-color: #e01010;
 }
 
 .full-height {
@@ -84,8 +114,8 @@ https://github.com/angular/material2/issues/998 */
 
 .divider {
   display: block;
-  border-top: 1px solid rgba(0, 0, 0, .12);
-  width: 100%
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  width: 100%;
 }
 
 .masthead {
@@ -115,10 +145,10 @@ https://github.com/angular/material2/issues/998 */
 
 .action-button {
   background-color: #4caf50 !important;
-  color: #FFF !important;
+  color: #fff !important;
 
   &:disabled {
-    opacity: .5;
+    opacity: 0.5;
   }
 }
 
@@ -204,4 +234,51 @@ https://github.com/angular/material2/issues/998 */
       transform: rotate(360deg);
     }
   }
+}
+
+//File upload
+
+.file-input {
+  display: inline-block;
+  text-align: left;
+  background: #fff;
+  padding: 16px;
+  width: 100%;
+  position: relative;
+  border-radius: 3px;
+}
+
+.file-input > [type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.file-input > .button {
+  display: inline-block;
+  cursor: pointer;
+  background: #eee;
+  padding: 8px 16px;
+  border-radius: 2px;
+  margin-right: 8px;
+}
+
+.file-input:hover > .button {
+  background: dodgerblue;
+  color: white;
+}
+
+.file-input > .label {
+  color: #333;
+  white-space: nowrap;
+  opacity: 0.3;
+}
+
+.file-input > .label-chosen {
+  opacity: 1;
 }
