@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 declare var $: any
+
 @Component({
-  selector: 'app-help-center',
-  templateUrl: './help-center.component.html',
-  styleUrls: ['./help-center.component.scss']
+  selector: 'app-choice-building',
+  templateUrl: './choice-building.component.html',
+  styleUrls: ['./choice-building.component.scss']
 })
-export class HelpCenterComponent implements OnInit {
+export class ChoiceBuildingComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit(): void {
-     //   accordion ------------------
-     $(".accordion a.toggle").on("click", function (a) {
+    //   accordion ------------------
+    $(".accordion a.toggle").on("click", function (a) {
       a.preventDefault();
       $(".accordion a.toggle").removeClass("act-accordion");
       $(this).addClass("act-accordion");

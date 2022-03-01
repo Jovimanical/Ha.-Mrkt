@@ -427,31 +427,31 @@ function initHomeradar() {
     });
     //   Isotope------------------
  
-        function initIsotope() {
-    if ($(".gallery-items").length) {
-            var agf = $(".gallery-items").isotope({
-                singleMode: true,
-                columnWidth: ".grid-sizer, .grid-sizer-second, .grid-sizer-three",
-                itemSelector: ".gallery-item, .gallery-item-second, .gallery-item-three",
-                transformsEnabled: true,
-                transitionDuration: "700ms",
-                resizable: true
-            });
-            agf.imagesLoaded(function () {
-                agf.isotope("layout");
-            });
-            $(".gallery-filters").on("click", "a.gallery-filter", function (af) {
-                af.preventDefault();
-                var brec = $(this).attr("data-filter");
-                agf.isotope({
-                    filter: brec
-                });
-                $(".gallery-filters a").removeClass("gallery-filter-active");
-                $(this).addClass("gallery-filter-active");
-            });
-        }   
-    }
-initIsotope();
+//         function initIsotope() {
+//     if ($(".gallery-items").length) {
+//             var agf = $(".gallery-items").isotope({
+//                 singleMode: true,
+//                 columnWidth: ".grid-sizer, .grid-sizer-second, .grid-sizer-three",
+//                 itemSelector: ".gallery-item, .gallery-item-second, .gallery-item-three",
+//                 transformsEnabled: true,
+//                 transitionDuration: "700ms",
+//                 resizable: true
+//             });
+//             agf.imagesLoaded(function () {
+//                 agf.isotope("layout");
+//             });
+//             $(".gallery-filters").on("click", "a.gallery-filter", function (af) {
+//                 af.preventDefault();
+//                 var brec = $(this).attr("data-filter");
+//                 agf.isotope({
+//                     filter: brec
+//                 });
+//                 $(".gallery-filters a").removeClass("gallery-filter-active");
+//                 $(this).addClass("gallery-filter-active");
+//             });
+//         }   
+//     }
+// initIsotope();
     // modal ------------------
     var wlwrp = $(".header-modal"),
         wllink = $(".show-header-modal"),
@@ -537,31 +537,31 @@ initIsotope();
     $('.close-reg , .reg-overlay').on("click", function () {
         modal.hide();
     });
-    function csselem() {
-        $(".map-container.column-map").css({
-            height: $(window).outerHeight(true) - 150 + "px"
-        });
-        $(".map-container.column-map.no-top_search").css({
-            height: $(window).outerHeight(true) - 70 + "px"
-        });
-        $(".slideshow-container .slideshow-item").css({
-            height: $(".slideshow-container").outerHeight(true)
-        });
-        $(".hero-slider-item").css({
-            height: $(".hero-slider").outerHeight(true)
-        });
-        var ww2 = $(window).width();
-        if (ww2 > 1084) {
-            $(".lws_mobile , .list-searh-input-wrap").css({
-                display: "block"
-            });
-        } else {
-            $(".lws_mobile , .list-searh-input-wrap").css({
-                display: "none"
-            });
-        }
-    }
-    csselem();
+    // function csselem() {
+    //     $(".map-container.column-map").css({
+    //         height: $(window).outerHeight(true) - 150 + "px"
+    //     });
+    //     $(".map-container.column-map.no-top_search").css({
+    //         height: $(window).outerHeight(true) - 70 + "px"
+    //     });
+    //     $(".slideshow-container .slideshow-item").css({
+    //         height: $(".slideshow-container").outerHeight(true)
+    //     });
+    //     $(".hero-slider-item").css({
+    //         height: $(".hero-slider").outerHeight(true)
+    //     });
+    //     var ww2 = $(window).width();
+    //     if (ww2 > 1084) {
+    //         $(".lws_mobile , .list-searh-input-wrap").css({
+    //             display: "block"
+    //         });
+    //     } else {
+    //         $(".lws_mobile , .list-searh-input-wrap").css({
+    //             display: "none"
+    //         });
+    //     }
+    // }
+    // csselem();
     // Mob Menu------------------
     function headerModalOpt() {
         $(".lang-item .header-opt-modal-list li a").on('click', function (e) {
@@ -840,6 +840,8 @@ initIsotope();
     $(".map-close").on('click', function () {
         $(".hid-mob-map").removeClass("vis-hiddenmap");
     });
+
+    
     $(".show-hidden-filter2").on('click', function () {
         $(this).toggleClass("vis-hiddenfilter2");
         $(".list-searh-input-wrap").slideToggle(300);

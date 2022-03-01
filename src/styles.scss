@@ -282,3 +282,50 @@ https://github.com/angular/material2/issues/998 */
 .file-input > .label-chosen {
   opacity: 1;
 }
+
+.btn,
+.small-btn,
+.balloon-btn,
+.leaflet-container .balloon-btn,
+.large-btn,
+aside .contact .socialise {
+  color: white;
+  background: #4aabd6;
+  font-weight: 400;
+  padding: 0.6em 1em;
+  margin: 0.5em 0;
+  display: inline-block;
+  text-align: center;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.btn:hover,
+.small-btn:hover,
+.balloon-btn:hover,
+.large-btn:hover,
+aside .contact .socialise:hover {
+  text-decoration: underline;
+}
+
+.btns .small-btn:last-child {
+  float: right;
+}
+
+.balloon-btn,
+.leaflet-container .balloon-btn {
+  margin: 0.1em 0.1em;
+}
+
+.grey,
+.leaflet-container .grey {
+  background: #606060;
+}
+
+.green,
+.leaflet-container .green {
+  background: #05a54d;
+}

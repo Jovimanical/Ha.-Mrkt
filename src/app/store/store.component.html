@@ -3,57 +3,70 @@
   <!-- content -->
   <div class="content">
     <!--  section  -->
-    <section class="hero-section hero-section_dec" data-scrollax-parent="true">
-      <div class="bg-wrap">
-        <div class="bg par-elem " data-bg="/assets/images/bg/14.jpg" data-scrollax="properties: { translateY: '30%' }">
-        </div>
-      </div>
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="hero-title hero-title_small">
-          <h4>Real Estate Searching Platform</h4>
-          <h2>Find The House of Your Dream <br>
-            Using Our Platform
-          </h2>
-        </div>
-        <div class="main-search-input-wrap">
-          <div class="main-search-input fl-wrap">
-            <div class="main-search-input-item">
-              <input type="text" placeholder="What are you looking for?" value="" />
+    <!--  section  -->
+    <section class="hero-section hero-section_dec" data-scrollax-parent="true" style="padding: 50px 20px;">
+      <div class="row">
+        <div class="hero-property col-md-6 col-lg-6">
+          <div class="half-carousel-item fl-wrap">
+            <div class="bg-wrap bg-parallax-wrap-gradien">
+              <div class="bg" style="background-image: url('./assets/images/bg/web.png');background-size:cover"
+                data-bg="/assets/images/bg/web.png"></div>
             </div>
-            <div class="main-search-input-item">
-              <select data-placeholder="All Categories" class="chosen-select no-search-select">
-                <option>All Properties</option>
-                <option>Lands</option>
-                <option>Estate</option>
-              </select>
+            <div class="half-carousel-content">
+              <div class="hc-counter color-bg"></div>
+              <h3>Own your <br> Dream Property in any estate</h3>
+              <p>Whether house or land, we help you find the best for you</p>
+              <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                  <a routerLink="/estate-listing" routerLinkActive="active" class="hero-button" tabindex="0">Search
+                    Estate listing
+                  </a>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                  <a routerLink="/estate-loan-options" routerLinkActive="active" class="hero-button" tabindex="0">
+                    Want a property Loan ?
+                  </a>
+                </div>
+              </div>
             </div>
-            <div class="main-search-input-item">
-              <select data-placeholder="All Categories" class="chosen-select">
-                <option>All Cities</option>
-                <option>New York</option>
-                <option>London</option>
-                <option>Paris</option>
-                <option>Kiev</option>
-                <option>Moscow</option>
-                <option>Dubai</option>
-                <option>Rome</option>
-                <option>Beijing</option>
-              </select>
-            </div>
-            <button class="main-search-button color-bg" onclick="window.location.href='listing.html'"> Search <i
-                class="far fa-search"></i> </button>
           </div>
         </div>
-        <div class="hero-notifer fl-wrap">Need more search options? <a href="listing.html">Advanced Search</a> </div>
-        <div class="scroll-down-wrap">
-          <div class="mousey">
-            <div class="scroller"></div>
+        <div class="col-md-6 col-lg-6">
+          <div class="half-carousel-item-half fl-wrap">
+            <div class="bg-wrap bg-parallax-wrap-gradien">
+              <div class="bg" style="background-image: url('./assets/images/bg/web1.png');background-size:cover"
+                data-bg="/assets/images/bg/web1.png"></div>
+            </div>
+            <div class="half-carousel-content-half">
+              <div class="hc-counter color-bg"></div>
+              <h3>Make Your <br> List Stand Out</h3>
+              <p>Sell your property better and faster</p>
+              <div>
+                <a href="#" class="hero-button" tabindex="0">Add Estate</a>
+              </div>
+            </div>
           </div>
-          <span>Scroll Down To Discover</span>
+          <div>
+            <div class="half-carousel-item-halfw fl-wrap">
+              <div class="bg-wrap bg-parallax-wrap-gradien">
+                <div class="bg" style="background-image: url('./assets/images/bg/web3.png');background-size:cover"
+                  data-bg="/assets/images/bg/web3.png"></div>
+              </div>
+              <div class="half-carousel-content-half">
+                <div class="hc-counter color-bg"></div>
+                <h3>Perfect your <br> Property Title in 6 weeks</h3>
+                <p class="">Register your property title with any
+                  land registry in Nigeria</p>
+                <div>
+                  <a href="#" class="hero-button" tabindex="0">Get Started</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
+    <!--  section  end-->
     <!--  section  end-->
     <!-- breadcrumbs-->
     <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
@@ -82,16 +95,16 @@
             <div class="listing-filters gallery-filters">
               <a href="#" class="gallery-filter  gallery-filter-active" data-filter="*"> <span>All Properties</span></a>
               <a href="#" class="gallery-filter" data-filter=".for_sale"> <span>Lands</span></a>
-              <a href="#" class="gallery-filter" data-filter=".for_rent"> <span>Estate</span></a>
+              <a href="#" class="gallery-filter" data-filter=".for_rent"> <span>Buildings</span></a>
             </div>
           </div>
         </div>
         <div class="clearfix"></div>
         <!-- grid-item-holder-->
-        <div class="grid-item-holder gallery-items gisp fl-wrap">
-          <!-- <ng-container *ngIf="propertyListing.length > 0"> -->
+        <div class="grid-item-holder gallery-items gisp fl-wrap" *ngIf="propertyListing.length > 0">
           <!-- gallery-item-->
-          <div class="gallery-item for_sale" *ngFor="let property of propertyListing">
+          <div class="gallery-item {{property.property_type === 'Land'? for_sale : for_rent}}"
+            *ngFor="let property of propertyListing">
             <!-- listing-item -->
             <div class="listing-item">
               <article class="geodir-category-listing fl-wrap">
@@ -120,7 +133,9 @@
                 </div>
                 <div class="geodir-category-content fl-wrap">
                   <h3 class="title-sin_item">{{property.PropertyTitle}}</h3>
-                  <div class="geodir-category-content_price"> &#8358;600,000 - &#8358;1,000,000.00</div>
+                  <div class="geodir-category-content_price">
+                    {{property.Metadata.property_price | currency:'NGN':'symbol-narrow':'4.2-2'}}
+                  </div>
                   <p>{{property.Metadata.property_description}}</p>
                   <div class="geodir-category-content-details">
                     <ul>
@@ -159,11 +174,14 @@
             </div>
             <!-- listing-item end-->
           </div>
-          <!-- </ng-container> -->
           <!-- gallery-item end-->
         </div>
         <!-- grid-item-holder-->
-
+        <div class="col-sm-12 col-md-12" style="margin: 20px;">
+          <a routerLink="/estate-listing" routerLinkActive="active" class="mt-20 mb-20 herroo-button">
+            View All Properties
+          </a>
+        </div>
       </div>
     </section>
     <!-- section end-->
@@ -175,28 +193,28 @@
           <div class="row">
             <div class="col-md-5">
               <div class="about-title ab-hero fl-wrap">
-                <h2>Why Choose Our Properties </h2>
-                <h4>Check video presentation to find out more about us .</h4>
+                <h2>Why HouseAfrica </h2>
               </div>
               <div class="services-opions fl-wrap">
                 <ul>
                   <li>
                     <i class="fal fa-headset"></i>
-                    <h4>24 Hours Support </h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.</p>
+                    <h4>Access Finance Easily </h4>
+                    <p>With our partnership with various financial institutions,
+                      You can now own your first property without breaking your banks</p>
                   </li>
                   <li>
                     <i class="fal fa-users-cog"></i>
-                    <h4>User Admin Panel</h4>
-                    <p>Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Curabitur convallis
-                      fringilla diam sed aliquam. </p>
+                    <h4>Right Information is better Decision</h4>
+                    <p>Whether buying a house or land is all about location. We make
+                      everyone’s life easier by showing exactly where the property is.</p>
                   </li>
                   <li>
                     <i class="fal fa-phone-laptop"></i>
-                    <h4>Mobile Friendly</h4>
-                    <p>Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In
-                      fermentum facilisis massa.</p>
+                    <h4>Verified Estates</h4>
+                    <p>Access good investment opportunities from verified estates
+                      and developers.
+                    </p>
                   </li>
                 </ul>
               </div>
@@ -204,215 +222,42 @@
             <div class="col-md-1"></div>
             <div class="col-md-6">
               <div class="about-img fl-wrap">
-                <img src="/assets/images/all/27.jpg" class="respimg" alt="">
-                <div class="about-img-hotifer color-bg">
-                  <p>Your website is fully responsive so visitors can view your content from their choice of device.</p>
-                  <h4>Mark Antony</h4>
-                  <h5>Homeradar CEO</h5>
-                </div>
+                <img src="/assets/images/bg/ne.png" class="respimg" alt="">
               </div>
             </div>
-          </div>
-        </div>
-        <!-- about-wrap end  -->
-      </div>
-    </section>
-    <!-- section end-->
-    <!-- section  -->
-    <section class="hidden-section no-padding-section">
-      <div class="half-carousel-wrap">
-        <div class="half-carousel-title color-bg">
-          <div class="half-carousel-title-item fl-wrap">
-            <h2>Explore Best Cities</h2>
-            <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.</h5>
-          </div>
-          <div class="pwh_bg"></div>
-        </div>
-        <div class="half-carousel-conatiner">
-          <div class="half-carousel fl-wrap full-height">
-            <!--slick-item -->
-            <div class="slick-item">
-              <div class="half-carousel-item fl-wrap">
-                <div class="bg-wrap bg-parallax-wrap-gradien">
-                  <div class="bg" data-bg="/assets/images/bg/long/1.jpg"></div>
-                </div>
-                <div class="half-carousel-content">
-                  <div class="hc-counter color-bg">26 Properties</div>
-                  <h3><a href="listing.html">Explore NewYork</a></h3>
-                  <p>Constant care and attention to the patients makes good record</p>
-                </div>
-              </div>
-            </div>
-            <!--slick-item end -->
-            <!--slick-item -->
-            <div class="slick-item">
-              <div class="half-carousel-item fl-wrap">
-                <div class="bg-wrap bg-parallax-wrap-gradien">
-                  <div class="bg" data-bg="/assets/images/bg/long/2.jpg"></div>
-                </div>
-                <div class="half-carousel-content">
-                  <div class="hc-counter color-bg">89 Properties</div>
-                  <h3><a href="listing.html">Awesome London</a></h3>
-                  <p>Constant care and attention to the patients makes good record</p>
-                </div>
-              </div>
-            </div>
-            <!--slick-item end -->
-            <!--slick-item -->
-            <div class="slick-item">
-              <div class="half-carousel-item fl-wrap">
-                <div class="bg-wrap bg-parallax-wrap-gradien">
-                  <div class="bg" data-bg="/assets/images/bg/long/3.jpg"></div>
-                </div>
-                <div class="half-carousel-content">
-                  <div class="hc-counter color-bg">102 Properties</div>
-                  <h3><a href="listing.html">Find Dream in Paris</a></h3>
-                  <p>Constant care and attention to the patients makes good record</p>
-                </div>
-              </div>
-            </div>
-            <!--slick-item end -->
-            <!--slick-item -->
-            <div class="slick-item">
-              <div class="half-carousel-item fl-wrap">
-                <div class="bg-wrap bg-parallax-wrap-gradien">
-                  <div class="bg" data-bg="/assets/images/bg/long/4.jpg"></div>
-                </div>
-                <div class="half-carousel-content">
-                  <div class="hc-counter color-bg">51 Properties</div>
-                  <h3><a href="listing.html">Elite Houses in Dubai</a></h3>
-                  <p>Constant care and attention to the patients makes good record</p>
-                </div>
-              </div>
-            </div>
-            <!--slick-item end -->
           </div>
         </div>
       </div>
     </section>
-    <!--section end-->
+    <!-- section end-->
 
-    <!-- section -->
-    <section class="color-bg small-padding">
+    <div style="display:block; margin-bottom: 210px;"></div>
+    <!-- content end -->
+    <!-- subscribe-wrap -->
+    <div class="subscribe-wrap fl-wrap">
       <div class="container">
-        <div class="main-facts fl-wrap">
-          <!-- inline-facts  -->
-          <div class="inline-facts-wrap">
-            <div class="inline-facts">
-              <div class="milestone-counter">
-                <div class="stats animaper">
-                  <div class="num" data-content="0" data-num="578">0</div>
-                </div>
+        <div class="subscribe-container fl-wrap color-bg">
+          <div class="pwh_bg"></div>
+          <div class="mrb_dec mrb_dec3"></div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="subscribe-header">
+                <h4>newsletter</h4>
+                <h3>Sign up for newsletter and get latest news and update</h3>
               </div>
-              <h6>Agents and Agencys</h6>
             </div>
-          </div>
-          <!-- inline-facts end -->
-          <!-- inline-facts  -->
-          <div class="inline-facts-wrap">
-            <div class="inline-facts">
-              <div class="milestone-counter">
-                <div class="stats animaper">
-                  <div class="num" data-content="0" data-num="12168">0</div>
-                </div>
-              </div>
-              <h6>Happy Customers Every Year</h6>
-            </div>
-          </div>
-          <!-- inline-facts end -->
-          <!-- inline-facts  -->
-          <div class="inline-facts-wrap">
-            <div class="inline-facts">
-              <div class="milestone-counter">
-                <div class="stats animaper">
-                  <div class="num" data-content="0" data-num="2172">0</div>
-                </div>
-              </div>
-              <h6>Won Awards</h6>
-            </div>
-          </div>
-          <!-- inline-facts end -->
-          <!-- inline-facts  -->
-          <div class="inline-facts-wrap">
-            <div class="inline-facts">
-              <div class="milestone-counter">
-                <div class="stats animaper">
-                  <div class="num" data-content="0" data-num="732">0</div>
-                </div>
-              </div>
-              <h6>New Listing Every Week</h6>
-            </div>
-          </div>
-          <!-- inline-facts end -->
-        </div>
-      </div>
-      <div class="svg-bg">
-        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          width="100%" height="100%" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
-          <defs>
-            <lineargradient id="bg">
-              <stop offset="0%" style="stop-color:rgba(255, 255, 255, 0.6)"></stop>
-              <stop offset="50%" style="stop-color:rgba(255, 255, 255, 0.1)"></stop>
-              <stop offset="100%" style="stop-color:rgba(255, 255, 255, 0.6)"></stop>
-            </lineargradient>
-            <path id="wave" stroke="url(#bg)" fill="none"
-              d="M-363.852,502.589c0,0,236.988-41.997,505.475,0
-                                      s371.981,38.998,575.971,0s293.985-39.278,505.474,5.859s493.475,48.368,716.963-4.995v560.106H-363.852V502.589z" />
-          </defs>
-          <g>
-            <use xlink:href="#wave">
-              <animatetransform attributeName="transform" attributeType="XML" type="translate" dur="10s"
-                calcMode="spline" values="270 230; -334 180; 270 230" keyTimes="0; .5; 1"
-                keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0" repeatCount="indefinite" />
-            </use>
-            <use xlink:href="#wave">
-              <animatetransform attributeName="transform" attributeType="XML" type="translate" dur="8s"
-                calcMode="spline" values="-270 230;243 220;-270 230" keyTimes="0; .6; 1"
-                keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0" repeatCount="indefinite" />
-            </use>
-            <use xlink:href="#wave">
-              <animatetransform attributeName="transform" attributeType="XML" type="translate" dur="6s"
-                calcMode="spline" values="0 230;-140 200;0 230" keyTimes="0; .4; 1"
-                keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0" repeatCount="indefinite" />
-            </use>
-            <use xlink:href="#wave">
-              <animatetransform attributeName="transform" attributeType="XML" type="translate" dur="12s"
-                calcMode="spline" values="0 240;140 200;0 230" keyTimes="0; .4; 1"
-                keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0" repeatCount="indefinite" />
-            </use>
-          </g>
-        </svg>
-      </div>
-    </section>
-    <!-- section end-->
-  </div>
-  <div style="margin-bottom: 210px;"></div>
-  <!-- content end -->
-  <!-- subscribe-wrap -->
-  <div class="subscribe-wrap fl-wrap">
-    <div class="container">
-      <div class="subscribe-container fl-wrap color-bg">
-        <div class="pwh_bg"></div>
-        <div class="mrb_dec mrb_dec3"></div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="subscribe-header">
-              <h4>newsletter</h4>
-              <h3>Sign up for newsletter and get latest news and update</h3>
-            </div>
-          </div>
-          <div class="col-md-1"></div>
-          <div class="col-md-5">
-            <div class="footer-widget fl-wrap">
-              <div class="subscribe-widget fl-wrap">
-                <div class="subcribe-form">
-                  <form id="subscribe">
-                    <input class="enteremail fl-wrap" name="email" id="subscribe-email" placeholder="Enter Your Email"
-                      spellcheck="false" type="text">
-                    <button type="submit" id="subscribe-button" class="subscribe-button color-bg"> Subscribe</button>
-                    <label for="subscribe-email" class="subscribe-message"></label>
-                  </form>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+              <div class="footer-widget fl-wrap">
+                <div class="subscribe-widget fl-wrap">
+                  <div class="subcribe-form">
+                    <form id="subscribe">
+                      <input class="enteremail fl-wrap" name="email" id="subscribe-email" placeholder="Enter Your Email"
+                        spellcheck="false" type="text">
+                      <button type="submit" id="subscribe-button" class="subscribe-button color-bg"> Subscribe</button>
+                      <label for="subscribe-email" class="subscribe-message"></label>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>

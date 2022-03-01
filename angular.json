@@ -12,7 +12,9 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
-            "allowedCommonJsDependencies": ["eventservice"],
+            "allowedCommonJsDependencies": [
+              "eventservice"
+            ],
             "outputPath": "dist/ha-marketplace-app",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -35,6 +37,9 @@
               "src/themes/house-africa-theme.scss"
             ],
             "scripts": [
+              "src/assets/js/jquery.min.js",
+              "src/assets/js/plugins.js",
+              "src/assets/js/scripts.js",
               "node_modules/hammerjs/hammer.min.js",
               "node_modules/chart.js/dist/Chart.min.js"
             ],

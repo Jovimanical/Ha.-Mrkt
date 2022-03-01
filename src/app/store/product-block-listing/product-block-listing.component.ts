@@ -133,13 +133,11 @@ export class ProductBlockListingComponent implements OnInit, AfterViewInit, OnDe
     }
 
     if (!bookmartItemExit) {
-
-      this.userBookMarks.push(property);
+     
       this.loading = true;
-
-
       this.storeService.addToBookmark(JSON.stringify(property))
         .subscribe(() => {
+           this.userBookMarks.push(property);
           //this.broadcastService.emitGetCart();
           //this.router.navigate(['/store/cart']);
           this.notificationService.showSuccessMessage('Successfully added to cart');
@@ -151,7 +149,11 @@ export class ProductBlockListingComponent implements OnInit, AfterViewInit, OnDe
           this.loading = false;
           this.submitted = false;
         }, errors => {
-          this.notificationService.showErrorMessage(errors.error.message);
+          if (errors.error.message === "Error No Token Found") {
+            this.notificationService.showErrorMessage('You would need to signup or login to perform this action');
+          } else {
+            this.notificationService.showErrorMessage(errors.error.message);
+          }
           this.loading = false;
           this.submitted = false;
         });
@@ -260,13 +262,14 @@ export class ProductBlockListingComponent implements OnInit, AfterViewInit, OnDe
 
 
     if (!cartItemExit) {
-      this.userCarts.push(property);
-
+     
       this.storeService.addToCart(JSON.stringify(property))
         .subscribe(() => {
+           this.userCarts.push(property);
           this.broadcastService.emitGetCart();
           this.router.navigate(['/store/cart']);
           this.notificationService.showSuccessMessage('Successfully added to cart');
+
           setTimeout(() => {
             this.saveToLocalStorage(this.userCarts, this.sessionStorageCarts)
             this.notificationService.showSuccessMessage('Added to Cart');
@@ -275,9 +278,14 @@ export class ProductBlockListingComponent implements OnInit, AfterViewInit, OnDe
           this.loading = false;
           this.submitted = false;
         }, errors => {
-          this.notificationService.showErrorMessage(errors.error.message);
           this.loading = false;
           this.submitted = false;
+          if (errors.error.message === "Error No Token Found") {
+            this.notificationService.showErrorMessage('You would need to signup or login to perform this action');
+          } else {
+            this.notificationService.showErrorMessage(errors.error.message);
+          }
+
         });
     }
   }

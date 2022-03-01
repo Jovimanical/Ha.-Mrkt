@@ -11,20 +11,11 @@
         <ng-template #viewLoaded>
             <section class="hidden-section   single-hero-section" data-scrollax-parent="true" id="sec1">
                 <div class="bg-wrap bg-parallax-wrap-gradien">
-                    <div class="bg par-elem " data-bg="assets/images/bg/1.jpg"
-                        data-scrollax="properties: { translateY: '30%' }"></div>
+                    <div class="bg par-elem"
+                        style="background-image: url('./assets/images/bg/1.jpg');background-size:cover"
+                        data-bg="assets/images/bg/1.jpg" data-scrollax="properties: { translateY: '30%' }"></div>
                 </div>
                 <div class="container">
-                    <!--  list-single-opt_header-->
-                    <div class="list-single-opt_header fl-wrap">
-                        <ul class="list-single-opt_header_cat">
-                            <li><a class="cat-opt color-bg">Rent</a></li>
-                            <li><a class="cat-opt blue-bg">Sale</a></li>
-                            <li><button (click)="packageUnitForExport(1)" class="cat-opt color-bg">Add to cart</button>
-                            </li>
-                        </ul>
-                    </div>
-                    <!--  list-single-opt_header end -->
                     <!--  list-single-header-item-->
                     <div class="list-single-header-item no-bg-list_sh fl-wrap">
                         <div class="row">
@@ -50,14 +41,23 @@
                         <div class="list-single-header-footer fl-wrap">
                             <div class="list-single-header-price"
                                 data-propertyprise="{{propertView.property_address}} ">
-                                <strong>Price:</strong><span>&#8358;</span>{{propertView.property_address}}
+                                <strong>Price:</strong><span>
+                                    {{propertView.property_price | currency:'NGN':'symbol-narrow':'4.2-2'}}
+                                </span>
                             </div>
                             <div class="list-single-header-date"><span>Date:</span>20.05.2020</div>
                             <div class="list-single-stats">
                                 <ul class="no-list-style">
-                                    <li><span class="viewed-counter"><i class="fas fa-eye"></i> Viewed - 156 </span>
+                                    <li>
+                                        <span class="viewed-counter">
+                                            <i class="fas fa-eye"></i>
+                                            Viewed - 156
+                                        </span>
                                     </li>
-                                    <li><span class="bookmark-counter"><i class="fas fa-heart"></i> Bookmark - 24
+                                    <li>
+                                        <span class="bookmark-counter">
+                                            <i class="fas fa-heart"></i>
+                                            Bookmark - 24
                                         </span>
                                     </li>
                                 </ul>
@@ -87,8 +87,14 @@
                     <a class="compare-top-btn tolt" data-microtip-position="bottom" data-tooltip="Compare" href="#">
                         <i class="fas fa-random"></i>
                     </a>
-                    <button class="like-btn" (click)="packageUnitForExport(0)"><i class="fas fa-heart"></i>
-                        Save</button>
+                    <button (click)="packageUnitForExport(1)" class="like-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to cart
+                    </button>
+                    <button (click)="packageUnitForExport(0)" class="like-btn">
+                        <i class="fas fa-heart"></i>
+                        Save
+                    </button>
                 </div>
             </div>
             <div class="gray-bg small-padding fl-wrap">
@@ -101,7 +107,8 @@
                                 <div class="scroll-nav-wrap">
                                     <nav class="scroll-nav scroll-init fixed-column_menu-init">
                                         <ul class="no-list-style">
-                                            <li><a class="act-scrlink" href="#sec1">
+                                            <li>
+                                                <a class="act-scrlink" href="#sec1">
                                                     <i class="fal fa-home-lg-alt"></i>
                                                 </a>
                                                 <span>Main</span>

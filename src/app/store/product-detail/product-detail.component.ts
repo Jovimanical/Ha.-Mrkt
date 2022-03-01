@@ -188,13 +188,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     if (!alreadyExit) {
-
-      this.userBookMarks.push(property);
+     
       this.loading = true;
-
-
       this.storeService.addToBookmark(JSON.stringify(property))
         .subscribe(() => {
+          this.userBookMarks.push(property);
           //this.broadcastService.emitGetCart();
           //this.router.navigate(['/store/cart']);
           this.notificationService.showSuccessMessage('Successfully added to cart');
@@ -207,9 +205,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           }, 1000);
 
         }, errors => {
-          this.notificationService.showErrorMessage(errors.error.message);
           this.loading = false;
           this.submitted = false;
+          if (errors.error.message === "Error No Token Found") {
+            this.notificationService.showErrorMessage('You would need to signup or login to perform this action');
+          } else {
+            this.notificationService.showErrorMessage(errors.error.message);
+          }
+
         });
     }
   }
@@ -271,13 +274,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
 
     if (!cartItemExit) {
-      this.userCarts.push(property);
 
       this.storeService.addToCart(JSON.stringify(property))
         .subscribe(() => {
           this.broadcastService.emitGetCart();
           this.router.navigate(['/store/cart']);
           this.notificationService.showSuccessMessage('Successfully added to cart');
+          this.userCarts.push(property);
+
           setTimeout(() => {
             this.saveToLocalStorage(this.userCarts, this.sessionStorageCarts)
             this.notificationService.showSuccessMessage('Added to Cart');
@@ -286,9 +290,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           this.loading = false;
           this.submitted = false;
         }, errors => {
-          this.notificationService.showErrorMessage(errors.error.message);
           this.loading = false;
           this.submitted = false;
+          if (errors.error.message === "Error No Token Found") {
+            this.notificationService.showErrorMessage('You would need to signup or login to perform this action');
+          } else {
+            this.notificationService.showErrorMessage(errors.error.message);
+          }
         });
     }
   }
@@ -319,7 +327,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       <button id="button-submit" class="balloon-btn grey" type="button"><i class="fa fa-info"></i>&nbsp;Details</button>\
       <button id="button-enquire" class="balloon-btn" type="button"><i class="fa fa-envelope"></i></button>\
       <button id="button-favourite" class="balloon-btn" type="button"><i class="fa fa-star"></i></button>\
-      <button id="button-cart" class="balloon-btn" type="button"><i class="fa fa-shopping-cart"></i></button>\
+      <button id="button-cart" class="balloon-btn green" type="button"><i class="fa fa-shopping-cart"></i></button>\
       </div>\
     </div>';
 

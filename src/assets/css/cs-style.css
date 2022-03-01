@@ -299,7 +299,7 @@ p {
 	background-position: center;
 	background-repeat:  no-repeat;
 	background-origin: content-box;
-	background:url(../images/city-bg.png); 
+	background:url('../images/city-bg.png'); 
 }
 .mrb_pin  {
 	position:absolute;

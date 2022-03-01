@@ -5,12 +5,11 @@ import { StoreService } from 'app/shared/services/store.service';
 import { Spinkit } from 'ng-http-loader';
 
 @Component({
-  selector: 'app-building-only-listing',
-  templateUrl: './building-only-listing.component.html',
-  styleUrls: ['./building-only-listing.component.scss']
+  selector: 'app-estate-search',
+  templateUrl: './estate-search.component.html',
+  styleUrls: ['./estate-search.component.scss']
 })
-export class BuildingOnlyListingComponent implements OnInit, AfterViewInit {
-
+export class EstateSearchComponent implements OnInit, AfterViewInit {
   public spinnerStyle = Spinkit;
   public propertyListing: Array<any> = [];
 
@@ -114,6 +113,8 @@ export class BuildingOnlyListingComponent implements OnInit, AfterViewInit {
     }
 
   }
+
+
 
 
 }

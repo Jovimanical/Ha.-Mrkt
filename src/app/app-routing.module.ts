@@ -25,6 +25,8 @@ const appRoutes: Routes = [
   { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
   { path: 'page-not-found', loadChildren: () => import('./page-not-found/page-not-found.module').then(m => m.PageNotFoundModule) },
   { path: 'schedule-meeting', loadChildren: () => import('./schedule-meeting/schedule-meeting.module').then(m => m.ScheduleMeetingModule) },
+  { path: 'estate-listing', loadChildren: () => import('./estate-search/estate-search.module').then(m => m.EstateSearchModule) },
+  { path: 'estate-loan-options', loadChildren: () => import('./estate-loan-options/estate-loan-options.module').then(m => m.EstateLoanOptionsModule) },
 ];
 
 @NgModule({
