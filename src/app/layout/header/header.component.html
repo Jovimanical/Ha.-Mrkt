@@ -69,14 +69,11 @@
       <ul class="no-list-style">
         <li>
           <a routerLink="/store" routerLinkActive="active" class="act-link">MarketPlace</a>
-        </li>
-        <!-- <li>
-          <a routerLink="/store-map-view" routerLinkActive="active">MapView</a>
-        </li> -->
-        <li><a routerLink="/help-center" routerLinkActive="active">Help FAQ</a></li>
-        <li><a routerLink="/contact-us" routerLinkActive="active">Contact Us</a></li>
-        <li><a routerLink="/about-us" routerLinkActive="active">About us</a></li>           
-        <li>
+        </li>    
+        <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/help-center" routerLinkActive="active">Help FAQ</a></li>
+        <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/contact-us" routerLinkActive="active">Contact Us</a></li>
+        <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/about-us" routerLinkActive="active">About us</a></li>           
+        <li *ngIf="!isAuthenticated && !isVerificationRequired">
           <a routerLink="/blog" routerLinkActive="active">News</a>
         </li>     
       </ul>

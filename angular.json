@@ -36,10 +36,7 @@
               "src/styles.scss",
               "src/themes/house-africa-theme.scss"
             ],
-            "scripts": [
-              "src/assets/js/jquery.min.js",
-              "src/assets/js/plugins.js",
-              "src/assets/js/scripts.js",
+            "scripts": [             
               "node_modules/hammerjs/hammer.min.js",
               "node_modules/chart.js/dist/Chart.min.js"
             ],

@@ -9,7 +9,7 @@
 
  
 /*-------------Fonts---------------------------------------*/
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&amp;display=swap');
 /*-------------General Style---------------------------------------*/
 
 html {
@@ -299,7 +299,7 @@ p {
 	background-position: center;
 	background-repeat:  no-repeat;
 	background-origin: content-box;
-	background:url('../images/city-bg.png'); 
+	background:url(../images/city-bg.png); 
 }
 .mrb_pin  {
 	position:absolute;

@@ -21,7 +21,7 @@ export class CheckoutComponent implements OnInit {
   public checkoutForm: FormGroup;
   public balance = 3000;
   public subtotal = 0;
-  public loading = false;
+  public loading = true;
   public orderInfo: any = {};
   public cartProducts: Array<any> = [];
 
@@ -99,7 +99,14 @@ export class CheckoutComponent implements OnInit {
     }
   }
 
+  public payWithFlutter() {
+    this.router.navigate(['/store/checkout/confirmation']);
+   }
+  public payWithPaystack() {
+    this.router.navigate(['/store/checkout/confirmation']);
+   }
   public payWithMonnify() {
+    this.router.navigate(['/store/checkout/confirmation']);
     // MonnifySDK.initialize({
     //   amount: 5000,
     //   currency: "NGN",
@@ -167,7 +174,7 @@ export class CheckoutComponent implements OnInit {
         });
       }
 
-      
+
 
     } catch (error) {
       console.log('Order Error', error)

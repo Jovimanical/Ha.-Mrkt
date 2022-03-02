@@ -14,10 +14,10 @@ export class CheckoutConfirmationComponent implements OnInit {
   constructor(private storeService: StoreService) { }
 
   async ngOnInit() {
-    const clearCart = await this.storeService.clearCompletedCart();
-    if (clearCart) {
-      localStorage.removeItem(this.sessionStorageCarts);
-    }
+    // const clearCart = await this.storeService.clearCompletedCart();
+    // if (clearCart) {
+    //   localStorage.removeItem(this.sessionStorageCarts);
+    // }
   }
 
 }

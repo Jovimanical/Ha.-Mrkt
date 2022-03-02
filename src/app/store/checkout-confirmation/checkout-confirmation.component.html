@@ -1,33 +1,47 @@
-<div fxLayout="column" fxLayoutGap="50px" class="page-padding">
-
-  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
-    <div class="title"><strong>CONFIRMATION</strong></div>
-    <div>
-      Congratulations, your transaction was successful. You will recieve a confirmation email shortly with shipping
-      details.
-    </div>
-  </div>
-
-  <div fxLayout="column" fxLayoutGap="10px" *ngIf="cart">
-    <div fxLayout="row" class="order-header separator">
-      <div fxFlex="60">ITEM</div>
-      <div fxFlex>QTY</div>
-      <div fxFlexAlign="start end">PRICE</div>
-    </div>
-    <div fxLayout="row" *ngFor="let product of cart.products" class="order-row separator" fxLayoutAlign="center center">
-      <div fxFlex="60" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-        <img class="thumbnail" src="{{product.imageUrl}}" alt="product-image" />
-        <div fxLayout="column">
-          <span>{{product.name}}</span>
-          <span *ngIf="product.size">{{product.size}}</span>
+<div id="wrapper">
+  <div class="content">
+    <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
+      <div class="container">
+        <div class="breadcrumbs-list">
+          <a>Home</a><a>Marketplace</a> <span>checkout - confirmation</span>
+        </div>
+        <div class="share-holder hid-share">
+          <a href="#" class="share-btn showshare sfcs"> <i class="fas fa-exclamation"></i> Help </a>
+          <div class="share-container  isShare"></div>
         </div>
       </div>
-      <div fxFlex>{{ product.quantity }}</div>
-      <div fxFlexAlign="start end">{{ (product.price * product.quantity) | currency }}</div>
     </div>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="end end" fxLayoutGap="10px" *ngIf="cart">
-    <span>SUBTOTAL</span>
-    <span>{{ cart.totalCost | currency }}</span>
+    <section class="gray-bg small-padding">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-2 col-lg-2"></div>
+          <div class="col-md-8 col-lg-8">
+            <div class="services-item fl-wrap">
+              <div class="dasboard-widget-box fl-wrap">
+                <div class="custom-form">
+                  <div fxLayout="column" fxLayoutGap="50px" class="page-padding">
+
+                    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+                      <div class="title"><strong>CONFIRMATION</strong></div>
+                      <div style="font-weight: 800;">
+                        Congratulations, your transaction was successful. You will recieve a confirmation email shortly
+                        with required
+                        details.
+                      </div>
+
+                      <div style="display: flex; flex-direction: column; justify-content: space-evenly;">
+                        <a routerLink="/user-dashboard" routerLinkActive="active" class="btn btn-primary">
+                          Continue to Dashboard
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>

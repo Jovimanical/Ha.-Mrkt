@@ -19,8 +19,7 @@
             <div class="services-item fl-wrap">
               <div class="dasboard-widget-box fl-wrap">
                 <div class="custom-form">
-                  <form *ngIf="checkoutForm" fxLayout="column" [formGroup]="checkoutForm" (ngSubmit)="checkout()"
-                    novalidate>
+                  <form *ngIf="checkoutForm" [formGroup]="checkoutForm" (ngSubmit)="checkout()" novalidate>
                     <div class="checkout-title">CONTACT INFOMATION</div>
                     <mat-form-field>
                       <mat-label>First & Last Name</mat-label>
@@ -76,19 +75,19 @@
                     </mat-form-field>
 
                     <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
-                      <button mat-button [disabled]="loading">
+                      <button mat-button (click)="payWithFlutter()" [disabled]="loading">
                         <img src="/assets/images/bg/flutterwave.png" alt="">
                         <span style="display: block; font-weight: 800; text-transform: uppercase;">
                           Pay with flutterwave
                         </span>
                       </button>
-                      <button mat-button [disabled]="loading">
+                      <button mat-button (click)="payWithPaystack()" [disabled]="loading">
                         <img src="/assets/images/bg/monify.png" alt="">
                         <span style="display: block; font-weight: 800; text-transform: uppercase;">
                           Pay with Monnify
                         </span>
                       </button>
-                      <button mat-button (onclick)="payWithMonnify()">
+                      <button mat-button (click)="payWithMonnify()">
                         <img src="/assets/images/bg/paystack.png" alt="">
                         <span style="display: block; font-weight: 800; text-transform: uppercase;">
                           Pay with Paystack
