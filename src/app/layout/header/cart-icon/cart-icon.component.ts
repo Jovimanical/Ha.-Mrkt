@@ -28,7 +28,7 @@ export class CartIconComponent implements OnInit {
         }
       }
     }, (error) => {
-      console.log('Error loading Cart', error)
+      // console.log('Error loading Cart', error)
       this.cartLength = 0
     });
   }

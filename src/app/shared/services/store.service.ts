@@ -19,7 +19,7 @@ export class StoreService {
   }
 
 
-  public fetchEstateBlockAsPromise(estateNo: any) {
+  public fetchEstateBlockAsPromise(estateNo: any): Promise<any> {
     return this.http
       .get(`https://rest.sytemap.com/v1/properties/user-property/view-property-children?resourceId=${estateNo}&floorLevel=0`)
       .toPromise();
@@ -32,7 +32,7 @@ export class StoreService {
       .toPromise();
   }
 
-  public fetchSingleUnitsAsPromise(UnitNo: any) {
+  public fetchSingleUnitsAsPromise(UnitNo: any): Promise<any> {
     var formdata = new FormData();
     formdata.append("resourceId", UnitNo);
     return this.http
@@ -54,6 +54,10 @@ export class StoreService {
     return this.http.post(`${environment.API_URL}/wishlists/add/`, addBookmark);
   }
 
+  public addToListing(listing: any):Promise<any>{
+    return this.http.post(`${environment.API_URL}/estate-listings/add/`, listing).toPromise();
+  }
+
   public fetchCart() {
     return this.http.get<Cart>(`${environment.API_URL}/shopping-cart/list/1/30`);
   }
@@ -67,28 +71,42 @@ export class StoreService {
     return this.http.delete<Cart>(`${environment.API_URL}/wishlists/remove/${id}`);
   }
 
-  public getLastCompletedCart() {
-    return this.http.get<Cart>(`${environment.API_URL}/shopping-cart/last-completed`);
+  public clearCompletedCart() :Promise<any>{
+    return this.http.get<any>(`${environment.API_URL}/shopping-cart/last-completed`).toPromise();
   }
 
   public removeFromCart(id: number): Observable<Cart> {
     return this.http.delete<Cart>(`${environment.API_URL}/shopping-cart/remove/${id}`);
   }
 
-  public checkout(checkout: Checkout): Observable<void> {
-    return this.http.post<void>(`${environment.API_URL}/shopping-cart/checkout`, checkout);
+  public checkout(checkout: any): Promise<any> {
+    return this.http.post(`${environment.API_URL}/orders/add/`, checkout).toPromise();
   }
 
 
-  public addKYCPersonalInfo(personalInfo: any) {
+  public addKYCPersonalInfo(personalInfo: any): Promise<any> {
     return this.http.post(`${environment.API_URL}/kyc-personal-info/add/`, personalInfo)
-    .toPromise();
+      .toPromise();
   }
 
-  public addKYCEmploymentStatus(employerStatus: any) {
+  public addKYCEmploymentStatus(employerStatus: any): Promise<any> {
     return this.http.post(`${environment.API_URL}/kyc-employment-status/add/`, employerStatus)
-    .toPromise();
+      .toPromise();
   }
+
+
+  public getUserKYCPersonalInfo(): Observable<any> {
+    return this.http.get<any>(`${environment.API_URL}/kyc-personal-info/list/1/30`);
+  }
+
+  public getUserKYCEmploymentStatus(): Observable<any> {
+    return this.http.get<any>(`${environment.API_URL}/kyc-employment-status/list/1/30`);
+  }
+
+  public getUserKYCRequiredDocs(): Observable<any> {
+    return this.http.get<any>(`${environment.API_URL}/kyc-documents/list/1/30`);
+  }
+
 
 
 }

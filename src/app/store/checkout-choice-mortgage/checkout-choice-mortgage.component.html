@@ -23,34 +23,75 @@
                             <span class="hidden-sm-down">PERSONAL INFORMATION</span>
                             <span class="hidden-md-up">PERSONAL INFORMATION</span>
                         </ng-template>
-                        <section class="gray-bg small-padding">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="centered-content">
-                                            <form [formGroup]="form" (ngSubmit)="submit()">
-                                                <formly-form [model]="model" [fields]="fields" [options]="options"
-                                                    [form]="form">
-                                                    <div style="display: flex; justify-content: center;">
-                                                        <button type="submit" color="primary" mat-raised-button
-                                                            [disabled]="!form.valid">
-                                                            Submit personal Info
-                                                        </button>
-                                                    </div>
-                                                </formly-form>
-                                            </form>
+                        <ng-template #loading>
+                            <div class="container-fluid page-padding"
+                                style="margin-top:30%; display: flex; justify-content: center; align-items: center;"
+                                *ngIf="isLoading && !existingPersonalInfo">
+                                <mat-spinner role="progressbar"></mat-spinner>
+                            </div>
+                            <section class="gray-bg small-padding">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="centered-content">
+                                                <form [formGroup]="form" (ngSubmit)="submit()">
+                                                    <formly-form [model]="model" [fields]="fields" [options]="options"
+                                                        [form]="form">
+                                                        <div style="display: flex; justify-content: center;">
+                                                            <button type="submit" color="primary" mat-raised-button
+                                                                [disabled]="!form.valid">
+                                                                Submit personal Info
+                                                            </button>
+                                                        </div>
+                                                    </formly-form>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </section>
+                        </ng-template>
+                        <ng-template [ngIf]="existingPersonalInfo" [ngIfElse]="loading">
+                            <div class="container-fluid page-padding" style="margin-top: 10%;">
+                                <h2 class="form-title">You have Previous Personal Information saved</h2>
+                                <div
+                                    style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                                    <a routerLink="/user-dashboard/user-personal-information" routerLinkActive="active"
+                                        mat-raised-button color="warn">
+                                        <i class="fa fa-person-sign"></i>
+                                        Update Existing Data
+                                    </a>
+
+                                    <button mat-raised-button color="accent" (click)="goToNextStep()">
+                                        Continue with Existing data
+                                    </button>
+                                </div>
                             </div>
-                        </section>
+                        </ng-template>
                     </aw-wizard-step>
                     <aw-wizard-step [stepTitle]="'Steptitle 2'" [navigationSymbol]="{ symbol: '2' }">
                         <ng-template awWizardStepTitle>
                             <span class="hidden-sm-down">EMPLOYMENT STATUS</span>
                             <span class="hidden-md-up">EMPLOYMENT STATUS</span>
                         </ng-template>
-                        <section class="gray-bg small-padding">
+                        <div class="container-fluid page-padding" style="margin-top: 10%;"
+                            *ngIf="!isLoading && existingEmploymentInfo">
+                            <!-- show continue button -->
+                            <h2 class="form-title">You have Previous Employment status Information saved</h2>
+                            <div
+                                style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                                <a routerLink="/user-dashboard/user-employment-status" routerLinkActive="active"
+                                    mat-raised-button color="warn">
+                                    <i class="fa fa-person-sign"></i>
+                                    Update Existing Data
+                                </a>
+
+                                <button mat-raised-button color="accent" (click)="goToNextStep()">
+                                    Continue with Existing data
+                                </button>
+                            </div>
+                        </div>
+                        <section class="gray-bg small-padding" *ngIf="!isLoading && !existingEmploymentInfo">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -58,7 +99,8 @@
                                             <form [formGroup]="formEmployerInfo" (ngSubmit)="submitEmployerInfo()">
                                                 <formly-form [model]="modelEmployerInfo" [fields]="fieldsEmployerInfo"
                                                     [options]="optionsEmployerInfo" [form]="formEmployerInfo">
-                                                    <div style="display: flex; justify-content: center;">
+                                                    <div
+                                                        style="display: flex; justify-content: center; margin-top: 20px;">
                                                         <button type="submit" color="primary" mat-raised-button
                                                             [disabled]="!formEmployerInfo.valid">
 
@@ -112,12 +154,29 @@
                             <span class="hidden-sm-down">REQUIRED DOCUMENTS</span>
                             <span class="hidden-md-up">REQUIRED DOCUMENTS</span>
                         </ng-template>
-                        <section class="gray-bg small-padding">
+                        <div class="container-fluid page-padding" style="margin-top: 10%;"
+                            *ngIf="!isLoading && hasExistingRequiredDocs">
+                            <!-- show continue button -->
+                            <h2 class="form-title">You have Previous Required Document Information saved</h2>
+                            <div
+                                style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                                <a routerLink="/user-dashboard/user-required-documents" routerLinkActive="active"
+                                    mat-raised-button color="warn">
+                                    <i class="fa fa-person-sign"></i>
+                                    Update Existing Data
+                                </a>
+
+                                <button mat-raised-button color="accent" (click)="goToCheckOut()">
+                                    Continue with Existing data
+                                </button>
+                            </div>
+                        </div>
+                        <section class="gray-bg small-padding" *ngIf="!isLoading && !hasExistingRequiredDocs">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <form [formGroup]="myForm" (ngSubmit)="submit_()">
+                                            <form [formGroup]="myForm" (ngSubmit)="submitRequired()">
                                                 <div class="col-sm-4 col-md-4 ">
                                                     <div class="form-group file-input">
                                                         <span style="display: block;">Staff ID</span>
@@ -128,10 +187,10 @@
                                                         <span class='label' data-js-label #labelStaffID>No file
                                                             selected</span>
                                                         <div *ngIf="f['staffIdFile'].touched && f['staffIdFile'].invalid"
-                                                            class="alert alert-danger">
-                                                            <div
+                                                            class="error">
+                                                            <span class="error"
                                                                 *ngIf="f['staffIdFile'].errors && f['staffIdFile'].errors['required']">
-                                                                File is required.</div>
+                                                                File is required.</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -144,10 +203,10 @@
                                                         <span class='button'>Choose</span>
                                                         <label class='label' #labelGovtID>No file selected</label>
                                                         <div *ngIf="f['governmentIdFile'].touched && f['governmentIdFile'].invalid"
-                                                            class="alert alert-danger">
-                                                            <div
+                                                            class="error">
+                                                            <span
                                                                 *ngIf="f['governmentIdFile'].errors && f['governmentIdFile'].errors['required']">
-                                                                File is required.</div>
+                                                                File is required.</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -161,10 +220,10 @@
                                                         <span class='label' data-js-label #labelUtlity>No file
                                                             selected</span>
                                                         <div *ngIf="f['utilityBillFile'].touched && f['utilityBillFile'].invalid"
-                                                            class="alert alert-danger">
-                                                            <div
+                                                            class="error">
+                                                            <span
                                                                 *ngIf="f['utilityBillFile'].errors && f['utilityBillFile'].errors['required']">
-                                                                File is required.</div>
+                                                                File is required.</span>
                                                         </div>
                                                     </div>
                                                 </div>

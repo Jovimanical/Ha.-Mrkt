@@ -16,6 +16,7 @@ export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
   public subtotal = 0;
   public cartProducts: Array<any> = [];
   public balance = 0;
+  public isLoading: boolean = true;
 
   constructor(
     private storeService: StoreService,
@@ -31,7 +32,6 @@ export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.storeService.fetchCart().subscribe((response: any) => {
       // console.log('response.data.records', response.data.records);
-
       if (response.data.records instanceof Array && response.data.records.length > 0) {
         // save to loal store
         response.data.records.forEach((element: any) => {
@@ -42,8 +42,12 @@ export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.cartProducts = [];
       }
+      this.isLoading = false;
       this.changeDectection.detectChanges();
 
+    }, (error) => {
+      this.isLoading = false;
+      this.changeDectection.detectChanges();
     });
 
     this.broadcastService.balanceUpdated$

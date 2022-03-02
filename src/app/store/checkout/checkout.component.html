@@ -3,7 +3,7 @@
     <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
       <div class="container">
         <div class="breadcrumbs-list">
-          <a>Home</a><a>Marketplace</a> <span>checkout</span>
+          <a>Home</a><a>Marketplace</a> <span>checkout - payment</span>
         </div>
         <div class="share-holder hid-share">
           <a href="#" class="share-btn showshare sfcs"> <i class="fas fa-exclamation"></i> Help </a>
@@ -13,88 +13,93 @@
     </div>
     <section class="gray-bg small-padding">
       <div class="container-fluid">
-        <div fxLayout="row">
-          <mat-card fxFlex.xl="60" fxFlex.lg="70" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100">
-            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column">
-              <div fxFlex.gt-sm>
-                <form *ngIf="checkoutForm" fxLayout="column" [formGroup]="checkoutForm" (ngSubmit)="checkout()"
-                  novalidate>
-                  <div class="checkout-title">CONTACT</div>
-                  <mat-form-field>
-                    <mat-label>First & Last Name</mat-label>
-                    <input matInput formControlName="name" required>
-                    <mat-error *ngIf="checkoutForm.controls['name'].hasError('required')">
-                      First & Last Name is required
-                    </mat-error>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Email Address</mat-label>
-                    <input matInput formControlName="email" required>
-                    <mat-error *ngIf="checkoutForm.controls['email'].hasError('required')">
-                      Email Address is required
-                    </mat-error>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Company</mat-label>
-                    <input matInput formControlName="company" required>
-                    <mat-error *ngIf="checkoutForm.controls['company'].hasError('required')">
-                      Company is required
-                    </mat-error>
-                  </mat-form-field>
+        <div class="row">
+          <div class="col-md-2 col-lg-2"></div>
+          <div class="col-md-8 col-lg-8">
+            <div class="services-item fl-wrap">
+              <div class="dasboard-widget-box fl-wrap">
+                <div class="custom-form">
+                  <form *ngIf="checkoutForm" fxLayout="column" [formGroup]="checkoutForm" (ngSubmit)="checkout()"
+                    novalidate>
+                    <div class="checkout-title">CONTACT INFOMATION</div>
+                    <mat-form-field>
+                      <mat-label>First & Last Name</mat-label>
+                      <input matInput formControlName="name" required>
+                      <mat-error *ngIf="checkoutForm.controls['name'].hasError('required')">
+                        First & Last Name is required
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Email Address</mat-label>
+                      <input matInput formControlName="email" required>
+                      <mat-error *ngIf="checkoutForm.controls['email'].hasError('required')">
+                        Email Address is required
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Mobile</mat-label>
+                      <input matInput formControlName="mobile" required>
+                      <mat-error *ngIf="checkoutForm.controls['mobile'].hasError('required')">
+                        Mobile number is required
+                      </mat-error>
+                    </mat-form-field>
 
-                  <div class="checkout-title">SHIPPING</div>
-                  <mat-form-field>
-                    <mat-label>Street Address</mat-label>
-                    <input matInput formControlName="addressLine1" required>
-                    <mat-error *ngIf="checkoutForm.controls['addressLine1'].hasError('required')">
-                      Street Address is required
-                    </mat-error>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Suite #</mat-label>
-                    <input matInput formControlName="addressLine2">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>City</mat-label>
-                    <input matInput formControlName="city" required>
-                    <mat-error *ngIf="checkoutForm.controls['city'].hasError('required')">
-                      City is required
-                    </mat-error>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>State</mat-label>
-                    <input matInput formControlName="state" required>
-                    <mat-error *ngIf="checkoutForm.controls['city'].hasError('required')">
-                      State is required
-                    </mat-error>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Zip Code</mat-label>
-                    <input matInput formControlName="zip" required>
-                    <mat-error *ngIf="checkoutForm.controls['zip'].hasError('required')">
-                      Zip Code is required
-                    </mat-error>
-                  </mat-form-field>
+                    <!-- <div class="checkout-title">ITEMS IN CART</div>
+                    <div class="cart"></div> -->
+                    <div>
+                      <h4 class="text-left mt-20 mb-20">Terms and Condition</h4>
+                    </div>
+                    <div>
+                      <p class="text-left">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
+                        nobis cumque sit itaque aliquam culpa facilis! Mollitia explicabo
+                        corrupti quidem dolore nulla aliquam recusandae repellendus, laborum
+                        doloribus facere Acusamus vitae?Lorem ipsum dolor sit amet
+                        consectetur adipisicing elit. Quaerat nobis cumque sit itaque
+                        aliquamculpa facilis! Mollitia explicabo corrupti quidem dolore
+                        nulla aliquam recusandae repellendus, laborum doloribus facere
+                        accusamus vitae ipsum dolor sit amet consectetur adipisicing elit.
+                        Quaerat nobis cumque sit itaque aliquamculpa facilis! Mollitia
+                        explicabo corrupti quidem dolore nulla aliquam recusandae
+                        repellendus, laborum doloribus facere accusamus vitae.</p>
 
-                  <div class="checkout-title">PAYMENT</div>
-                  <mat-form-field>
-                    <mat-label>Credit</mat-label>
-                    <input matInput readonly value="{{balance | currency}}">
-                  </mat-form-field>
+                      <div class="fl-wrap example-margin">
+                        <mat-checkbox formControlName="termsChecked" checked="true">
+                          I accept the terms and condition
+                        </mat-checkbox>
+                      </div>
+                    </div>
 
-                  <div fxLayout="row" class="button-section">
-                    <button fxFlex type="submit" mat-raised-button class="action-button" [disabled]="loading">
-                      Pay with flutterwave
-                    </button>
-                    <button fxFlex type="submit" mat-raised-button class="action-button" [disabled]="loading">
-                      Pay with Paystack
-                    </button>
-                    <button mat-raised-button class="action-button" onclick="payWithMonnify()">Pay with Monnify</button>
-                  </div>
-                </form>
+                    <div class="checkout-title">PAYMENT</div>
+                    <mat-form-field>
+                      <mat-label>Credit</mat-label>
+                      <input matInput readonly value="{{balance |  currency:'NGN':'symbol-narrow':'4.2-2'}}">
+                    </mat-form-field>
+
+                    <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
+                      <button mat-button [disabled]="loading">
+                        <img src="/assets/images/bg/flutterwave.png" alt="">
+                        <span style="display: block; font-weight: 800; text-transform: uppercase;">
+                          Pay with flutterwave
+                        </span>
+                      </button>
+                      <button mat-button [disabled]="loading">
+                        <img src="/assets/images/bg/monify.png" alt="">
+                        <span style="display: block; font-weight: 800; text-transform: uppercase;">
+                          Pay with Monnify
+                        </span>
+                      </button>
+                      <button mat-button (onclick)="payWithMonnify()">
+                        <img src="/assets/images/bg/paystack.png" alt="">
+                        <span style="display: block; font-weight: 800; text-transform: uppercase;">
+                          Pay with Paystack
+                        </span>
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
-          </mat-card>
+          </div>
         </div>
       </div>
     </section>

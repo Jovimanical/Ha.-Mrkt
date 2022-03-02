@@ -5,8 +5,20 @@
   font-size: 20px;
 }
 
-.button-section{
+.button-section {
   display: inline-flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.example-margin {
+  float: left;
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+  height: 20px;
+  border-radius: 2px;
+  color: #fff;
+  background: #fff;
+  -webkit-appearance: none;
 }

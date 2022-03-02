@@ -14,7 +14,12 @@
         </div>
       </div>
     </div>
-    <div class="container-fluid page-padding" style="margin-top: 10%;" *ngIf="cartProducts.length === 0">
+    <ng-template #loading>
+      <div class="container-fluid page-padding" style="margin-top:30%; display: flex; justify-content: center; align-items: center;" *ngIf="isLoading && cartProducts.length === 0">
+        <mat-spinner role="progressbar"></mat-spinner>
+    </div>
+
+    <div class="container-fluid page-padding" style="margin-top: 10%;" *ngIf="!isLoading && cartProducts.length === 0">
       <div class="cart">
         <div class="row">
           <div class="col-md-12">
@@ -42,76 +47,79 @@
         </div>
       </div>
     </div>
-    <section class="gray-bg small-padding" *ngIf="cartProducts?.length > 0">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-sm-12 col-md-12">
-            <!-- listing-item-wrap-->
-            <div class="listing-item-container one-column-grid-wrap box-list_ic agency-list fl-wrap"
-              *ngFor="let cartProduct of cartProducts; let i = index">
-              <!--  agecy card item -->
-              <div class="listing-item has_one_column">
-                <article class="geodir-category-listing fl-wrap">
-                  <div class="geodir-category-img fl-wrap">
-                    <a class="geodir-category-img_item">
-                      <img src="assets/images/agency/1.png" alt="">
-                    </a>
-                  </div>
-                  <div class="geodir-category-content fl-wrap">
-                    <div class="card-verified tolt" data-microtip-position="left" data-tooltip="Verified">
-                      <i class="fal fa-user-check"></i>
+  </ng-template>
+    <ng-template [ngIf]="cartProducts?.length > 0" [ngIfElse]="loading">
+      <section class="gray-bg small-padding" *ngIf="cartProducts?.length > 0">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <!-- listing-item-wrap-->
+              <div class="listing-item-container one-column-grid-wrap box-list_ic agency-list fl-wrap"
+                *ngFor="let cartProduct of cartProducts; let i = index">
+                <!--  agecy card item -->
+                <div class="listing-item has_one_column">
+                  <article class="geodir-category-listing fl-wrap">
+                    <div class="geodir-category-img fl-wrap">
+                      <a class="geodir-category-img_item">
+                        <img src="assets/images/agency/1.png" alt="">
+                      </a>
                     </div>
-                    <div class="agent_card-title fl-wrap">
-                      <h4>{{cartProduct.PropertyName}}</h4>
-                      <div class="geodir-category-location fl-wrap">
-                        <a><i class="fas fa-map-marker-alt"></i> {{cartProduct.PropertyJson?.name}}</a>
-                        <div class="listing-rating card-popup-rainingvis" data-starrating2="4"><span
-                            class="re_stars-title">{{cartProduct.PropertyStatus}}</span></div>
+                    <div class="geodir-category-content fl-wrap">
+                      <div class="card-verified tolt" data-microtip-position="left" data-tooltip="Verified">
+                        <i class="fal fa-user-check"></i>
+                      </div>
+                      <div class="agent_card-title fl-wrap">
+                        <h4>{{cartProduct.PropertyName}}</h4>
+                        <div class="geodir-category-location fl-wrap">
+                          <a><i class="fas fa-map-marker-alt"></i> {{cartProduct.PropertyJson?.name}}</a>
+                          <div class="listing-rating card-popup-rainingvis" data-starrating2="4"><span
+                              class="re_stars-title">{{cartProduct.PropertyStatus}}</span></div>
+                        </div>
+                      </div>
+                      <div class="small-facts fl-wrap">
+                        <ul>
+                          <li><i class="fal fa-home"></i> <span><strong>36</strong>Listing</span></li>
+                          <li><i class="fal fa-users-class"></i> <span><strong>10</strong>Views</span></li>
+                          <li><i class="fal fa-comment-alt"></i> <span><strong>56</strong>Reviews</span></li>
+                        </ul>
+                      </div>
+                      <div class="geodir-category-footer fl-wrap">
+                        <button (click)="showItem(i)" class="btn float-btn color-bg small-btn">View Details</button>
+                        <button (click)="removeItem(i)" class="btn float-btn color-bg small-btn">
+                          <i class="fal fa-trash-alt"></i>
+                          Remove from Cart
+                        </button>
+                        <a href="mailto:support@houseafrica.io" class="tolt ftr-btn" data-microtip-position="top-left"
+                          data-tooltip="Write Message"><i class="fal fa-envelope"></i></a>
+                        <a href="tel:123-456-7890" class="tolt ftr-btn" data-microtip-position="top-left"
+                          data-tooltip="Call Now"><i class="fal fa-phone"></i></a>
                       </div>
                     </div>
-                    <div class="small-facts fl-wrap">
-                      <ul>
-                        <li><i class="fal fa-home"></i> <span><strong>36</strong>Listing</span></li>
-                        <li><i class="fal fa-users-class"></i> <span><strong>10</strong>Views</span></li>
-                        <li><i class="fal fa-comment-alt"></i> <span><strong>56</strong>Reviews</span></li>
-                      </ul>
-                    </div>
-                    <div class="geodir-category-footer fl-wrap">
-                      <button (click)="showItem(i)" class="btn float-btn color-bg small-btn">View Details</button>
-                      <button (click)="removeItem(i)" class="btn float-btn color-bg small-btn">
-                        <i class="fal fa-trash-alt"></i>
-                        Remove from Cart
-                      </button>
-                      <a href="mailto:support@houseafrica.io" class="tolt ftr-btn" data-microtip-position="top-left"
-                        data-tooltip="Write Message"><i class="fal fa-envelope"></i></a>
-                      <a href="tel:123-456-7890" class="tolt ftr-btn" data-microtip-position="top-left"
-                        data-tooltip="Call Now"><i class="fal fa-phone"></i></a>
-                    </div>
+                  </article>
+                </div>
+              </div>
+              <div class="row" *ngIf="cartProducts?.length">
+                <div class="col-sm-8 col-md-8" *ngIf="cartProducts?.length">
+                  <span class="title">SUBTOTAL</span>
+                  <span class="form-title">{{ subtotal | currency:'NGN':'symbol-narrow':'4.2-2' }}</span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                  <div style="display: flex; flex-direction: column; justify-content: space-evenly;">
+                    <a routerLink="/store" routerLinkActive="active" class="btn btn-primary">
+                      <i class="fa fa-shopping-cart"></i>
+                      continue shopping
+                    </a>
+                    <button mat-raised-button color="accent" (click)="goToCheckout(0)">CHECKOUT MORTGAGE OPTION</button>
+                    <div style="height: 5px;"></div>
+                    <button mat-flat-button color="primary" (click)="goToCheckout(1)">CHECKOUT LOAN OPTION</button>
                   </div>
-                </article>
-              </div>
-            </div>
-            <div class="row" *ngIf="cartProducts?.length">
-              <div class="col-sm-8 col-md-8" *ngIf="cartProducts?.length">
-                <span class="title">SUBTOTAL</span>
-                <span class="form-title">{{ subtotal | currency }}</span>
-              </div>
-              <div class="col-sm-4 col-md-4">
-                <div style="display: flex; flex-direction: column; justify-content: space-around;">
-                  <a routerLink="/store" routerLinkActive="active" class="btn btn-primary">
-                    <i class="fa fa-shopping-cart"></i>
-                    continue shopping
-                  </a>
-                  <a class="action-button" fxFlex mat-raised-button accent
-                    (click)="goToCheckout(0)">CHECKOUT MORTGAGE OPTION</a>
-                  <a class="action-button" fxFlex mat-raised-button (click)="goToCheckout(1)">CHECKOUT LOAN OPTION</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </ng-template>
     <div class="limit-box fl-wrap"></div>
   </div>
 </div>

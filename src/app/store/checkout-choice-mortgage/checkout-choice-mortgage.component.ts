@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MovingDirection, WizardComponent } from 'angular-archwizard';
+import { forkJoin } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
@@ -21,18 +22,14 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
 
   public form = new FormGroup({});
   public formEmployerInfo = new FormGroup({});
-  public formRequiredDocs = new FormGroup({});
   public model: any = {
     maxDate: "2019-09-25"
   };
   public modelEmployerInfo: any = {
     maxDate: "2022-01-01"
   };
-  public modelRequiredDocs: any = {};
-
   public options: FormlyFormOptions = {};
   public optionsEmployerInfo: FormlyFormOptions = {};
-  public optionsRequiredDocs: FormlyFormOptions = {};
   public fields: FormlyFieldConfig[] = [
     {
       className: 'section-label',
@@ -376,125 +373,65 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
     }
   ];
 
-  public fieldsRequiredDocs: FormlyFieldConfig[] = [
-    {
-      className: 'section-label',
-      template: '<h5 class="form-title">Upload Required Documents</h5>',
-    },
-    {
-      fieldGroupClassName: 'row',
-      fieldGroup: [
-        {
-          key: 'customer_employer_id',
-          type: 'file',
-          className: 'col-sm-4 col-md-4',
-          templateOptions: {
-            label: 'Company/Staff ID?',
-            required: true,
-          }
-        },
-        {
-          key: 'customer_government_id',
-          type: 'file',
-          className: 'col-sm-4 col-md-4',
-          templateOptions: {
-            label: 'Government Issued ID?',
-            required: true,
-          }
-        },
-        {
-          key: 'customer_utility_bill',
-          type: 'file',
-          className: 'col-sm-4 col-md-4',
-          templateOptions: {
-            label: 'Utility Bill',
-            required: true,
-          }
-        },
-        {
-          template: '<div style="margin: 20px;"><span class="form-title">Bank Statements Upload using:</span></div>',
-        },
-        {
-          key: 'customer_upload_type',
-          type: 'radio',
-          className: 'col-sm-12 col-md-12',
-          templateOptions: {
-            label: 'Choose a method to upload?',
-            required: true,
-            valueProp: (option) => option,
-            compareWith: (o1, o2) => o1.value == o2.value,
-            options: [
-              { label: 'Bank Account Linkup', value: 'linkup' },
-              { label: 'PDF upload', value: 'upload' },
-            ]
-          }
-        },
-
-        {
-          key: 'customer_bank_statement_file',
-          type: 'file',
-          className: 'col-sm-8 col-md-8',
-          templateOptions: {
-            label: 'Upload 6 months Statement of the current Year',
-            required: true,
-          },
-          hideExpression: 'model.customer_upload_type?.value !== "upload"',
-        },
-        {
-          key: 'customer_bank_statement_password',
-          type: 'input',
-          className: 'col-sm-4 col-md-4',
-          templateOptions: {
-            label: 'Enter PDF password',
-            placeholder: 'Enter PDF Password',
-            required: true,
-          },
-          hideExpression: 'model.customer_upload_type?.value !== "upload"',
-        },
-        {
-          key: 'upload_with_mono',
-          type: 'button',
-          templateOptions: {
-            text: 'UPload',
-            onClick: ($event) => {
-
-            },
-          },
-          hideExpression: 'model.customer_upload_type?.value !== "linkup"',
-        },
-        {
-          key: 'upload_with_okra',
-          type: 'button',
-          templateOptions: {
-            text: 'UPload',
-            onClick: ($event) => {
-
-            },
-          },
-          hideExpression: 'model.customer_upload_type?.value !== "linkup"',
-        },
-      ]
-    }
-  ];
-
-  public myForm = new FormGroup({
+ public myForm = new FormGroup({
     staffIdFile: new FormControl('', [Validators.required]),
     staffIdFileSource: new FormControl('', [Validators.required]),
     governmentIdFile: new FormControl('', [Validators.required]),
     governmentIdFileSource: new FormControl('', [Validators.required]),
     utilityBillFile: new FormControl('', [Validators.required]),
-    utilityBillFileSource: new FormControl('', [Validators.required]),
+    utilityBillFileSource: new FormControl('', [Validators.required])
+  });
+  
+  public myStatementUploadForm = new FormGroup({
+    file_password: new FormControl('', [Validators.required]),   
     bankStatmentFile: new FormControl('', [Validators.required]),
     bankStatmentFileSource: new FormControl('', [Validators.required])
   });
+
+  public existingPersonalInfo: any = false;
+  public hasExistingPersonalInfo: boolean = false;
+  public existingEmploymentInfo: any = false;
+  public hasExistingEmploymentInfo: boolean = false;
+  public existingRequiredDocs: Array<any> = [];
+  public hasExistingRequiredDocs: boolean = false;
+  public isLoading: boolean = true;
 
   constructor(
     private storeService: StoreService,
     private router: Router,
     private http: HttpClient
-  ) { }
+  ) {
+    this.hasExistingPersonalInfo = false;
+    this.hasExistingEmploymentInfo = false;
+    this.hasExistingRequiredDocs = false;
+  }
 
   ngOnInit(): void {
+
+    let personalInfo = this.storeService.getUserKYCPersonalInfo();
+    let employermentInfo = this.storeService.getUserKYCEmploymentStatus();
+    let requiredDocs = this.storeService.getUserKYCRequiredDocs();
+
+    forkJoin([personalInfo, employermentInfo, requiredDocs]).subscribe((results: any) => {
+      // console.log('results-show', results)
+      if (results[0].data !== null) {
+        this.existingPersonalInfo = results[0].data.records[0];
+        this.hasExistingPersonalInfo = true
+      }
+      if (results[1].data !== null) {
+        this.existingEmploymentInfo = results[1].data.records[0];
+        this.hasExistingEmploymentInfo = true;
+      }
+      if (results[2].data !== null) {
+        this.existingRequiredDocs = results[2].data.records;
+        this.hasExistingRequiredDocs = true;
+      }
+      this.isLoading = false
+    }, (error) => {
+      console.log('Error', error)
+      this.isLoading = false
+    });
+
   }
 
   getData() {
@@ -505,13 +442,21 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
     });
   }
 
+  public goToNextStep() {
+    this.wizard.goToNextStep()
+  }
+
+  public goToCheckOut() {
+    this.router.navigate(['/store/checkout']);
+  }
+
   async submit() {
     try {
       if (this.form.valid) {
         // console.log('this.model', this.model);
         // console.log('this.form', this.form);
         const addPersonalInfo: any = await this.storeService.addKYCPersonalInfo(JSON.stringify(this.model));
-        if (addPersonalInfo && addPersonalInfo.data.status === 'success') {
+        if (addPersonalInfo instanceof Object && addPersonalInfo.status === 'success') {
           // move to step two
           this.wizard.goToNextStep()
         }
@@ -528,7 +473,7 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
       if (this.formEmployerInfo.valid) {
         // console.log('this.modelEmployerInfo', this.modelEmployerInfo);
         const addPersonalInfo: any = await this.storeService.addKYCEmploymentStatus(JSON.stringify(this.modelEmployerInfo));
-        if (addPersonalInfo && addPersonalInfo.data.status === 'success') {
+        if (addPersonalInfo instanceof Object && addPersonalInfo.status === 'success') {
           // move to step three
           this.wizard.goToNextStep()
         }
@@ -612,21 +557,14 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
     }
   }
 
-  submitRequiredDocs() {
-    if (this.formRequiredDocs.valid) {
-      console.log('this.modelRequiredDocs', this.modelRequiredDocs);
-      console.log('this.form', this.formRequiredDocs);
-    }
-  }
-
-  submit_() {
+  submitRequired() {
 
     if (this.myForm.valid) {
       const formData = new FormData();
       formData.append('fileUpload[]', this.myForm.get('staffIdFileSource')?.value);
       formData.append('fileUpload[]', this.myForm.get('governmentIdFileSource')?.value);
       formData.append('fileUpload[]', this.myForm.get('utilityBillFileSource')?.value);
-
+      
       this.http.post(`${environment.API_URL}/kyc-documents/add/`, formData)
         .subscribe(res => {
           console.log(res);

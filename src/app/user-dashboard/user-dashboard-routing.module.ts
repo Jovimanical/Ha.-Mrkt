@@ -9,11 +9,14 @@ import { UserMySettingsComponent } from './user-my-settings/user-my-settings.com
 import { UserReviewsComponent } from './user-reviews/user-reviews.component';
 import { UserMessagingComponent } from './user-messaging/user-messaging.component';
 import { UserListingsComponent } from './user-listings/user-listings.component';
-import { UserMortgageComponent} from './user-mortgage/user-mortgage.component';
+import { UserMortgageComponent } from './user-mortgage/user-mortgage.component';
 import { UserBookingsComponent } from './user-bookings/user-bookings.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserWalletComponent } from './user-wallet/user-wallet.component';
 import { UserLandRegistryComponent } from './user-land-registry/user-land-registry.component';
+import { UserEmploymentStatusComponent } from './user-employment-status/user-employment-status.component';
+import { UserPersonalInfoComponent } from './user-personal-info/user-personal-info.component';
+import { UserRequiredDocumentsComponent } from './user-required-documents/user-required-documents.component';
 // import { UserAdminComponent } from './user-admin/user-admin.component';
 // import { InviteComponent } from './invite/invite.component';
 // import { UserDetailsComponent } from './user-admin/user-details/user-details.component';
@@ -34,7 +37,10 @@ const userRoutes: Routes = [
     { path: 'user-profile', component: UserProfileComponent },
     { path: 'user-wallet', component: UserWalletComponent },
     { path: 'user-land-registry', component: UserLandRegistryComponent },
-    
+    { path: 'user-employment-status', component: UserEmploymentStatusComponent },
+    { path: 'user-personal-information', component: UserPersonalInfoComponent },
+    { path: 'user-required-documents', component: UserRequiredDocumentsComponent },
+
 
     //   { path: 'invite', component: InviteComponent },
     //   { path: 'users', component: UserAdminComponent },

@@ -20,6 +20,9 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserWalletComponent } from './user-wallet/user-wallet.component';
 import { LayoutModule } from 'app/layout/layout.module';
 import { UserLandRegistryComponent } from './user-land-registry/user-land-registry.component';
+import { UserEmploymentStatusComponent } from './user-employment-status/user-employment-status.component';
+import { UserPersonalInfoComponent } from './user-personal-info/user-personal-info.component';
+import { UserRequiredDocumentsComponent } from './user-required-documents/user-required-documents.component';
 // import { InviteComponent } from './invite/invite.component';
 // import { InviteService } from './invite/invite.service';
 // import { UserDetailsComponent } from './user-admin/user-details/user-details.component';
@@ -51,6 +54,9 @@ import { UserLandRegistryComponent } from './user-land-registry/user-land-regist
         UserProfileComponent,
         UserWalletComponent,
         UserLandRegistryComponent,
+        UserEmploymentStatusComponent,
+        UserPersonalInfoComponent,
+        UserRequiredDocumentsComponent,
         // InviteComponent,
         //     UserDetailsComponent,
         //     OrderAdminComponent,

@@ -8,13 +8,16 @@ import { StoreService } from 'app/shared/services/store.service';
   styleUrls: ['./checkout-confirmation.component.scss']
 })
 export class CheckoutConfirmationComponent implements OnInit {
-  cart: Cart;
+  public cart: Cart;
+  public sessionStorageCarts = 'houseAfrica.carts';
 
   constructor(private storeService: StoreService) { }
 
-  ngOnInit() {
-    this.storeService.getLastCompletedCart()
-      .subscribe(result => this.cart = result);
+  async ngOnInit() {
+    const clearCart = await this.storeService.clearCompletedCart();
+    if (clearCart) {
+      localStorage.removeItem(this.sessionStorageCarts);
+    }
   }
 
 }
