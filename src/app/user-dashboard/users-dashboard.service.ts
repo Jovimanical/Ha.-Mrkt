@@ -28,6 +28,14 @@ export class UserDashboardService {
     return this.http.get<any>(`${environment.API_URL}/wishlists/count`).pipe(map(res => res.data));
   }
 
+  getUserActivity(): Observable<any> {
+    return this.http.get<any>(`${environment.API_URL}/wishlists/count`).pipe(map(res => res.data));
+  }
+
+  getUserMessages(): Observable<any> {
+    return this.http.get<any>(`${environment.API_URL}/wishlists/count`).pipe(map(res => res.data));
+  }
+
 
 
 

@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserMessagingComponent implements OnInit {
   public PageName = "Messages"
+  public Messaging:Array<any> = [];
   constructor() { }
 
   ngOnInit(): void {

@@ -17,6 +17,11 @@ import { UserLandRegistryComponent } from './user-land-registry/user-land-regist
 import { UserEmploymentStatusComponent } from './user-employment-status/user-employment-status.component';
 import { UserPersonalInfoComponent } from './user-personal-info/user-personal-info.component';
 import { UserRequiredDocumentsComponent } from './user-required-documents/user-required-documents.component';
+import { RegisterLandComponent } from './register-land/register-land.component';
+import { RegisteredLandProcessComponent } from './registered-land-process/registered-land-process.component';
+import { MyMortgageApplicationComponent } from './my-mortgage-application/my-mortgage-application.component';
+import { MyLoanApplicationComponent } from './my-loan-application/my-loan-application.component';
+
 // import { UserAdminComponent } from './user-admin/user-admin.component';
 // import { InviteComponent } from './invite/invite.component';
 // import { UserDetailsComponent } from './user-admin/user-details/user-details.component';
@@ -40,6 +45,10 @@ const userRoutes: Routes = [
     { path: 'user-employment-status', component: UserEmploymentStatusComponent },
     { path: 'user-personal-information', component: UserPersonalInfoComponent },
     { path: 'user-required-documents', component: UserRequiredDocumentsComponent },
+    { path: 'user-land-registeration', component: RegisterLandComponent },
+    { path: 'user-land-resisteration-status', component: RegisteredLandProcessComponent },
+    { path: 'user-mortgage-applications', component: MyMortgageApplicationComponent },
+    { path: 'user-loan-applications', component: MyLoanApplicationComponent },
 
 
     //   { path: 'invite', component: InviteComponent },
@@ -48,6 +57,7 @@ const userRoutes: Routes = [
     //   { path: 'orders', component: OrderAdminComponent },
     //   { path: 'orders/:id', component: OrderDetailsComponent }
 ];
+
 
 @NgModule({
     imports: [

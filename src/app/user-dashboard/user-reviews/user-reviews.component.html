@@ -12,23 +12,11 @@
             <!-- dashboard-title end -->		
             <div class="dasboard-wrapper fl-wrap">
                 <div class="dasboard-widget-title fl-wrap">
-                    <h5><i class="fal fa-comments-alt"></i>Last Reviews <span> ( +2 New ) </span></h5>
+                    <h5><i class="fal fa-comments-alt"></i>Lastest Reviews</h5>
                     <a href="#" class="mark-btn  tolt" data-microtip-position="bottom" data-tooltip="Mark all as read"><i class="far fa-comment-alt-check"></i> </a>
                 </div>
-                <div class="dasboard-widget-box fl-wrap">
-                    <div class="dasboard-opt fl-wrap">
-                        <!-- price-opt-->
-                        <div class="price-opt">
-                            <span class="price-opt-title">Sort   by:</span>
-                            <div class="listsearch-input-item">
-                                <select data-placeholder="Lastes" class="chosen-select no-search-select" >
-                                    <option>Lastes</option>
-                                    <option>Oldes</option>
-                                    <option>Average rating</option>
-                                </select>
-                            </div>
-                        </div>
-                        <!-- price-opt end-->
+                <div class="dasboard-widget-box fl-wrap" *ngIf="MyReviews.length > 0">
+                    <div class="dasboard-opt fl-wrap">                      
                     </div>
                     <!-- reviews-comments-item -->  
                     <div class="reviews-comments-item">
@@ -91,7 +79,7 @@
                     <!--reviews-comments-item end--> 										
                 </div>
                 <!-- pagination-->
-                <div class="pagination float-pagination">
+                <div class="pagination float-pagination" *ngIf="MyReviews.length > 0">
                     <a href="#" class="prevposts-link"><i class="fa fa-caret-left"></i></a>
                     <a href="#" >1</a>
                     <a href="#" class="current-page">2</a>

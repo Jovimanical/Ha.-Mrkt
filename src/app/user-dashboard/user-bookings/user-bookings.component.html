@@ -8,29 +8,18 @@
         <app-dashboard-toggle></app-dashboard-toggle>
         <div class="container dasboard-container">
             <!-- dashboard-title -->
-            <    <app-dashboard-menu-status [dashboardTitle]="PageName"></app-dashboard-menu-status>
+            <app-dashboard-menu-status [dashboardTitle]="PageName"></app-dashboard-menu-status>
             <!-- dashboard-title end -->
             <div class="dasboard-wrapper fl-wrap">
                 <div class="dasboard-widget-title fl-wrap">
-                    <h5><i class="fal fa-comments-alt"></i>Last Bookings <span> ( +3 New ) </span></h5>
+                    <h5><i class="fal fa-comments-alt"></i>Lastest Bookings</h5>
                     <a href="#" class="mark-btn  tolt" data-microtip-position="bottom"
                         data-tooltip="Mark all as read"><i class="far fa-comment-alt-check"></i> </a>
                 </div>
                 <div class="dasboard-widget-box fl-wrap">
                     <div class="dasboard-opt fl-wrap">
-                        <!-- price-opt-->
-                        <div class="price-opt">
-                            <span class="price-opt-title">Sort by:</span>
-                            <div class="listsearch-input-item">
-                                <select data-placeholder="Lastes" class="chosen-select no-search-select">
-                                    <option>Lastes</option>
-                                    <option>Oldes</option>
-                                </select>
-                            </div>
-                        </div>
-                        <!-- price-opt end-->
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="myBookings.length > 0">
                         <!-- bookings-item -->
                         <div class="col-md-6">
                             <div class="bookings-item fl-wrap">
@@ -164,7 +153,7 @@
                     </div>
                 </div>
                 <!-- pagination-->
-                <div class="pagination float-pagination">
+                <div class="pagination float-pagination" *ngIf="myBookings.length > 0">
                     <a href="#" class="prevposts-link"><i class="fa fa-caret-left"></i></a>
                     <a href="#">1</a>
                     <a href="#" class="current-page">2</a>

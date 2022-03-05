@@ -1,139 +1,73 @@
-<!-- <mat-sidenav-container
-  [ngClass]="{ 'sidenav-height': isAuthenticated && !isVerificationRequired, 'sidenav-height-full': !isAuthenticated || isVerificationRequired }">
-  <mat-sidenav [ngClass]="{ 'mobile': mobile }" #sidenav mode="{{ mobile ? 'over' : 'side' }}"
-    opened="{{ mobile ? 'false' : 'true' }}" *ngIf="isAuthenticated && !isVerificationRequired">
-    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-      <img class="logo" src="/assets/images/ls-roundel-white.png" />
-      <div class="logo-text">HOUSE-AFRICA MARKETPLACE</div>
-    </div>
-    <nav (click)="close()">
-      <ul>
-        <li>
-          <a class="nav-item-container" (click)="toggleSidebar(false)" routerLink="/store" routerLinkActive="active"
-            [ngClass]="{'dark': themeService.darkTheme}">
-            MarketPlace
-          </a>
-        </li>
-        <li>
-          <a class="nav-item-container" (click)="toggleSidebar(false)" routerLink="/store-map-view" routerLinkActive="active"
-            [ngClass]="{'dark': themeService.darkTheme}">
-            MAP
-          </a>
-        </li>
-        <li>
-          <a class="nav-item-container" (click)="toggleSidebar(false)" routerLink="/user-dashboard" routerLinkActive="active"
-            [ngClass]="{'dark': themeService.darkTheme}">
+<div class="dashbard-menu-overlay"></div>
+<div class="dashbard-menu-wrap">
+  <div class="dashbard-menu-close"><i class="fal fa-times"></i></div>
+  <div class="dashbard-menu-container">
+    <!-- user-profile-menu-->
+    <div class="user-profile-menu">
+      <h3>Main</h3>
+      <ul class="no-list-style">
+        <li><a href="/#/user-dashboard" class="user-profile-act">
+            <i class="fal fa-chart-line"></i>
             Dashboard
           </a>
         </li>
+        <li><a routerLink="/user-dashboard/user-profile" routerLinkActive="active">
+            <i class="fal fa-user-edit"></i>My Profile</a>
+        </li>
+        <li><a routerLink="/user-dashboard/user-properties" routerLinkActive="active">
+            <i class="fal fa-user-edit"></i> My Properties</a>
+        </li>
+        <li><a routerLink="/user-dashboard/user-messaging" routerLinkActive="active">
+            <i class="fal fa-envelope"></i>My Messages
+          </a>
+        </li>
+        <li><a routerLink="/user-dashboard/user-transaction-history" routerLinkActive="active">
+            <i class="fal fa-users"></i>My Transaction History</a>
+        </li>
         <li>
-          <a class="nav-item-container" (click)="toggleSidebar(false)" routerLink="/orders" routerLinkActive="active"
-            [ngClass]="{'dark': themeService.darkTheme}">
-            Orders
-          </a>
+          <a routerLink="/user-dashboard/user-land-registry" routerLinkActive="active" class="submenu-link">
+            <i class="fal fa-plus"></i>Land Registry</a>
+          <ul class="no-list-style">
+            <li><a routerLink="/user-dashboard/user-land-registeration" routerLinkActive="active">
+                <i class="fal fa-th-list"></i> Register land </a>
+            </li>
+            <li><a routerLink="/user-dashboard/user-land-resisteration-status" routerLinkActive="active">
+                <i class="fal fa-calendar-check"></i> Track Land Registration Status</a>
+            </li>
+            <li><a routerLink="/user-dashboard/user-mortgage-applications" routerLinkActive="active">
+                <i class="fal fa-file-plus"></i>My Mortgage Application</a>
+            </li>
+            <li><a routerLink="/user-dashboard/user-loan-applications" routerLinkActive="active">
+                <i class="fal fa-file-plus"></i> My Loans Application</a>
+            </li>
+          </ul>
         </li>
-        
-        <li>
-          <a class="nav-item-container" (click)="toggleSidebar(false)" routerLink="/profile" routerLinkActive="active"
-            [ngClass]="{'dark': themeService.darkTheme}">
-            Profile
-          </a>
-        </li>
-        <li *ngIf="isAdmin">
-          <a class="nav-item-container" (click)="toggleSidebar(false)" routerLink="/admin" routerLinkActive="active"
-            [ngClass]="{'dark': themeService.darkTheme}">
-            Admin
-          </a>
-        </li>
-        <li *ngIf="isAdmin">
-          <a class="nav-item-container" (click)="toggleSidebar(false)" routerLink="/admin/invite"
-            routerLinkActive="active" [ngClass]="{'dark': themeService.darkTheme}">
-            Invite
-          </a>
-        </li>
-        <div class="nav-section-divider"></div>       
       </ul>
-    </nav>
-
-    <div class="powered-by-label" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
-      <span class="powered-text">Powered By</span>
-      <a href="https://www.houseafrica.io" target="_blank">
-        <img src="/assets/images/house-africa-white.png" class="house-africa-icon" />
-      </a>
     </div>
-
-  </mat-sidenav> -->
-
-  <!-- <div class="main-content full-height"> -->
-    <!-- <router-outlet></router-outlet> -->
-  <!-- </div> -->
-<!-- </mat-sidenav-container> -->
-
-
-
-<div class="dashbard-menu-overlay"></div>
-    <div class="dashbard-menu-wrap">
-        <div class="dashbard-menu-close"><i class="fal fa-times"></i></div>
-        <div class="dashbard-menu-container">
-            <!-- user-profile-menu-->
-            <div class="user-profile-menu">
-                <h3>Main</h3>
-                <ul class="no-list-style">
-                    <li><a href="/#/user-dashboard" class="user-profile-act">
-                            <i class="fal fa-chart-line"></i>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li><a routerLink="/user-dashboard/user-profile" routerLinkActive="active">
-                            <i class="fal fa-user-edit"></i>My Profile</a>
-                    </li>
-                    <li><a routerLink="/user-dashboard/user-properties" routerLinkActive="active">
-                            <i class="fal fa-user-edit"></i> My Properties</a>
-                    </li>
-                    <li><a routerLink="/user-dashboard/user-messaging" routerLinkActive="active">
-                            <i class="fal fa-envelope"></i>My Messages <span>3</span>
-                        </a>
-                    </li>
-                    <li><a routerLink="/user-dashboard/user-transaction-history" routerLinkActive="active">
-                            <i class="fal fa-users"></i>My Transaction History</a>
-                    </li>
-                    <li>
-                        <a  routerLink="/user-dashboard/user-land-registry" routerLinkActive="active" class="submenu-link">
-                          <i class="fal fa-plus"></i>Land Registry</a>
-                        <ul class="no-list-style">
-                            <li><a href="#"><i class="fal fa-th-list"></i> Register land </a></li>
-                            <li><a href="#"> <i class="fal fa-calendar-check"></i> Track Process</a></li>
-                            <li><a href="#"><i class="fal fa-comments-alt"></i>Apply for Mortgage</a></li>
-                            <li><a href="#"><i class="fal fa-file-plus"></i> Track Process</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <!-- user-profile-menu end-->
-            <!-- user-profile-menu-->
-            <div class="user-profile-menu">
-                <h3>Listings</h3>
-                <ul class="no-list-style">
-                    <li><a routerLink="/user-dashboard/user-listings" routerLinkActive="active">
-                            <i class="fal fa-th-list"></i> My listigs </a>
-                    </li>
-                    <li>
-                        <a routerLink="/user-dashboard/user-bookings" routerLinkActive="active">
-                            <i class="fal fa-calendar-check"></i>My Bookings
-                            <span>2</span></a>
-                    </li>
-                    <li><a routerLink="/user-dashboard/user-reviews" routerLinkActive="active">
-                            <i class="fal fa-comments-alt"></i>My Reviews
-                        </a></li>
-                    <li>
-                        <a routerLink="/user-dashboard/user-wallet" routerLinkActive="active">
-                            <i class="fal fa-file-plus"></i> My Wallet
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <!-- user-profile-menu end-->
-        </div>
-        <div class="dashbard-menu-footer"> &#169; HouseAfrica 2022 . All rights reserved.</div>
+    <!-- user-profile-menu end-->
+    <!-- user-profile-menu-->
+    <div class="user-profile-menu">
+      <h3>Listings</h3>
+      <ul class="no-list-style">
+        <li><a routerLink="/user-dashboard/user-listings" routerLinkActive="active">
+            <i class="fal fa-th-list"></i> My listigs </a>
+        </li>
+        <li>
+          <a routerLink="/user-dashboard/user-bookings" routerLinkActive="active">
+            <i class="fal fa-calendar-check"></i>My Bookings
+          </a>
+        </li>
+        <li><a routerLink="/user-dashboard/user-reviews" routerLinkActive="active">
+            <i class="fal fa-comments-alt"></i>My Reviews
+          </a></li>
+        <li>
+          <a routerLink="/user-dashboard/user-wallet" routerLinkActive="active">
+            <i class="fal fa-file-plus"></i> My Wallet
+          </a>
+        </li>
+      </ul>
     </div>
-    
+    <!-- user-profile-menu end-->
+  </div>
+  <div class="dashbard-menu-footer"> &#169; HouseAfrica 2022 . All rights reserved.</div>
+</div>

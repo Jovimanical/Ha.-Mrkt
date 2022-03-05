@@ -6,7 +6,7 @@
 
     <!-- content -->
     <div class="dashboard-content">
-       <app-dashboard-toggle></app-dashboard-toggle>
+        <app-dashboard-toggle></app-dashboard-toggle>
         <div class="container dasboard-container">
             <!-- dashboard-title -->
             <app-dashboard-menu-status [dashboardTitle]="PageName"></app-dashboard-menu-status>
@@ -19,17 +19,7 @@
                             <div class="dashboard-stats fl-wrap">
                                 <i class="fal fa-map-marked"></i>
                                 <h4>No of Estate Bought</h4>
-                                <div class="dashboard-stats-count">124</div>
-                            </div>
-                        </div>
-                        <!-- dashboard-stats end -->
-                        <!--dashboard-stats-->
-                        <div class="col-md-3">
-                            <div class="dashboard-stats fl-wrap">
-                                <i class="fal fa-chart-bar"></i>
-                                <h4>Number of Estate Viewed</h4>
-                                <div class="dashboard-stats-count">1056<span>(<strong>+356</strong> this week)</span>
-                                </div>
+                                <div class="dashboard-stats-count">{{numberOfListing}}</div>
                             </div>
                         </div>
                         <!-- dashboard-stats end -->
@@ -38,8 +28,7 @@
                             <div class="dashboard-stats fl-wrap">
                                 <i class="fal fa-comments-alt"></i>
                                 <h4>Number of Estate Reviewed</h4>
-                                <div class="dashboard-stats-count">357<span>(<strong>+12</strong> this week)</span>
-                                </div>
+                                <div class="dashboard-stats-count">{{numberOfReviews}} </div>
                             </div>
                         </div>
                         <!-- dashboard-stats end -->
@@ -48,8 +37,7 @@
                             <div class="dashboard-stats fl-wrap">
                                 <i class="fal fa-heart"></i>
                                 <h4>Number of Estate Bookmarked</h4>
-                                <div class="dashboard-stats-count">2329<span>(<strong>+234</strong> this week)</span>
-                                </div>
+                                <div class="dashboard-stats-count">{{numberOfWishlist}}</div>
                             </div>
                         </div>
                         <!-- dashboard-stats end -->
@@ -58,30 +46,13 @@
                 <div class="clearfix"></div>
                 <div class="row">
                     <div class="col-md-8">
-                        <div class="notification success-notif  fl-wrap">
-                            <p>Your listing <a href="#">Family house in Brooklyn</a> has been approved!</p>
-                            <a class="notification-close" href="#"><i class="fal fa-times"></i></a>
-                        </div>
-                        <div class="dashboard-widget-title fl-wrap">Your Statistic</div>
-                        <div class="dasboard-content fl-wrap">
-                            <!-- chart-wra-->
-                            <div class="chart-wrap   fl-wrap">
-                                <div class="chart-header fl-wrap">
-                                    <div class="listsearch-input-item">
-                                        <select data-placeholder="Week" class="chosen-select no-search-select">
-                                            <option>Week</option>
-                                            <option>Month</option>
-                                            <option>Year</option>
-                                        </select>
-                                    </div>
-                                    <div id="myChartLegend"></div>
-                                </div>
-                                <canvas id="canvas-chart"></canvas>
-                            </div>
-                            <!--chart-wrap end-->
-                        </div>
+
                         <div class="dashboard-widget-title fl-wrap">Last Activites</div>
-                        <div class="dashboard-list-box  fl-wrap">
+                        <div class="notification success-notif  fl-wrap" *ngIf="userActivity.length === 0">
+                            <p>No Activity Available!</p>
+                            <a class="notification-close"><i class="fal fa-times"></i></a>
+                        </div>
+                        <div class="dashboard-list-box  fl-wrap" *ngIf="userActivity.length > 0">
                             <!-- dashboard-list end-->
                             <div class="dashboard-list fl-wrap">
                                 <div class="dashboard-message">
@@ -128,10 +99,11 @@
                     <div class="col-md-4">
                         <!--box-widget-->
                         <div class="dasboard-widget fl-wrap">
-                            <div class="dasboard-widget-title fl-wrap">
-                                <h5><i class="fas fa-comment-alt"></i>Last Messages</h5>
+                            <div class="dashboard-widget-title fl-wrap">Messages</div>
+                            <div class="dasboard-widget-title fl-wrap" *ngIf="userMessages.length === 0">
+                                <h5><i class="fas fa-comment-alt"></i>No Message Available</h5>
                             </div>
-                            <div class="chat-contacts fl-wrap">
+                            <div class="chat-contacts fl-wrap" *ngIf="userMessages.length > 0">
                                 <!-- chat-contacts-item-->
                                 <a class="chat-contacts-item" href="#">
                                     <div class="dashboard-message-avatar">
@@ -227,11 +199,13 @@
                         <div class="box-widget fl-wrap">
                             <div class="banner-widget fl-wrap">
                                 <div class="bg-wrap bg-parallax-wrap-gradien">
-                                    <div class="bg  " data-bg="/assets/images/all/blog/1.jpg"></div>
+                                    <div class="bg"
+                                        style="background-image: url('./assets/images/all/blog/1.jpg');background-size:cover"
+                                        data-bg="/assets/images/all/blog/1.jpg"></div>
                                 </div>
                                 <div class="banner-widget_content">
                                     <h5>Participate in our loyalty program. Refer a friend and get a discount.</h5>
-                                    <a href="#" class="btn float-btn color-bg small-btn">Read More</a>
+                                    <button  class="btn float-btn color-bg small-btn">Read More</button>
                                 </div>
                             </div>
                         </div>

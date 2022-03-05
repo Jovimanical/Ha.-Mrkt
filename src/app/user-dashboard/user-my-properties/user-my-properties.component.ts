@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserMyPropertiesComponent implements OnInit {
   public PageName = "My Properties"
+  public myProperties: Array<any> = [];
+  
   constructor() { }
 
   ngOnInit(): void {

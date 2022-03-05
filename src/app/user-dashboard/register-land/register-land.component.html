@@ -1,0 +1,24 @@
+<!-- wrapper  -->
+<div id="wrapper">
+    <!-- dashbard-menu-wrap -->
+    <app-sidebar></app-sidebar>
+    <!-- dashbard-menu-wrap end  -->
+    <!-- content -->
+    <div class="dashboard-content">
+        <app-dashboard-toggle></app-dashboard-toggle>
+        <div class="container dasboard-container">
+            <!-- dashboard-title -->
+            <app-dashboard-menu-status [dashboardTitle]="PageName"></app-dashboard-menu-status>
+            <!-- dashboard-title end -->
+            <div class="dasboard-wrapper fl-wrap">
+
+            </div>
+        </div>
+        <!-- dashboard-footer -->
+        <app-dashboard-footer-menu></app-dashboard-footer-menu>
+        <!-- dashboard-footer end -->
+    </div>
+    <!-- content end -->
+    <div class="dashbard-bg gray-bg"></div>
+</div>
+<!-- wrapper end -->

@@ -14,10 +14,10 @@
                 <!-- dashboard-list-box-->
                 <div class="dashboard-list-box fl-wrap">
                     <div class="dasboard-widget-title fl-wrap">
-                        <h5><i class="fas fa-comment-alt"></i>Last Messages<span> ( +3 New ) </span></h5>
+                        <h5><i class="fas fa-comment-alt"></i>Last Messages</h5>
                         <a href="#" class="mark-btn  tolt" data-microtip-position="bottom"  data-tooltip="Mark all as read"><i class="far fa-comment-alt-check"></i> </a>
                     </div>
-                    <div class="chat-wrapper fl-wrap">
+                    <div class="chat-wrapper fl-wrap" *ngIf="Messaging.length > 0">
                         <!-- chat-box-->
                         <div class="chat-box fl-wrap">
                             <div class="chat-box-scroll fl-wrap full-height" data-simplebar="init">

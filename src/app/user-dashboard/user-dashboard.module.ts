@@ -23,6 +23,11 @@ import { UserLandRegistryComponent } from './user-land-registry/user-land-regist
 import { UserEmploymentStatusComponent } from './user-employment-status/user-employment-status.component';
 import { UserPersonalInfoComponent } from './user-personal-info/user-personal-info.component';
 import { UserRequiredDocumentsComponent } from './user-required-documents/user-required-documents.component';
+import { RegisterLandComponent } from './register-land/register-land.component';
+import { RegisteredLandProcessComponent } from './registered-land-process/registered-land-process.component';
+import { MyMortgageApplicationComponent } from './my-mortgage-application/my-mortgage-application.component';
+import { MyLoanApplicationComponent } from './my-loan-application/my-loan-application.component';
+
 // import { InviteComponent } from './invite/invite.component';
 // import { InviteService } from './invite/invite.service';
 // import { UserDetailsComponent } from './user-admin/user-details/user-details.component';
@@ -57,6 +62,10 @@ import { UserRequiredDocumentsComponent } from './user-required-documents/user-r
         UserEmploymentStatusComponent,
         UserPersonalInfoComponent,
         UserRequiredDocumentsComponent,
+        RegisterLandComponent,
+        RegisteredLandProcessComponent,
+        MyMortgageApplicationComponent,
+        MyLoanApplicationComponent,
         // InviteComponent,
         //     UserDetailsComponent,
         //     OrderAdminComponent,

@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserReviewsComponent implements OnInit {
   public PageName = "My Reviews"
+  public MyReviews:Array<any> = [];
   constructor() { }
 
   ngOnInit(): void {

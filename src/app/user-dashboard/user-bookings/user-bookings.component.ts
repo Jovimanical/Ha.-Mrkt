@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserBookingsComponent implements OnInit {
   public PageName = "Bookings"
+  public myBookings: Array<any> = [];
   constructor() { }
 
   ngOnInit(): void {

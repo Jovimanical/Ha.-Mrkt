@@ -16,27 +16,18 @@
                         <div class="dashboard-search-listing">
                             <input type="text" onclick="this.select()" placeholder="Search" value="">
                             <button type="submit"><i class="far fa-search"></i></button>
-                        </div>
-                        <a href="dashboard-add-listing.html" class="gradient-bg dashboard-addnew_btn">Add New <i
-                                class="fal fa-plus"></i></a>
-                        <!-- price-opt-->
-                        <div class="price-opt">
-                            <span class="price-opt-title">Sort by:</span>
-                            <div class="listsearch-input-item">
-                                <select data-placeholder="Lastes" class="chosen-select no-search-select">
-                                    <option>Lastes</option>
-                                    <option>Oldes</option>
-                                    <option>Average rating</option>
-                                    <option>Name: A-Z</option>
-                                    <option>Name: Z-A</option>
-                                </select>
-                            </div>
-                        </div>
-                        <!-- price-opt end-->
+                        </div>                    
                     </div>
                     <!-- dashboard-listings-wrap-->
                     <div class="dashboard-listings-wrap fl-wrap">
-                        <div class="row">
+                        <div class="row" *ngIf="myProperties.length === 0">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="dashboard-listings-item fl-wrap">
+                                    <h4>No Listing Available</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="myProperties.length > 0">
                             <!-- dashboard-listings-item-->
                             <div class="col-md-6">
                                 <div class="dashboard-listings-item fl-wrap">
@@ -258,7 +249,7 @@
                     <!-- dashboard-listings-wrap end-->
                 </div>
                 <!-- pagination-->
-                <div class="pagination float-pagination">
+                <div class="pagination float-pagination" *ngIf="myProperties.length > 0">
                     <a href="#" class="prevposts-link"><i class="fa fa-caret-left"></i></a>
                     <a href="#">1</a>
                     <a href="#" class="current-page">2</a>
