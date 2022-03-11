@@ -19,7 +19,15 @@ export class SecurityHttpInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(
         catchError(errorResponse => {
+
+          if ([401, 403].indexOf(errorResponse.status) !== -1) {
+            // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
+            this.authenticationService.logout();
+          }
+
           if (errorResponse.status !== 401) {
+
+            const error = errorResponse.error.message || errorResponse.statusText;
             return observableThrowError(errorResponse);
           }
 

@@ -1,5 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { StoreRoutingModule } from './store-routing.module';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -11,7 +12,7 @@ import { FormlyMatNativeSelectModule } from '@ngx-formly/material/native-select'
 import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
 import { NgWizardModule } from '@cmdap/ng-wizard';
 import { ArchwizardModule } from 'angular-archwizard';
-
+import { OverlayModule } from '@angular/cdk/overlay';
 import { SharedModule } from 'app/shared/shared.module';
 import { StoreComponent } from './store.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
@@ -32,7 +33,8 @@ import { FormlyFieldButton } from './button-type.component';
 import { CheckoutOptionStep2Component } from './checkout-option-step2/checkout-option-step2.component';
 import { CheckoutOptionStep3Component } from './checkout-option-step3/checkout-option-step3.component';
 import { CheckoutProcessOrderComponent } from './checkout-process-order/checkout-process-order.component';
-
+import { EstateMapSidebarService } from 'app/layout/estate-map-sidebar/estate-map-sidebar.service';
+import { EstateMapSidebarComponent } from 'app/layout/estate-map-sidebar/estate-map-sidebar.component';
 
 export function dateFutureValidator(control: FormControl, field: FormlyFieldConfig, options = {}): ValidationErrors {
   return { 'date-future': { message: `Validator options: ${JSON.stringify(options)}` } };
@@ -68,6 +70,7 @@ export function maxValidationMessage(err, field) {
     FormlyMaterialModule,
     NgWizardModule,
     ArchwizardModule,
+    OverlayModule,
     FormlyModule.forRoot({
       types: [
         { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] },
@@ -120,9 +123,11 @@ export function maxValidationMessage(err, field) {
     CheckoutOptionStep2Component,
     CheckoutOptionStep3Component,
     CheckoutProcessOrderComponent,
-    FormlyFieldButton,    
+    FormlyFieldButton,
+    EstateMapSidebarComponent
   ],
-  providers: [],
+  providers: [CurrencyPipe, EstateMapSidebarService],
+  entryComponents: [EstateMapSidebarComponent],
   exports: [
     ProductDetailComponent
   ],

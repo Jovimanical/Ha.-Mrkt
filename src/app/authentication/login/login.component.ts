@@ -2,9 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { LoginService } from './login.service';
 import { MobileService } from '../../core/mobile.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -27,13 +29,19 @@ export class LoginComponent implements OnInit, OnDestroy {
     private mobileService: MobileService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private router: Router) {
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {
+    // redirect to home if already logged in
+    if (this.authenticationService.userValue) {
+      this.router.navigate(['/']);
+    }
 
   }
 
   ngOnInit(): void {
     // get return url from route parameters or default to ‘/’
-    this.returnUrl = this.route.snapshot.queryParams["redirectUrl"] || '/user-dashboard';
+
 
     this.initializeForm();
     // this.isMobile = this.mobileService.isMobile();
@@ -52,6 +60,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
     this.working = true;
+
     if (this.isMobile) {
       const phone = this.loginMobileForm.value.phone;
       this.loginService.sendLoginLink(phone, this.isMobile)
@@ -68,20 +77,23 @@ export class LoginComponent implements OnInit, OnDestroy {
       loginObj.email = this.loginForm.value.email;
       loginObj.password = this.loginForm.value.password;
       // console.log('loginObj', loginObj)
-      this.loginService.loginAction(loginObj).subscribe((response) => {
+      this.loginService.loginAction(loginObj).pipe(first()).subscribe((response) => {
         // console.log('login response', response)
         this.working = false;
         switch (response.user.roles) {
           case 'user':
-           // this.router.navigate(['/user-dashboard']);
-            this.router.navigate([this.returnUrl]);
+            // this.router.navigate([this.returnUrl]);
+            this.returnUrl = this.route.snapshot.queryParams['redirectUrl'] || '/user-dashboard';
+            this.router.navigateByUrl(this.returnUrl);
             break;
           case 'agents':
-
+            const returnAgentUrl = this.route.snapshot.queryParams['redirectUrl'] || '/agent-dashboard';
+            this.router.navigateByUrl(returnAgentUrl);
             break;
 
           case 'admin':
-
+            const returnAdminUrl = this.route.snapshot.queryParams['redirectUrl'] || '/admin-dashboard';
+            this.router.navigateByUrl(returnAdminUrl);
             break;
 
           default:

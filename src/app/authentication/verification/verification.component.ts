@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VerificationService } from './verification.service';
 import { Verification } from './verification.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'app/core/user/user.service';
 
 @Component({
@@ -11,17 +11,25 @@ import { UserService } from 'app/core/user/user.service';
   styleUrls: ['./verification.component.scss']
 })
 export class VerificationComponent implements OnInit {
-  verificationForm: FormGroup;
-  codeSent = false;
-  verificationFailed = false;
+  public verificationForm: FormGroup;
+  public codeSent = false;
+  public verificationFailed = false;
+  public userEmail: string = '';
+  public userCode: string = ''
 
   constructor(
     private formBuilder: FormBuilder,
     private verificationService: VerificationService,
     private userService: UserService,
+    private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.userEmail = params['email'];
+      this.userCode = params['code'];
+    });
+    
     this.initializeForm();
   }
 
@@ -49,7 +57,8 @@ export class VerificationComponent implements OnInit {
 
   private initializeForm(): void {
     this.verificationForm = this.formBuilder.group({
-      code: ['', Validators.required]
+      email: [this.userEmail ? this.userEmail : '', Validators.required],
+      code: [this.userCode ? this.userCode : '', Validators.required]
     });
   }
 }

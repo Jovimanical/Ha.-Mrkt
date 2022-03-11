@@ -15,6 +15,8 @@ export class HeaderComponent implements OnInit {
   public isVerificationRequired = false;
   public isMenuShowing = false;
   public totalBalance = 0;
+  public bookmarkedWishlist: Array<any> = [];
+  public compareListing: Array<any> = [];
 
   constructor(
     private userService: UserService,
@@ -51,22 +53,37 @@ export class HeaderComponent implements OnInit {
   // TODO: Move into an account balance component.
   private getAccounts(): void {
     if (!this.isAuthenticated) {
+
       return;
+
+    } else {
+      this.accountService.getUserAccounts()
+        .subscribe((accounts: any) => {
+          // We're just supporting one account right now. Grab the first result.
+          if (accounts.data instanceof Array && accounts.data.length > 0) {
+            const account = accounts[0];
+            this.totalBalance = account.balance;
+            this.broadcastService.emitBalanceUpdated(this.totalBalance);
+          }
+        }, (error) => {
+          // console.log('getAccounts - Error', error)
+          if (error.error.message === 'Error : Expired token') {
+            console.log('getAccounts call logout')
+            // this.userService.logout();
+          }
+        });
     }
-    this.accountService.getUserAccounts()
-      .subscribe((accounts: any) => {
-        // We're just supporting one account right now. Grab the first result.
-        if (accounts.data instanceof Array && accounts.data.length > 0) {
-          const account = accounts[0];
-          this.totalBalance = account.balance;
-          this.broadcastService.emitBalanceUpdated(this.totalBalance);
-        }
-      }, (error) => {
-        // console.log('getAccounts - Error', error)
-        if (error.error.message === 'Error : Expired token') {
-          console.log('getAccounts call logout')
-          this.userService.logout();
-        }
-      });
+  }
+
+  public clearWishlist() {
+
+  }
+
+  public removeWishlist() {
+
+  }
+
+  public removeCompareItem() {
+
   }
 }

@@ -12,17 +12,26 @@ export class AuthGuardService implements CanActivate {
     private userService: UserService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    const user = this.authenticationService.userValue;
     const authenticated = this.authenticationService.isAuthenticated();
+
     if (!authenticated) {
       this.userService.emitUserAuthenticated(false);
-      this.router.navigate(['authentication/login'], {
-        queryParams: {
-          redirectUrl: state.url
-        }
-      });
+      this.router.navigate(['authentication/login'], { queryParams: { redirectUrl: state.url } });
       return false;
+      
+    } else {
+
+      // check if route is restricted by role
+      if (route.data.roles && route.data.roles.indexOf(user.roles) === -1) {
+        this.userService.emitUserAuthenticated(true);
+        // role not authorised so redirect to home page
+        this.router.navigate(['/store']);
+        return false;
+      }
+
+      this.userService.emitUserAuthenticated(true);
+      return true;
     }
-    this.userService.emitUserAuthenticated(true);
-    return true;
   }
 }

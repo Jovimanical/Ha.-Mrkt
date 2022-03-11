@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BroadcastService } from 'app/core/broadcast.service';
 import { StoreService } from 'app/shared/services/store.service';
+import { AuthenticationService } from '../../../authentication/authentication.service';
 
 @Component({
   selector: 'app-cart-icon',
@@ -9,19 +10,27 @@ import { StoreService } from 'app/shared/services/store.service';
 })
 export class CartIconComponent implements OnInit {
   public cartLength = 0;
+  public isAuthenticated: boolean;
   public sessionStorageCarts = 'houseAfrica.carts';
-  constructor(private storeService: StoreService, private broadcastService: BroadcastService) { }
+  constructor(private storeService: StoreService, private broadcastService: BroadcastService, private authService: AuthenticationService,) { }
 
   ngOnInit() {
-    this.getCart();
+    this.isAuthenticated = this.authService.isAuthenticated();
+    setTimeout(() => {
+      this.getCart();
+    }, 500);
+
     this.broadcastService.getCart$.subscribe(() => {
       this.getCart();
     });
   }
 
   private getCart(): void {
+    if (!this.isAuthenticated) {
+      return
+    }
     this.storeService.fetchCart().subscribe((result: any) => {
-      this.cartLength = result ? result.data.records.length : 0;
+      this.cartLength = result.data?.records ? result.data.records.length : 0;
       if (result.data.records instanceof Array && result.data.records.length > 0) {
         if (JSON.stringify(result.data.records) !== "[]") {
           localStorage.setItem(this.sessionStorageCarts, JSON.stringify(result.data.records));

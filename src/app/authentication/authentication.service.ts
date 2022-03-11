@@ -4,21 +4,33 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { UserService } from 'app/core/user/user.service';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 // import { HAEncryptStorage } from './encryption-storage'
 
 @Injectable()
 export class AuthenticationService {
   private sessionStorageTokenKey = 'houseAfrica.token';
   private sessionStorageUserInfo = 'houseAfrica.user';
+  private userSubject: BehaviorSubject<any>;
+  public user: Observable<any>;
 
   constructor(
     private location: Location,
     private router: Router,
     private userService: UserService,
     private http: HttpClient,
-    @Inject('Window') private window: any) { }
+    @Inject('Window') private window: any
+  ) {
+    this.userSubject = new BehaviorSubject<any>(JSON.parse(sessionStorage.getItem(this.sessionStorageUserInfo)));
+    this.user = this.userSubject.asObservable();
+  }
 
-  getToken(): string {
+  public get userValue(): any {
+    return this.userSubject.value;
+  }
+
+  public getToken(): string {
     // Attempt to retrieve the token from session storage.
     let token = sessionStorage.getItem(this.sessionStorageTokenKey);
     // If not in session storage, attempt to get it from the URL.
@@ -36,7 +48,7 @@ export class AuthenticationService {
 
     try {
       // Attempt to retrieve the token from session storage.
-      let token: any = sessionStorage.getItem(this.sessionStorageUserInfo);    
+      let token: any = sessionStorage.getItem(this.sessionStorageUserInfo);
       // If not in session storage, attempt to get it from the URL.
       if (token === 'undefined' || token === 'null') {
         const userInfo: any = await this.fetchDataAsPromise();
@@ -66,16 +78,18 @@ export class AuthenticationService {
     sessionStorage.setItem(this.sessionStorageTokenKey, token);
   }
 
-  public setUserInfo(token: string): void {
-    sessionStorage.setItem(this.sessionStorageUserInfo, JSON.stringify(token));
+  public setUserInfo(user: string): any {
+    sessionStorage.setItem(this.sessionStorageUserInfo, JSON.stringify(user));
+    this.userSubject.next(user);
+    return user;
   }
 
 
-  isAuthenticated(): boolean {
+  public isAuthenticated(): boolean {
     return this.getToken() != null;
   }
 
-  goToOauthLogin(): void {
+  public goToOauthLogin(): void {
     const RESPONSE_TYPE = 'token';
     const oauthUrl = `${environment.SERVER_URL}/oauth/authorize?client_id=${environment.OAUTH_CLIENT_ID}
 &redirect_uri=${encodeURIComponent(environment.OAUTH_REDIRECT_URL)}
@@ -84,13 +98,14 @@ export class AuthenticationService {
     this.window.location.href = oauthUrl;
   }
 
-  logout(): void {
+  public logout(): void {
     sessionStorage.removeItem(this.sessionStorageTokenKey);
     sessionStorage.removeItem(this.sessionStorageUserInfo);
+    this.userSubject.next(null);
     this.router.navigate(['authentication/login']);
   }
 
-  goToVerification(): void {
+  public goToVerification(): void {
     this.userService.emitUserVerificationRequired(true);
     this.router.navigate(['authentication/verification']);
   }

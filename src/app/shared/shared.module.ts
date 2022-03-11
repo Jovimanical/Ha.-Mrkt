@@ -30,7 +30,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     StoreService,
     MapService,
     TranscationHistoryService,
-    LocalForageService
+    LocalForageService,    
   ],
   exports: [
     ProfileImageDirective,

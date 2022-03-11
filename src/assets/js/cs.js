@@ -106,7 +106,7 @@ function csselem() {
 csselem();
 var $window = $(window);
 $window.on("resize", function () {
-  csselem();
+  //csselem();
 });
 //   Contact form------------------
 $(document).on("submit", "#contactform", function () {

@@ -36,13 +36,8 @@
   </div>
   <!-- header-search button end  -->
   <!--  add new  btn -->
-  <app-cart-icon></app-cart-icon>
+  <app-cart-icon  *ngIf="isAuthenticated && !isVerificationRequired"></app-cart-icon>
   <!--  add new  btn end -->
-  <!--  header-opt_btn -->
-  <div class="header-opt_btn tolt" data-microtip-position="bottom" data-tooltip="Language / Currency">
-    <span><i class="fal fa-globe"></i></span>
-  </div>
-  <!--  header-opt_btn end -->
   <!--  cart-btn   -->
   <div class="cart-btn  tolt show-header-modal" data-microtip-position="bottom" data-tooltip="Your Wishlist / Compare"
     *ngIf="isAuthenticated && !isVerificationRequired">
@@ -53,7 +48,7 @@
   <!--  login btn -->
   <div *ngIf="!isAuthenticated && !isVerificationRequired" class="show-reg-form">
     <a routerLink="/authentication/register" class="add-list color-bg">
-    <i class="fas fa-user"></i><span>Sign In</span>
+      <i class="fas fa-user"></i><span>Sign In</span>
     </a>
   </div>
   <!--  login btn  end -->
@@ -69,13 +64,16 @@
       <ul class="no-list-style">
         <li>
           <a routerLink="/store" routerLinkActive="active" class="act-link">MarketPlace</a>
-        </li>    
-        <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/help-center" routerLinkActive="active">Help FAQ</a></li>
-        <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/contact-us" routerLinkActive="active">Contact Us</a></li>
-        <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/about-us" routerLinkActive="active">About us</a></li>           
+        </li>
+        <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/help-center"
+            routerLinkActive="active">Help FAQ</a></li>
+        <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/contact-us"
+            routerLinkActive="active">Contact Us</a></li>
+        <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/about-us"
+            routerLinkActive="active">About us</a></li>
         <li *ngIf="!isAuthenticated && !isVerificationRequired">
           <a routerLink="/blog" routerLinkActive="active">News</a>
-        </li>     
+        </li>
       </ul>
     </nav>
   </div>
@@ -134,15 +132,17 @@
             <div class="widget-posts  fl-wrap">
               <ul class="no-list-style">
                 <li>
-                  <div class="widget-posts-img"><a href="listing-single.html"><img src="/assets/images/all/small/1.jpg"
-                        alt=""></a>
+                  <div class="widget-posts-img">
+                    <a href="listing-single.html">
+                      <img src="/assets/images/all/small/1.jpg" alt="">
+                    </a>
                   </div>
                   <div class="widget-posts-descr">
                     <h4><a href="listing-single.html">Affordable Urban Room</a></h4>
                     <div class="geodir-category-location fl-wrap"><a href="#"><i class="fas fa-map-marker-alt"></i> 40
                         Journal Square , NJ, USA</a></div>
                     <div class="widget-posts-descr-price"><span>Price: </span> $ 1500 / per month</div>
-                    <div class="clear-wishlist"><i class="fal fa-trash-alt"></i></div>
+                    <div class="clear-wishlist" (click)="removeWishlist()"><i class="fal fa-trash-alt"></i></div>
                   </div>
                 </li>
                 <li>
@@ -158,8 +158,10 @@
                   </div>
                 </li>
                 <li>
-                  <div class="widget-posts-img"><a href="listing-single.html"><img src="/assets/images/all/small/3.jpg"
-                        alt=""></a>
+                  <div class="widget-posts-img">
+                    <a href="listing-single.html">
+                      <img src="/assets/images/all/small/3.jpg" alt="">
+                    </a>
                   </div>
                   <div class="widget-posts-descr">
                     <h4><a href="listing-single.html">Apartment to Rent</a></h4>
@@ -175,7 +177,9 @@
           </div>
           <!-- header-modal-container end-->
           <div class="header-modal-top fl-wrap">
-            <div class="clear_wishlist color-bg"><i class="fal fa-trash-alt"></i> Clear all</div>
+            <div class="clear_wishlist color-bg" (click)="clearWishlist()">
+              <i class="fal fa-trash-alt"></i> Clear all
+            </div>
           </div>
         </div>
         <!--tab end -->
@@ -217,7 +221,10 @@
             </div>
             <!-- header-modal-container end-->
             <div class="header-modal-top fl-wrap">
-              <a class="clear_wishlist color-bg" href="compare.html"><i class="fal fa-random"></i> Compare</a>
+              <a class="clear_wishlist color-bg" routerLink="/store/compare-listing" routerLinkActive="active">
+                <i class="fal fa-random"></i>
+                Compare
+              </a>
             </div>
           </div>
         </div>
@@ -227,34 +234,6 @@
     </div>
   </div>
   <!--wishlist-wrap end -->
-  <!--header-opt-modal-->
-  <div class="header-opt-modal novis_header-mod">
-    <div class="header-opt-modal-container hopmc_init">
-      <div class="header-opt-modal-item lang-item fl-wrap">
-        <h4>Language: <span>EN</span></h4>
-        <div class="header-opt-modal-list fl-wrap">
-          <ul>
-            <li><a href="#" class="current-lan" data-lantext="EN">English</a></li>
-            <li><a href="#" data-lantext="FR">Franais</a></li>
-            <li><a href="#" data-lantext="ES">Espaol</a></li>
-            <li><a href="#" data-lantext="DE">Deutsch</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="header-opt-modal-item currency-item fl-wrap">
-        <h4>Currency: <span>USD</span></h4>
-        <div class="header-opt-modal-list fl-wrap">
-          <ul>
-            <li><a href="#" class="current-lan" data-lantext="USD">USD</a></li>
-            <li><a href="#" data-lantext="EUR">EUR</a></li>
-            <li><a href="#" data-lantext="GBP">GBP</a></li>
-            <li><a href="#" data-lantext="RUR">RUR</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--header-opt-modal end -->
 </header>
 <!-- header end  -->
 <!-- wrapper  -->

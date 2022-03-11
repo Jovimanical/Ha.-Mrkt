@@ -43,7 +43,8 @@ import { DashboardToggleComponent } from './dashboard-toggle/dashboard-toggle.co
     EmptyStateComponent,
     ProfileImageComponent,
     PageIsLoadingComponent,
-    DashboardToggleComponent
+    DashboardToggleComponent,
+    
   ],
   exports: [
     ShellComponent,
@@ -53,7 +54,8 @@ import { DashboardToggleComponent } from './dashboard-toggle/dashboard-toggle.co
     EmptyStateComponent,
     ProfileImageComponent,
     PageIsLoadingComponent,
-    DashboardToggleComponent
+    DashboardToggleComponent,
+    
   ]
 })
 export class LayoutModule { }

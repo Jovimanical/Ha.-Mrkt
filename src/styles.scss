@@ -329,3 +329,15 @@ aside .contact .socialise:hover {
 .leaflet-container .green {
   background: #05a54d;
 }
+
+#wrapper-siderbar {
+  float: left;
+  width: 100%;
+  position: relative;
+  z-index: 25;
+  padding-top: 10px;
+}
+
+.like-btn {
+  margin: 8px;
+}

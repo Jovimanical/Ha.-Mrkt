@@ -537,30 +537,31 @@ function initHomeradar() {
     $('.close-reg , .reg-overlay').on("click", function () {
         modal.hide();
     });
-    // function csselem() {
-    //     $(".map-container.column-map").css({
-    //         height: $(window).outerHeight(true) - 150 + "px"
-    //     });
-    //     $(".map-container.column-map.no-top_search").css({
-    //         height: $(window).outerHeight(true) - 70 + "px"
-    //     });
-    //     $(".slideshow-container .slideshow-item").css({
-    //         height: $(".slideshow-container").outerHeight(true)
-    //     });
-    //     $(".hero-slider-item").css({
-    //         height: $(".hero-slider").outerHeight(true)
-    //     });
-    //     var ww2 = $(window).width();
-    //     if (ww2 > 1084) {
-    //         $(".lws_mobile , .list-searh-input-wrap").css({
-    //             display: "block"
-    //         });
-    //     } else {
-    //         $(".lws_mobile , .list-searh-input-wrap").css({
-    //             display: "none"
-    //         });
-    //     }
-    // }
+
+    function csselem() {
+        $(".map-container.column-map").css({
+            height: $(window).outerHeight(true) - 150 + "px"
+        });
+        $(".map-container.column-map.no-top_search").css({
+            height: $(window).outerHeight(true) - 70 + "px"
+        });
+        $(".slideshow-container .slideshow-item").css({
+            height: $(".slideshow-container").outerHeight(true)
+        });
+        $(".hero-slider-item").css({
+            height: $(".hero-slider").outerHeight(true)
+        });
+        var ww2 = $(window).width();
+        if (ww2 > 1084) {
+            $(".lws_mobile , .list-searh-input-wrap").css({
+                display: "block"
+            });
+        } else {
+            $(".lws_mobile , .list-searh-input-wrap").css({
+                display: "none"
+            });
+        }
+    }
     // csselem();
     // Mob Menu------------------
     function headerModalOpt() {
@@ -629,7 +630,7 @@ function initHomeradar() {
     //   css ------------------
     var $windowres = $(window);
     $windowres.on("resize", function () {
-        csselem();
+        // csselem();
         mobMenuInit();
 
     });

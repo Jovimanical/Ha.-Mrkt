@@ -6,7 +6,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { RegisterService } from './register.service';
 import { Register } from './register.model';
 import { Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { MobileService } from '../../core/mobile.service';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +30,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private toastr: ToastrService,
     private mobileService: MobileService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private authenticationService: AuthenticationService
+    ) {
+       // redirect to home if already logged in
+    if (this.authenticationService.userValue) {
+      this.router.navigate(['/']);
+    }
+     }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -54,7 +63,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     const register = this.registerForm.value as Register;
 
     register.invitationToken = this.invitationToken;
-    
+
     this.registerService.register(register)
       .subscribe((response) => {
         //console.log('Res',response)
@@ -79,7 +88,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.registerForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
-      email: ['', Validators.required],   
+      email: ['', Validators.required],
       password: ['', Validators.required],
       country_code: ['234', Validators.required],
       mobile: ['', Validators.required],
@@ -87,7 +96,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     });
   }
 
-  
+
   // private initializeForm(): void {
   //   this.registerForm = this.formBuilder.group({
   //     firstname: ['', Validators.required],

@@ -1,11 +1,17 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
 import rewind from '@mapbox/geojson-rewind';
 import * as L from 'leaflet';
 import EventService from "eventservice";
 import { EventsService } from 'angular4-events';
+import { OverlayRef } from '@angular/cdk/overlay';
+import { MatSidenav } from '@angular/material/sidenav';
+import { EstateMapSidebarService } from 'app/layout/estate-map-sidebar/estate-map-sidebar.service';
 import { environment } from '../../../environments/environment';
 import { NotificationService } from 'app/shared/services/notification.service';
+import { AuthenticationService } from '../../authentication/authentication.service';
 import { BroadcastService } from 'app/core/broadcast.service';
 import { MobileService } from 'app/core/mobile.service';
 import { Subscription } from 'rxjs';
@@ -18,9 +24,11 @@ import { StoreService } from 'app/shared/services/store.service';
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('sidenav') public sidenav: MatSidenav;
+  public isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(result => result.matches));
   public quantity = 1;
   public loading = false;
   public submitted = false;
@@ -39,6 +47,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   private watcher: Subscription;
   public simpCounter = 0;
   public isMapLoading = true;
+  public isAuthenticated: boolean = false;
+
+  public showView: boolean;
+  public propertView: any = {};
+  public propertyMap: any = {};
+  public totalRooms: number = 0;
+  public listPropertyReviews: Array<any> = [];
+  public isShowing: boolean = false;
 
   // data
   public source: any;
@@ -58,13 +74,17 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     private notificationService: NotificationService,
     private broadcastService: BroadcastService,
     private eventService: EventsService,
-    private mobileService: MobileService
+    private mobileService: MobileService,
+    private estateSidebarService: EstateMapSidebarService,
+    private breakpointObserver: BreakpointObserver,
+    private authService: AuthenticationService,
   ) {
 
     this.isMapLoading = true;
   }
 
   ngOnInit() {
+    this.isAuthenticated = this.authService.isAuthenticated();
     this.route.params.subscribe(params => {
       const PropertyID = params['id'];
       this.returnEstatePropertyObj(PropertyID);
@@ -81,14 +101,19 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   ngAfterViewInit(): void {
     // subscribe to event with name "DisplayPropertyInfo"
     EventService.on("DisplayPropertyInfo", async (propertyFeature) => {
-      this.router.navigate([`/store/marketplace/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}`]);
+      // this.router.navigate([`/store/marketplace/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}`]);
+      this.openSidebar();
       setTimeout(() => {
         // create estate with single unit
         let RepakageUnit = this.ESTATE_MAPSOURCE;
         RepakageUnit.features.push(propertyFeature);
-        this.eventService.publish("ShowProperty", propertyFeature.properties);
-        this.eventService.publish("UnitOptions", RepakageUnit);
+        // this.eventService.publish("ShowProperty", propertyFeature.properties);
+        // this.eventService.publish("UnitOptions", RepakageUnit);
         //console.log("Did something!");
+        this.propertyMap = RepakageUnit;
+        this.propertView = propertyFeature.properties
+        this.totalRooms = this.propertView.property_bathroom_count + this.propertView.property_bedroom_count + this.propertView.property_sittingroom_count
+        this.showView = false;
       }, 500);
     });
 
@@ -112,7 +137,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       RepakageUnit.features.push(propertyFeature);
       setTimeout(() => {
         // create estate with single unit
-        this.packageUnitForExport(RepakageUnit, propertyFeature.properties, 0);
+        // this.packageUnitForExport(RepakageUnit, propertyFeature.properties, 0);
       }, 500);
     });
 
@@ -121,7 +146,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       RepakageUnit.features.push(propertyFeature);
       setTimeout(() => {
         // create estate with single unit
-        this.packageUnitForExport(RepakageUnit, propertyFeature.properties, 1);
+        // this.packageUnitForExport(RepakageUnit, propertyFeature.properties, 1);
       }, 500);
     });
 
@@ -141,11 +166,25 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       this.map.remove();
     }
     this.watcher.unsubscribe();
-    // unsubscribe to event with name "DisplayPropertyInfo"
     EventService.off("DisplayPropertyInfo", "SomeKey");
     EventService.off("DoEnquire", "SomeKey");
     EventService.off("AddToFavorite", "SomeKey");
     EventService.off("AddToCart", "SomeKey");
+  }
+
+  public openSidebar() {
+    // I'd like to insert the "ContentComponent" into the sidebar.
+    // const sidebarRef: OverlayRef = this.estateSidebarService.open('');
+    if (!this.isShowing) {
+      this.isShowing = true;
+      this.changeDectection.detectChanges()
+    }
+    else {
+      this.isShowing = false;
+      this.changeDectection.detectChanges();
+    }
+    // console.log('ha')
+
   }
 
   public loadFavorite() {
@@ -174,6 +213,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   public addToFavorite(property: any): void {
+    if (!this.isAuthenticated) {
+      this.notificationService.showErrorMessage('Login is required to perform this action');
+      return;
+    }
+
     this.submitted = true;
     let alreadyExit: boolean = false
 
@@ -188,7 +232,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     if (!alreadyExit) {
-     
+      this.openSidebar()
       this.loading = true;
       this.storeService.addToBookmark(JSON.stringify(property))
         .subscribe(() => {
@@ -231,7 +275,35 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
 
-  public packageUnitForExport(UnitMap: any, UnitInfo: any, params: any = 1) {
+
+  public packageUnitForExport(params: any = 1) {
+    let repakagedUnit: any = {};
+
+    if (Object.keys(this.propertView).length !== 0 && Object.keys(this.propertyMap).length !== 0) {
+
+      repakagedUnit.EntityParent = this.propertView.EntityParent;
+      repakagedUnit.LinkedEntity = this.propertView.LinkedEntity;
+      repakagedUnit.PropertyFloor = this.propertView.PropertyFloor;
+      repakagedUnit.PropertyId = this.propertView.PropertyId;
+      repakagedUnit.PropertyName = this.propertView.PropertyName ? this.propertView.PropertyName : 'Not Available'
+      repakagedUnit.PropertyJson = this.propertyMap;
+      repakagedUnit.PropertyType = 3;
+      repakagedUnit.PaymentMethod = 1;
+      repakagedUnit.PropertyStatus = this.propertView.property_status;
+      repakagedUnit.PropertyAmount = this.getRandomInt(1111111, 999999);
+
+      if (params === 1) {
+        this.addToCart(repakagedUnit);
+      } else {
+        this.addToFavorite(repakagedUnit)
+      }
+    }
+
+
+  }
+
+
+  public packageUnitForExport_(UnitMap: any, UnitInfo: any, params: any = 1) {
     let repakagedUnit: any = {};
 
     if (Object.keys(UnitInfo).length !== 0 && Object.keys(UnitMap).length !== 0) {
@@ -258,6 +330,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   public addToCart(property: any): void {
+    if (!this.isAuthenticated) {
+      this.notificationService.showErrorMessage('Login is required to perform this action');
+      return;
+    }
     this.submitted = true;
     this.loading = true;
     let cartItemExit: boolean = false
@@ -274,7 +350,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
 
     if (!cartItemExit) {
-
+      this.openSidebar()
       this.storeService.addToCart(JSON.stringify(property))
         .subscribe(() => {
           this.broadcastService.emitGetCart();
@@ -325,9 +401,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       </table>\
       <div>\
       <button id="button-submit" class="balloon-btn grey" type="button"><i class="fa fa-info"></i>&nbsp;Details</button>\
-      <button id="button-enquire" class="balloon-btn" type="button"><i class="fa fa-envelope"></i></button>\
       <button id="button-favourite" class="balloon-btn" type="button"><i class="fa fa-star"></i></button>\
-      <button id="button-cart" class="balloon-btn green" type="button"><i class="fa fa-shopping-cart"></i></button>\
       </div>\
     </div>';
 
@@ -516,14 +590,15 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       var buttonSubmit = L.DomUtil.get('button-submit');
       L.DomEvent.addListener(buttonSubmit, 'click', async (e) => {
         await EventService.fire("DisplayPropertyInfo", allFeatures);
+        //(<any>window).sidenav.toggle()
         marker.closePopup();
       });
 
-      var buttonEnquire = L.DomUtil.get('button-enquire');
-      L.DomEvent.addListener(buttonEnquire, 'click', async (e) => {
-        await EventService.fire("DoEnquire", allFeatures);
-        marker.closePopup();
-      });
+      // var buttonEnquire = L.DomUtil.get('button-enquire');
+      // L.DomEvent.addListener(buttonEnquire, 'click', async (e) => {
+      //   await EventService.fire("DoEnquire", allFeatures);
+      //   marker.closePopup();
+      // });
 
       var buttonFavorite = L.DomUtil.get('button-favourite');
       L.DomEvent.addListener(buttonFavorite, 'click', async (e) => {
@@ -531,11 +606,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         marker.closePopup();
       });
 
-      var buttonAddToCart = L.DomUtil.get('button-cart');
-      L.DomEvent.addListener(buttonAddToCart, 'click', async (e) => {
-        await EventService.fire("AddToCart", allFeatures);
-        marker.closePopup();
-      });
+      // var buttonAddToCart = L.DomUtil.get('button-cart');
+      // L.DomEvent.addListener(buttonAddToCart, 'click', async (e) => {
+      //   await EventService.fire("AddToCart", allFeatures);
+      //   marker.closePopup();
+      // });
 
     }
 
@@ -713,7 +788,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     blockListing.property_amenities = Metadata.property_amenities ? Metadata.property_amenities.FieldValue : 'Not Available';
     blockListing.property_bathroom_count = Metadata.property_bathroom_count ? Metadata.property_bathroom_count.FieldValue : 1;
     blockListing.property_bedroom_count = Metadata.property_bedroom_count ? Metadata.property_bedroom_count.FieldValue : 1;
-    blockListing.property_country = Metadata.property_country ? Metadata.property_country.FieldValue : 'Not Available';
+    blockListing.property_country = Metadata.property_country ? Metadata.property_country.FieldValue : 'Nigeria';
     blockListing.property_description = Metadata.property_description ? Metadata.property_description.FieldValue : 'Not Available';
     blockListing.property_feature_photo = Metadata.property_feature_photo ? Metadata.property_feature_photo.FieldValue : 'Not Available';
     blockListing.property_features = Metadata.property_features ? Metadata.property_features.FieldValue : 'Not Available';
@@ -723,46 +798,48 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     blockListing.property_parking_space_count = Metadata.property_parking_space_count ? Metadata.property_parking_space_count.FieldValue : 1;
     blockListing.property_payment_plans = Metadata.property_payment_plans ? Metadata.property_payment_plans.FieldValue : 'Not Available';
     blockListing.property_photos = Metadata.property_photos ? Metadata.property_photos.FieldValue : 'Not Available';
-    blockListing.property_price = Metadata.property_price ? Metadata.property_price.FieldValue : 'Not Available';
+    blockListing.property_price = Metadata.property_price ? Metadata.property_price.FieldValue : (Math.floor(Math.random() * (Math.floor(9999999) - Math.ceil(2222222) + 1)) + Math.ceil(2222222));
     blockListing.property_sittingroom_count = Metadata.property_sittingroom_count ? Metadata.property_sittingroom_count.FieldValue : 1;
     blockListing.property_size = Metadata.property_size ? Metadata.property_size.FieldValue : 'Not Available';
     blockListing.property_state = Metadata.property_state ? Metadata.property_state.FieldValue : 'Not Available';
-    blockListing.property_status = Metadata.property_status ? Metadata.property_status.FieldValue : 'available';
+    blockListing.property_status = Metadata.property_status ? Metadata.property_status.FieldValue : 'Not Available';
     blockListing.property_title = Metadata.property_title ? Metadata.property_title.FieldValue : 'Not Available';
     blockListing.property_title_photos = Metadata.property_title_photos ? Metadata.property_title_photos.FieldValue : 'Not Available';
     blockListing.property_type = Metadata.property_type ? Metadata.property_type.FieldValue : 'Land';
     blockListing.property_video_url = Metadata.property_video_url ? Metadata.property_video_url.FieldValue : 'Not Available';
-
     // console.log(blockListing);
     return blockListing
   }
 
   public formatLoadedData(propertyObjectListing: any) {
     let propertyObj = [];
-    propertyObjectListing.forEach((property: any) => {
-      var objectElement: any = {};
-      const unitsData = rewind(JSON.parse(property.Entity.EntityGeometry));
-      objectElement = property;
-      objectElement.Metadata = this.resolveObjectAndMerge(property.Metadata);
-      objectElement.Entity = this.patchGeoJson(property.Entity.EntityGeometry);
-      propertyObj.push(objectElement);
+    if (propertyObjectListing instanceof Array && propertyObjectListing.length > 0) {
+      propertyObjectListing.forEach((property: any) => {
+        var objectElement: any = {};
+        const unitsData = rewind(JSON.parse(property.Entity.EntityGeometry));
+        objectElement = property;
+        objectElement.Metadata = this.resolveObjectAndMerge(property.Metadata);
+        objectElement.Entity = this.patchGeoJson(property.Entity.EntityGeometry);
+        propertyObj.push(objectElement);
 
-      let properties = Object.assign(unitsData.features[0].properties, objectElement.Metadata);
-      properties.group = 'unit'
-      properties.PropertyFloor = property.PropertyFloor ? property.PropertyFloor : 0;
-      properties.PropertyId = property.PropertyId;
-      properties.LinkedEntity = property.LinkedEntity;
-      properties.EntityParent = property.EntityParent;
-      properties.id = property.LinkedEntity;
-      properties.PropertyName = property.PropertyTitle;
+        let properties = Object.assign(unitsData.features[0].properties, objectElement.Metadata);
+        properties.group = 'unit'
+        properties.PropertyFloor = property.PropertyFloor ? property.PropertyFloor : 0;
+        properties.PropertyId = property.PropertyId;
+        properties.LinkedEntity = property.LinkedEntity;
+        properties.EntityParent = property.EntityParent;
+        properties.id = property.LinkedEntity;
+        properties.PropertyName = property.PropertyTitle;
 
 
-      unitsData.features[0].properties = properties;
-      this.ESTATE_BLOCK_UNITS.features.push(unitsData.features[0]);
-      this.changeDectection.detectChanges()
-    });
+        unitsData.features[0].properties = properties;
+        this.ESTATE_BLOCK_UNITS.features.push(unitsData.features[0]);
+        this.changeDectection.detectChanges()
+      });
 
-    return propertyObj
+      return propertyObj
+    }
+    return [];
   }
 
   public saveBlockAndUnits(propObjListing: any) {
