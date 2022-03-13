@@ -1,3 +1,24 @@
+// Tabber
+// :host ::ng-deep .mat-tab-group {
+//   flex-direction: row;
+// }
+// :host ::ng-deep .mat-tab-header {
+//   border-bottom: none;
+// }
+// :host ::ng-deep .mat-tab-header-pagination {
+//   display: none !important;
+// }
+// :host ::ng-deep .mat-tab-labels {
+//   flex-direction: column;
+// }
+// :host ::ng-deep .mat-ink-bar {
+//   height: 100%;
+//   left: 98% !important;
+// }
+// :host ::ng-deep .mat-tab-body-wrapper {
+//   flex: 1 1 auto;
+// }
+
 .leaflet-tooltip.estateLabel {
   // background: rgba(255, 255, 255, 0);
   // border:0;
@@ -137,6 +158,7 @@
   margin-bottom: 5px;
   color: #000;
 }
+
 .estateLegend {
   text-align: left;
   line-height: 18px;
@@ -156,10 +178,10 @@
 }
 
 .example-container-sidebar {
-  width: 40vw;
+  width: 45vw;
   height: 100vh;
   background: #f5f7fb;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 mat-drawer-content {
@@ -168,3 +190,38 @@ mat-drawer-content {
   flex-direction: column;
   align-items: flex-start;
 }
+
+.no-border {
+  border: none;
+}
+
+.info-xs{
+  font-size: 8px;
+  font-weight: 900;
+  text-transform: uppercase;
+ 
+}
+
+#map,
+#pano {
+  float: left;
+  height: 100%;
+  width: 50%;
+}
+// @media only screen and (min-width: 481px) {
+//   .example-container-sidebar {
+//     width: 40vw;
+//   }
+// }
+
+// @media only screen and (min-width: 320px) and (max-width: 480px) {
+//   .example-container-sidebar {
+//     width: 100vw;
+//   }
+// }
+
+// @media only screen and (min-width: 280px) {
+//   .example-container-sidebar {
+//     width: 100vw;
+//   }
+// }

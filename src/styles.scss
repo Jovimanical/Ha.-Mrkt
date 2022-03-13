@@ -341,3 +341,8 @@ aside .contact .socialise:hover {
 .like-btn {
   margin: 8px;
 }
+
+.mat-drawer-inner-container {
+  min-height: 100%;
+  overflow: hidden !important;
+}

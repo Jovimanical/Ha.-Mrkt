@@ -32,7 +32,7 @@ export class ScheduleMeetingComponent implements OnInit {
 
   private scheduleMeeting() {
     const payloads = this.scheduleMeetingForm.value;
-    const meetingDatetime = new Date(payloads.date);
+    const meetingDatetime = new Date(payloads.meeting_date);
     const timeValue = payloads.time.split(':');
 
     // Hours are worth 60 minutes.
@@ -40,13 +40,13 @@ export class ScheduleMeetingComponent implements OnInit {
     meetingDatetime.setMinutes(minutes);
 
     // set meeting datetime
-    payloads.date = meetingDatetime;
+    payloads.meeting_date = meetingDatetime;
 
     const durationInMinutes = (payloads.duration_hours * 60) + payloads.duration_minutes;
     // set meeting duration
     payloads.duration = durationInMinutes;
 
-    this._httpClient.post(`${environment.API_URL}/schedule-meeting`, payloads).subscribe((res: any) => {
+    this._httpClient.post(`${environment.API_URL}/schedule-meeting/add`, payloads).subscribe((res: any) => {
       this.displayMessage(res.message);
     }, (error: any) => {
       this.displayMessage(error.message);

@@ -4,6 +4,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
 import rewind from '@mapbox/geojson-rewind';
 import * as L from 'leaflet';
+import * as leafletImage from 'leaflet-image';
 import EventService from "eventservice";
 import { EventsService } from 'angular4-events';
 import { OverlayRef } from '@angular/cdk/overlay';
@@ -18,8 +19,6 @@ import { Subscription } from 'rxjs';
 import { Observable, Subscriber } from 'rxjs';
 import { StoreService } from 'app/shared/services/store.service';
 
-
-
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -28,7 +27,6 @@ import { StoreService } from 'app/shared/services/store.service';
 })
 export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('sidenav') public sidenav: MatSidenav;
-  public isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(result => result.matches));
   public quantity = 1;
   public loading = false;
   public submitted = false;
@@ -65,6 +63,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public sessionStorageCarts = 'houseAfrica.carts';
   public userCarts: Array<any> = [];
 
+  //tabs
+  public showContainer = true;
+  public showFullSidenav = true;
+  public justTheComponent = true;
+  public tabsPlacement = 'start';
+  public panorama: google.maps.StreetViewPanorama;
+
+
 
   constructor(
     private storeService: StoreService,
@@ -82,6 +88,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
     this.isMapLoading = true;
   }
+
+  public isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(result => result.matches));
 
   ngOnInit() {
     this.isAuthenticated = this.authService.isAuthenticated();
@@ -109,11 +117,17 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         RepakageUnit.features.push(propertyFeature);
         // this.eventService.publish("ShowProperty", propertyFeature.properties);
         // this.eventService.publish("UnitOptions", RepakageUnit);
-        //console.log("Did something!");
+        // console.log("Did something!", propertyFeature);
+
         this.propertyMap = RepakageUnit;
         this.propertView = propertyFeature.properties
         this.totalRooms = this.propertView.property_bathroom_count + this.propertView.property_bedroom_count + this.propertView.property_sittingroom_count
         this.showView = false;
+
+        const coordinates = propertyFeature.geometry.coordinates;
+        const coord = coordinates[0][0][0]
+        this.initializeStreetView(coord[0], coord[1])
+
       }, 500);
     });
 
@@ -170,6 +184,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     EventService.off("DoEnquire", "SomeKey");
     EventService.off("AddToFavorite", "SomeKey");
     EventService.off("AddToCart", "SomeKey");
+  }
+
+  public placementToggle(change: any) {
+    change.checked === true ? this.tabsPlacement = 'start' : this.tabsPlacement = 'end';
+  }
+
+  public onContentVisibilityChange(change: any) {
+    console.log('change', change);
   }
 
   public openSidebar() {
@@ -259,6 +281,54 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
         });
     }
+  }
+
+  public initializeStreetView(latitude: any, longitude: any) {
+    // const propertyPlace = { lat: latitude, lng: longitude };
+    // const map = new google.maps.Map(
+    //   document.getElementById("map") as HTMLDivElement,
+    //   {
+    //     center: propertyPlace,
+    //     zoom: 14,
+    //   }
+    // );
+    // // (<any>window).
+    // const panorama = new google.maps.StreetViewPanorama(
+    //   document.getElementById("pano") as HTMLDivElement,
+    //   {
+    //     position: propertyPlace,
+    //     pov: { heading: 165, pitch: 0 },
+    //     zoom: 1,
+    //     motionTrackingControlOptions: {
+    //       position: google.maps.ControlPosition.LEFT_BOTTOM
+    //     }
+    //   }
+    // );
+
+    // map.setStreetView(panorama);
+    setTimeout(() => {
+      const fenway = { lat: 42.345573, lng: -71.098326 };
+      const map = new google.maps.Map(
+        document.getElementById("map") as HTMLDivElement,
+        {
+          center: fenway,
+          zoom: 14,
+        }
+      );
+      const panorama = new google.maps.StreetViewPanorama(
+        document.getElementById("pano") as HTMLDivElement,
+        {
+          position: fenway,
+          pov: {
+            heading: 34,
+            pitch: 10,
+          },
+        }
+      );
+
+      map.setStreetView(panorama);
+    }, 2000);
+
   }
 
   /**
@@ -590,7 +660,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       var buttonSubmit = L.DomUtil.get('button-submit');
       L.DomEvent.addListener(buttonSubmit, 'click', async (e) => {
         await EventService.fire("DisplayPropertyInfo", allFeatures);
-        //(<any>window).sidenav.toggle()
+
+        //Add Add sidebar to the map
+
         marker.closePopup();
       });
 
@@ -798,11 +870,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     blockListing.property_parking_space_count = Metadata.property_parking_space_count ? Metadata.property_parking_space_count.FieldValue : 1;
     blockListing.property_payment_plans = Metadata.property_payment_plans ? Metadata.property_payment_plans.FieldValue : 'Not Available';
     blockListing.property_photos = Metadata.property_photos ? Metadata.property_photos.FieldValue : 'Not Available';
-    blockListing.property_price = Metadata.property_price ? Metadata.property_price.FieldValue : (Math.floor(Math.random() * (Math.floor(9999999) - Math.ceil(2222222) + 1)) + Math.ceil(2222222));
+    blockListing.property_price = Metadata.property_price ? parseFloat(Metadata.property_price.FieldValue) : (Math.floor(Math.random() * (Math.floor(9999999) - Math.ceil(2222222) + 1)) + Math.ceil(2222222));
     blockListing.property_sittingroom_count = Metadata.property_sittingroom_count ? Metadata.property_sittingroom_count.FieldValue : 1;
     blockListing.property_size = Metadata.property_size ? Metadata.property_size.FieldValue : 'Not Available';
     blockListing.property_state = Metadata.property_state ? Metadata.property_state.FieldValue : 'Not Available';
-    blockListing.property_status = Metadata.property_status ? Metadata.property_status.FieldValue : 'Not Available';
+    blockListing.property_status = Metadata.property_status ? Metadata.property_status.FieldValue : 'Available';
     blockListing.property_title = Metadata.property_title ? Metadata.property_title.FieldValue : 'Not Available';
     blockListing.property_title_photos = Metadata.property_title_photos ? Metadata.property_title_photos.FieldValue : 'Not Available';
     blockListing.property_type = Metadata.property_type ? Metadata.property_type.FieldValue : 'Land';

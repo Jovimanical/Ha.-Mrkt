@@ -55,11 +55,11 @@ export class BuildingOnlyListingComponent implements OnInit, AfterViewInit {
     blockListing.property_parking_space_count = Metadata.property_parking_space_count ? Metadata.property_parking_space_count.FieldValue : 1;
     blockListing.property_payment_plans = Metadata.property_payment_plans ? Metadata.property_payment_plans.FieldValue : 'Not Available';
     blockListing.property_photos = Metadata.property_photos ? Metadata.property_photos.FieldValue : 'Not Available';
-    blockListing.property_price = Metadata.property_price ? Metadata.property_price.FieldValue : (Math.floor(Math.random() * (Math.floor(9999999) - Math.ceil(2222222) + 1)) + Math.ceil(2222222));
+    blockListing.property_price = Metadata.property_price ? parseFloat(Metadata.property_price.FieldValue): (Math.floor(Math.random() * (Math.floor(9999999) - Math.ceil(2222222) + 1)) + Math.ceil(2222222));
     blockListing.property_sittingroom_count = Metadata.property_sittingroom_count ? Metadata.property_sittingroom_count.FieldValue : 1;
     blockListing.property_size = Metadata.property_size ? Metadata.property_size.FieldValue : 'Not Available';
     blockListing.property_state = Metadata.property_state ? Metadata.property_state.FieldValue : 'Not Available';
-    blockListing.property_status = Metadata.property_status ? Metadata.property_status.FieldValue : 'Not Available';
+    blockListing.property_status = Metadata.property_status ? Metadata.property_status.FieldValue : 'Available';
     blockListing.property_title = Metadata.property_title ? Metadata.property_title.FieldValue : 'Not Available';
     blockListing.property_title_photos = Metadata.property_title_photos ? Metadata.property_title_photos.FieldValue : 'Not Available';
     blockListing.property_type = Metadata.property_type ? Metadata.property_type.FieldValue : 'Land';

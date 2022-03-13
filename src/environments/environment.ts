@@ -10,6 +10,7 @@ export const environment = {
   MAPBOX_ACCESS_TOKEN: {
     accessToken: 'pk.eyJ1IjoiaG91c2VhZnJpY2EiLCJhIjoiY2tkM20wa2UyMDk1dTJ4b2N4ZWN5OTBhdCJ9.TjkuDwDkxfL1WdCO1FcsmQ'
   },
+  GOOGLE_MAP_API_KEY:'AIzaSyD3GSN-lKlYxfxscH0kMNE6W1RSB2kPvbw',
   OAUTH_REDIRECT_URL: 'http://localhost:3000/dashboard',
   OAUTH_CLIENT_ID: '',
   OAUTH_CLIENT_SECRET: ''

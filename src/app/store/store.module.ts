@@ -36,6 +36,15 @@ import { CheckoutProcessOrderComponent } from './checkout-process-order/checkout
 import { EstateMapSidebarService } from 'app/layout/estate-map-sidebar/estate-map-sidebar.service';
 import { EstateMapSidebarComponent } from 'app/layout/estate-map-sidebar/estate-map-sidebar.component';
 
+
+import { VerticalTabGroupComponent } from 'app/layout/vertical-tabs/vertical-tab-group/vertical-tab-group.component';
+import { VerticalTabComponent } from 'app/layout/vertical-tabs/vertical-tab/vertical-tab.component';
+import { VerticalTabContentDirective } from 'app/layout/vertical-tabs/directives/vertical-tab-content.directive';
+// import { TemplatesComponent } from './templates/templates.component';
+// import { MouseComponent } from './templates/mouse/mouse.component';
+// import { Templates2Component } from './templates2/templates2.component';
+import { VerticalTabLabelDirective } from 'app/layout/vertical-tabs/directives/vertical-tab-label.directive';
+
 export function dateFutureValidator(control: FormControl, field: FormlyFieldConfig, options = {}): ValidationErrors {
   return { 'date-future': { message: `Validator options: ${JSON.stringify(options)}` } };
 }
@@ -124,7 +133,12 @@ export function maxValidationMessage(err, field) {
     CheckoutOptionStep3Component,
     CheckoutProcessOrderComponent,
     FormlyFieldButton,
-    EstateMapSidebarComponent
+    EstateMapSidebarComponent,
+    VerticalTabGroupComponent,
+    VerticalTabComponent,
+    VerticalTabContentDirective,
+    VerticalTabLabelDirective,
+    VerticalTabLabelDirective
   ],
   providers: [CurrencyPipe, EstateMapSidebarService],
   entryComponents: [EstateMapSidebarComponent],

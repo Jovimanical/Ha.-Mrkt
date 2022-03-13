@@ -1,0 +1,22 @@
+<div [fxLayout]="placement === 'start' ? 'row' : 'row-reverse'" fxLayoutAlign="start stretch" class="containerx">
+  <div class="list" fxLayout="column" fxLayoutAlign="space-between">
+
+    <div fxFlex>
+      <div matRipple class="item" *ngFor="let tab of tabs; let i=index" [ngClass]="{'selected': selectedIndex === i}"
+        (click)="selectIndex(i)" fxLayout="column" fxLayoutAlign="center center">
+        <ng-template [ngTemplateOutlet]="tab.labelTemplate"></ng-template>
+      </div>
+    </div>
+
+    <!-- <button mat-icon-button fxFlexAlign="center" (click)="chevronClick($event)">
+      <mat-icon class="chevron" [ngClass]="{'rotate-chevron': showContent}">{{placement === 'start' ? 'chevron_left' :
+        'chevron_right'}}</mat-icon>
+    </button> -->
+  </div>
+
+  <mat-divider vertical="true"></mat-divider>
+
+  <div fxFlex *ngIf="showContent">
+    <ng-template [cdkPortalOutlet]="selectedPortal"></ng-template>
+  </div>
+</div>
