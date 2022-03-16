@@ -11,42 +11,40 @@
             Dashboard
           </a>
         </li>
-        <li><a routerLink="/user-dashboard/user-profile" routerLinkActive="active">
-            <i class="fal fa-user-edit"></i>My Profile</a>
-        </li>
         <li><a routerLink="/user-dashboard/user-properties" routerLinkActive="active">
             <i class="fal fa-home"></i> My Properties</a>
         </li>
-        <li><a routerLink="/user-dashboard/user-messaging" routerLinkActive="active">
-            <i class="fal fa-envelope"></i>My Messages
-          </a>
+        <li>
+          <a routerLink="/user-dashboard/user-land-registry" routerLinkActive="active" class="submenu-link">
+            <i class="fal fa-plus"></i>My Application</a>
+          <ul class="no-list-style">
+            <li>
+              <a routerLink="/listings/application" routerLinkActive="active">
+                <i class="fal fa-check"></i>List All Application (s)</a>
+            </li>
+            <li><a routerLink="/user-dashboard/user-personal-information" routerLinkActive="active">
+                <i class="fal fa-user"></i>Personal Information</a>
+            </li>
+            <li><a routerLink="/user-dashboard/user-employment-status" routerLinkActive="active">
+                <i class="fal fa-briefcase"></i> Employment Information</a>
+            </li>
+            <li><a routerLink="/user-dashboard/user-required-documents" routerLinkActive="active">
+                <i class="fal fa-file-plus"></i> Required Document</a>
+            </li>
+          </ul>
         </li>
         <li><a routerLink="/user-dashboard/user-transaction-history" routerLinkActive="active">
             <i class="fal fa-users"></i>My Transaction History</a>
         </li>
-        <li>
-          <a routerLink="/user-dashboard/user-land-registry" routerLinkActive="active" class="submenu-link">
-            <i class="fal fa-plus"></i>Land Registry</a>
-          <ul class="no-list-style">
-            <li><a routerLink="/user-dashboard/user-land-registeration" routerLinkActive="active">
-                <i class="fal fa-th-list"></i> Register land </a>
-            </li>
-            <li><a routerLink="/user-dashboard/user-land-resisteration-status" routerLinkActive="active">
-                <i class="fal fa-calendar-check"></i> Track Land Registration Status</a>
-            </li>
-            <li><a routerLink="/user-dashboard/user-mortgage-applications" routerLinkActive="active">
-                <i class="fal fa-file-plus"></i>My Mortgage Application</a>
-            </li>
-            <li><a routerLink="/user-dashboard/user-loan-applications" routerLinkActive="active">
-                <i class="fal fa-file-plus"></i> My Loans Application</a>
-            </li>
-          </ul>
+        <li><a routerLink="/user-dashboard/user-profile" routerLinkActive="active">
+            <i class="fal fa-user-edit"></i>My Profile</a>
         </li>
       </ul>
     </div>
+
     <!-- user-profile-menu end-->
     <!-- user-profile-menu-->
-    <div class="user-profile-menu">
+    <!-- <div class="user-profile-menu">
       <h3>Listings</h3>
       <ul class="no-list-style">
         <li><a routerLink="/user-dashboard/user-listings" routerLinkActive="active">
@@ -65,8 +63,18 @@
             <i class="fal fa-file-plus"></i> My Wallet
           </a>
         </li>
+        <li><a routerLink="/user-dashboard/user-messaging" routerLinkActive="active">
+            <i class="fal fa-envelope"></i>My Messages
+          </a>
+        </li>
+        <li><a routerLink="/user-dashboard/user-land-registeration" routerLinkActive="active">
+            <i class="fal fa-th-list"></i> Register land </a>
+        </li>
+        <li><a routerLink="/user-dashboard/user-land-resisteration-status" routerLinkActive="active">
+            <i class="fal fa-calendar-check"></i> Track Land Registration Status</a>
+        </li>
       </ul>
-    </div>
+    </div> -->
     <!-- user-profile-menu end-->
   </div>
   <div class="dashbard-menu-footer"> &#169; HouseAfrica 2022 . All rights reserved.</div>

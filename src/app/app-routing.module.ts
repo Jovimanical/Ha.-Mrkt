@@ -6,9 +6,9 @@ import { Role } from './shared/models/role';
 
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/store', pathMatch: 'full' },
+  { path: '', redirectTo: '/listings', pathMatch: 'full' },
  // { path: '**', redirectTo: '/page-not-found', pathMatch: 'full', },
-  { path: 'store', loadChildren: () => import('app/store/store.module').then(m => m.StoreModule) },
+  { path: 'listings', loadChildren: () => import('app/store/store.module').then(m => m.StoreModule) },
   { path: 'store-map-view', loadChildren: () => import('./store/store-maplayout/store-maplayout.module').then(m => m.StoreMaplayoutModule) },
   { path: 'admin', loadChildren: () => import('app/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuardService] },
   { path: 'user-dashboard', loadChildren: () => import('app/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule), canActivate: [AuthGuardService] },

@@ -53,7 +53,7 @@ export class FooterComponent implements OnInit {
           break;
 
         default:
-          this.router.navigate(['/store']);
+          this.router.navigate(['/listings']);
           break;
       }
     }, error => {

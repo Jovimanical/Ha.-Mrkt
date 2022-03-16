@@ -1,5 +1,5 @@
 import { Component, OnInit, ContentChildren, QueryList, AfterViewInit, ViewContainerRef, TemplateRef, ViewChild, AfterContentChecked, ElementRef, AfterContentInit, ChangeDetectorRef, Input, Output, EventEmitter } from '@angular/core';
-import { Portal, TemplatePortal} from '@angular/cdk/portal';
+import { Portal, TemplatePortal } from '@angular/cdk/portal';
 import { VerticalTabComponent } from '../vertical-tab/vertical-tab.component';
 
 @Component({

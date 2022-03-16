@@ -8,6 +8,7 @@ import { StoreService } from 'app/shared/services/store.service';
 import { environment } from 'environments/environment';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-checkout-choice-mortgage',
   templateUrl: './checkout-choice-mortgage.component.html',
@@ -373,7 +374,7 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
     }
   ];
 
- public myForm = new FormGroup({
+  public myForm = new FormGroup({
     staffIdFile: new FormControl('', [Validators.required]),
     staffIdFileSource: new FormControl('', [Validators.required]),
     governmentIdFile: new FormControl('', [Validators.required]),
@@ -381,9 +382,9 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
     utilityBillFile: new FormControl('', [Validators.required]),
     utilityBillFileSource: new FormControl('', [Validators.required])
   });
-  
+
   public myStatementUploadForm = new FormGroup({
-    file_password: new FormControl('', [Validators.required]),   
+    file_password: new FormControl('', [Validators.required]),
     bankStatmentFile: new FormControl('', [Validators.required]),
     bankStatmentFileSource: new FormControl('', [Validators.required])
   });
@@ -447,7 +448,7 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
   }
 
   public goToCheckOut() {
-    this.router.navigate(['/store/checkout']);
+    this.router.navigate(['/listings/checkout']);
   }
 
   async submit() {
@@ -564,12 +565,12 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
       formData.append('fileUpload[]', this.myForm.get('staffIdFileSource')?.value);
       formData.append('fileUpload[]', this.myForm.get('governmentIdFileSource')?.value);
       formData.append('fileUpload[]', this.myForm.get('utilityBillFileSource')?.value);
-      
+
       this.http.post(`${environment.API_URL}/kyc-documents/add/`, formData)
         .subscribe(res => {
           console.log(res);
           alert('Uploaded Successfully.');
-          this.router.navigate(['/store/checkout']);
+          this.router.navigate(['/listings/checkout']);
         }, error => {
           console.log('_submit() error', error)
         })

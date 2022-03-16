@@ -49,7 +49,7 @@ export class VerificationComponent implements OnInit {
     this.verificationService.verify(verification)
       .subscribe(() => {
         this.userService.emitUserVerificationRequired(false);
-        this.router.navigate(['/store']);
+        this.router.navigate(['/listings']);
       }, () => {
         this.verificationFailed = true;
       });

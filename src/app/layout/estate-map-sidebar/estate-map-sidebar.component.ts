@@ -149,7 +149,7 @@ export class EstateMapSidebarComponent implements OnInit, AfterViewInit, OnDestr
         .subscribe(() => {
           this.userBookMarks.push(property);
           //this.broadcastService.emitGetCart();
-          //this.router.navigate(['/store/cart']);
+          //this.router.navigate(['/listings/application']);
           this.notificationService.showSuccessMessage('Successfully added to cart');
           setTimeout(() => {
             this.saveToLocalStorage(this.userBookMarks, this.sessionStorageBookmarks)
@@ -282,7 +282,7 @@ export class EstateMapSidebarComponent implements OnInit, AfterViewInit, OnDestr
         .subscribe(() => {
           this.userCarts.push(property);
           this.broadcastService.emitGetCart();
-          this.router.navigate(['/store/cart']);
+          this.router.navigate(['/listings/cart']);
           this.notificationService.showSuccessMessage('Successfully added to cart');
 
           setTimeout(() => {

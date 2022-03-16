@@ -41,7 +41,7 @@ const storeRoutes: Routes = [
   { path: 'compare-listing', component: CompareListingsComponent },
   { path: 'search', component: MarketPlaceSearchComponent },
   { path: 'marketplace/:estate/unit/:id', component: ProductBlockListingComponent },
-  { path: 'cart', component: CartComponent, canActivate: [AuthGuardService] }, 
+  { path: 'application', component: CartComponent, canActivate: [AuthGuardService] }, 
   {
     path: 'checkout-option-loan', component: NgWizardComponent, canActivate: [AuthGuardService], children: [
       { path: 'personal-information', component: CheckoutChoiceLoanComponent },

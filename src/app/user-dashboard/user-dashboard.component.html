@@ -14,204 +14,227 @@
             <div class="dasboard-wrapper fl-wrap no-pag">
                 <div class="dashboard-stats-container fl-wrap">
                     <div class="row">
-                        <!--dashboard-stats-->
-                        <div class="col-md-3">
-                            <div class="dashboard-stats fl-wrap">
-                                <i class="fal fa-map-marked"></i>
-                                <h4>No of Estate Bought</h4>
-                                <div class="dashboard-stats-count">{{numberOfListing}}</div>
+                        <mat-tab-group animationDuration="0ms">
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <!-- <div class="share-btn showshare sfcs">                                   
+                                       
+                                    </div> -->
+                                    <span>Land</span>
+                                </ng-template>
+                                <!--dashboard-stats-->
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="dashboard-stats fl-wrap"
+                                        style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+                                        <i class="fal fa-map-marked"></i>
+                                        <div class="dashboard-stats-count">{{numberOfListing}}</div>
+                                        <h4 style="text-align: center; font-size: small;">Land (s)</h4>
+                                    </div>
+                                </div>
+                                <!-- dashboard-stats end -->
+                                <!--dashboard-stats-->
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="dashboard-stats fl-wrap"
+                                        style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+                                        <i class="fal fa-map-marked"></i>
+                                        <div class="dashboard-stats-count">{{numberOfListing |
+                                            currency:'NGN':'symbol-narrow':'4.2-2'}}</div>
+                                        <h4 style="text-align: center;">Payment</h4>
+                                    </div>
+                                </div>
+                                <!-- dashboard-stats end -->
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="dashboard-stats fl-wrap"
+                                        style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+
+                                        <div class="dashboard-stats-count">{{numberOfListing |
+                                            currency:'NGN':'symbol-narrow':'4.2-2'}}</div>
+                                        <h4 style="text-align: center;">Expected payment for this month</h4>
+                                    </div>
+                                </div>
+                                <!-- dashboard-stats end -->
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="dashboard-stats fl-wrap"
+                                        style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+
+                                        <div class="dashboard-stats-count">{{numberOfListing |
+                                            currency:'NGN':'symbol-narrow':'4.2-2'}}</div>
+                                        <h4 style="text-align: center;">Total Amount</h4>
+                                    </div>
+                                </div>
+                                <!-- dashboard-stats end -->
+
+                            </mat-tab>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <!-- <div class="share-btn showshare sfcs">                                  
+                                       
+                                    </div> -->
+                                    <span>House</span>
+                                </ng-template>
+                                <!--dashboard-stats-->
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="dashboard-stats fl-wrap"
+                                        style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+                                        <i class="fal fa-map-marked"></i>
+                                        <div class="dashboard-stats-count">{{numberOfListing}}</div>
+                                        <h4 style="text-align: center; font-size: small;">House(s)</h4>
+                                    </div>
+                                </div>
+                                <!-- dashboard-stats end -->
+                                <!--dashboard-stats-->
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="dashboard-stats fl-wrap"
+                                        style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+                                        <i class="fal fa-map-marked"></i>
+                                        <div class="dashboard-stats-count">{{numberOfListing |
+                                            currency:'NGN':'symbol-narrow':'4.2-2'}}</div>
+                                        <h4 style="text-align: center;">Payment</h4>
+                                    </div>
+                                </div>
+                                <!-- dashboard-stats end -->
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="dashboard-stats fl-wrap"
+                                        style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+
+                                        <div class="dashboard-stats-count">{{numberOfListing |
+                                            currency:'NGN':'symbol-narrow':'4.2-2'}}</div>
+                                        <h4 style="text-align: center;">Expected payment for this month</h4>
+                                    </div>
+                                </div>
+                                <!-- dashboard-stats end -->
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="dashboard-stats fl-wrap"
+                                        style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+
+                                        <div class="dashboard-stats-count">{{numberOfListing |
+                                            currency:'NGN':'symbol-narrow':'4.2-2'}}</div>
+                                        <h4 style="text-align: center;">Total Amount</h4>
+                                    </div>
+                                </div>
+                                <!-- dashboard-stats end -->
+
+                            </mat-tab>
+                        </mat-tab-group>
+                        <div class="clearfix"></div>
+                        <ng-template #loading>
+                            <div class="container-fluid page-padding"
+                                style="margin-top:3%; display: flex; justify-content: center; align-items: center;"
+                                *ngIf="isLoading && cartProducts.length === 0">
+                                <mat-spinner role="progressbar"></mat-spinner>
                             </div>
-                        </div>
-                        <!-- dashboard-stats end -->
-                        <!--dashboard-stats-->
-                        <div class="col-md-3">
-                            <div class="dashboard-stats fl-wrap">
-                                <i class="fal fa-comments-alt"></i>
-                                <h4>Number of Estate Reviewed</h4>
-                                <div class="dashboard-stats-count">{{numberOfReviews}} </div>
+                            <div class="container-fluid page-padding" style="margin-top: 10%;"
+                                *ngIf="!isLoading && cartProducts.length === 0">
+                                <div class="cart">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h3><strong>Application Status</strong></h3>
+                                                </div>
+                                                <div class="card-body cart">
+                                                    <div class="empty-cart-cls">
+                                                        <img src="https://i.imgur.com/dCdflKN.png" width="130"
+                                                            height="130" class="img-fluid mb-4 mr-3">
+
+                                                        <div class="cart-title">You have No pending Application(s)</div>
+                                                        <p>
+                                                            You will find a lot of interesting Properties on our
+                                                            "Listing page"
+                                                            page.
+                                                        </p>
+                                                        <a routerLink="/listings" routerLinkActive="active"
+                                                            class="btn btn-primary cart-btn-transform m-3"
+                                                            data-abc="true">
+                                                            Go to Estate Listing
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <!-- dashboard-stats end -->
-                        <!--dashboard-stats-->
-                        <div class="col-md-3">
-                            <div class="dashboard-stats fl-wrap">
-                                <i class="fal fa-heart"></i>
-                                <h4>Number of Estate Bookmarked</h4>
-                                <div class="dashboard-stats-count">{{numberOfWishlist}}</div>
-                            </div>
-                        </div>
-                        <!-- dashboard-stats end -->
+                        </ng-template>
+                        <ng-template [ngIf]="cartProducts?.length > 0" [ngIfElse]="loading">
+                            <section class="gray-bg small-padding" *ngIf="cartProducts?.length > 0">
+                                <div class="container-fluid">
+                                    <div class="dashboard-stats-count">My Applications</div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12">
+                                            <!-- listing-item-wrap-->
+                                            <div class="listing-item-container one-column-grid-wrap box-list_ic agency-list fl-wrap"
+                                                *ngFor="let cartProduct of cartProducts; let i = index">
+                                                <!--  agecy card item -->
+                                                <div class="listing-item has_one_column">
+                                                    <article class="geodir-category-listing fl-wrap">
+                                                        <div class="geodir-category-img fl-wrap">
+                                                            <a class="geodir-category-img_item">
+                                                                <img src="assets/images/agency/1.png" alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="geodir-category-content fl-wrap">
+                                                            <div class="card-verified tolt"
+                                                                data-microtip-position="left" data-tooltip="Verified">
+                                                                <i class="fal fa-user-check"></i>
+                                                            </div>
+                                                            <div class="agent_card-title fl-wrap">
+                                                                <h4>{{cartProduct.PropertyName}}</h4>
+                                                                <div class="geodir-category-location fl-wrap">
+                                                                    <a><i class="fas fa-map-marker-alt"></i>
+                                                                        {{cartProduct.PropertyJson?.name}}</a>
+                                                                    <div class="listing-rating card-popup-rainingvis"
+                                                                        data-starrating2="4"><span
+                                                                            class="re_stars-title">{{cartProduct.PropertyStatus}}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="small-facts fl-wrap">
+                                                                <ul>
+                                                                    <li><i class="fal fa-home"></i>
+                                                                        <span>
+                                                                            Block &nbsp;
+                                                                            <strong>{{cartProduct.LinkedEntity}}</strong>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li><i class="fal fa-users-class"></i>
+                                                                        <span>
+                                                                            Estate Unit&nbsp;
+                                                                            <strong>{{cartProduct.PropertyId}}</strong>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li><i class="fal fa-comment-alt"></i>
+                                                                        <span>&nbsp;<strong>NOT</strong>COMPLETED</span>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="geodir-category-footer fl-wrap">
+                                                                <button (click)="removeItem(i)" mat-raised-button
+                                                                    color="accent">
+                                                                    <i class="fal fa-trash-alt"></i>
+                                                                    Cancel Application
+                                                                </button>
+                                                                <button (click)="showItem(i)" mat-flat-button
+                                                                    color="primary">
+                                                                    <i class="fal fa-user-check"></i>
+                                                                    Continue Application
+                                                                </button>
+
+                                                            </div>
+                                                        </div>
+                                                    </article>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </ng-template>
+
                     </div>
                 </div>
                 <div class="clearfix"></div>
-                <div class="row">
-                    <div class="col-md-8">
 
-                        <div class="dashboard-widget-title fl-wrap">Last Activites</div>
-                        <div class="notification success-notif  fl-wrap" *ngIf="userActivity.length === 0">
-                            <p>No Activity Available!</p>
-                            <a class="notification-close"><i class="fal fa-times"></i></a>
-                        </div>
-                        <div class="dashboard-list-box  fl-wrap" *ngIf="userActivity.length > 0">
-                            <!-- dashboard-list end-->
-                            <div class="dashboard-list fl-wrap">
-                                <div class="dashboard-message">
-                                    <span class="close-dashboard-item color-bg"><i class="fal fa-times"></i></span>
-                                    <div class="main-dashboard-message-icon color-bg"><i class="far fa-check"></i></div>
-                                    <div class="main-dashboard-message-text">
-                                        <p>Your listing <a href="#">Urban Appartmes</a> has been approved! </p>
-                                    </div>
-                                    <div class="main-dashboard-message-time"><i class="fal fa-calendar-week"></i> 28 may
-                                        2020</div>
-                                </div>
-                            </div>
-                            <!-- dashboard-list end-->
-                            <!-- dashboard-list end-->
-                            <div class="dashboard-list fl-wrap">
-                                <div class="dashboard-message">
-                                    <span class="close-dashboard-item color-bg"><i class="fal fa-times"></i></span>
-                                    <div class="main-dashboard-message-icon color-bg"><i class="fal fa-comment-alt"></i>
-                                    </div>
-                                    <div class="main-dashboard-message-text">
-                                        <p> Someone left a review on <a href="#">Park Central</a> listing!</p>
-                                    </div>
-                                    <div class="main-dashboard-message-time"><i class="fal fa-calendar-week"></i> 28 may
-                                        2020</div>
-                                </div>
-                            </div>
-                            <!-- dashboard-list end-->
-                            <!-- dashboard-list end-->
-                            <div class="dashboard-list fl-wrap">
-                                <div class="dashboard-message">
-                                    <span class="close-dashboard-item color-bg"><i class="fal fa-times"></i></span>
-                                    <div class="main-dashboard-message-icon color-bg"><i class="far fa-heart"></i></div>
-                                    <div class="main-dashboard-message-text">
-                                        <p><a href="#">Fider Mamby</a> bookmarked your <a href="#">Holiday Home</a>
-                                            listing!</p>
-                                    </div>
-                                    <div class="main-dashboard-message-time"><i class="fal fa-calendar-week"></i> 28 may
-                                        2020</div>
-                                </div>
-                            </div>
-                            <!-- dashboard-list end-->
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <!--box-widget-->
-                        <div class="dasboard-widget fl-wrap">
-                            <div class="dashboard-widget-title fl-wrap">Messages</div>
-                            <div class="dasboard-widget-title fl-wrap" *ngIf="userMessages.length === 0">
-                                <h5><i class="fas fa-comment-alt"></i>No Message Available</h5>
-                            </div>
-                            <div class="chat-contacts fl-wrap" *ngIf="userMessages.length > 0">
-                                <!-- chat-contacts-item-->
-                                <a class="chat-contacts-item" href="#">
-                                    <div class="dashboard-message-avatar">
-                                        <img src="/assets/images/avatar/2.jpg" alt="">
-                                        <div class="message-counter">2</div>
-                                    </div>
-                                    <div class="chat-contacts-item-text">
-                                        <h4>Mark Rose</h4>
-                                        <span>27 Dec 2018 </span>
-                                        <p>Vivamus lobortis vel nibh nec maximus. Donec dolor erat, rutrum ut feugiat
-                                            sed, ornare vitae nunc. Donec massa nisl, bibendum id ultrices sed, accumsan
-                                            sed dolor.</p>
-                                    </div>
-                                </a>
-                                <!-- chat-contacts-item -->
-                                <!-- chat-contacts-item-->
-                                <a class="chat-contacts-item" href="#">
-                                    <div class="dashboard-message-avatar">
-                                        <img src="/assets/images/avatar/1.jpg" alt="">
-                                        <div class="message-counter">1</div>
-                                    </div>
-                                    <div class="chat-contacts-item-text">
-                                        <h4>Adam Koncy</h4>
-                                        <span>27 Dec 2018 </span>
-                                        <p>Vivamus lobortis vel nibh nec maximus. Donec dolor erat, rutrum ut feugiat
-                                            sed, ornare vitae nunc. Donec massa nisl, bibendum id ultrices sed, accumsan
-                                            sed dolor.</p>
-                                    </div>
-                                </a>
-                                <!-- chat-contacts-item -->
-                                <!-- chat-contacts-item-->
-                                <a class="chat-contacts-item chat-contacts-item_active" href="#">
-                                    <div class="dashboard-message-avatar">
-                                        <img src="/assets/images/avatar/3.jpg" alt="">
-                                        <div class="message-counter">3</div>
-                                    </div>
-                                    <div class="chat-contacts-item-text">
-                                        <h4>Andy Smith</h4>
-                                        <span>27 Dec 2018 </span>
-                                        <p>Vivamus lobortis vel nibh nec maximus. Donec dolor erat, rutrum ut feugiat
-                                            sed, ornare vitae nunc. Donec massa nisl, bibendum id ultrices sed, accumsan
-                                            sed dolor.</p>
-                                    </div>
-                                </a>
-                                <!-- chat-contacts-item -->
-                                <!-- chat-contacts-item-->
-                                <a class="chat-contacts-item" href="#">
-                                    <div class="dashboard-message-avatar">
-                                        <img src="/assets/images/avatar/5.jpg" alt="">
-                                        <div class="message-counter">4</div>
-                                    </div>
-                                    <div class="chat-contacts-item-text">
-                                        <h4>Joe Frick</h4>
-                                        <span>27 Dec 2018 </span>
-                                        <p>Vivamus lobortis vel nibh nec maximus. Donec dolor erat, rutrum ut feugiat
-                                            sed, ornare vitae nunc. Donec massa nisl, bibendum id ultrices sed, accumsan
-                                            sed dolor.</p>
-                                    </div>
-                                </a>
-                                <!-- chat-contacts-item -->
-                                <!-- chat-contacts-item-->
-                                <a class="chat-contacts-item" href="#">
-                                    <div class="dashboard-message-avatar">
-                                        <img src="/assets/images/avatar/4.jpg" alt="">
-                                    </div>
-                                    <div class="chat-contacts-item-text">
-                                        <h4>Alise Goovy</h4>
-                                        <span>27 Dec 2018 </span>
-                                        <p>Vivamus lobortis vel nibh nec maximus. Donec dolor erat, rutrum ut feugiat
-                                            sed, ornare vitae nunc. Donec massa nisl, bibendum id ultrices sed, accumsan
-                                            sed dolor.</p>
-                                    </div>
-                                </a>
-                                <!-- chat-contacts-item -->
-                                <!-- chat-contacts-item-->
-                                <a class="chat-contacts-item" href="#">
-                                    <div class="dashboard-message-avatar">
-                                        <img src="/assets/images/avatar/6.jpg" alt="">
-                                    </div>
-                                    <div class="chat-contacts-item-text">
-                                        <h4>Cristiano Olando</h4>
-                                        <span>27 Dec 2018 </span>
-                                        <p>Vivamus lobortis vel nibh nec maximus. Donec dolor erat, rutrum ut feugiat
-                                            sed, ornare vitae nunc. Donec massa nisl, bibendum id ultrices sed, accumsan
-                                            sed dolor.</p>
-                                    </div>
-                                </a>
-                                <!-- chat-contacts-item -->
-                            </div>
-                        </div>
-                        <!--box-widget end -->
-                        <!--box-widget-->
-                        <div class="box-widget fl-wrap">
-                            <div class="banner-widget fl-wrap">
-                                <div class="bg-wrap bg-parallax-wrap-gradien">
-                                    <div class="bg"
-                                        style="background-image: url('./assets/images/all/blog/1.jpg');background-size:cover"
-                                        data-bg="/assets/images/all/blog/1.jpg"></div>
-                                </div>
-                                <div class="banner-widget_content">
-                                    <h5>Participate in our loyalty program. Refer a friend and get a discount.</h5>
-                                    <button  class="btn float-btn color-bg small-btn">Read More</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!--box-widget end -->
-                    </div>
-                </div>
             </div>
         </div>
         <!-- dashboard-footer -->

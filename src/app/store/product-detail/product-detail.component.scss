@@ -195,18 +195,17 @@ mat-drawer-content {
   border: none;
 }
 
-.info-xs{
+.info-xs {
   font-size: 8px;
   font-weight: 900;
   text-transform: uppercase;
- 
 }
 
 #map,
 #pano {
-  float: left;
-  height: 100%;
-  width: 50%;
+  //float: left;
+  height: 50%;
+  width: 100%;
 }
 // @media only screen and (min-width: 481px) {
 //   .example-container-sidebar {

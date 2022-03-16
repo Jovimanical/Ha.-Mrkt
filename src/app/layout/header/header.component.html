@@ -36,48 +36,52 @@
   </div>
   <!-- header-search button end  -->
   <!--  add new  btn -->
-  <app-cart-icon  *ngIf="isAuthenticated && !isVerificationRequired"></app-cart-icon>
-  <!--  add new  btn end -->
-  <!--  cart-btn   -->
-  <div class="cart-btn  tolt show-header-modal" data-microtip-position="bottom" data-tooltip="Your Wishlist / Compare"
+  <div style="display: flex; flex-direction: row; justify-content: flex-end;">
+    <!--  navigation -->
+    <div class="nav-holder main-menu">
+      <nav>
+        <ul class="no-list-style">
+          <li>
+            <a routerLink="/listings" routerLinkActive="active" class="act-link">Listings</a>
+          </li>
+          <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/help-center"
+              routerLinkActive="active">Help FAQ</a></li>
+          <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/contact-us"
+              routerLinkActive="active">Contact Us</a></li>
+          <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/about-us"
+              routerLinkActive="active">About us</a></li>
+          <li *ngIf="!isAuthenticated && !isVerificationRequired">
+            <a routerLink="/blog" routerLinkActive="active">News</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <!-- navigation  end -->
+
+    <!--  add new  btn end -->
+    <!--  cart-btn   -->
+    <!-- <div class="cart-btn  tolt show-header-modal" data-microtip-position="bottom" data-tooltip="Your Wishlist / Compare"
     *ngIf="isAuthenticated && !isVerificationRequired">
     <i class="fal fa-bell"></i>
     <span class="cart-btn_counter color-bg">5</span>
+  </div> -->
+    <!--  cart-btn end -->
+    <!--  login btn -->
+    <div *ngIf="!isAuthenticated && !isVerificationRequired" class="show-reg-form">
+      <a routerLink="/authentication/register" class="add-list color-bg">
+        <i class="fas fa-user"></i><span>Sign In</span>
+      </a>
+    </div>
+    <!--  login btn  end -->
+    <div class="add-list_wrap" style="margin-right: 30px;" *ngIf="isAuthenticated && !isVerificationRequired">
+      <a routerLink="/user-dashboard" routerLinkActive="active" class="add-list color-bg">
+        <i class="fal fa-home"></i>
+        <span>Dashboard</span>
+      </a>
+    </div>
+    <app-cart-icon *ngIf="isAuthenticated && !isVerificationRequired"></app-cart-icon>
   </div>
-  <!--  cart-btn end -->
-  <!--  login btn -->
-  <div *ngIf="!isAuthenticated && !isVerificationRequired" class="show-reg-form">
-    <a routerLink="/authentication/register" class="add-list color-bg">
-      <i class="fas fa-user"></i><span>Sign In</span>
-    </a>
-  </div>
-  <!--  login btn  end -->
-  <div class="add-list_wrap" *ngIf="isAuthenticated && !isVerificationRequired">
-    <a routerLink="/user-dashboard" routerLinkActive="active" class="add-list color-bg">
-      <i class="fal fa-key"></i>
-      <span>Dashboard</span>
-    </a>
-  </div>
-  <!--  navigation -->
-  <div class="nav-holder main-menu">
-    <nav>
-      <ul class="no-list-style">
-        <li>
-          <a routerLink="/store" routerLinkActive="active" class="act-link">MarketPlace</a>
-        </li>
-        <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/help-center"
-            routerLinkActive="active">Help FAQ</a></li>
-        <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/contact-us"
-            routerLinkActive="active">Contact Us</a></li>
-        <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/about-us"
-            routerLinkActive="active">About us</a></li>
-        <li *ngIf="!isAuthenticated && !isVerificationRequired">
-          <a routerLink="/blog" routerLinkActive="active">News</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  <!-- navigation  end -->
+
   <!-- header-search-wrapper -->
   <div class="header-search-wrapper novis_search">
     <div class="header-serach-menu">
@@ -115,125 +119,7 @@
     </div>
   </div>
   <!-- header-search-wrapper end  -->
-  <!-- wishlist-wrap-->
-  <div class="header-modal novis_wishlist tabs-act">
-    <ul class="tabs-menu fl-wrap no-list-style">
-      <li class="current"><a href="#tab-wish"> Wishlist <span>- 3</span></a></li>
-      <li><a href="#tab-compare"> Compare <span>- 2</span></a></li>
-    </ul>
-    <!--tabs -->
-    <div class="tabs-container">
-      <div class="tab">
-        <!--tab -->
-        <div id="tab-wish" class="tab-content first-tab">
-          <!-- header-modal-container-->
-          <div class="header-modal-container scrollbar-inner fl-wrap" data-simplebar>
-            <!--widget-posts-->
-            <div class="widget-posts  fl-wrap">
-              <ul class="no-list-style">
-                <li>
-                  <div class="widget-posts-img">
-                    <a href="listing-single.html">
-                      <img src="/assets/images/all/small/1.jpg" alt="">
-                    </a>
-                  </div>
-                  <div class="widget-posts-descr">
-                    <h4><a href="listing-single.html">Affordable Urban Room</a></h4>
-                    <div class="geodir-category-location fl-wrap"><a href="#"><i class="fas fa-map-marker-alt"></i> 40
-                        Journal Square , NJ, USA</a></div>
-                    <div class="widget-posts-descr-price"><span>Price: </span> $ 1500 / per month</div>
-                    <div class="clear-wishlist" (click)="removeWishlist()"><i class="fal fa-trash-alt"></i></div>
-                  </div>
-                </li>
-                <li>
-                  <div class="widget-posts-img"><a href="listing-single.html"><img src="/assets/images/all/small/2.jpg"
-                        alt=""></a>
-                  </div>
-                  <div class="widget-posts-descr">
-                    <h4><a href="listing-single.html">Family House</a></h4>
-                    <div class="geodir-category-location fl-wrap"><a href="#"><i class="fas fa-map-marker-alt"></i>
-                        34-42 Montgomery St , NY, USA</a></div>
-                    <div class="widget-posts-descr-price"><span>Price: </span> $ 50.000</div>
-                    <div class="clear-wishlist"><i class="fal fa-trash-alt"></i></div>
-                  </div>
-                </li>
-                <li>
-                  <div class="widget-posts-img">
-                    <a href="listing-single.html">
-                      <img src="/assets/images/all/small/3.jpg" alt="">
-                    </a>
-                  </div>
-                  <div class="widget-posts-descr">
-                    <h4><a href="listing-single.html">Apartment to Rent</a></h4>
-                    <div class="geodir-category-location fl-wrap"><a href="#"><i class="fas fa-map-marker-alt"></i>75
-                        Prince St, NY, USA</a></div>
-                    <div class="widget-posts-descr-price"><span>Price: </span> $100 / per night</div>
-                    <div class="clear-wishlist"><i class="fal fa-trash-alt"></i></div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <!-- widget-posts end-->
-          </div>
-          <!-- header-modal-container end-->
-          <div class="header-modal-top fl-wrap">
-            <div class="clear_wishlist color-bg" (click)="clearWishlist()">
-              <i class="fal fa-trash-alt"></i> Clear all
-            </div>
-          </div>
-        </div>
-        <!--tab end -->
-        <!--tab -->
-        <div class="tab">
-          <div id="tab-compare" class="tab-content">
-            <!-- header-modal-container-->
-            <div class="header-modal-container scrollbar-inner fl-wrap" data-simplebar>
-              <!--widget-posts-->
-              <div class="widget-posts  fl-wrap">
-                <ul class="no-list-style">
-                  <li>
-                    <div class="widget-posts-img"><a href="listing-single.html"><img
-                          src="/assets/images/all/small/4.jpg" alt=""></a>
-                    </div>
-                    <div class="widget-posts-descr">
-                      <h4><a href="listing-single.html">Gorgeous house for sale</a></h4>
-                      <div class="geodir-category-location fl-wrap"><a href="#"><i class="fas fa-map-marker-alt"></i> 70
-                          Bright St New York, USA </a></div>
-                      <div class="widget-posts-descr-price"><span>Price: </span> $ 52.100</div>
-                      <div class="clear-wishlist"><i class="fal fa-trash-alt"></i></div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="widget-posts-img"><a href="listing-single.html"><img
-                          src="/assets/images/all/small/5.jpg" alt=""></a>
-                    </div>
-                    <div class="widget-posts-descr">
-                      <h4><a href="listing-single.html">Family Apartments</a></h4>
-                      <div class="geodir-category-location fl-wrap"><a href="#"><i class="fas fa-map-marker-alt"></i> W
-                          85th St, New York, USA </a></div>
-                      <div class="widget-posts-descr-price"><span>Price: </span> $ 72.400</div>
-                      <div class="clear-wishlist"><i class="fal fa-trash-alt"></i></div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <!-- widget-posts end-->
-            </div>
-            <!-- header-modal-container end-->
-            <div class="header-modal-top fl-wrap">
-              <a class="clear_wishlist color-bg" routerLink="/store/compare-listing" routerLinkActive="active">
-                <i class="fal fa-random"></i>
-                Compare
-              </a>
-            </div>
-          </div>
-        </div>
-        <!--tab end -->
-      </div>
-      <!--tabs end -->
-    </div>
-  </div>
-  <!--wishlist-wrap end -->
+
 </header>
 <!-- header end  -->
 <!-- wrapper  -->

@@ -33,7 +33,7 @@ export class ProductBlockListingComponent implements OnInit, AfterViewInit, OnDe
 
 
 
-  //cart info
+  //application info
   public sessionStorageBookmarks = 'houseAfrica.bookmarks';
   public sessionStorageCarts = 'houseAfrica.carts';
   public userCarts: Array<any> = [];
@@ -139,7 +139,7 @@ export class ProductBlockListingComponent implements OnInit, AfterViewInit, OnDe
         .subscribe(() => {
            this.userBookMarks.push(property);
           //this.broadcastService.emitGetCart();
-          //this.router.navigate(['/store/cart']);
+          //this.router.navigate(['/listings/application']);
           this.notificationService.showSuccessMessage('Successfully added to cart');
           setTimeout(() => {
             this.saveToLocalStorage(this.userBookMarks, this.sessionStorageBookmarks)
@@ -267,7 +267,7 @@ export class ProductBlockListingComponent implements OnInit, AfterViewInit, OnDe
         .subscribe(() => {
            this.userCarts.push(property);
           this.broadcastService.emitGetCart();
-          this.router.navigate(['/store/cart']);
+          this.router.navigate(['/listings/application']);
           this.notificationService.showSuccessMessage('Successfully added to cart');
 
           setTimeout(() => {

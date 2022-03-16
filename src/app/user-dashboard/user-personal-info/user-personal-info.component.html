@@ -2,8 +2,8 @@
 <div id="wrapper">
     <!-- content -->
     <div class="content">
-          <!-- breadcrumbs-->
-          <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
+        <!-- breadcrumbs-->
+        <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
             <div class="container">
                 <div class="breadcrumbs-list">
                     <a>Home</a><a>User dashboard</a> <span>Personal Information</span>
@@ -25,102 +25,148 @@
                     <div class="col-md-2 col-lg-2"></div>
                     <div class="col-md-8 col-lg-8">
                         <div class="services-item fl-wrap">
-                            <div class="dasboard-widget-box fl-wrap">
-                                <div class="custom-form">
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>FirstName <span class="dec-icon"><i
-                                                        class="far fa-user"></i></span></label>
-                                            <input type="text" placeholder="First Name" value="" />
+                            <div class="dasboard-widget-box fl-wrap" *ngIf="!isLoading">
+                                <form [formGroup]="personalInfoForm" role="form">
+                                    <div class="custom-form">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>FirstName
+                                                    <span class="dec-icon">
+                                                        <i class="far fa-user"></i></span>
+                                                </label>
+                                                <input type="text" placeholder="First Name"
+                                                    formControlName="customer_firstname" maxlength="50" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>LastName <span class="dec-icon">
+                                                        <i class="far fa-user"></i></span>
+                                                </label>
+                                                <input type="text" placeholder="Last Name"
+                                                    formControlName="customer_lastname" maxlength="50" />
+                                            </div>
                                         </div>
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>LastName <span class="dec-icon"><i
-                                                        class="far fa-user"></i></span></label>
-                                            <input type="text" placeholder="Last Name" value="" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Date of Birth <span class="dec-icon"><i
-                                                        class="fal fa-calendar-alt"></i></span></label>
-                                            <input type="text" placeholder="Date of Birth" value="" />
-                                        </div>
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Gender</label>
-                                            <div class="row">
-                                                <div class="col-sm-6 col-lg-6 col-md-6">
-                                                    <input id="check-aaa5" type="radio" name="gender" value="male"
-                                                        checked> Male
-                                                </div>
-                                                <div class="col-sm-6 col-lg-6 col-md-6">
-                                                    <input id="check-aaa5" type="radio" name="gender" value="female"
-                                                        checked> Female
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Phone Number <span class="dec-icon">
+                                                        <i class="fal fa-phone"></i></span>
+                                                </label>
+                                                <input type="text" placeholder="Your Phone number"
+                                                    formControlName="customer_phone_no" maxlength="13" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Email <span class="dec-icon">
+                                                        <i class="fal fa-envelope"></i></span>
+                                                </label>
+                                                <input type="text" placeholder="Your Email address"
+                                                    formControlName="customer_email" maxlength="50" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Date of Birth <span class="dec-icon">
+                                                        <i class="fal fa-calendar-alt"></i></span>
+                                                </label>
+                                                <input type="text" placeholder="Date of Birth"
+                                                    formControlName="customer_dob" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Gender</label>
+                                                <div class="row">
+                                                    <div class="col-sm-6 col-lg-6 col-md-6">
+                                                        <input id="check-aaa5" type="radio"
+                                                            formControlName="customer_gender" value="male" checked> Male
+                                                    </div>
+                                                    <div class="col-sm-6 col-lg-6 col-md-6">
+                                                        <input id="check-aaa5" type="radio"
+                                                            formControlName="customer_gender" value="female" checked>
+                                                        Female
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Residential Details </label>
-                                            <div class="row">
-                                                <div class="col-sm-6 col-lg-6 col-md-6">
-                                                    <input id="check-aaa5" type="radio" name="gender"
-                                                        value="house 0wner" checked> House Owner
-                                                </div>
-                                                <div class="col-sm-6 col-lg-6 col-md-6">
-                                                    <input id="check-aaa5" type="radio" name="gender" value="tenant"
-                                                        checked> Tenant
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Residential Details </label>
+                                                <div class="row">
+                                                    <div class="col-sm-6 col-lg-6 col-md-6">
+                                                        <input id="check-aaa5" type="radio"
+                                                            formControlName="customer_residence_type"
+                                                            value="landlord" checked>
+                                                        House Owner
+                                                    </div>
+                                                    <div class="col-sm-6 col-lg-6 col-md-6">
+                                                        <input id="check-aaa5" type="radio"
+                                                            formControlName="customer_residence_type" value="tenant"
+                                                            checked>
+                                                        Tenant
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>House No <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="House Number"
+                                                    formControlName="customer_house_number" maxlength="1" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Address <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="House Address"
+                                                    formControlName="customer_house_address" maxlength="150" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Nearest Bus Stop <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="Nearest Bus Stop"
+                                                    formControlName="customer_nearest_stop" maxlength="50" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>State <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="State"
+                                                    formControlName="customer_state" maxlength="50" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>City <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="City" formControlName="customer_city" maxlength="50" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Local Government Area <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="Local Government Area"
+                                                    formControlName="customer_lga" maxlength="50" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Country <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="Your country"
+                                                    formControlName="customer_country" maxlength="50" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>How long have you been living here? <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="How long have you been living here?"
+                                                    formControlName="customer_stay_duration" maxlength="1" />
+                                            </div>
+                                        </div>
+                                        <div class="row buy-land-btn"></div>
+                                        <div class="geodir-category-footer fl-wrap">
+                                            <button (click)="userRegister(1)" mat-raised-button color="accent">
+                                                Save Update
+                                            </button>
+                                            <button (click)="userRegister(2)" mat-flat-button color="primary">
+                                                Save And Continue
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Address Line 1 <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="Address Line 1" value="" />
-                                        </div>
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Address Line 2 <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="Address Line 2" value="" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Nearest Bus Stop <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="Nearest Bus Stop" value="" />
-                                        </div>
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>State <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="State" value="" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>City <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="City" value="" />
-                                        </div>
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Local Government Area <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="Local Government Area" value="" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>How long have you been living here? <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="How long have you been living here?"
-                                                value="" />
-                                        </div>
-                                    </div>
-                                    <div class="row buy-land-btn"></div>
-                                    <a href="/application-mortgage-3.html" class="btn  color-bg float-btn">Next </a>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>

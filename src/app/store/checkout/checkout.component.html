@@ -67,12 +67,35 @@
                         </mat-checkbox>
                       </div>
                     </div>
-
-                    <div class="checkout-title">PAYMENT</div>
-                    <mat-form-field>
+                    <!-- <div style="height: 10px;"></div> -->
+                    <div class="checkout-title">PAYMENT INFORMATION</div>
+               
+                    <div class="row">
+                      <div class="col-xs-4 col-sm-4 col-md-4">
+                        <h4>Application Fees</h4>
+                        <span>{{balance | currency:'NGN':'symbol-narrow':'4.2-2'}}</span>
+                      </div>
+                      <div class="col-xs-4 col-sm-4 col-md-4">
+                        <h4>Number Of property</h4>
+                        <span>{{numberOfProperties}}</span>
+                      </div>
+                      <div class="col-xs-4 col-sm-4 col-md-4">
+                         <h4>Application Mode</h4>
+                        <span>MORTGAGE</span>
+                      </div>
+                    </div>
+                    <!-- <mat-form-field>
                       <mat-label>Credit</mat-label>
-                      <input matInput readonly value="{{balance |  currency:'NGN':'symbol-narrow':'4.2-2'}}">
+                      <input matInput readonly value="">
                     </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Number Of property</mat-label>
+                      <input matInput readonly value="{{numberOfProperties}}">
+                    </mat-form-field>
+                    <mat-form-field>
+                     
+                      <input matInput readonly value="MORTGAGE">
+                    </mat-form-field> -->
 
                     <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
                       <button mat-button (click)="payWithFlutter()" [disabled]="loading">

@@ -346,3 +346,15 @@ aside .contact .socialise:hover {
   min-height: 100%;
   overflow: hidden !important;
 }
+
+.mat-tab-label {
+  background: white;
+  border: 2px solid #041D58;
+  color:#041D58;
+  margin-bottom: 10px;
+}
+
+.mat-tab-label-active {
+  background: #041D58 !important;
+  color:#FFFFFF !important;
+}

@@ -78,8 +78,6 @@ export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showItem(index: number) {
     const product = this.cartProducts[index];
-
-
   }
 
   goToCheckout(params: any = 1): void {
@@ -89,7 +87,7 @@ export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
     // }
 
     if (params === 1) {
-      this.router.navigate(['/store/checkout-option-mortgage']);
+      this.router.navigate(['/listings/checkout-option-mortgage']);
     } else {
       this.router.navigate(['store/checkout-option-mortgage']);
     }

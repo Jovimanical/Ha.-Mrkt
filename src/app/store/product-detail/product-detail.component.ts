@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
@@ -27,6 +27,9 @@ import { StoreService } from 'app/shared/services/store.service';
 })
 export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('sidenav') public sidenav: MatSidenav;
+  @ViewChild("gmapContainer", { static: false }) public gmapContainer: ElementRef;
+  @ViewChild("gmapPanorama", { static: false }) public gmapPanorama: ElementRef;
+
   public quantity = 1;
   public loading = false;
   public submitted = false;
@@ -109,7 +112,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   ngAfterViewInit(): void {
     // subscribe to event with name "DisplayPropertyInfo"
     EventService.on("DisplayPropertyInfo", async (propertyFeature) => {
-      // this.router.navigate([`/store/marketplace/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}`]);
+      // this.router.navigate([`/listings/marketplace/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}`]);
       this.openSidebar();
       setTimeout(() => {
         // create estate with single unit
@@ -133,7 +136,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
     // subscribe to event with name "DoEnquire"
     EventService.on("DoEnquire", async (propertyFeature) => {
-      this.router.navigate([`/store/marketplace/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}/#enquire`]);
+      this.router.navigate([`/listings/marketplace/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}/#enquire`]);
       setTimeout(() => {
         // create estate with single unit
         let RepakageUnit = this.ESTATE_MAPSOURCE;
@@ -260,7 +263,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         .subscribe(() => {
           this.userBookMarks.push(property);
           //this.broadcastService.emitGetCart();
-          //this.router.navigate(['/store/cart']);
+          //this.router.navigate(['/listings/application']);
           this.notificationService.showSuccessMessage('Successfully added to cart');
           this.loading = false;
           this.submitted = false;
@@ -309,14 +312,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     setTimeout(() => {
       const fenway = { lat: 42.345573, lng: -71.098326 };
       const map = new google.maps.Map(
-        document.getElementById("map") as HTMLDivElement,
+        this.gmapContainer.nativeElement,
         {
           center: fenway,
           zoom: 14,
         }
       );
       const panorama = new google.maps.StreetViewPanorama(
-        document.getElementById("pano") as HTMLDivElement,
+        this.gmapPanorama.nativeElement,
         {
           position: fenway,
           pov: {
@@ -424,7 +427,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       this.storeService.addToCart(JSON.stringify(property))
         .subscribe(() => {
           this.broadcastService.emitGetCart();
-          this.router.navigate(['/store/cart']);
+          this.router.navigate(['/listings/application']);
           this.notificationService.showSuccessMessage('Successfully added to cart');
           this.userCarts.push(property);
 
@@ -592,9 +595,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     // Any values not listed in the ranges below displays as the last color
     function getColor(color_status: any) {
       switch (color_status) {
-        case 'sold': return '#FF0000';
-        case 'available': return '#7CFC00';
-        case '1': return '#FF0000';
+        case 'Uncliamed': return '#FF0000';
+        case 'Unavailable': return '#7CFC00';
+        case 'Litigation': return '#FF0000';
         case 'Unreleased': return '#7d7d7d';
         case 'Available for Resale': return '#0e4382';
         case 'Sold': return '#ac0e0b';
@@ -607,7 +610,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         case "Bankable": return "#ee0e0b";
         case "Transferred": return "#ac0ec3";
         case "Rented": return "#ac0e0b";
-        case "Show House": return "#6900C3";
+        case "Mortagage": return "#6900C3";
         default: return "black";
 
       }

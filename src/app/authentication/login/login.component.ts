@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             break;
 
           default:
-            this.router.navigate(['/store']);
+            this.router.navigate(['/listings']);
             break;
         }
 

@@ -593,13 +593,13 @@
                                         <ul class="no-list-style">
                                             <li *ngFor="let property of listFeaturedProperty">
                                                 <div class="widget-posts-img">
-                                                    <a routerLink="/store/products/{{property.PropertyId}}"
+                                                    <a routerLink="/listings/products/{{property.PropertyId}}"
                                                         routerLinkActive="active">
                                                         <img src="assets/images/all/small/1.jpg" alt="">
                                                     </a>
                                                 </div>
                                                 <div class="widget-posts-descr">
-                                                    <h4><a routerLink="/store/products/{{property.PropertyId}}"
+                                                    <h4><a routerLink="/listings/products/{{property.PropertyId}}"
                                                             routerLinkActive="active">
                                                             {{property.PropertyTitle}}
                                                         </a>
@@ -619,7 +619,7 @@
                                         </ul>
                                     </div>
                                     <!-- widget-posts end-->
-                                    <a routerLink="/store" routerLinkActive="active"
+                                    <a routerLink="/listings" routerLinkActive="active"
                                         class="btn float-btn color-bg small-btn">
                                         View All Properties
                                     </a>

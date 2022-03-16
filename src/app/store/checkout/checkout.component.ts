@@ -19,8 +19,9 @@ declare var MonnifySDK: any;
 })
 export class CheckoutComponent implements OnInit {
   public checkoutForm: FormGroup;
-  public balance = 3000;
+  public balance = 0;
   public subtotal = 0;
+  public numberOfProperties = 0
   public loading = true;
   public orderInfo: any = {};
   public cartProducts: Array<any> = [];
@@ -47,6 +48,8 @@ export class CheckoutComponent implements OnInit {
         // save to loal store
         response.data.records.forEach((element: any) => {
           this.subtotal += element.PropertyAmount ? parseFloat(element.PropertyAmount) : 0;
+          this.balance += 3000
+          this.numberOfProperties +=1
           element.PropertyJson = JSON.parse(element.PropertyJson);
           this.cartProducts.push(element);
         });
@@ -76,7 +79,7 @@ export class CheckoutComponent implements OnInit {
     // this.storeService.checkout(model).subscribe(result => {
     //   this.broadcastService.emitGetCart();
     //   this.broadcastService.emitGetBalance();
-    //   this.router.navigate(['/store/checkout/confirmation']);
+    //   this.router.navigate(['/listings/checkout/confirmation']);
     //   this.loading = false;
     // }, error => {
     //   this.notificationService.showErrorMessage(error.error[0].errorDescription);
@@ -100,13 +103,16 @@ export class CheckoutComponent implements OnInit {
   }
 
   public payWithFlutter() {
-    this.router.navigate(['/store/checkout/confirmation']);
+
+    this.router.navigate(['/listings/checkout/confirmation']);
    }
   public payWithPaystack() {
-    this.router.navigate(['/store/checkout/confirmation']);
+
+    this.router.navigate(['/listings/checkout/confirmation']);
    }
   public payWithMonnify() {
-    this.router.navigate(['/store/checkout/confirmation']);
+
+    this.router.navigate(['/listings/checkout/confirmation']);
     // MonnifySDK.initialize({
     //   amount: 5000,
     //   currency: "NGN",
@@ -169,8 +175,8 @@ export class CheckoutComponent implements OnInit {
       }
 
       if (this.cartProducts.length > 0) {
-        this.cartProducts.forEach(async (element: any) => {
-          await this.storeService.addToListing(element);
+        this.cartProducts.forEach(async (propperty: any) => {
+          await this.storeService.addToListing(propperty);
         });
       }
 
@@ -182,6 +188,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   public addTransactionHistory() {
+    
 
   }
 

@@ -1,24 +1,82 @@
- <!-- wrapper  -->	
- <div id="wrapper">
+<!-- wrapper  -->
+<div id="wrapper">
     <!-- dashbard-menu-wrap -->
     <app-sidebar></app-sidebar>
-    <!-- dashbard-menu-wrap end  -->		
-    <!-- content -->	
+    <!-- dashbard-menu-wrap end  -->
+    <!-- content -->
     <div class="dashboard-content">
         <app-dashboard-toggle></app-dashboard-toggle>
         <div class="container dasboard-container">
-            <!-- dashboard-title -->	
+            <!-- dashboard-title -->
             <app-dashboard-menu-status [dashboardTitle]="PageName"></app-dashboard-menu-status>
-            <!-- dashboard-title end -->		
+            <!-- dashboard-title end -->
             <div class="dasboard-wrapper fl-wrap">
-              	
+                <!--dashboard-stats-->
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <a routerLink="/listings/application" routerLinkActive="active">
+                        <div class="dashboard-stats fl-wrap"
+                            style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+                            <i class="fal fa-map-marked"></i>
+                            <div class="dashboard-stats-count">All</div>
+                            <h4 style="text-align: center;">Application</h4>
+                        </div>
+                    </a>
+                </div>
+                <!-- dashboard-stats end -->
+                <div class="col-xs-12 col-sm-12 col-md-12">
+
+                    <div class="dashboard-stats fl-wrap"
+                        style="display: flex; flex-direction: column; justify-content: center; margin: 10px 0px 50px 10px;">
+                        <div class="dashboard-stats-count">
+                            Information below is required to obtian a Mortgage or Loan
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <!--dashboard-stats-->
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <a routerLink="/user-dashboard/user-personal-information" routerLinkActive="active">
+                        <div class="dashboard-stats fl-wrap"
+                            style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+                            <i class="fal fa-user"></i>
+                            <div class="dashboard-stats-count">Personal</div>
+                            <h4 style="text-align: center;">Information</h4>
+                        </div>
+                    </a>
+                </div>
+                <!-- dashboard-stats end -->
+                <!--dashboard-stats-->
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <a routerLink="/user-dashboard/user-employment-status" routerLinkActive="active">
+                        <div class="dashboard-stats fl-wrap"
+                            style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+                            <i class="fal fa-briefcase"></i>
+                            <div class="dashboard-stats-count">Employment</div>
+                            <h4 style="text-align: center;">Information</h4>
+                        </div>
+                    </a>
+                </div>
+                <!-- dashboard-stats end -->
+                <!--dashboard-stats-->
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <a routerLink="/user-dashboard/user-required-documents" routerLinkActive="active">
+                        <div class="dashboard-stats fl-wrap"
+                            style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+                            <i class="fal fa-file-plus"></i>
+                            <div class="dashboard-stats-count">Required</div>
+                            <h4 style="text-align: center;">Documents</h4>
+                        </div>
+                    </a>
+                </div>
+                <!-- dashboard-stats end -->
             </div>
         </div>
         <!-- dashboard-footer -->
         <app-dashboard-footer-menu></app-dashboard-footer-menu>
-        <!-- dashboard-footer end -->			
+        <!-- dashboard-footer end -->
     </div>
-    <!-- content end -->	
+    <!-- content end -->
     <div class="dashbard-bg gray-bg"></div>
 </div>
 <!-- wrapper end -->

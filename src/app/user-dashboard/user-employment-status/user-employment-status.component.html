@@ -25,114 +25,142 @@
                     <div class="col-md-2 col-lg-2"></div>
                     <div class="col-md-8 col-lg-8">
                         <div class="services-item fl-wrap">
-                            <div class="dasboard-widget-box fl-wrap">
-                                <div class="custom-form">
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>What best describe you? </label>
-                                            <div class="row">
-                                                <div class="col-sm-6 col-lg-6 col-md-6">
-                                                    <input id="check-aaa5" type="radio" name="gender"
-                                                        value="business llient" checked> Business Client
-                                                </div>
-                                                <div class="col-sm-6 col-lg-6 col-md-6">
-                                                    <input id="check-aaa5" type="radio" name="gender"
-                                                        value="salary earner" checked> Salary Earner
+                            <div class="dasboard-widget-box fl-wrap" *ngIf="!isLoading">
+                                <form [formGroup]="EmploymentInfoForm" role="form">
+                                    <div class="custom-form">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-lg-12 col-md-12">
+                                                <label>What best describe you? </label>
+                                                <div class="row">
+                                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                                        <input id="check-aaa5" type="radio"
+                                                            name="customer_employment_status" value="business" checked>
+                                                        Business Person
+                                                    </div>
+                                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                                        <input id="check-aaa5" type="radio"
+                                                            name="customer_employment_status" value="salary earner"
+                                                            checked>
+                                                        Salary Earner
+                                                    </div>
+                                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                                        <input id="check-aaa5" type="radio"
+                                                            name="customer_employment_status" value="both" checked> Both
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div>
+                                            <h4 class="text-left mt-20 mb-20">Employer Details</h4>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-lg-12 col-md-12">
+                                                <label>Name of Employer <span class="dec-icon"><i
+                                                            class="far fa-user"></i></span></label>
+                                                <input type="text" placeholder="Name of Employer"
+                                                    formControlName="customer_employer_name" />
+                                            </div>                                         
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Office Number <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="Office Number"
+                                                    formControlName="customer_employer_office_number" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Address <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="Company or Office address"
+                                                    formControlName="customer_employer_address" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Nearest Bus Stop <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="Nearest Bus Stop"
+                                                    formControlName="customer_employer_nearest_bustop" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>State <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="State"
+                                                    formControlName="customer_employer_state" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>City <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="City"
+                                                    formControlName="customer_employer_city" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Local Government Area <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="Local Government Area"
+                                                    formControlName="customer_employer_lga" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Country <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="Country"
+                                                    formControlName="customer_employer_country" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Date of employment <span class="dec-icon"><i
+                                                            class="fal fa-map-marker-alt"></i></span></label>
+                                                <input type="text" placeholder="Date of employment"
+                                                    formControlName="customer_employer_doe" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-left mt-20 mb-20">Salary and bank details</h4>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Bank verification number <span class="dec-icon"><i
+                                                            class="far fa-badge-check"></i></span></label>
+                                                <input type="text" placeholder="Bank verification number"
+                                                    formControlName="customer_account_bvn" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Monthly net salary (your current take home salary) <span
+                                                        class="dec-icon"><i
+                                                            class="fal fa-money-bill-wave"></i></span></label>
+                                                <input type="text"
+                                                    placeholder="Monthly net salary (your current take home salary)"
+                                                    formControlName="customer_account_monthly_salary" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Primary bank <span class="dec-icon"><i
+                                                            class="fal fa-door-closed"></i></span></label>
+                                                <input type="text" placeholder="Primary bank"
+                                                    formControlName="customer_account_primary_bank" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>Primary bank account <span class="dec-icon"><i
+                                                            class="fal fa-door-closed"></i></span></label>
+                                                <input type="text" placeholder="Primary bank account"
+                                                    formControlName="customer_account_primary_bank_account" />
+                                            </div>
+                                        </div>
+                                        <div class="row buy-land-btn"></div>
+                                        <div class="geodir-category-footer fl-wrap">
+                                            <button (click)="submitEmployerInfo(1)" mat-raised-button color="accent">
+                                                Save Update
+                                            </button>
+                                            <button (click)="submitEmployerInfo(2)" mat-flat-button color="primary">
+                                                Save And Continue
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h4 class="text-left mt-20 mb-20">Employer Details</h4>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Name of Employer <span class="dec-icon"><i
-                                                        class="far fa-user"></i></span></label>
-                                            <input type="text" placeholder="Name of Employer" value="" />
-                                        </div>
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Name of Employer <span class="dec-icon"><i
-                                                        class="far fa-user"></i></span></label>
-                                            <input type="text" placeholder="Name of Employer" value="" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Address Line 1 <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="Address Line 1" value="" />
-                                        </div>
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Address Line 2 <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="Address Line 2" value="" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Nearest Bus Stop <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="Nearest Bus Stop" value="" />
-                                        </div>
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>State <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="State" value="" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>City <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="City" value="" />
-                                        </div>
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Local Government Area <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="Local Government Area" value="" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Date of employment <span class="dec-icon"><i
-                                                        class="fal fa-map-marker-alt"></i></span></label>
-                                            <input type="text" placeholder="Date of employment" value="" />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h4 class="text-left mt-20 mb-20">Salary and bank details</h4>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Bank verification number <span class="dec-icon"><i
-                                                        class="far fa-badge-check"></i></span></label>
-                                            <input type="text" placeholder="Bank verification number" value="" />
-                                        </div>
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Monthly net salary (your current take home salary) <span
-                                                    class="dec-icon"><i
-                                                        class="fal fa-money-bill-wave"></i></span></label>
-                                            <input type="text"
-                                                placeholder="Monthly net salary (your current take home salary)"
-                                                value="" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Primary bank <span class="dec-icon"><i
-                                                        class="fal fa-door-closed"></i></span></label>
-                                            <input type="text" placeholder="Primary bank" value="" />
-                                        </div>
-                                        <div class="col-sm-6 col-lg-6 col-md-6">
-                                            <label>Primary bank account <span class="dec-icon"><i
-                                                        class="fal fa-door-closed"></i></span></label>
-                                            <input type="text" placeholder="Primary bank account" value="" />
-                                        </div>
-                                    </div>
-                                    <div class="row buy-land-btn"></div>
-                                    <a href="/application-mortgage-4.html" class="btn  color-bg float-btn">Naxt</a>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
