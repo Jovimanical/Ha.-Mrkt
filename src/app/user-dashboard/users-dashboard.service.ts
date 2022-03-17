@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { User } from 'app/core/user/user.model';
-import { Order } from 'app/orders/order.model';
+import { Order } from 'app/admin-dashboard/orders/order.model';
 
 @Injectable()
 export class UserDashboardService {

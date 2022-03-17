@@ -13,7 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { AuthenticationModule } from './authentication/authentication.module';
-import { AngularMaterialModule } from './angular-material/angular-material.module';
+import { AngularMaterialModule } from './shared/angular-material/angular-material.module';
 import { SecurityHttpInterceptor } from './authentication/security-http-interceptor';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { ServiceWorkerModule } from '@angular/service-worker';

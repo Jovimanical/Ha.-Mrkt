@@ -7,7 +7,7 @@ import { ProfileIconComponent } from './profile-icon.component';
 import { AuthenticationService } from '../../../authentication/authentication.service';
 import { UserService } from '../../../core/user/user.service';
 import { BroadcastService } from '../../../core/broadcast.service';
-import { AngularMaterialModule } from '../../../angular-material/angular-material.module';
+import { AngularMaterialModule } from '../../../shared/angular-material/angular-material.module';
 
 describe('ProfileIconComponent', () => {
   let component: ProfileIconComponent;

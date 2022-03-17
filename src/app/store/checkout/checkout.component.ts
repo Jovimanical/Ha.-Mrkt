@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NotificationService } from 'app/shared/services/notification.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'app/core/user/user.service';
 import { BroadcastService } from 'app/core/broadcast.service';
 import { User } from 'app/core/user/user.model';
@@ -25,6 +25,7 @@ export class CheckoutComponent implements OnInit {
   public loading = true;
   public orderInfo: any = {};
   public cartProducts: Array<any> = [];
+  public propertyID: any = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,6 +33,7 @@ export class CheckoutComponent implements OnInit {
     private notificationService: NotificationService,
     private userService: UserService,
     private broadcastService: BroadcastService,
+    private route: ActivatedRoute,
     public changeDectection: ChangeDetectorRef,
     private router: Router) { }
 
@@ -42,26 +44,40 @@ export class CheckoutComponent implements OnInit {
 
     });
 
-    this.storeService.fetchCart().subscribe((response: any) => {
-      // console.log('response.data.records', response.data.records);
-      if (response.data.records instanceof Array && response.data.records.length > 0) {
-        // save to loal store
-        response.data.records.forEach((element: any) => {
-          this.subtotal += element.PropertyAmount ? parseFloat(element.PropertyAmount) : 0;
-          this.balance += 3000
-          this.numberOfProperties +=1
-          element.PropertyJson = JSON.parse(element.PropertyJson);
-          this.cartProducts.push(element);
-        });
-      } else {
-        this.cartProducts = [];
-      }
-      this.loading = false;
-      this.changeDectection.detectChanges();
+    this.route.params.subscribe((params: any) => {
+      this.propertyID = params['id'];
 
-    }, (error) => {
-      this.loading = false;
-      this.changeDectection.detectChanges();
+
+      this.storeService.fetchCartItem(params['id']).subscribe((response: any) => {
+        console.log('response.data.records', response.data);
+        if (response.data instanceof Object && Object.keys(response.data).length !== 0) {
+          // save to loal store
+          let cartItem = response.data
+          this.subtotal += cartItem.PropertyAmount ? parseFloat(cartItem.PropertyAmount) : 0;
+          this.balance += 3000
+          this.numberOfProperties += 1
+          cartItem.PropertyJson = JSON.parse(cartItem.PropertyJson);
+          this.cartProducts.push(cartItem);
+
+          // response.data.records.forEach((element: any) => {
+          //   this.subtotal += element.PropertyAmount ? parseFloat(element.PropertyAmount) : 0;
+          //   this.balance += 3000
+          //   this.numberOfProperties += 1
+          //   element.PropertyJson = JSON.parse(element.PropertyJson);
+          //   this.cartProducts.push(element);
+          // });
+
+        } else {
+          this.cartProducts = [];
+        }
+        this.loading = false;
+        this.changeDectection.detectChanges();
+
+      }, (error) => {
+        this.loading = false;
+        this.changeDectection.detectChanges();
+      });
+
     });
     // this.broadcastService.balanceUpdated$
     //   .subscribe(balance => this.balance = balance);
@@ -105,11 +121,11 @@ export class CheckoutComponent implements OnInit {
   public payWithFlutter() {
 
     this.router.navigate(['/listings/checkout/confirmation']);
-   }
+  }
   public payWithPaystack() {
 
     this.router.navigate(['/listings/checkout/confirmation']);
-   }
+  }
   public payWithMonnify() {
 
     this.router.navigate(['/listings/checkout/confirmation']);
@@ -188,7 +204,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   public addTransactionHistory() {
-    
+
 
   }
 

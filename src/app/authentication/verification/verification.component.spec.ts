@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VerificationComponent } from './verification.component';
 import { VerificationService } from './verification.service';
-import { AngularMaterialModule } from '../../angular-material/angular-material.module';
+import { AngularMaterialModule } from '../../shared/angular-material/angular-material.module';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('VerificationComponent', () => {

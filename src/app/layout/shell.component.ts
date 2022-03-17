@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { UserService } from '../core/user/user.service';
@@ -7,19 +8,27 @@ import { ThemeService } from '../core/theme.service';
 
 @Component({
   selector: 'app-shell',
-  templateUrl: './shell.component.html'
+  templateUrl: './shell.component.html',
+  changeDetection: ChangeDetectionStrategy.Default
 })
-export class ShellComponent implements OnInit, OnDestroy {
+export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   public isMobile: boolean;
   public isAuthenticated: boolean;
   private watcher: Subscription;
   public isVerificationRequired = false;
+  public showHideFooter: boolean = true;
+  public pagesToHideFooter: Array<any> = ['/listings/application', '/listings/checkout-option-mortgage', '/listings/checkout', '/listings/products/*']
+
 
   constructor(
     private authService: AuthenticationService,
     private userService: UserService,
     private media: MediaObserver,
-    public themeService: ThemeService) { }
+    public themeService: ThemeService,
+    private router: Router, private activatedRoute: ActivatedRoute
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.isAuthenticated = this.authService.isAuthenticated();
@@ -41,6 +50,28 @@ export class ShellComponent implements OnInit, OnDestroy {
     //       }
     //     }
     //   });
+    //this.showHide()
+  }
+
+
+  showHide(){
+ this.router.events.subscribe((event: any) => {
+      console.log('routerEvent', event.url)
+      console.log('this.activatedRoute', this.activatedRoute)
+      if (event instanceof Object && event !== undefined) {
+        const showPageListing = this.pagesToHideFooter.includes(event.url)
+        if (showPageListing) {
+          this.showHideFooter = false;
+        } else {
+          this.showHideFooter = true;
+        }
+        return;
+      }
+    });
+  }
+
+  ngAfterViewInit(): void {
+   
   }
 
   ngOnDestroy(): void {

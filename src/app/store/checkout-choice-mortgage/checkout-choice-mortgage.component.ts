@@ -6,7 +6,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { StoreService } from 'app/shared/services/store.service';
 import { environment } from 'environments/environment';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -20,6 +20,8 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
   @ViewChild('labelGovtID') public labelGovtID: ElementRef;
   @ViewChild('labelUtlity') public labelUtlity: ElementRef;
   @ViewChild('bankStatement') public bankStatement: ElementRef;
+
+  public propertyID: any = 0;
 
   public form = new FormGroup({});
   public formEmployerInfo = new FormGroup({});
@@ -400,11 +402,15 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
   constructor(
     private storeService: StoreService,
     private router: Router,
+    private route: ActivatedRoute,
     private http: HttpClient
   ) {
     this.hasExistingPersonalInfo = false;
     this.hasExistingEmploymentInfo = false;
     this.hasExistingRequiredDocs = false;
+    this.route.params.subscribe((params: any) => {
+      this.propertyID = params['id'];
+    });
   }
 
   ngOnInit(): void {
@@ -448,7 +454,7 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
   }
 
   public goToCheckOut() {
-    this.router.navigate(['/listings/checkout']);
+    this.router.navigate([`/listings/checkout/${this.propertyID}`]);
   }
 
   async submit() {
@@ -570,7 +576,7 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
         .subscribe(res => {
           console.log(res);
           alert('Uploaded Successfully.');
-          this.router.navigate(['/listings/checkout']);
+          this.router.navigate([`/listings/checkout/${this.propertyID}`]);
         }, error => {
           console.log('_submit() error', error)
         })

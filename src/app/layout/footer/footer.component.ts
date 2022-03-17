@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -11,19 +11,28 @@ import { Router } from '@angular/router';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
+  @Input() public showPageListing: boolean = true;
   public loginForm: FormGroup;
   public loginFailed = false;
   public isMobile = false;
   public working = false;
   private watcher: Subscription;
   public hide: boolean = true;
+
   constructor(private loginService: LoginService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private router: Router) { }
+    private router: Router) {
+
+  }
 
   ngOnInit(): void {
-    this.initializeForm();
+    // this.initializeForm();
+   
+  }
+
+  showHideFooter() {
+
   }
 
   login(): void {

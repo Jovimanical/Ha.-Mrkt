@@ -41,7 +41,7 @@ const storeRoutes: Routes = [
   { path: 'compare-listing', component: CompareListingsComponent },
   { path: 'search', component: MarketPlaceSearchComponent },
   { path: 'marketplace/:estate/unit/:id', component: ProductBlockListingComponent },
-  { path: 'application', component: CartComponent, canActivate: [AuthGuardService] }, 
+  { path: 'application', component: CartComponent, canActivate: [AuthGuardService] },
   {
     path: 'checkout-option-loan', component: NgWizardComponent, canActivate: [AuthGuardService], children: [
       { path: 'personal-information', component: CheckoutChoiceLoanComponent },
@@ -49,11 +49,11 @@ const storeRoutes: Routes = [
       { path: 'required-documents', component: CheckoutOptionStep3Component },
       { path: 'process-order', component: CheckoutProcessOrderComponent },
       { path: '**', redirectTo: 'personal-information' },
-    ], data: { name: 'LoanWizard'}
+    ], data: { name: 'LoanWizard' }
   },
-  { path: 'checkout-option-mortgage', component: CheckoutChoiceMortgageComponent, canActivate: [AuthGuardService] },
-  { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuardService] },
-  { path: 'checkout/confirmation', component: CheckoutConfirmationComponent, canActivate: [AuthGuardService] },
+  { path: 'checkout-option-mortgage/:id', component: CheckoutChoiceMortgageComponent, canActivate: [AuthGuardService] },
+  { path: 'checkout/:id', component: CheckoutComponent, canActivate: [AuthGuardService] },
+  { path: 'checkout/confirmation/:id', component: CheckoutConfirmationComponent, canActivate: [AuthGuardService] },
 ];
 
 

@@ -1,0 +1,116 @@
+<!-- wrapper  -->
+<div id="wrapper">
+    <!-- content -->
+    <div class="content">
+        <!--  section  -->
+        <section class="hidden-section single-par2  " data-scrollax-parent="true">
+            <div class="bg-wrap bg-parallax-wrap-gradien">
+                <div class="bg par-elem " data-bg="/assets/images/bg/11.jpg"
+                    data-scrollax="properties: { translateY: '30%' }"></div>
+            </div>
+            <div class="container">
+                <div class="section-title center-align big-title">
+                    <h2><span>Schedule Meetings</span></h2>
+                    <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec tincidunt arcu, sit amet
+                        fermentum sem.</h4>
+                </div>
+                <div class="scroll-down-wrap">
+                    <div class="mousey">
+                        <div class="scroller"></div>
+                    </div>
+                    <span>Scroll Down To Discover</span>
+                </div>
+            </div>
+        </section>
+        <!--  section  end-->
+        <!-- breadcrumbs-->
+        <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
+            <div class="container">
+                <div class="breadcrumbs-list">
+                    <a href="#">Home</a> <span>Schedule meeting</span>
+                </div>
+                <div class="share-holder hid-share">
+                    <a href="#" class="share-btn showshare sfcs"> <i class="fas fa-share-alt"></i> Share </a>
+                    <div class="share-container  isShare"></div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumbs end -->
+        <!-- section -->
+        <section class="gray-bg small-padding">
+            <div class="container">
+                <!-- schedule meeting form -->
+                <mat-card class="meeting-container">
+                    <mat-card-header>
+                        <mat-card-title>Schedule Zoom Meeting</mat-card-title>
+                    </mat-card-header>
+                    <mat-divider></mat-divider>
+                    <form class="form" [formGroup]="scheduleMeetingForm" (ngSubmit)="onSubmit()">
+                        <mat-card-content>
+                            <div class="full-width-element">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Topic</mat-label>
+                                    <input matInput placeholder="Topic" formControlName="meeting_topic">
+                                </mat-form-field>
+                            </div>
+                            <div class="full-width-element">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Fullname</mat-label>
+                                    <input matInput placeholder="Your Fullname" formControlName="meeting_fullname">
+                                </mat-form-field>
+                            </div>
+                            <div class="full-width-element">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Phone</mat-label>
+                                    <input matInput placeholder="Your Phone" formControlName="meeting_phone">
+                                </mat-form-field>
+                            </div>
+                            <div class="full-width-element">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Email Address</mat-label>
+                                    <input matInput placeholder="Your Email" formControlName="meeting_email">
+                                </mat-form-field>
+                            </div>
+                            <div class="inline-block-element">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Date</mat-label>
+                                    <input matInput [matDatepicker]="picker" formControlName="meeting_date">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Time</mat-label>
+                                    <input matInput placeholder="Time" type="time" formControlName="meeting_time">
+                                </mat-form-field>
+                            </div>
+                            <div class="inline-block-element">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Duration (hours)</mat-label>
+                                    <input type="number" matInput placeholder="Duration"
+                                        formControlName="meeting_duration_hours">
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Duration (minutes)</mat-label>
+                                    <input type="number" matInput placeholder="Placeholder"
+                                        formControlName="meeting_duration_minutes">
+                                </mat-form-field>
+                            </div>
+
+                        </mat-card-content>
+                        <mat-divider></mat-divider>
+                        <mat-card-actions>
+                            <button mat-button mat-raised-button color="secondary">Cancel</button>
+                            <button mat-button mat-raised-button color="primary">Schedule Meeting</button>
+                        </mat-card-actions>
+                    </form>
+                </mat-card>
+                <!-- schedule forms end -->
+            </div>
+        </section>
+    </div>
+    <!-- content end -->
+
+    <!-- subscribe-wrap end -->
+</div>
+<!-- wrapper end -->
+<app-footer [showPageListing]="false"></app-footer>

@@ -12,137 +12,213 @@
             <!-- dashboard-title end -->
             <!-- dasboard-wrapper-->
             <div class="dasboard-wrapper fl-wrap no-pag">
-                <div class="row">
-                    <div class="col-md-7">
-                        <div class="dasboard-widget-title fl-wrap">
-                            <h5><i class="fas fa-user-circle"></i>Change Avatar</h5>
-                        </div>
-                        <div class="dasboard-widget-box nopad-dash-widget-box fl-wrap">
-                            <div class="edit-profile-photo">
-                                <img src="{{user?.profileImage}}" class="respimg" alt="">
-                                <div class="change-photo-btn">
-                                    <div class="photoUpload">
-                                        <span> Upload New Photo</span>
-                                        <input type="file" class="upload">
+
+                <mat-tab-group animationDuration="0ms">
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <span>Profile</span>
+                        </ng-template>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="dasboard-widget-title fl-wrap">
+                                    <h5><i class="fas fa-user-circle"></i>Change Avatar</h5>
+                                </div>
+                                <div class="dasboard-widget-box nopad-dash-widget-box fl-wrap">
+                                    <div class="edit-profile-photo">
+                                        <img src="{{user?.profileImage}}" class="respimg" alt="">
+                                        <div class="change-photo-btn">
+                                            <div class="photoUpload">
+                                                <span> Upload New Photo</span>
+                                                <input type="file" class="upload">
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div class="bg-wrap bg-parallax-wrap-gradien">
+                                        <div class="bg" data-bg="assets/images/bg/3.jpg"></div>
+                                    </div>
+                                    <!-- <div [hidden]="user === null">
+                                        <app-profile-image [currentImage]="user?.profileImage"
+                                            (imageChanged)="onProfileImageChanged($event)">
+                                        </app-profile-image>
+                                    </div> -->
+                                    <div class="change-photo-btn cpb-2  ">
+                                        <div class="photoUpload color-bg">
+                                            <span> <i class="far fa-camera"></i> Change Cover </span>
+                                            <input type="file" class="upload">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dasboard-widget-title fl-wrap">
+                                    <h5><i class="fas fa-key"></i>Personal Info</h5>
+                                </div>
+                                <div class="dasboard-widget-box fl-wrap">
+                                    <form *ngIf="profileForm" fxLayout="column" [formGroup]="profileForm"
+                                        (ngSubmit)="saveProfile()" novalidate>
+                                        <div class="custom-form">
+                                            <label>First Name <span class="dec-icon"><i
+                                                        class="far fa-user"></i></span></label>
+                                            <input type="text" placeholder="Alica" formControlName="firstname"
+                                                required />
+                                            <label>Second Name <span class="dec-icon"><i
+                                                        class="fas fa-user"></i></span></label>
+                                            <input type="text" placeholder="Noory" formControlName="lastname"
+                                                required />
+                                            <label>Email Address <span class="dec-icon"><i
+                                                        class="far fa-envelope"></i></span></label>
+                                            <input type="text" placeholder="AlicaNoory@domain.com"
+                                                formControlName="email" required readonly />
+                                            <label>Phone<span class="dec-icon"><i class="far fa-phone"></i>
+                                                </span></label>
+                                            <input type="text" placeholder="+23480123456789" formControlName="mobile"
+                                                required readonly />
+                                            <label>Adress <span class="dec-icon"><i class="fas fa-map-marker"></i>
+                                                </span></label>
+                                            <input type="text" placeholder="Your Address here" formControlName="address"
+                                                required />
+                                            <label>Website <span class="dec-icon"><i class="far fa-globe"></i>
+                                                </span></label>
+                                            <input type="text" placeholder="yourwebsite.com" formControlName="website"
+                                                required />
+                                            <label>Agency<span class="dec-icon"><i class="far fa-home-lg-alt"></i>
+                                                </span></label>
+                                            <input type="text" placeholder="HouseAfrica Ltd" formControlName="company"
+                                                required />
+                                            <label>Notes </label>
+                                            <textarea cols="40" rows="3" placeholder="About Me" formControlName="bio"
+                                                required style="margin-bottom:20px;"></textarea>
+                                            <button class="btn color-bg float-btn" [disabled]="loading">Save
+                                                Changes</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="bg-wrap bg-parallax-wrap-gradien">
-                                <div class="bg" data-bg="assets/images/bg/3.jpg"></div>
-                            </div>
-                            <!-- <div [hidden]="user === null">
-                                <app-profile-image [currentImage]="user?.profileImage"
-                                    (imageChanged)="onProfileImageChanged($event)">
-                                </app-profile-image>
-                            </div> -->
-                            <div class="change-photo-btn cpb-2  ">
-                                <div class="photoUpload color-bg">
-                                    <span> <i class="far fa-camera"></i> Change Cover </span>
-                                    <input type="file" class="upload">
+                            <div class="col-md-5">
+                                <div class="dasboard-widget-title dbt-mm fl-wrap">
+                                    <h5><i class="fas fa-key"></i>Change Password</h5>
+                                </div>
+                                <div class="dasboard-widget-box fl-wrap">
+                                    <form *ngIf="changePasswordForm" fxLayout="column" [formGroup]="changePasswordForm"
+                                        (ngSubmit)="changePassword()" novalidate>
+                                        <div class="custom-form">
+                                            <div class="pass-input-wrap fl-wrap">
+                                                <label>Current Password<span class="dec-icon">
+                                                        <i class="far fa-lock-open-alt"></i></span></label>
+                                                <input type="password" class="pass-input" placeholder="Current Password"
+                                                    formControlName="currentPassword" />
+                                                <span class="eye"><i class="far fa-eye" aria-hidden="true"></i> </span>
+                                            </div>
+                                            <div class="pass-input-wrap fl-wrap">
+                                                <label>New Password<span class="dec-icon">
+                                                        <i class="far fa-lock-alt"></i></span></label>
+                                                <input type="password" class="pass-input" placeholder="New Password"
+                                                    formControlName="newPassword" />
+                                                <span class="eye"><i class="far fa-eye" aria-hidden="true"></i> </span>
+                                            </div>
+                                            <div class="pass-input-wrap fl-wrap">
+                                                <label>Confirm New Password
+                                                    <span class="dec-icon"><i class="far fa-shield-check"></i>
+                                                    </span></label>
+                                                <input type="password" class="pass-input"
+                                                    placeholder="Confirm New Password"
+                                                    formControlName="confirmNewPassword" />
+                                                <span class="eye"><i class="far fa-eye" aria-hidden="true"></i> </span>
+                                            </div>
+                                            <button class="btn color-bg float-btn" [disabled]="loading">Save
+                                                Changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="dasboard-widget-title fl-wrap" style="margin-top: 30px;">
+                                    <h5><i class="fas fa-share-alt"></i>Your Socials</h5>
+                                </div>
+                                <div class="dasboard-widget-box fl-wrap">
+                                    <form *ngIf="socialMediaForm" fxLayout="column" [formGroup]="socialMediaForm"
+                                        (ngSubmit)="saveSocial()" novalidate>
+                                        <div class="custom-form">
+                                            <label>Facebook <span class="dec-icon">
+                                                    <i class="fab fa-facebook"></i></span></label>
+                                            <input type="text" placeholder="https://www.facebook.com/"
+                                                formControlName="facebook" />
+                                            <label>Twitter <span class="dec-icon"><i
+                                                        class="fab fa-twitter"></i></span></label>
+                                            <input type="text" placeholder="https://twitter.com/"
+                                                formControlName="twitter" />
+                                            <label>Instagram<span class="dec-icon"><i class="fab fa-instagram"></i>
+                                                </span></label>
+                                            <input type="text" placeholder="https://www.instagram.com/"
+                                                formControlName="instagram" />
+                                            <label>Others<span class="dec-icon"><i class="fab fa-vk"></i>
+                                                </span></label>
+                                            <input type="text" placeholder="https://kingschat.com/"
+                                                formControlName="others" />
+                                            <button type="submit" class="btn color-bg float-btn" [disabled]="loading">
+                                                Save Changes</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                        <div class="dasboard-widget-title fl-wrap">
-                            <h5><i class="fas fa-key"></i>Personal Info</h5>
-                        </div>
-                        <div class="dasboard-widget-box fl-wrap">
-                            <form *ngIf="profileForm" fxLayout="column" [formGroup]="profileForm"
-                                (ngSubmit)="saveProfile()" novalidate>
-                                <div class="custom-form">
-                                    <label>First Name <span class="dec-icon"><i class="far fa-user"></i></span></label>
-                                    <input type="text" placeholder="Alica" formControlName="firstname" required />
-                                    <label>Second Name <span class="dec-icon"><i class="fas fa-user"></i></span></label>
-                                    <input type="text" placeholder="Noory" formControlName="lastname" required />
-                                    <label>Email Address <span class="dec-icon"><i
-                                                class="far fa-envelope"></i></span></label>
-                                    <input type="text" placeholder="AlicaNoory@domain.com" formControlName="email"
-                                        required readonly />
-                                    <label>Phone<span class="dec-icon"><i class="far fa-phone"></i> </span></label>
-                                    <input type="text" placeholder="+23480123456789" formControlName="mobile" required
-                                        readonly />
-                                    <label>Adress <span class="dec-icon"><i class="fas fa-map-marker"></i>
-                                        </span></label>
-                                    <input type="text" placeholder="Your Address here" formControlName="address"
-                                        required />
-                                    <label>Website <span class="dec-icon"><i class="far fa-globe"></i> </span></label>
-                                    <input type="text" placeholder="yourwebsite.com" formControlName="website"
-                                        required />
-                                    <label>Agency<span class="dec-icon"><i class="far fa-home-lg-alt"></i>
-                                        </span></label>
-                                    <input type="text" placeholder="HouseAfrica Ltd" formControlName="company"
-                                        required />
-                                    <label>Notes </label>
-                                    <textarea cols="40" rows="3" placeholder="About Me" formControlName="bio" required
-                                        style="margin-bottom:20px;"></textarea>
-                                    <button class="btn color-bg float-btn" [disabled]="loading">Save Changes</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="dasboard-widget-title dbt-mm fl-wrap">
-                            <h5><i class="fas fa-key"></i>Change Password</h5>
-                        </div>
-                        <div class="dasboard-widget-box fl-wrap">
-                            <form *ngIf="changePasswordForm" fxLayout="column" [formGroup]="changePasswordForm"
-                                (ngSubmit)="changePassword()" novalidate>
-                                <div class="custom-form">
-                                    <div class="pass-input-wrap fl-wrap">
-                                        <label>Current Password<span class="dec-icon">
-                                                <i class="far fa-lock-open-alt"></i></span></label>
-                                        <input type="password" class="pass-input" placeholder="Current Password"
-                                            formControlName="currentPassword" />
-                                        <span class="eye"><i class="far fa-eye" aria-hidden="true"></i> </span>
+                    </mat-tab>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <span>Required Documents</span>
+                        </ng-template>
+                        <div class="row">
+                            <!-- dashboard-stats end -->
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="dashboard-stats fl-wrap"
+                                    style="display: flex; flex-direction: column; justify-content: center; margin: 10px 0px 50px 10px;">
+                                    <div class="dashboard-stats-count">
+                                        Information below is required to obtian a Mortgage or Loan
                                     </div>
-                                    <div class="pass-input-wrap fl-wrap">
-                                        <label>New Password<span class="dec-icon">
-                                                <i class="far fa-lock-alt"></i></span></label>
-                                        <input type="password" class="pass-input" placeholder="New Password"
-                                            formControlName="newPassword" />
-                                        <span class="eye"><i class="far fa-eye" aria-hidden="true"></i> </span>
-                                    </div>
-                                    <div class="pass-input-wrap fl-wrap">
-                                        <label>Confirm New Password
-                                            <span class="dec-icon"><i class="far fa-shield-check"></i> </span></label>
-                                        <input type="password" class="pass-input" placeholder="Confirm New Password"
-                                            formControlName="confirmNewPassword" />
-                                        <span class="eye"><i class="far fa-eye" aria-hidden="true"></i> </span>
-                                    </div>
-                                    <button class="btn color-bg float-btn" [disabled]="loading">Save Changes</button>
                                 </div>
-                            </form>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <!--dashboard-stats-->
+                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                <a routerLink="/user-dashboard/user-personal-information" routerLinkActive="active">
+                                    <div class="dashboard-stats fl-wrap"
+                                        style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+                                        <i class="fal fa-user"></i>
+                                        <div class="dashboard-stats-count">Personal</div>
+                                        <h4 style="text-align: center;">Information</h4>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- dashboard-stats end -->
+                            <!--dashboard-stats-->
+                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                <a routerLink="/user-dashboard/user-employment-status" routerLinkActive="active">
+                                    <div class="dashboard-stats fl-wrap"
+                                        style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+                                        <i class="fal fa-briefcase"></i>
+                                        <div class="dashboard-stats-count">Employment</div>
+                                        <h4 style="text-align: center;">Information</h4>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- dashboard-stats end -->
+                            <!--dashboard-stats-->
+                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                <a routerLink="/user-dashboard/user-required-documents" routerLinkActive="active">
+                                    <div class="dashboard-stats fl-wrap"
+                                        style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+                                        <i class="fal fa-file-plus"></i>
+                                        <div class="dashboard-stats-count">Required</div>
+                                        <h4 style="text-align: center;">Documents</h4>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- dashboard-stats end -->
                         </div>
-                        <div class="dasboard-widget-title fl-wrap" style="margin-top: 30px;">
-                            <h5><i class="fas fa-share-alt"></i>Your Socials</h5>
-                        </div>
-                        <div class="dasboard-widget-box fl-wrap">
-                            <form *ngIf="socialMediaForm" fxLayout="column" [formGroup]="socialMediaForm"
-                                (ngSubmit)="saveSocial()" novalidate>
-                                <div class="custom-form">
-                                    <label>Facebook <span class="dec-icon">
-                                            <i class="fab fa-facebook"></i></span></label>
-                                    <input type="text" placeholder="https://www.facebook.com/"
-                                        formControlName="facebook" />
-                                    <label>Twitter <span class="dec-icon"><i class="fab fa-twitter"></i></span></label>
-                                    <input type="text" placeholder="https://twitter.com/" formControlName="twitter" />
-                                    <label>Instagram<span class="dec-icon"><i class="fab fa-instagram"></i>
-                                        </span></label>
-                                    <input type="text" placeholder="https://www.instagram.com/"
-                                        formControlName="instagram" />
-                                    <label>Others<span class="dec-icon"><i class="fab fa-vk"></i> </span></label>
-                                    <input type="text" placeholder="https://kingschat.com/" formControlName="others" />
-                                    <button type="submit" class="btn color-bg float-btn" [disabled]="loading">
-                                        Save Changes</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                    </mat-tab>
+                </mat-tab-group>
             </div>
             <!-- dasboard-wrapper end -->
         </div>
         <!-- dashboard-footer -->
-        <app-dashboard-footer-menu></app-dashboard-footer-menu>
+        <!-- <app-dashboard-footer-menu></app-dashboard-footer-menu> -->
         <!-- dashboard-footer end -->
     </div>
     <!-- content end -->

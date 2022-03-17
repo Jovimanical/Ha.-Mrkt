@@ -44,14 +44,14 @@
           <li>
             <a routerLink="/listings" routerLinkActive="active" class="act-link">Listings</a>
           </li>
-          <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/help-center"
+          <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/site-pages/help-center"
               routerLinkActive="active">Help FAQ</a></li>
-          <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/contact-us"
+          <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/site-pages/contact-us"
               routerLinkActive="active">Contact Us</a></li>
-          <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/about-us"
+          <li *ngIf="!isAuthenticated && !isVerificationRequired"><a routerLink="/site-pages/about-us"
               routerLinkActive="active">About us</a></li>
           <li *ngIf="!isAuthenticated && !isVerificationRequired">
-            <a routerLink="/blog" routerLinkActive="active">News</a>
+            <a routerLink="/site-pages/blog" routerLinkActive="active">News</a>
           </li>
         </ul>
       </nav>

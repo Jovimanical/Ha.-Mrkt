@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CartComponent } from './cart.component';
-import { AngularMaterialModule } from '../../angular-material/angular-material.module';
+import { AngularMaterialModule } from '../../shared/angular-material/angular-material.module';
 
 describe('DashboardComponent', () => {
   let component: CartComponent;

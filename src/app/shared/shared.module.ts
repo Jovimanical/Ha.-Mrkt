@@ -9,7 +9,7 @@ import { MapService } from './services/map.service';
 import { LocalForageService } from './services/localforage.service';
 import { TranscationHistoryService } from './services/transcation-history.service';
 import { ConfirmCancelOrderComponent } from './confirm-cancel-order/confirm-cancel-order.component';
-import { AngularMaterialModule } from 'app/angular-material/angular-material.module';
+import { AngularMaterialModule } from 'app/shared/angular-material/angular-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({

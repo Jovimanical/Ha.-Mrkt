@@ -6,7 +6,7 @@
     <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
       <div class="container">
         <div class="breadcrumbs-list">
-          <a>Home</a><a>Marketplace</a> <span>Application</span>
+          <a>Home</a><a>user-dashboard</a> <span>Application</span>
         </div>
         <div class="share-holder hid-share">
           <a class="share-btn showshare sfcs"> <i class="fas fa-exclamation"></i> Help </a>
@@ -91,6 +91,7 @@
                           <i class="fal fa-trash-alt"></i>
                           Remove from My Application
                         </button>
+                        <button mat-flat-button color="primary" (click)="goToCheckout(cartProduct)">Continue Application </button>
                       </div>
                     </div>
                   </article>
@@ -108,8 +109,7 @@
                       Continue Listings
                     </a>
                     <!-- <button mat-raised-button color="accent" (click)="goToCheckout(0)">CHECKOUT MORTGAGE OPTION</button> -->
-                    <div style="height: 5px;"></div>
-                    <button mat-flat-button color="primary" (click)="goToCheckout(1)">DATA CAPTURE</button>
+                    <div style="height: 5px;"></div>                   
                   </div>
                 </div>
               </div>
@@ -121,3 +121,4 @@
     <div class="limit-box fl-wrap"></div>
   </div>
 </div>
+<app-footer [showPageListing]="false"></app-footer>

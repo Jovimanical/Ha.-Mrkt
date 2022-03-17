@@ -65,7 +65,6 @@ export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
   removeItem(index: number) {
     const product = this.cartProducts[index];
     this.storeService.removeFromCart(product.id).subscribe((updatedCart) => {
-
       if (this.cartProducts instanceof Array && this.cartProducts.length > 0) {
         this.cartProducts.forEach((element: any) => {
           this.subtotal += element.PropertyAmount ? parseFloat(element.PropertyAmount) : 0;
@@ -85,12 +84,11 @@ export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
     //   this.notificationService.showErrorMessage('Insufficient funds for checkout');
     //   return;
     // }
-
-    if (params === 1) {
-      this.router.navigate(['/listings/checkout-option-mortgage']);
-    } else {
-      this.router.navigate(['store/checkout-option-mortgage']);
-    }
+    this.router.navigate([`/listings/checkout-option-mortgage/${params.id}`]);
+    // if (params === 1) {     
+    // } else {
+    //   this.router.navigate(['store/checkout-option-mortgage']);
+    // }
 
   }
 }

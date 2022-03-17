@@ -1,6 +1,6 @@
 <!-- footer -->
 <footer class="main-footer fl-wrap">
-    <div class="footer-inner fl-wrap">
+    <div class="footer-inner fl-wrap" *ngIf="showPageListing">
         <div class="container">
             <div class="row">
                 <!-- footer widget-->
@@ -25,11 +25,11 @@
                             <h4>Helpful links</h4>
                         </div>
                         <ul class="footer-list fl-wrap">
-                            <li><a routerLink="/about-us" routerLinkActive="active">About Our Company</a></li>
-                            <li><a routerLink="/blog" routerLinkActive="active">Our last News</a></li>
-                            <li><a routerLink="/estate-loan-options" routerLinkActive="active">Payment Plans</a></li>
-                            <li><a routerLink="/contact-us" routerLinkActive="active">Contacts</a></li>
-                            <li><a routerLink="/help-center" routerLinkActive="active">Help Center</a></li>
+                            <li><a routerLink="/site-pages/about-us" routerLinkActive="active">About Our Company</a></li>
+                            <li><a routerLink="/site-pages/blog" routerLinkActive="active">Our last News</a></li>
+                            <li><a routerLink="/site-pages/estate-loan-options" routerLinkActive="active">Payment Plans</a></li>
+                            <li><a routerLink="/site-pages/contact-us" routerLinkActive="active">Contacts</a></li>
+                            <li><a routerLink="/site-pages/help-center" routerLinkActive="active">Help Center</a></li>
                         </ul>
                     </div>
                 </div>
@@ -85,9 +85,9 @@
             <div class="copyright"> &#169; HouseAfrica Marketplace 2022 . All rights reserved.</div>
             <div class="subfooter-nav">
                 <ul class="no-list-style">
-                    <li><a routerLink="/terms-of-use" routerLinkActive="active">Terms of use</a></li>
-                    <li><a routerLink="/privacy-policy" routerLinkActive="active">Privacy Policy</a></li>
-                    <li><a routerLink="/blog" routerLinkActive="active">Blog</a></li>
+                    <li><a routerLink="/site-pages/terms-of-use" routerLinkActive="active">Terms of use</a></li>
+                    <li><a routerLink="/site-pages/privacy-policy" routerLinkActive="active">Privacy Policy</a></li>
+                    <li><a routerLink="/site-pages/blog" routerLinkActive="active">Blog</a></li>
                 </ul>
             </div>
         </div>

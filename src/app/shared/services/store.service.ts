@@ -62,6 +62,10 @@ export class StoreService {
     return this.http.get<Cart>(`${environment.API_URL}/shopping-cart/list/1/30`);
   }
 
+  public fetchCartItem(cartItem:any) {
+    return this.http.get<Cart>(`${environment.API_URL}/shopping-cart/show/${cartItem}`);
+  }
+
   public fetchBookmarks() {
     return this.http.get<Cart>(`${environment.API_URL}/wishlists/list/1/30`);
   }

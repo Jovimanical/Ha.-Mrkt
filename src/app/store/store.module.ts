@@ -2,7 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
 import { StoreRoutingModule } from './store-routing.module';
-import { AngularMaterialModule } from '../angular-material/angular-material.module';
+import { AngularMaterialModule } from '../shared/angular-material/angular-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule, FormsModule, FormControl, ValidationErrors } from '@angular/forms';
 import { FormlyModule, FormlyFieldConfig } from '@ngx-formly/core';
@@ -19,6 +19,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { CheckoutComponent } from './checkout/checkout.component';
 import { CartComponent } from './cart/cart.component';
 import { RouterModule } from '@angular/router';
+import { LayoutModule } from 'app/layout/layout.module';
 import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-confirmation.component';
 import { ProductBlockListingComponent } from './product-block-listing/product-block-listing.component';
 import { LandOnlyListingComponent } from './land-only-listing/land-only-listing.component';
@@ -80,6 +81,7 @@ export function maxValidationMessage(err, field) {
     NgWizardModule,
     ArchwizardModule,
     OverlayModule,
+    LayoutModule,
     FormlyModule.forRoot({
       types: [
         { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] },

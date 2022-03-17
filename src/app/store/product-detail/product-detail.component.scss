@@ -207,20 +207,21 @@ mat-drawer-content {
   height: 50%;
   width: 100%;
 }
-// @media only screen and (min-width: 481px) {
-//   .example-container-sidebar {
-//     width: 40vw;
-//   }
-// }
+@media only screen and (min-width: 520px) {
+  .example-container-sidebar {
+    width: 40vw;
+  }
+}
 
-// @media only screen and (min-width: 320px) and (max-width: 480px) {
-//   .example-container-sidebar {
-//     width: 100vw;
-//   }
-// }
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+  .example-container-sidebar {
+    width: 100vw;
+  }
+}
 
-// @media only screen and (min-width: 280px) {
-//   .example-container-sidebar {
-//     width: 100vw;
-//   }
-// }
+@media only screen and (min-width: 280px) {
+  .example-container-sidebar {
+    width: 100vw;
+  }
+}
+

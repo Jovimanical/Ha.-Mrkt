@@ -10,24 +10,11 @@ const appRoutes: Routes = [
  // { path: '**', redirectTo: '/page-not-found', pathMatch: 'full', },
   { path: 'listings', loadChildren: () => import('app/store/store.module').then(m => m.StoreModule) },
   { path: 'store-map-view', loadChildren: () => import('./store/store-maplayout/store-maplayout.module').then(m => m.StoreMaplayoutModule) },
-  { path: 'admin', loadChildren: () => import('app/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuardService] },
+  { path: 'admin-dashboard', loadChildren: () => import('app/admin-dashboard/admin.module').then(m => m.AdminModule), canActivate: [AuthGuardService] },
   { path: 'user-dashboard', loadChildren: () => import('app/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule), canActivate: [AuthGuardService] },
-  { path: 'profile', loadChildren: () => import('app/profile/profile.module').then(m => m.ProfileModule), canActivate: [AuthGuardService] },
-  { path: 'about-us', loadChildren: () => import('app/about-us/about-us.module').then(m => m.AboutUsModule) },
-  { path: 'orders', loadChildren: () => import('app/orders/orders.module').then(m => m.OrdersModule), canActivate: [AuthGuardService] },
-  {
-    path: 'contact-us',
-    loadChildren: () => import('app/contact-us/contact-us.module').then(m => m.ContactUsModule)
-  },
-  { path: 'faqs', loadChildren: () => import('./faqs/faqs.module').then(m => m.FAQsModule) },
-  { path: 'help-center', loadChildren: () => import('./help-center/help-center.module').then(m => m.HelpCenterModule) },
-  { path: 'terms-of-use', loadChildren: () => import('./term-of-use/term-of-use.module').then(m => m.TermOfUseModule) },
-  { path: 'privacy-policy', loadChildren: () => import('./privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyModule) },
-  { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
-  { path: 'page-not-found', loadChildren: () => import('./page-not-found/page-not-found.module').then(m => m.PageNotFoundModule) },
-  { path: 'schedule-meeting', loadChildren: () => import('./schedule-meeting/schedule-meeting.module').then(m => m.ScheduleMeetingModule) },
-  { path: 'estate-listing', loadChildren: () => import('./estate-search/estate-search.module').then(m => m.EstateSearchModule) },
-  { path: 'estate-loan-options', loadChildren: () => import('./estate-loan-options/estate-loan-options.module').then(m => m.EstateLoanOptionsModule) },
+  { path: 'site-pages', loadChildren: () => import('app/website/website.module').then(m => m.WebsiteModule) },
+  { path: 'orders', loadChildren: () => import('app/admin-dashboard/orders/orders.module').then(m => m.OrdersModule), canActivate: [AuthGuardService] },
+ 
 ];
 
 @NgModule({
