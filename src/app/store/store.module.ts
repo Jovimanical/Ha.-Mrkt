@@ -1,8 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
-import { StoreRoutingModule } from './store-routing.module';
-import { AngularMaterialModule } from '../shared/angular-material/angular-material.module';
+import { Angular4PaystackModule } from 'angular4-paystack';
+import { FlutterwaveModule } from "flutterwave-angular-v3"
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule, FormsModule, FormControl, ValidationErrors } from '@angular/forms';
 import { FormlyModule, FormlyFieldConfig } from '@ngx-formly/core';
@@ -15,6 +15,8 @@ import { ArchwizardModule } from 'angular-archwizard';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { SharedModule } from 'app/shared/shared.module';
 import { StoreComponent } from './store.component';
+import { StoreRoutingModule } from './store-routing.module';
+import { AngularMaterialModule } from '../shared/angular-material/angular-material.module';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { CartComponent } from './cart/cart.component';
@@ -82,6 +84,9 @@ export function maxValidationMessage(err, field) {
     ArchwizardModule,
     OverlayModule,
     LayoutModule,
+    FlutterwaveModule,
+    Angular4PaystackModule.forRoot('pk_test_a153339870d0227aa490acb9d88fd220a90f02f2'),
+    // AngularMonnifyModule.forRoot('apiKey', 'contractCode', false),
     FormlyModule.forRoot({
       types: [
         { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] },

@@ -64,9 +64,8 @@ export class UserDashboardComponent implements OnInit, AfterViewInit, OnDestroy 
     });
   }
 
-  showItem(index: number) {
-    const product = this.cartProducts[index];
-    this.router.navigate(['/listings/checkout-option-mortgage']);
+  showItem(property: any) {
+    this.router.navigate([`/listings/checkout-option-mortgage/${property.id}`]);
   }
 
   ngAfterViewInit(): void {

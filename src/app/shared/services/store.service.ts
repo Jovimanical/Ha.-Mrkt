@@ -85,6 +85,10 @@ export class StoreService {
 
   public checkout(checkout: any): Promise<any> {
     return this.http.post(`${environment.API_URL}/orders/add/`, checkout).toPromise();
+  } 
+  
+  public addTransactionHistory(checkout: any): Promise<any> {
+    return this.http.post(`${environment.API_URL}/transactions/add/`, checkout).toPromise();
   }
 
 

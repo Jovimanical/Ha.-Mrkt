@@ -73,6 +73,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public tabsPlacement = 'start';
   public panorama: google.maps.StreetViewPanorama;
 
+  public locationUnitLat:any;
+  public locationUnitLong:any;
+
 
 
   constructor(
@@ -129,7 +132,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
         const coordinates = propertyFeature.geometry.coordinates;
         const coord = coordinates[0][0][0]
-        this.initializeStreetView(coord[0], coord[1])
+        this.locationUnitLat = coord[0];
+        this.locationUnitLong = coord[1];
+        // this.initializeStreetView(coord[0], coord[1])
 
       }, 500);
     });

@@ -584,8 +584,12 @@
         </ng-template>
         <ng-template verticalTabContent>
           <div fxFlex>
-            <div #gmapContainer id="map" class="map"></div>
-            <div #gmapPanorama id="pano" class="pano"></div>
+            <!-- <div #gmapContainer id="map" class="map"></div>
+            <div #gmapPanorama id="pano" class="pano"></div> -->
+            <agm-map [latitude]="locationUnitLat" [longitude]="locationUnitLong">
+              <agm-marker [latitude]="locationUnitLat" [longitude]="locationUnitLong"></agm-marker>
+            </agm-map>
+            <app-street-view [latitude]="locationUnitLat" [longitude]="locationUnitLong"></app-street-view>
           </div>
         </ng-template>
       </app-vertical-tab>

@@ -19,6 +19,7 @@ import { EmptyStateComponent } from './empty-state/empty-state.component';
 import { ProfileImageComponent } from './profile-image/profile-image.component';
 import { PageIsLoadingComponent } from './page-is-loading/page-is-loading.component';
 import { DashboardToggleComponent } from './dashboard-toggle/dashboard-toggle.component';
+import { StreetViewComponent } from './street-view/street-view.component'
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { DashboardToggleComponent } from './dashboard-toggle/dashboard-toggle.co
     ProfileImageComponent,
     PageIsLoadingComponent,
     DashboardToggleComponent,
+    StreetViewComponent
   ],
   exports: [
     ShellComponent,
@@ -55,6 +57,7 @@ import { DashboardToggleComponent } from './dashboard-toggle/dashboard-toggle.co
     PageIsLoadingComponent,
     DashboardToggleComponent,
     FooterComponent,
+    StreetViewComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -69,7 +69,7 @@
                     </div>
                     <!-- <div style="height: 10px;"></div> -->
                     <div class="checkout-title">PAYMENT INFORMATION</div>
-               
+
                     <div class="row">
                       <div class="col-xs-4 col-sm-4 col-md-4">
                         <h4>Application Fees</h4>
@@ -80,7 +80,7 @@
                         <span>{{numberOfProperties}}</span>
                       </div>
                       <div class="col-xs-4 col-sm-4 col-md-4">
-                         <h4>Application Mode</h4>
+                        <h4>Application Mode</h4>
                         <span>MORTGAGE</span>
                       </div>
                     </div>
@@ -98,19 +98,22 @@
                     </mat-form-field> -->
 
                     <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
-                      <button mat-button (click)="payWithFlutter()" [disabled]="loading">
+                      <button mat-button (click)="payWithFlutter()">
                         <img src="/assets/images/bg/flutterwave.png" alt="">
                         <span style="display: block; font-weight: 800; text-transform: uppercase;">
                           Pay with flutterwave
                         </span>
                       </button>
-                      <button mat-button (click)="payWithPaystack()" [disabled]="loading">
+                      <button mat-button (click)="payWithMonnify()">
                         <img src="/assets/images/bg/monify.png" alt="">
                         <span style="display: block; font-weight: 800; text-transform: uppercase;">
                           Pay with Monnify
                         </span>
                       </button>
-                      <button mat-button (click)="payWithMonnify()">
+                      <button mat-button angular4-paystack [key]="'pk_test_a153339870d0227aa490acb9d88fd220a90f02f2'"
+                        [email]="userInfo.email" [amount]="balance * 100" [metadata]="meta" [ref]="transactionReference"
+                        [class]="'btn btn-primary'" (paymentInit)="paystackPaymentInit()"
+                        (onClose)="paystackPaymentCancel()" (callback)="paystackPaymentDone($event)">
                         <img src="/assets/images/bg/paystack.png" alt="">
                         <span style="display: block; font-weight: 800; text-transform: uppercase;">
                           Pay with Paystack
