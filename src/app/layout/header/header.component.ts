@@ -44,6 +44,7 @@ export class HeaderComponent implements OnInit {
 
     this.getAccounts();
   }
+  
 
   toggleSidebar(showMenu: boolean): void {
     this.onToggleSidebar.emit();

@@ -399,6 +399,8 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
   public hasExistingRequiredDocs: boolean = false;
   public isLoading: boolean = true;
 
+  public propertyItem: any = {}
+
   constructor(
     private storeService: StoreService,
     private router: Router,
@@ -410,6 +412,23 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
     this.hasExistingRequiredDocs = false;
     this.route.params.subscribe((params: any) => {
       this.propertyID = params['id'];
+      this.storeService.fetchCartItem(params['id']).subscribe((response: any) => {
+        // console.log('response.data.records', response.data);
+        if (response.data instanceof Object && Object.keys(response.data).length !== 0) {
+          // save to loal store
+          let cartItem = response.data
+          if (cartItem?.PropertyJson) {
+            cartItem.PropertyJson = JSON.parse(cartItem.PropertyJson);
+          }
+          
+          this.propertyItem = cartItem;
+
+        } else {
+          this.propertyItem = {};
+        }
+      }, (error) => {
+
+      });
     });
   }
 
@@ -454,6 +473,7 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
   }
 
   public goToCheckOut() {
+    this.updateApplicationProcess(this.propertyItem);
     this.router.navigate([`/listings/checkout/${this.propertyID}`]);
   }
 
@@ -575,12 +595,26 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
       this.http.post(`${environment.API_URL}/kyc-documents/add/`, formData)
         .subscribe(res => {
           console.log(res);
+
+          this.updateApplicationProcess(this.propertyItem);
           alert('Uploaded Successfully.');
           this.router.navigate([`/listings/checkout/${this.propertyID}`]);
         }, error => {
           console.log('_submit() error', error)
         })
     }
+  }
+
+  public updateApplicationProcess(propertyItem: any) {
+    const propertyInfo: any = propertyItem;
+    propertyInfo.ApplicationStatus = 'PROCESSING';
+
+    this.storeService.updateCartItem(JSON.stringify(propertyInfo)).subscribe((response: any) => {
+      // console.log('response.data.records', response.data);
+      
+    }, (error) => {
+
+    });
   }
 
 }

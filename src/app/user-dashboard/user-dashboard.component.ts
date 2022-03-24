@@ -34,7 +34,9 @@ export class UserDashboardComponent implements OnInit, AfterViewInit, OnDestroy 
         // save to loal store
         response.data.records.forEach((element: any) => {
           //this.subtotal += element.PropertyAmount ? parseFloat(element.PropertyAmount) : 0;
-          element.PropertyJson = JSON.parse(element.PropertyJson);
+          if (element?.PropertyJson) {
+            element.PropertyJson = JSON.parse(element.PropertyJson);
+          }
           this.cartProducts.push(element);
         });
       } else {
@@ -65,7 +67,11 @@ export class UserDashboardComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   showItem(property: any) {
-    this.router.navigate([`/listings/checkout-option-mortgage/${property.id}`]);
+    if (property.ApplicationStatus === 'PROCESSING') {
+      this.router.navigate([`/listings/checkout/${property.id}`]);
+    } else {
+      this.router.navigate([`/listings/checkout-option-mortgage/${property.id}`]);
+    }
   }
 
   ngAfterViewInit(): void {

@@ -54,15 +54,19 @@ export class StoreService {
     return this.http.post(`${environment.API_URL}/wishlists/add/`, addBookmark);
   }
 
-  public addToListing(listing: any):Promise<any>{
+  public addToListing(listing: any): Promise<any> {
     return this.http.post(`${environment.API_URL}/estate-listings/add/`, listing).toPromise();
   }
 
   public fetchCart() {
     return this.http.get<Cart>(`${environment.API_URL}/shopping-cart/list/1/30`);
   }
+  
+  public fetchUserListing() {
+    return this.http.get<any>(`${environment.API_URL}/estate-listings/user-listings/list/1/30`);
+  }
 
-  public fetchCartItem(cartItem:any) {
+  public fetchCartItem(cartItem: any) {
     return this.http.get<Cart>(`${environment.API_URL}/shopping-cart/show/${cartItem}`);
   }
 
@@ -75,7 +79,7 @@ export class StoreService {
     return this.http.delete<Cart>(`${environment.API_URL}/wishlists/remove/${id}`);
   }
 
-  public clearCompletedCart() :Promise<any>{
+  public clearCompletedCart(): Promise<any> {
     return this.http.get<any>(`${environment.API_URL}/shopping-cart/last-completed`).toPromise();
   }
 
@@ -83,10 +87,23 @@ export class StoreService {
     return this.http.delete<Cart>(`${environment.API_URL}/shopping-cart/remove/${id}`);
   }
 
+  public updateCartItem(propertyItem: any): Observable<Cart> {
+    return this.http.put<any>(`${environment.API_URL}/shopping-cart/update/`, propertyItem);
+  }
+
   public checkout(checkout: any): Promise<any> {
     return this.http.post(`${environment.API_URL}/orders/add/`, checkout).toPromise();
-  } 
-  
+  }
+
+  public checkoutAccount(checkout: any): Promise<any> {
+    return this.http.post(`${environment.API_URL}/orders/add/`, checkout).toPromise();
+  }
+
+  public deductSearchCreditFromAccount(checkout: any): Promise<any> {
+    return this.http.post(`${environment.API_URL}/orders/add/`, checkout).toPromise();
+  }
+
+
   public addTransactionHistory(checkout: any): Promise<any> {
     return this.http.post(`${environment.API_URL}/transactions/add/`, checkout).toPromise();
   }

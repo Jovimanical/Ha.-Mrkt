@@ -86,7 +86,6 @@ export function maxValidationMessage(err, field) {
     LayoutModule,
     FlutterwaveModule,
     Angular4PaystackModule.forRoot('pk_test_a153339870d0227aa490acb9d88fd220a90f02f2'),
-    // AngularMonnifyModule.forRoot('apiKey', 'contractCode', false),
     FormlyModule.forRoot({
       types: [
         { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] },

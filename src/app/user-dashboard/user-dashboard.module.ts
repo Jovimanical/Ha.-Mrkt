@@ -1,7 +1,9 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormControl, ValidationErrors } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { Angular4PaystackModule } from 'angular4-paystack';
+import { FlutterwaveModule } from "flutterwave-angular-v3"
 import { AngularMaterialModule } from '../shared/angular-material/angular-material.module';
 import { UserDashboardComponent } from './user-dashboard.component';
 import { UserDashboardRoutingModule } from './user-dashboard-routing.module';
@@ -27,6 +29,7 @@ import { RegisterLandComponent } from './register-land/register-land.component';
 import { RegisteredLandProcessComponent } from './registered-land-process/registered-land-process.component';
 import { MyMortgageApplicationComponent } from './my-mortgage-application/my-mortgage-application.component';
 import { MyLoanApplicationComponent } from './my-loan-application/my-loan-application.component';
+import { SearchSubscriptionComponent } from './search-subscription/search-subscription.component';
 
 // import { InviteComponent } from './invite/invite.component';
 // import { InviteService } from './invite/invite.service';
@@ -42,7 +45,9 @@ import { MyLoanApplicationComponent } from './my-loan-application/my-loan-applic
         AngularMaterialModule,
         FlexLayoutModule,
         FormsModule,
-        LayoutModule
+        LayoutModule,
+        FlutterwaveModule,
+        Angular4PaystackModule.forRoot('pk_test_a153339870d0227aa490acb9d88fd220a90f02f2'),
     ],
     declarations: [
         UserDashboardComponent,
@@ -66,6 +71,7 @@ import { MyLoanApplicationComponent } from './my-loan-application/my-loan-applic
         RegisteredLandProcessComponent,
         MyMortgageApplicationComponent,
         MyLoanApplicationComponent,
+        SearchSubscriptionComponent,
         // InviteComponent,
         //     UserDetailsComponent,
         //     OrderAdminComponent,
@@ -76,6 +82,6 @@ import { MyLoanApplicationComponent } from './my-loan-application/my-loan-applic
         UserDashboardService
     ],
     exports: [],
-    schemas: []
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class UserDashboardModule { }

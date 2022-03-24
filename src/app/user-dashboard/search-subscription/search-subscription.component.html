@@ -1,0 +1,108 @@
+<div id="wrapper">
+  <div class="content">
+    <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
+      <div class="container">
+        <div class="breadcrumbs-list">
+          <a>Home</a><a>user-dashboard</a> <span>Search Subscription - payment</span>
+        </div>
+      </div>
+    </div>
+    <section class="gray-bg small-padding">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-2 col-lg-2"></div>
+          <div class="col-md-8 col-lg-8">
+            <div class="services-item fl-wrap">
+              <div class="dasboard-widget-box fl-wrap">
+                <div class="custom-form">
+                  <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
+                    <button mat-button (click)="selectPaidService(10, 3000)">
+                      <span class="fa-stack fa-4x">
+                        <i class="fas fa-map fa-stack-2x"></i>
+                        <i class="fas fa-search fa-stack-1x fa-inverse" style="color:white"></i>
+                      </span>
+                      <span style="display: block; font-weight: 800; text-transform: uppercase;">
+                        {{3000 | currency:'NGN':'symbol-narrow':'4.2-2'}}
+                      </span>
+                      <span style="display: block; font-weight: 400; text-transform: uppercase;">
+                        10 Property search
+                      </span>
+                    </button>
+                    <button mat-button (click)="selectPaidService(50, 10000)">
+                      <span class="fa-stack fa-4x">
+                        <i class="fas fa-map fa-stack-2x"></i>
+                        <i class="fas fa-search fa-stack-1x fa-inverse" style="color:white"></i>
+                      </span>
+                      <span style="display: block; font-weight: 800; text-transform: uppercase;">
+                        {{25000 | currency:'NGN':'symbol-narrow':'4.2-2'}}
+                      </span>
+                      <span style="display: block; font-weight: 400; text-transform: uppercase;">
+                        50 Property search
+                      </span>
+                    </button>
+
+                    <button mat-button (click)="selectPaidService(100, 50000)">
+                      <span class="fa-stack fa-4x">
+                        <i class="fas fa-map fa-stack-2x"></i>
+                        <i class="fas fa-search fa-stack-1x fa-inverse" style="color:white"></i>
+                      </span>
+                      <span style="display: block; font-weight: 800; text-transform: uppercase;">
+                        {{50000 | currency:'NGN':'symbol-narrow':'4.2-2'}}
+                      </span>
+                      <span style="display: block; font-weight: 400; text-transform: uppercase;">
+                        100 Property search
+                      </span>
+                    </button>
+
+                  </div>
+                  <div class="checkout-title">PAYMENT INFORMATION</div>
+
+                  <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4">
+                      <h4>Search Amount</h4>
+                      <span>{{searchAmount | currency:'NGN':'symbol-narrow':'4.2-2'}}</span>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4">
+                      <h4>Search Number</h4>
+                      <span>{{searchTotal}}</span>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4">
+                      <h4>Application Mode</h4>
+                      <span>Search</span>
+                    </div>
+                  </div>
+
+                  <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
+                    <button mat-button (click)="payWithFlutter()">
+                      <img src="/assets/images/bg/flutterwave.png" alt="">
+                      <span style="display: block; font-weight: 800; text-transform: uppercase;">
+                        Pay with flutterwave
+                      </span>
+                    </button>
+                    <button mat-button (click)="payWithMonnify()">
+                      <img src="/assets/images/bg/monify.png" alt="">
+                      <span style="display: block; font-weight: 800; text-transform: uppercase;">
+                        Pay with Monnify
+                      </span>
+                    </button>
+                    <button mat-button angular4-paystack [key]="'pk_test_a153339870d0227aa490acb9d88fd220a90f02f2'"
+                      [email]="userInfo.email" [amount]="searchAmount * 100" [metadata]="meta"
+                      [ref]="transactionReference" [class]="'btn btn-primary'" (paymentInit)="paystackPaymentInit()"
+                      (onClose)="paystackPaymentCancel()" (callback)="paystackPaymentDone($event)">
+                      <img src="/assets/images/bg/paystack.png" alt="">
+                      <span style="display: block; font-weight: 800; text-transform: uppercase;">
+                        Pay with Paystack
+                      </span>
+                    </button>
+                  </div>
+                  <!-- </form> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<app-footer [showPageListing]="false"></app-footer>

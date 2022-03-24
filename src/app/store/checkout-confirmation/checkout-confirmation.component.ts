@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cart } from 'app/shared/models/cart.model';
 import { StoreService } from 'app/shared/services/store.service';
+import { BroadcastService } from 'app/core/broadcast.service';
 
 @Component({
   selector: 'app-checkout-confirmation',
@@ -13,14 +14,13 @@ export class CheckoutConfirmationComponent implements OnInit {
   public sessionStorageCarts = 'houseAfrica.carts';
   public propertyID: any = 0;
 
-  constructor(private storeService: StoreService, private route: ActivatedRoute,) { }
+  constructor(private storeService: StoreService, private route: ActivatedRoute, private broadcastService: BroadcastService,) { }
 
   async ngOnInit() {
     this.route.params.subscribe(async (params: any) => {
       this.propertyID = params['id'];
       this.storeService.removeFromCart(this.propertyID).subscribe((results) => {
-
-
+        this.broadcastService.emitGetCart();
       })
     });
     // 

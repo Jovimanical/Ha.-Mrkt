@@ -12,24 +12,38 @@ export class BroadcastService {
   getCart$ = this.getCart.asObservable();
 
   private balanceUpdated = new ReplaySubject<number>();
-  balanceUpdated$ = this.balanceUpdated.asObservable();
+  balanceUpdated$ = this.balanceUpdated.asObservable(); 
+  
+  private pointBalanceUpdated = new ReplaySubject<number>();
+  pointBalanceUpdated$ = this.pointBalanceUpdated.asObservable();
 
   private getBalance = new ReplaySubject<void>();
-  getBalance$ = this.getBalance.asObservable();
+  getBalance$ = this.getBalance.asObservable(); 
+  
+  private getPointBalance = new ReplaySubject<void>();
+  getPointBalance$ = this.getPointBalance.asObservable();
 
-  emitProfileUpdated(user: User) {
+  public emitProfileUpdated(user: User) {
     this.profileUpdated.next(user);
   }
 
-  emitGetCart() {
+  public emitGetCart() {
     this.getCart.next();
   }
 
-  emitBalanceUpdated(balance: number) {
+  public emitBalanceUpdated(balance: number) {
     this.balanceUpdated.next(balance);
+  } 
+  
+  public emitPointBalanceUpdated(balance: number) {
+    this.pointBalanceUpdated.next(balance);
   }
 
-  emitGetBalance() {
+  public emitGetBalance() {
     this.getBalance.next();
+  } 
+  
+  public emitGetPointBalance() {
+    this.getPointBalance.next();
   }
 }

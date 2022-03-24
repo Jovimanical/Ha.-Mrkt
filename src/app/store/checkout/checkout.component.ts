@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Flutterwave, InlinePaymentOptions, PaymentSuccessResponse } from "flutterwave-angular-v3";
@@ -8,7 +8,6 @@ import { UserService } from 'app/core/user/user.service';
 import { BroadcastService } from 'app/core/broadcast.service';
 import { User } from 'app/core/user/user.model';
 import { StoreService } from 'app/shared/services/store.service';
-import { Checkout } from 'app/shared/models/checkout.model';
 
 declare var MonnifySDK: any
 
@@ -16,7 +15,6 @@ declare var MonnifySDK: any
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckoutComponent implements OnInit {
   public checkoutForm: FormGroup;
@@ -45,7 +43,7 @@ export class CheckoutComponent implements OnInit {
     private broadcastService: BroadcastService,
     private route: ActivatedRoute,
     private flutterwave: Flutterwave,
-    public changeDectection: ChangeDetectorRef,
+    // public changeDectection: ChangeDetectorRef,
     private router: Router) { }
 
   ngOnInit() {
@@ -65,9 +63,13 @@ export class CheckoutComponent implements OnInit {
           // save to loal store
           let cartItem = response.data
           this.subtotal += cartItem.PropertyAmount ? parseFloat(cartItem.PropertyAmount) : 0;
-          this.balance += 300
+          this.balance += 3000
           this.numberOfProperties += 1
-          cartItem.PropertyJson = JSON.parse(cartItem.PropertyJson);
+          if (cartItem?.PropertyJson) {
+            cartItem.PropertyJson = JSON.parse(cartItem.PropertyJson);
+          }
+
+
           this.cartProducts.push(cartItem);
 
           // response.data.records.forEach((element: any) => {
@@ -82,11 +84,12 @@ export class CheckoutComponent implements OnInit {
           this.cartProducts = [];
         }
         this.loading = false;
-        this.changeDectection.detectChanges();
+        // this.changeDectection.detectChanges();
 
       }, (error) => {
         this.loading = false;
-        this.changeDectection.detectChanges();
+        // this.changeDectection.detectChanges();
+        this.router.navigate([`/user-dashboard`]);
       });
 
     });
@@ -101,9 +104,6 @@ export class CheckoutComponent implements OnInit {
     }
 
     this.loading = true;
-    const model = this.checkoutForm.value as Checkout;
-
-
     // this.storeService.checkout(model).subscribe(result => {
     //   this.broadcastService.emitGetCart();
     //   this.broadcastService.emitGetBalance();
@@ -118,7 +118,7 @@ export class CheckoutComponent implements OnInit {
 
   private initializeForm(user: User): void {
     this.checkoutForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: [''],
       email: [user.email, Validators.required],
       mobile: [user.mobile, Validators.required],
       termsChecked: [true, Validators.required]
@@ -128,6 +128,8 @@ export class CheckoutComponent implements OnInit {
       this.checkoutForm.get('name').setValue(`${user.firstname} ${user.lastname}`);
       this.checkoutForm.updateValueAndValidity();
     }
+
+
   }
 
 
@@ -367,7 +369,8 @@ export class CheckoutComponent implements OnInit {
 
       if (this.cartProducts.length > 0) {
         this.cartProducts.forEach(async (propperty: any) => {
-          await this.storeService.addToListing(propperty);
+          propperty.ApplicationStatus = 'PROCESSING';
+          await this.storeService.addToListing(JSON.stringify(propperty));
         });
       }
 

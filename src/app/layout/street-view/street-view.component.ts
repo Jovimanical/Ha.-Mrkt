@@ -30,7 +30,7 @@ export class StreetViewComponent implements OnChanges {
     @Inject(PLATFORM_ID) private platformId: Object,
     private mapsAPILoader: MapsAPILoader,
     private appRef: ApplicationRef
-  ) {}
+  ) { }
 
   ngOnChanges() {
     this.renderStreetView();

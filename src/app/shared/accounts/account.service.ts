@@ -9,15 +9,35 @@ export class AccountService {
 
   constructor(private http: HttpClient) { }
 
-  getUserAccounts(): Observable<Array<Account>> {
-    return this.http.get<Array<Account>>(`${environment.API_URL}/wallets/accounts/1/30`);
+  public getUserAccounts(): Observable<Array<Account>> {
+    return this.http.get<Array<Account>>(`${environment.API_URL}/accounts/user-accounts/list/1/30`);
   }
 
-  getTotalAccountsBalance(accounts: Array<Account>) {
+
+ public getUserTransactionHistory(): Observable<any> {
+    return this.http.get<any>(`${environment.API_URL}/transactions/user-transactions/list/1/30`);
+  }
+
+
+
+  public updateUserAccounts(account: any): Promise<any> {
+    return this.http.post(`${environment.API_URL}/accounts/update/`, account).toPromise();
+  }
+
+  public getTotalAccountsBalance(accounts: Array<Account>) {
     let balance = 0;
     accounts.forEach(account => {
-      balance += account.balance;
+      balance += account.account_balance;
     });
     return balance;
+  }
+
+
+  public getTotalAccountsPointBalance(accounts: Array<Account>) {
+    let pointBalance = 0;
+    accounts.forEach((account: any) => {
+      pointBalance += account.account_point;
+    });
+    return pointBalance;
   }
 }

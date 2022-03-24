@@ -36,7 +36,10 @@ export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
         // save to loal store
         response.data.records.forEach((element: any) => {
           this.subtotal += element.PropertyAmount ? parseFloat(element.PropertyAmount) : 0;
-          element.PropertyJson = JSON.parse(element.PropertyJson);
+          if (element?.PropertyJson) {
+            element.PropertyJson = JSON.parse(element.PropertyJson);
+          }
+
           this.cartProducts.push(element);
         });
       } else {
@@ -79,16 +82,12 @@ export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
     const product = this.cartProducts[index];
   }
 
-  goToCheckout(params: any = 1): void {
-    // if (this.balance < this.subtotal) {
-    //   this.notificationService.showErrorMessage('Insufficient funds for checkout');
-    //   return;
-    // }
-    this.router.navigate([`/listings/checkout-option-mortgage/${params.id}`]);
-    // if (params === 1) {     
-    // } else {
-    //   this.router.navigate(['store/checkout-option-mortgage']);
-    // }
+  goToCheckout(params: any): void {
+    if (params.ApplicationStatus === 'PROCESSING') {
+      this.router.navigate([`/listings/checkout/${params.id}`]);
+    } else {
+      this.router.navigate([`/listings/checkout-option-mortgage/${params.id}`]);
+    }
 
   }
 }

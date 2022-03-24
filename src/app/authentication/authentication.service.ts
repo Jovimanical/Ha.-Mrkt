@@ -5,8 +5,11 @@ import { environment } from '../../environments/environment';
 import { UserService } from 'app/core/user/user.service';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { map } from 'rxjs/operators';
 // import { HAEncryptStorage } from './encryption-storage'
+
+const helper = new JwtHelperService();
 
 @Injectable()
 export class AuthenticationService {
@@ -41,7 +44,8 @@ export class AuthenticationService {
         sessionStorage.setItem(this.sessionStorageTokenKey, token);
       }
     }
-    return token;
+    
+    return token ; //helper.isTokenExpired(token) ? token : null;
   }
 
   async getUserInfo() {

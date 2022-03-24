@@ -29,11 +29,11 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <h3><strong>Application Status</strong></h3>
+                  <h3 class="cart-title"><strong>Application Status</strong></h3>
                 </div>
                 <div class="card-body cart">
                   <div class="empty-cart-cls">
-                    <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3">
+                    <img src="https://i.imgur.com/dCdflKN.png" width="300" height="auto" class="img-fluid mb-4 mr-3">
 
                     <div class="cart-title">Your Application list is currently empty</div>
                     <p>
@@ -81,9 +81,11 @@
                       </div>
                       <div class="small-facts fl-wrap">
                         <ul>
-                          <li><i class="fal fa-home"></i> <span><strong>36</strong>Listing</span></li>
-                          <li><i class="fal fa-users-class"></i> <span><strong>10</strong>Views</span></li>
-                          <li><i class="fal fa-comment-alt"></i> <span><strong>56</strong>Reviews</span></li>
+                          <li><i class="fal fa-home"></i> <span> Block &nbsp;
+                              <strong>{{cartProduct.LinkedEntity}}</strong></span></li>
+                          <li><i class="fal fa-users-class"></i> <span> Estate Unit&nbsp;
+                              <strong>{{cartProduct.PropertyId}}</strong></span></li>
+                          <li><i class="fal fa-comment-alt"></i> <span> {{cartProduct.ApplicationStatus}}</span></li>
                         </ul>
                       </div>
                       <div class="geodir-category-footer fl-wrap">
@@ -91,7 +93,8 @@
                           <i class="fal fa-trash-alt"></i>
                           Remove from My Application
                         </button>
-                        <button mat-flat-button color="primary" (click)="goToCheckout(cartProduct)">Continue Application </button>
+                        <button mat-flat-button color="primary" (click)="goToCheckout(cartProduct)">Continue Application
+                        </button>
                       </div>
                     </div>
                   </article>
@@ -109,7 +112,7 @@
                       Continue Listings
                     </a>
                     <!-- <button mat-raised-button color="accent" (click)="goToCheckout(0)">CHECKOUT MORTGAGE OPTION</button> -->
-                    <div style="height: 5px;"></div>                   
+                    <div style="height: 5px;"></div>
                   </div>
                 </div>
               </div>

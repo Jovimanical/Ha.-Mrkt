@@ -1,0 +1,28 @@
+.checkout-title {
+    letter-spacing: 2px;
+    color: rgb(104, 103, 112);
+    margin-bottom: 10px;
+    font-size: 20px;
+    margin: 25px 10px;
+    padding: 30px;
+  }
+  
+  .button-section {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .example-margin {
+    float: left;
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    height: 20px;
+    border-radius: 2px;
+    color: #fff;
+    background: #fff;
+    -webkit-appearance: none;
+  }
+  
+  

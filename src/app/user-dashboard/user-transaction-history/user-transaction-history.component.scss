@@ -1,0 +1,29 @@
+table {
+  width: 100%;
+}
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td,
+th {
+  min-width: 20%;
+}
+th {
+  padding: 10px !important;
+  text-align: center;
+}
+
+td {
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+}
+
+.w-75{
+    max-width: 5% !important;
+}
+
+.w-100{
+    max-width: 100px;
+}

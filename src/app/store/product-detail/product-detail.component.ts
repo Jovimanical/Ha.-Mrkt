@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import rewind from '@mapbox/geojson-rewind';
 import * as L from 'leaflet';
 import * as leafletImage from 'leaflet-image';
+import Swal from 'sweetalert2';
 import EventService from "eventservice";
 import { EventsService } from 'angular4-events';
 import { OverlayRef } from '@angular/cdk/overlay';
@@ -18,6 +19,19 @@ import { MobileService } from 'app/core/mobile.service';
 import { Subscription } from 'rxjs';
 import { Observable, Subscriber } from 'rxjs';
 import { StoreService } from 'app/shared/services/store.service';
+import { NavigationService } from 'app/shared/services/navigation.service'
+import { UserService } from 'app/core/user/user.service';
+import { AccountService } from 'app/shared/accounts/account.service';
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'center',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  allowEscapeKey: false,
+})
+
 
 @Component({
   selector: 'app-product-detail',
@@ -27,8 +41,7 @@ import { StoreService } from 'app/shared/services/store.service';
 })
 export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('sidenav') public sidenav: MatSidenav;
-  @ViewChild("gmapContainer", { static: false }) public gmapContainer: ElementRef;
-  @ViewChild("gmapPanorama", { static: false }) public gmapPanorama: ElementRef;
+
 
   public quantity = 1;
   public loading = false;
@@ -73,8 +86,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public tabsPlacement = 'start';
   public panorama: google.maps.StreetViewPanorama;
 
-  public locationUnitLat:any;
-  public locationUnitLong:any;
+  public locationUnitLat: any;
+  public locationUnitLong: any;
+  public totalBalance = 0;
+  public userAccount: any = {};
+  public userInfo: any = {};
 
 
 
@@ -90,6 +106,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     private estateSidebarService: EstateMapSidebarService,
     private breakpointObserver: BreakpointObserver,
     private authService: AuthenticationService,
+    private userService: UserService,
+    private accountService: AccountService,
+    private navigation: NavigationService
+
   ) {
 
     this.isMapLoading = true;
@@ -99,6 +119,38 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
   ngOnInit() {
     this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      this.userService.getCurrentUser().subscribe((user: any) => {
+        // We're just supporting one account right now. Grab the first result.
+        if (user.data instanceof Object && Object.keys(user.data).length !== 0) {
+          this.userInfo = user.data;
+          this.getAccounts();
+        } else {
+          this.notLoggedInConfirmation()
+        }
+      }, (error) => {
+        // console.log('getAccounts - Error', error)
+        if (error.error.message === 'Error : Expired token') {
+          console.log('getAccounts call logout')
+          // this.userService.logout();
+        }
+        // show payment Modal
+      });
+    } else {
+      this.notLoggedInConfirmation()
+    }
+
+    // this.userService.authenticationChanged$
+    //   .subscribe((isAuthenticated: any) => {
+    //     if (isAuthenticated !== null) {
+    //       this.isAuthenticated = isAuthenticated;
+    //       this.getAccounts();
+    //     }
+    //     else {
+
+    //     }
+    //   });
+
     this.route.params.subscribe(params => {
       const PropertyID = params['id'];
       this.returnEstatePropertyObj(PropertyID);
@@ -110,6 +162,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     this.mobile = this.mobileService.isMobile();
     this.watcher = this.mobileService.mobileChanged$
       .subscribe(isMobile => this.mobile = isMobile);
+
+    this.broadcastService.getBalance$.subscribe(() => {
+      this.getAccounts();
+    });
+
   }
 
   ngAfterViewInit(): void {
@@ -193,6 +250,195 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     EventService.off("AddToFavorite", "SomeKey");
     EventService.off("AddToCart", "SomeKey");
   }
+
+
+  public notLoggedInConfirmation() {
+    Swal.fire({
+      title: 'Opps! Login is required?',
+      text: 'You will need to Login to be able to view this property.',
+      icon: 'info',
+      showCancelButton: true,
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      confirmButtonText: 'Yes, Login.',
+      cancelButtonText: 'No, Maybe later.',
+    }).then((result) => {
+      //  console.log('results', result)
+      if (result.value) {
+        Toast.fire({
+          icon: 'success',
+          title: 'Redirecting to Login ...'
+        });
+        setTimeout(() => {
+          this.router.navigate(['/authentication/login']);
+        }, 3000);
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Toast.fire({
+          icon: 'error',
+          title: 'You would be redirected to the previous page ...'
+        })
+        setTimeout(() => {
+          this.navigation.back()
+        }, 3000);
+
+      }
+    });
+  }
+
+
+  public insufficentBalanceConfirmation() {
+    Swal.fire({
+      title: 'Insufficent Search Credit',
+      text: 'You will need to purchase search credits to contine',
+      icon: 'warning',
+      showCancelButton: true,
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      confirmButtonText: 'Yes, go ahead.',
+      cancelButtonText: 'No, let me think',
+    }).then((result) => {
+      // console.log('results', result)
+      if (result.value) {
+        Toast.fire({
+          icon: 'success',
+          title: 'Redirecting to Search Subscription Payment page ...'
+        });
+        setTimeout(() => {
+          this.router.navigate([`/user-dashboard/user-search-subscription`]);
+        }, 3000);
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Toast.fire({
+          icon: 'error',
+          title: 'You would be redirected to the previous page ...'
+        })
+        setTimeout(() => {
+          this.navigation.back()
+        }, 3000);
+      }
+    });
+  }
+
+
+  public accountRetry() {
+    Swal.fire({
+      title: 'Account Error?',
+      text: 'We are unable to identify your Account, Would you like to try again!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Try Again!',
+      cancelButtonText: 'No, Maybe later'
+    }).then((result) => {
+      if (result.value) {
+        Toast.fire({
+          icon: 'success',
+          title: 'Retrying Account.'
+        })
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Toast.fire({
+          icon: 'error',
+          title: 'You would be redirected to the previous page ...'
+        })
+        setTimeout(() => {
+          this.navigation.back()
+        }, 3000);
+      }
+    })
+  }
+
+  public generateReference(): string {
+    let date = new Date();
+    return 'HA-Ref' + Math.floor((Math.random() * 1000000000) + 1) + date.getTime().toString();
+  }
+
+  async makeAccountDeductions(amountDeductable: number) {
+    try {
+
+      const availablePoint = parseInt(this.userAccount.account_point, 10);
+      const availableAmount = parseFloat(this.userAccount.account_balance);
+
+
+
+
+      if (availablePoint > 0) {
+
+        const AmountToDeduct = availableAmount / availablePoint
+
+
+        this.userAccount.account_balance = availableAmount - AmountToDeduct;
+        this.userAccount.account_point = availablePoint - amountDeductable;
+        const deductSearchAmount = await this.accountService.updateUserAccounts(JSON.stringify(this.userAccount))
+        if (deductSearchAmount) {
+
+
+          let transactionHistory: any = {}
+          transactionHistory.sender_id = this.userInfo.id;
+          transactionHistory.receiver_id = 1
+          transactionHistory.amount = AmountToDeduct;
+          transactionHistory.charge = 1
+          transactionHistory.post_balance = availableAmount
+          transactionHistory.transaction_type = 'PROPERTY SEARCH DEDUCTION'
+          transactionHistory.sender_Account = this.userInfo.mobile
+          transactionHistory.receiver_Account = 'HOUSEAFRICA001'
+          transactionHistory.trx = this.generateReference();
+          transactionHistory.details = 'DEDUCTION FOR USER PROPERTY SEARCH';
+          transactionHistory.created_at = new Date()
+          transactionHistory.updated_at = new Date()
+
+          const addTHistory = await this.storeService.addTransactionHistory(JSON.stringify(transactionHistory));
+          if (addTHistory) {
+            // this.createOrder()
+          }
+
+
+        }
+      }
+    } catch (error) {
+      console.error('Error Deduce Amount', error)
+      Toast.fire({
+        icon: 'error',
+        title: 'We are unable to make deductions for search, you would be redirected to previous page ...'
+      })
+      setTimeout(() => {
+        this.navigation.back()
+      }, 3000);
+
+    }
+
+  }
+
+  private getAccounts(): void {
+    this.accountService.getUserAccounts()
+      .subscribe((accounts: any) => {
+        console.log('accounts', accounts.data.records[0])
+        // We're just supporting one account right now. Grab the first result.
+        if (accounts?.data.records instanceof Array && accounts.data.records.length > 0) {
+          const account = accounts.data.records[0];
+          this.userAccount = accounts.data.records[0];
+
+          if (account.account_point === "0") {
+            this.insufficentBalanceConfirmation()
+            return;
+          } else {
+            this.totalBalance = account.account_point !== "0" ? parseInt(account.account_point, 10) : 0;
+            this.broadcastService.emitPointBalanceUpdated(this.totalBalance);
+            this.makeAccountDeductions(1);
+          }
+        } else {
+          this.accountRetry()
+        }
+      }, (error) => {
+        // console.log('getAccounts - Error', error)
+        if (error.error.message === 'Error : Expired token') {
+          console.log('getAccounts call logout')
+          // this.userService.logout();
+        }
+        // show payment Modal
+        this.accountRetry();
+      });
+
+  }
+
+
 
   public placementToggle(change: any) {
     change.checked === true ? this.tabsPlacement = 'start' : this.tabsPlacement = 'end';
@@ -292,50 +538,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   public initializeStreetView(latitude: any, longitude: any) {
-    // const propertyPlace = { lat: latitude, lng: longitude };
-    // const map = new google.maps.Map(
-    //   document.getElementById("map") as HTMLDivElement,
-    //   {
-    //     center: propertyPlace,
-    //     zoom: 14,
-    //   }
-    // );
-    // // (<any>window).
-    // const panorama = new google.maps.StreetViewPanorama(
-    //   document.getElementById("pano") as HTMLDivElement,
-    //   {
-    //     position: propertyPlace,
-    //     pov: { heading: 165, pitch: 0 },
-    //     zoom: 1,
-    //     motionTrackingControlOptions: {
-    //       position: google.maps.ControlPosition.LEFT_BOTTOM
-    //     }
-    //   }
-    // );
 
-    // map.setStreetView(panorama);
-    setTimeout(() => {
-      const fenway = { lat: 42.345573, lng: -71.098326 };
-      const map = new google.maps.Map(
-        this.gmapContainer.nativeElement,
-        {
-          center: fenway,
-          zoom: 14,
-        }
-      );
-      const panorama = new google.maps.StreetViewPanorama(
-        this.gmapPanorama.nativeElement,
-        {
-          position: fenway,
-          pov: {
-            heading: 34,
-            pitch: 10,
-          },
-        }
-      );
-
-      map.setStreetView(panorama);
-    }, 2000);
 
   }
 
@@ -433,12 +636,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         .subscribe(() => {
           this.broadcastService.emitGetCart();
           this.router.navigate(['/listings/application']);
-          this.notificationService.showSuccessMessage('Successfully added to cart');
+          this.notificationService.showSuccessMessage('Successfully added to application listing');
           this.userCarts.push(property);
 
           setTimeout(() => {
             this.saveToLocalStorage(this.userCarts, this.sessionStorageCarts)
-            this.notificationService.showSuccessMessage('Added to Cart');
+            this.notificationService.showSuccessMessage('Added to Application Listing');
             this.loading = false;
           }, 1000);
           this.loading = false;

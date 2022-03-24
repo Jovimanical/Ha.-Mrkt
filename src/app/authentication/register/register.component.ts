@@ -32,12 +32,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private mobileService: MobileService,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService
-    ) {
-       // redirect to home if already logged in
+  ) {
+    // redirect to home if already logged in
     if (this.authenticationService.userValue) {
       this.router.navigate(['/']);
     }
-     }
+  }
 
   ngOnInit(): void {
     this.initializeForm();

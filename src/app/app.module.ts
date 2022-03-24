@@ -8,6 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { EventsModule } from 'angular4-events';
+import { AgmCoreModule } from '@agm/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
@@ -35,8 +36,11 @@ import { environment } from '../environments/environment';
     NgxSkeletonLoaderModule,
     NgHttpLoaderModule.forRoot(),
     EventsModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyD3GSN-lKlYxfxscH0kMNE6W1RSB2kPvbw'
+    }),
     AngularMaterialModule,
-    BrowserAnimationsModule,    
+    BrowserAnimationsModule,
     FlexLayoutModule,
     AppRoutingModule,
     CoreModule,

@@ -10,6 +10,7 @@ import { LocalForageService } from './services/localforage.service';
 import { TranscationHistoryService } from './services/transcation-history.service';
 import { ConfirmCancelOrderComponent } from './confirm-cancel-order/confirm-cancel-order.component';
 import { AngularMaterialModule } from 'app/shared/angular-material/angular-material.module';
+import { NavigationService } from './services/navigation.service'
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
@@ -29,8 +30,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     AccountService,
     StoreService,
     MapService,
+    NavigationService,
     TranscationHistoryService,
-    LocalForageService,    
+    LocalForageService,
   ],
   exports: [
     ProfileImageDirective,
