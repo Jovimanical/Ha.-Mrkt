@@ -1,9 +1,12 @@
 <!-- wrapper  -->
 <div id="wrapper">
+  <!-- dashbard-menu-wrap -->
+  <app-sidebar></app-sidebar>
+  <!-- dashbard-menu-wrap end  -->
   <!-- content -->
-  <div class="content">
+  <div class="dashboard-content">
     <!-- breadcrumbs-->
-    <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
+    <!-- <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
       <div class="container">
         <div class="breadcrumbs-list">
           <a>Home</a><a>user-dashboard</a> <span>Application</span>
@@ -13,115 +16,127 @@
           <div class="share-container  isShare"></div>
         </div>
       </div>
-    </div>
+    </div> -->
+    <app-dashboard-toggle></app-dashboard-toggle>
+    <div class="container dasboard-container">
+      <!-- dashboard-title -->
+      <app-dashboard-menu-status [dashboardTitle]="PageName"></app-dashboard-menu-status>
+      <!-- dashboard-title end -->
+      <div class="dasboard-wrapper fl-wrap">
 
-    <ng-template #loading>
-      <div class="container-fluid page-padding"
-        style="margin-top:30%; display: flex; justify-content: center; align-items: center;"
-        *ngIf="isLoading && cartProducts.length === 0">
-        <mat-spinner role="progressbar"></mat-spinner>
-      </div>
 
-      <div class="container-fluid page-padding" style="margin-top: 10%;"
-        *ngIf="!isLoading && cartProducts.length === 0">
-        <div class="cart">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header">
-                  <h3 class="cart-title"><strong>Application Status</strong></h3>
-                </div>
-                <div class="card-body cart">
-                  <div class="empty-cart-cls">
-                    <img src="https://i.imgur.com/dCdflKN.png" width="300" height="auto" class="img-fluid mb-4 mr-3">
+        <ng-template #loading>
+          <div class="container-fluid page-padding"
+            style="margin-top:30%; display: flex; justify-content: center; align-items: center;"
+            *ngIf="isLoading && cartProducts.length === 0">
+            <mat-spinner role="progressbar"></mat-spinner>
+          </div>
 
-                    <div class="cart-title">Your Application list is currently empty</div>
-                    <p>
-                      You will find a lot of interesting products on our "Listing" page.
-                    </p>
-                    <a routerLink="/listings" routerLinkActive="active" class="btn btn-primary cart-btn-transform m-3"
-                      data-abc="true">
-                      Contunue to Listings
-                    </a>
+          <div class="container-fluid page-padding" style="margin-top: 10%;"
+            *ngIf="!isLoading && cartProducts.length === 0">
+            <div class="cart">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="cart-title"><strong>Application Status</strong></h3>
+                    </div>
+                    <div class="card-body cart">
+                      <div class="empty-cart-cls">
+                        <img src="https://i.imgur.com/dCdflKN.png" width="300" height="auto"
+                          class="img-fluid mb-4 mr-3">
+
+                        <div class="cart-title">Your Application list is currently empty</div>
+                        <p>
+                          You will find a lot of interesting products on our "Listing" page.
+                        </p>
+                        <a routerLink="/listings" routerLinkActive="active"
+                          class="btn btn-primary cart-btn-transform m-3" data-abc="true">
+                          Contunue to Listings
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </ng-template>
-    <ng-template [ngIf]="cartProducts?.length > 0" [ngIfElse]="loading">
-      <section class="gray-bg small-padding" *ngIf="cartProducts?.length > 0">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-sm-12 col-md-12">
-              <!-- listing-item-wrap-->
-              <div class="listing-item-container one-column-grid-wrap box-list_ic agency-list fl-wrap"
-                *ngFor="let cartProduct of cartProducts; let i = index">
-                <!--  agecy card item -->
-                <div class="listing-item has_one_column">
-                  <article class="geodir-category-listing fl-wrap">
-                    <div class="geodir-category-img fl-wrap">
-                      <a class="geodir-category-img_item">
-                        <img src="assets/images/agency/1.png" alt="">
-                      </a>
-                    </div>
-                    <div class="geodir-category-content fl-wrap">
-                      <div class="card-verified tolt" data-microtip-position="left" data-tooltip="Verified">
-                        <i class="fal fa-user-check"></i>
-                      </div>
-                      <div class="agent_card-title fl-wrap">
-                        <h4>{{cartProduct.PropertyName}}</h4>
-                        <div class="geodir-category-location fl-wrap">
-                          <a><i class="fas fa-map-marker-alt"></i> {{cartProduct.PropertyJson?.name}}</a>
-                          <div class="listing-rating card-popup-rainingvis" data-starrating2="4"><span
-                              class="re_stars-title">{{cartProduct.PropertyStatus}}</span></div>
+        </ng-template>
+        <ng-template [ngIf]="cartProducts?.length > 0" [ngIfElse]="loading">
+          <section class="gray-bg small-padding" *ngIf="cartProducts?.length > 0">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-12 col-md-12">
+                  <!-- listing-item-wrap-->
+                  <div class="listing-item-container one-column-grid-wrap box-list_ic agency-list fl-wrap"
+                    *ngFor="let cartProduct of cartProducts; let i = index">
+                    <!--  agecy card item -->
+                    <div class="listing-item has_one_column">
+                      <article class="geodir-category-listing fl-wrap">
+                        <div class="geodir-category-img fl-wrap">
+                          <a class="geodir-category-img_item">
+                            <img src="assets/images/agency/1.png" alt="">
+                          </a>
                         </div>
-                      </div>
-                      <div class="small-facts fl-wrap">
-                        <ul>
-                          <li><i class="fal fa-home"></i> <span> Block &nbsp;
-                              <strong>{{cartProduct.LinkedEntity}}</strong></span></li>
-                          <li><i class="fal fa-users-class"></i> <span> Estate Unit&nbsp;
-                              <strong>{{cartProduct.PropertyId}}</strong></span></li>
-                          <li><i class="fal fa-comment-alt"></i> <span> {{cartProduct.ApplicationStatus}}</span></li>
-                        </ul>
-                      </div>
-                      <div class="geodir-category-footer fl-wrap">
-                        <button (click)="removeItem(i)" class="btn float-btn color-bg small-btn">
-                          <i class="fal fa-trash-alt"></i>
-                          Remove from My Application
-                        </button>
-                        <button mat-flat-button color="primary" (click)="goToCheckout(cartProduct)">Continue Application
-                        </button>
+                        <div class="geodir-category-content fl-wrap">
+                          <div class="card-verified tolt" data-microtip-position="left" data-tooltip="Verified">
+                            <i class="fal fa-user-check"></i>
+                          </div>
+                          <div class="agent_card-title fl-wrap">
+                            <h4>{{cartProduct.PropertyName}}</h4>
+                            <div class="geodir-category-location fl-wrap">
+                              <a><i class="fas fa-map-marker-alt"></i> {{cartProduct.PropertyJson?.name}}</a>
+                              <div class="listing-rating card-popup-rainingvis" data-starrating2="4"><span
+                                  class="re_stars-title">{{cartProduct.PropertyStatus}}</span></div>
+                            </div>
+                          </div>
+                          <div class="small-facts fl-wrap">
+                            <ul>
+                              <li><i class="fal fa-home"></i> <span> Block &nbsp;
+                                  <strong>{{cartProduct.LinkedEntity}}</strong></span></li>
+                              <li><i class="fal fa-users-class"></i> <span> Estate Unit&nbsp;
+                                  <strong>{{cartProduct.PropertyId}}</strong></span></li>
+                              <li><i class="fal fa-comment-alt"></i> <span> {{cartProduct.ApplicationStatus}}</span>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="geodir-category-footer fl-wrap">
+                            <button (click)="removeItem(i)" class="btn float-btn color-bg small-btn">
+                              <i class="fal fa-trash-alt"></i>
+                              Remove from My Application
+                            </button>
+                            <button mat-flat-button color="primary" (click)="goToCheckout(cartProduct)">Continue
+                              Application
+                            </button>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="cartProducts?.length">
+                    <div class="col-sm-8 col-md-8" *ngIf="cartProducts?.length">
+                      <span class="title">SUBTOTAL</span>
+                      <span class="form-title">{{ subtotal | currency:'NGN':'symbol-narrow':'4.2-2' }}</span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                      <div style="display: flex; flex-direction: column; justify-content: space-evenly;">
+                        <a routerLink="/listings" routerLinkActive="active" class="btn btn-primary">
+                          <i class="fa fa-shopping-cart"></i>
+                          Continue Listings
+                        </a>
+                        <!-- <button mat-raised-button color="accent" (click)="goToCheckout(0)">CHECKOUT MORTGAGE OPTION</button> -->
+                        <div style="height: 5px;"></div>
                       </div>
                     </div>
-                  </article>
-                </div>
-              </div>
-              <div class="row" *ngIf="cartProducts?.length">
-                <div class="col-sm-8 col-md-8" *ngIf="cartProducts?.length">
-                  <span class="title">SUBTOTAL</span>
-                  <span class="form-title">{{ subtotal | currency:'NGN':'symbol-narrow':'4.2-2' }}</span>
-                </div>
-                <div class="col-sm-4 col-md-4">
-                  <div style="display: flex; flex-direction: column; justify-content: space-evenly;">
-                    <a routerLink="/listings" routerLinkActive="active" class="btn btn-primary">
-                      <i class="fa fa-shopping-cart"></i>
-                      Continue Listings
-                    </a>
-                    <!-- <button mat-raised-button color="accent" (click)="goToCheckout(0)">CHECKOUT MORTGAGE OPTION</button> -->
-                    <div style="height: 5px;"></div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-    </ng-template>
-    <div class="limit-box fl-wrap"></div>
+          </section>
+        </ng-template>
+        <div class="limit-box fl-wrap"></div>
+      </div>
+    </div>
   </div>
 </div>
 <app-footer [showPageListing]="false"></app-footer>

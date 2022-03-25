@@ -13,6 +13,7 @@ import { NotificationService } from 'app/shared/services/notification.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
+  public PageName = "My Applications"
   public subtotal = 0;
   public cartProducts: Array<any> = [];
   public balance = 0;
