@@ -64,6 +64,15 @@ export class UserService {
     this.isMenuShowing.next(showMenu);
   }
 
+  getCurrentActiveUser() {
+    const userInfo = sessionStorage.getItem(this.sessionStorageUserInfo);
+    if (userInfo === null || userInfo === undefined) {
+      return {}
+    } else {
+      return JSON.parse(userInfo);
+    }
+  }
+
   logout(): void {
     sessionStorage.removeItem(this.sessionStorageTokenKey);
     sessionStorage.removeItem(this.sessionStorageUserInfo);

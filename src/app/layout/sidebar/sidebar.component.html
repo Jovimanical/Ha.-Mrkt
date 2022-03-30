@@ -3,41 +3,53 @@
   <div class="dashbard-menu-close"><i class="fal fa-times"></i></div>
   <div class="dashbard-menu-container">
     <!-- user-profile-menu-->
-    <div class="user-profile-menu">
+    <div class="user-profile-menu" *ngIf="userRole === 'user'">
       <h3>Main</h3>
+
       <ul class="no-list-style">
-        <li><a href="/#/user-dashboard" class="user-profile-act">
+        <li><a routerLink="/user-dashboard" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
             <i class="fal fa-chart-line"></i>
             Dashboard
           </a>
         </li>
-        <li><a routerLink="/user-dashboard/user-properties" routerLinkActive="active">
+        <li><a routerLink="/user-dashboard/user-properties" routerLinkActive="user-profile-act"
+            [routerLinkActiveOptions]="{exact:
+          true}">
             <i class="fal fa-home"></i> My Properties</a>
         </li>
         <li>
-          <a routerLink="/listings/application" routerLinkActive="active">
+          <a routerLink="/listings/application" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
             <i class="fal fa-check"></i>My Application (s)</a>
         </li>
         <!-- <li>
-          <a routerLink="/user-dashboard/user-land-registry" routerLinkActive="active" class="submenu-link">
+          <a routerLink="/user-dashboard/user-land-registry" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}" class="submenu-link">
             <i class="fal fa-plus"></i>My Application</a>
           <ul class="no-list-style">
           
-            <li><a routerLink="/user-dashboard/user-personal-information" routerLinkActive="active">
+            <li><a routerLink="/user-dashboard/user-personal-information" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
                 <i class="fal fa-user"></i>Personal Information</a>
             </li>
-            <li><a routerLink="/user-dashboard/user-employment-status" routerLinkActive="active">
+            <li><a routerLink="/user-dashboard/user-employment-status" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
                 <i class="fal fa-briefcase"></i> Employment Information</a>
             </li>
-            <li><a routerLink="/user-dashboard/user-required-documents" routerLinkActive="active">
+            <li><a routerLink="/user-dashboard/user-required-documents" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
                 <i class="fal fa-file-plus"></i> Required Document</a>
             </li>
           </ul>
         </li> -->
-        <li><a routerLink="/user-dashboard/user-transaction-history" routerLinkActive="active">
+        <li><a routerLink="/user-dashboard/user-transaction-history" routerLinkActive="user-profile-act"
+            [routerLinkActiveOptions]="{exact:
+          true}">
             <i class="fal fa-users"></i>My Transaction History</a>
         </li>
-        <li><a routerLink="/user-dashboard/user-profile" routerLinkActive="active">
+        <li><a routerLink="/user-dashboard/user-profile" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
             <i class="fal fa-user-edit"></i>My Profile</a>
         </li>
       </ul>
@@ -48,35 +60,100 @@
     <!-- <div class="user-profile-menu">
       <h3>Listings</h3>
       <ul class="no-list-style">
-        <li><a routerLink="/user-dashboard/user-listings" routerLinkActive="active">
+        <li><a routerLink="/user-dashboard/user-listings" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
             <i class="fal fa-th-list"></i> My listigs </a>
         </li>
         <li>
-          <a routerLink="/user-dashboard/user-bookings" routerLinkActive="active">
+          <a routerLink="/user-dashboard/user-bookings" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
             <i class="fal fa-calendar-check"></i>My Bookings
           </a>
         </li>
-        <li><a routerLink="/user-dashboard/user-reviews" routerLinkActive="active">
+        <li><a routerLink="/user-dashboard/user-reviews" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
             <i class="fal fa-comments-alt"></i>My Reviews
           </a></li>
         <li>
-          <a routerLink="/user-dashboard/user-wallet" routerLinkActive="active">
+          <a routerLink="/user-dashboard/user-wallet" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
             <i class="fal fa-file-plus"></i> My Wallet
           </a>
         </li>
-        <li><a routerLink="/user-dashboard/user-messaging" routerLinkActive="active">
+        <li><a routerLink="/user-dashboard/user-messaging" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
             <i class="fal fa-envelope"></i>My Messages
           </a>
         </li>
-        <li><a routerLink="/user-dashboard/user-land-registeration" routerLinkActive="active">
+        <li><a routerLink="/user-dashboard/user-land-registeration" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
             <i class="fal fa-th-list"></i> Register land </a>
         </li>
-        <li><a routerLink="/user-dashboard/user-land-resisteration-status" routerLinkActive="active">
+        <li><a routerLink="/user-dashboard/user-land-resisteration-status" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
             <i class="fal fa-calendar-check"></i> Track Land Registration Status</a>
         </li>
       </ul>
     </div> -->
-    <!-- user-profile-menu end-->
+    <!-- admin-profile-menu end-->
+    <div class="user-profile-menu" *ngIf="userRole === 'admin'">
+      <h3>Main</h3>
+      <ul class="no-list-style">
+        <li><a href="/#/admin-dashboard" class="user-profile-act">
+            <i class="fal fa-chart-line"></i>
+            Dashboard
+          </a>
+        </li>
+        <li><a routerLink="/admin-dashboard/system-listings" routerLinkActive="user-profile-act"
+            [routerLinkActiveOptions]="{exact:
+          true}">
+            <i class="fal fa-home"></i> All Properties</a>
+        </li>
+        <li>
+          <a routerLink="/admin-dashboard/orders" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
+            <i class="fal fa-check"></i>All Order(s)</a>
+        </li>
+        <li>
+          <a routerLink="/admin-dashboard/users" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
+            <i class="fal fa-users"></i>All User(s)</a>
+        </li>
+
+        <li><a routerLink="/admin-dashboard/system-transaction-history" routerLinkActive="user-profile-act"
+            [routerLinkActiveOptions]="{exact:
+          true}">
+            <i class="fal fa-credit-card"></i>Transaction History</a>
+        </li>
+        <li><a routerLink="/admin-dashboard/user-profile" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          true}">
+            <i class="fal fa-user-edit"></i>My Profile</a>
+        </li>
+      </ul>
+      <div style="height: 10px;"></div>
+      <h3>Applications</h3>
+      <ul class="no-list-style">
+        <li>
+          <a routerLink="/admin-dashboard/system-personal-information" routerLinkActive="user-profile-act"
+            [routerLinkActiveOptions]="{exact:
+          true}">
+            <i class="fal fa-user"></i>Personal Information</a>
+        </li>
+        <li>
+          <a routerLink="/admin-dashboard/system-employment-status" routerLinkActive="user-profile-act"
+            [routerLinkActiveOptions]="{exact:
+          true}">
+            <i class="fal fa-briefcase"></i> Employment Information</a>
+        </li>
+        <li>
+          <a routerLink="/admin-dashboard/system-required-documents" routerLinkActive="user-profile-act"
+            [routerLinkActiveOptions]="{exact:
+          true}">
+            <i class="fal fa-file-plus"></i> Required Document</a>
+        </li>
+      </ul>
+    </div>
+
   </div>
   <div class="dashbard-menu-footer"> &#169; HouseAfrica 2022 . All rights reserved.</div>
 </div>

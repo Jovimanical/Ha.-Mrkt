@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { UserDashboardComponent } from './user-dashboard.component';
+import { AuthGuardService } from 'app/authentication/auth-guard.service';
+import { Role } from 'app/shared/models/role';
 import { UserTransactionHistoryComponent } from './user-transaction-history/user-transaction-history.component';
 import { UserMyPropertiesComponent } from './user-my-properties/user-my-properties.component';
 import { UserMyReferralComponent } from './user-my-referral/user-my-referral.component';
@@ -29,27 +31,27 @@ import { SearchSubscriptionComponent } from './search-subscription/search-subscr
 // import { OrderDetailsComponent } from './order-admin/order-details/order-details.component';
 
 const userRoutes: Routes = [
-    { path: '', component: UserDashboardComponent },
-    { path: 'user-reviews', component: UserReviewsComponent },
-    { path: 'user-transaction-history', component: UserTransactionHistoryComponent },
-    { path: 'user-messaging', component: UserMessagingComponent },
-    { path: 'user-properties', component: UserMyPropertiesComponent },
-    { path: 'user-listings', component: UserListingsComponent },
-    { path: 'user-referral', component: UserMyReferralComponent },
-    { path: 'user-mortgage', component: UserMortgageComponent },
-    { path: 'user-settings', component: UserMySettingsComponent },
-    { path: 'user-bookings', component: UserBookingsComponent },
-    { path: 'user-profile', component: UserProfileComponent },
-    { path: 'user-wallet', component: UserWalletComponent },
-    { path: 'user-land-registry', component: UserLandRegistryComponent },
-    { path: 'user-employment-status', component: UserEmploymentStatusComponent },
-    { path: 'user-personal-information', component: UserPersonalInfoComponent },
-    { path: 'user-required-documents', component: UserRequiredDocumentsComponent },
-    { path: 'user-land-registeration', component: RegisterLandComponent },
-    { path: 'user-land-resisteration-status', component: RegisteredLandProcessComponent },
-    { path: 'user-mortgage-applications', component: MyMortgageApplicationComponent },
-    { path: 'user-loan-applications', component: MyLoanApplicationComponent },
-    { path: 'user-search-subscription', component: SearchSubscriptionComponent },
+    { path: '', component: UserDashboardComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-reviews', component: UserReviewsComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-transaction-history', component: UserTransactionHistoryComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-messaging', component: UserMessagingComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-properties', component: UserMyPropertiesComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-listings', component: UserListingsComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-referral', component: UserMyReferralComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-mortgage', component: UserMortgageComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-settings', component: UserMySettingsComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-bookings', component: UserBookingsComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-wallet', component: UserWalletComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-land-registry', component: UserLandRegistryComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-employment-status', component: UserEmploymentStatusComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-personal-information', component: UserPersonalInfoComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-required-documents', component: UserRequiredDocumentsComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-land-registeration', component: RegisterLandComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-land-resisteration-status', component: RegisteredLandProcessComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-mortgage-applications', component: MyMortgageApplicationComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-loan-applications', component: MyLoanApplicationComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-search-subscription', component: SearchSubscriptionComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
 
 
     //   { path: 'invite', component: InviteComponent },

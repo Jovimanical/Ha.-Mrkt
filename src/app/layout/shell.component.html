@@ -1,5 +1,5 @@
 <!-- <div id="main"> -->
-<app-header [isMobile]="isMobile" [isAuthenticated]="isAuthenticated" (onToggleSidebar)="onToggleSidebar($event)"
+<app-header [isMobile]="isMobile" [isAuthenticated]="isAuthenticated" [userRoles]="userInfo" (onToggleSidebar)="onToggleSidebar($event)"
   [ngClass]="{ 'house-africa-theme-dark': themeService.darkTheme }">
 </app-header>
 <div class="main-content full-height">

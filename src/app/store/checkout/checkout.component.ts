@@ -368,9 +368,9 @@ export class CheckoutComponent implements OnInit {
     try {
 
       if (this.cartProducts.length > 0) {
-        this.cartProducts.forEach(async (propperty: any) => {
+        this.cartProducts.forEach((propperty: any) => {
           propperty.ApplicationStatus = 'PROCESSING';
-          await this.storeService.addToListing(JSON.stringify(propperty));
+          this.storeService.updateCartItem(JSON.stringify(propperty));
         });
       }
 

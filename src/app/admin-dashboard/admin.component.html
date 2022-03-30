@@ -1,12 +1,44 @@
-<div fxLayout="column" class="page-padding" fxLayoutGap="20px">
-  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px">
-    <div fxLayout="column" fxFlex="50">
-      <mat-card class="clickable" routerLink="/admin/users">
-        Manage Users
-      </mat-card>
-      <mat-card class="clickable" routerLink="/admin/orders">
-        Manage Orders
-      </mat-card>
+<!-- wrapper  -->
+<div id="wrapper">
+  <!-- dashbard-menu-wrap -->
+  <app-sidebar></app-sidebar>
+  <!-- dashbard-menu-wrap end  -->
+
+  <!-- content -->
+  <div class="dashboard-content">
+    <app-dashboard-toggle></app-dashboard-toggle>
+    <div class="container dasboard-container">
+      <!-- dashboard-title -->
+      <app-dashboard-menu-status [dashboardTitle]="PageName"></app-dashboard-menu-status>
+      <!-- dashboard-title end -->
+      <div class="dasboard-wrapper fl-wrap no-pag">
+        <div class="dashboard-stats-container fl-wrap">
+          <div class="row">
+
+            <div fxLayout="column" class="page-padding" fxLayoutGap="20px">
+              <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px">
+                <div fxLayout="column" fxFlex="50">
+                  <mat-card class="clickable" routerLink="/admin-dashboard/users">
+                    Manage Users
+                  </mat-card>
+                  <mat-card class="clickable" routerLink="/admin-dashboard/orders">
+                    Manage Orders
+                  </mat-card>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="clearfix"></div>
+
+      </div>
     </div>
+    <!-- dashboard-footer -->
+    <!-- <app-dashboard-footer-menu></app-dashboard-footer-menu> -->
+    <!-- dashboard-footer end -->
   </div>
+  <!-- content end -->
+  <div class="dashbard-bg gray-bg"></div>
 </div>
+<!-- wrapper end -->

@@ -53,17 +53,17 @@
                         </ng-template>
                         <ng-template [ngIf]="existingPersonalInfo" [ngIfElse]="loading">
                             <div class="container-fluid page-padding" style="margin-top: 10%;">
-                                <h2 class="form-title">You have Previous Personal Information saved</h2>
+                                <h2 class="form-title">You have Previously filled this information. What would you like to do?</h2>
                                 <div
                                     style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
                                     <a routerLink="/user-dashboard/user-personal-information" routerLinkActive="active"
                                         mat-raised-button color="warn">
                                         <i class="fa fa-person-sign"></i>
-                                        Update Existing Data
+                                        Update My Existing Information
                                     </a>
 
                                     <button mat-raised-button color="accent" (click)="goToNextStep()">
-                                        Continue with Existing data
+                                        Continue with Existing Information
                                     </button>
                                 </div>
                             </div>
@@ -77,17 +77,17 @@
                         <div class="container-fluid page-padding" style="margin-top: 10%;"
                             *ngIf="!isLoading && existingEmploymentInfo">
                             <!-- show continue button -->
-                            <h2 class="form-title">You have Previous Employment status Information saved</h2>
+                            <h2 class="form-title">You have Previously filled this information. What would you like to do?</h2>
                             <div
                                 style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
                                 <a routerLink="/user-dashboard/user-employment-status" routerLinkActive="active"
                                     mat-raised-button color="warn">
                                     <i class="fa fa-person-sign"></i>
-                                    Update Existing Data
+                                    Update My Existing Information
                                 </a>
 
                                 <button mat-raised-button color="accent" (click)="goToNextStep()">
-                                    Continue with Existing data
+                                    Continue with Existing Information
                                 </button>
                             </div>
                         </div>
@@ -115,40 +115,6 @@
                             </div>
                         </section>
                     </aw-wizard-step>
-                    <!-- <aw-wizard-step [stepTitle]="'Steptitle 3'" [navigationSymbol]="{ symbol: '3' }">
-                        <ng-template awWizardStepTitle>
-                            <span class="hidden-sm-down">REQUIRED DOCUMENTS</span>
-                            <span class="hidden-md-up">REQUIRED DOCUMENTS</span>
-                        </ng-template>
-                        <section class="gray-bg small-padding">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="centered-content">
-                                            <form [formGroup]="formRequiredDocs" (ngSubmit)="submitRequiredDocs()">
-                                                <formly-form [model]="modelRequiredDocs" [fields]="fieldsRequiredDocs"
-                                                    [options]="optionsRequiredDocs" [form]="formRequiredDocs">
-                                                    <div style="display: flex; justify-content: center;">
-                                                        <button type="submit" color="primary" mat-raised-button
-                                                            [disabled]="!formRequiredDocs.valid">
-                                                            Submit Documents
-                                                        </button>
-                                                    </div>
-                                                </formly-form>
-                                            </form>
-
-                                            <div class="btn-group" style="display: flex; justify-content: flex-end;">
-                                                <button type="button" class="btn btn-secondary"
-                                                    awPreviousStep>Back</button>
-                                                <button type="button" class="btn btn-secondary"
-                                                    awNextStep>Continue</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    </aw-wizard-step> -->
                     <aw-wizard-step [stepTitle]="'Steptitle 3'" [navigationSymbol]="{ symbol: '3' }">
                         <ng-template awWizardStepTitle>
                             <span class="hidden-sm-down">REQUIRED DOCUMENTS</span>
@@ -157,17 +123,17 @@
                         <div class="container-fluid page-padding" style="margin-top: 10%;"
                             *ngIf="!isLoading && hasExistingRequiredDocs">
                             <!-- show continue button -->
-                            <h2 class="form-title">You have Previous Required Document Information saved</h2>
+                            <h2 class="form-title">You have Previously filled this information. What would you like to do?</h2>
                             <div
                                 style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
                                 <a routerLink="/user-dashboard/user-required-documents" routerLinkActive="active"
                                     mat-raised-button color="warn">
                                     <i class="fa fa-person-sign"></i>
-                                    Update Existing Data
+                                    Update My Existing Information
                                 </a>
 
-                                <button mat-raised-button color="accent" (click)="goToCheckOut()">
-                                    Continue with Existing data
+                                <button mat-raised-button color="accent" (click)="goToNextStep()">
+                                    Continue with Existing Information
                                 </button>
                             </div>
                         </div>
@@ -234,6 +200,358 @@
                                                     </button>
                                                 </div>
                                             </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </aw-wizard-step>
+                    <aw-wizard-step [stepTitle]="'Steptitle 4'" [navigationSymbol]="{ symbol: '4' }">
+                        <ng-template awWizardStepTitle>
+                            <span class="hidden-sm-down">ASSETS</span>
+                            <span class="hidden-md-up">ASSETS</span>
+                        </ng-template>
+                        <div class="container-fluid page-padding" style="margin-top: 10%;"
+                            *ngIf="!isLoading && hasExistingCustomerAsset">
+                            <!-- show continue button -->
+                            <h2 class="form-title">You have Previously filled this information. What would you like to do?</h2>
+                            <div
+                                style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                                <a routerLink="/user-dashboard/user-required-assets" routerLinkActive="active"
+                                    mat-raised-button color="warn">
+                                    <i class="fa fa-person-sign"></i>
+                                    Update My Existing Information
+                                </a>
+
+                                <button mat-raised-button color="accent" (click)="goToNextStep()">
+                                    Continue with Existing Information
+                                </button>
+                            </div>
+                        </div>
+                        <section class="gray-bg small-padding" *ngIf="!isLoading && !hasExistingCustomerAsset">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="custom-form">
+                                                <form [formGroup]="customerAssetForm" (ngSubmit)="onSubmitAssets()">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label for="name">Asset Name:</label>
+                                                        <input type="text" id="name" formControlName="assetname"
+                                                            class="form-control">
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                                        formArrayName="customerAssets">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                                Add Assets:
+                                                            </div>
+                                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                                <button mat-raised-button color="primary" type="button"
+                                                                    (click)="addAssets()">Add More</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                                            *ngFor="let quantity of customerAssets().controls; let i=index"
+                                                            [formGroupName]="i">
+                                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                                    <label>Asset Type :</label>
+                                                                    <input type="text" formControlName="assetType"
+                                                                        placeholder="Enter Asset Type"
+                                                                        class="form-control">
+                                                                    <div class="error"
+                                                                        *ngIf="customerAssets().controls[i].get('assetType').hasError('required') && customerAssets().controls[i].get('assetType').touched">
+                                                                        Asset Type is required
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                                    <label>Value/Amount:</label>
+                                                                    <input type="text" formControlName="value"
+                                                                        placeholder="Enter Asset Value or Amount "
+                                                                        class="form-control">
+                                                                    <div class="error"
+                                                                        *ngIf="customerAssets().controls[i].get('value').hasError('required') && customerAssets().controls[i].get('value').touched">
+                                                                        Asset Value or Amount is required
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                                    <label>Description:</label>
+                                                                    <input type="text" formControlName="description"
+                                                                        placeholder="Enter Asset Description"
+                                                                        class="form-control">
+                                                                    <div class="error"
+                                                                        *ngIf="customerAssets().controls[i].get('description').hasError('required') && customerAssets().controls[i].get('description').touched">
+                                                                        Asset description is required
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                                    <button (click)="removeAssets(i)" mat-raised-button
+                                                                        color="warn">Remove</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="buttonstack">
+                                                            <button mat-raised-button color="accent"
+                                                                [disabled]="!customerAssetForm.valid" type="submit">
+                                                                Submit
+                                                            </button>
+                                                            <button mat-raised-button color="primary"
+                                                                (click)="goToNextStep()">
+                                                                SKIP
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+                                                <br />
+                                                {{this.customerAssetForm.value | json}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </aw-wizard-step>
+                    <aw-wizard-step [stepTitle]="'Steptitle 5'" [navigationSymbol]="{ symbol: '5' }">
+                        <ng-template awWizardStepTitle>
+                            <span class="hidden-sm-down">LIABILITIES</span>
+                            <span class="hidden-md-up">LIABILITIES</span>
+                        </ng-template>
+                        <div class="container-fluid page-padding" style="margin-top: 10%;"
+                            *ngIf="!isLoading && hasExistingCustomerLiability">
+                            <!-- show continue button -->
+                            <h2 class="form-title">You have Previously filled this information. What would you like to do?</h2>
+                            <div
+                                style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                                <a routerLink="/user-dashboard/user-required-liability" routerLinkActive="active"
+                                    mat-raised-button color="warn">
+                                    <i class="fa fa-person-sign"></i>
+                                    Update My Existing Information
+                                </a>
+
+                                <button mat-raised-button color="accent" (click)="goToNextStep()">
+                                    Continue with Existing Information
+                                </button>
+                            </div>
+                        </div>
+                        <section class="gray-bg small-padding" *ngIf="!isLoading && !hasExistingCustomerLiability">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="custom-form">
+                                                <form [formGroup]="customerLiabilityForm"
+                                                    (ngSubmit)="onSubmitLiability()">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label for="name">Liability Title:</label>
+                                                        <input type="text" id="name" formControlName="liabilityname"
+                                                            class="form-control">
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                                        formArrayName="customerLiability">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                                Add Liabilities:
+                                                            </div>
+                                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                                <button type="button" (click)="addLiability()"
+                                                                    mat-raised-button color="primary">Add More</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                                            *ngFor="let quantity of customerLiability().controls; let i=index"
+                                                            [formGroupName]="i">
+                                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                                    Account Number :
+                                                                    <input type="text" formControlName="accountNumber"
+                                                                        class="form-control"  placeholder="Enter Account Number ">
+                                                                    <div class="error"
+                                                                        *ngIf="customerLiability().controls[i].get('accountNumber').hasError('required') && customerLiability().controls[i].get('accountNumber').touched">
+                                                                        Account Number is required
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                                    Balance:
+                                                                    <input type="text" formControlName="balance"  placeholder="Enter Balance left "
+                                                                        class="form-control">
+                                                                    <div class="error"
+                                                                        *ngIf="customerLiability().controls[i].get('balance').hasError('required') && customerLiability().controls[i].get('balance').touched">
+                                                                        Balance Type is required
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                                    Description:
+                                                                    <input type="text" formControlName="description"  placeholder="Enter Description "
+                                                                        class="form-control">
+                                                                    <div class="error"
+                                                                        *ngIf="customerLiability().controls[i].get('description').hasError('required') && customerLiability().controls[i].get('description').touched">
+                                                                        Description is required
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                                    Liability Type:
+                                                                    <input type="text" formControlName="liabilityType"  placeholder="Enter Liability Type "
+                                                                        class="form-control">
+                                                                    <div class="error"
+                                                                        *ngIf="customerLiability().controls[i].get('liabilityType').hasError('required') && customerLiability().controls[i].get('liabilityType').touched">
+                                                                        Liability Type is required
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                                    Monthly Payment:
+                                                                    <input type="text" formControlName="monthlyPayment"  placeholder="Enter Monthly Payment "
+                                                                        class="form-control">
+                                                                    <div class="error"
+                                                                        *ngIf="customerLiability().controls[i].get('monthlyPayment').hasError('required') && customerLiability().controls[i].get('monthlyPayment').touched">
+                                                                        Monthly Payment is required
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                                    <button (click)="removeLiability(i)"
+                                                                        mat-raised-button color="warn">Remove</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="buttonstack">
+                                                            <button type="submit" mat-raised-button
+                                                                [disabled]="!customerLiabilityForm.valid"
+                                                                color="accent">
+                                                                Submit
+                                                            </button>
+                                                            <button mat-raised-button color="primary"
+                                                                (click)="goToNextStep()">
+                                                                SKIP
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <!-- {{this.customerLiabilityForm.value | json}} -->
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </aw-wizard-step>
+                    <aw-wizard-step [stepTitle]="'Steptitle 6'" [navigationSymbol]="{ symbol: '6' }">
+                        <ng-template awWizardStepTitle>
+                            <span class="hidden-sm-down">ADDITIONAL INCOME</span>
+                            <span class="hidden-md-up">ADDITIONAL INCOME</span>
+                        </ng-template>
+                        <div class="container-fluid page-padding" style="margin-top: 10%;"
+                            *ngIf="!isLoading && hasExistingCustomerAdditionalIncome">
+                            <!-- show continue button -->
+                            <h2 class="form-title">You have Previously filled this information. What would you like to do?</h2>
+                            <div
+                                style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                                <a routerLink="/user-dashboard/user-required-extra-income" routerLinkActive="active"
+                                    mat-raised-button color="warn">
+                                    <i class="fa fa-person-sign"></i>
+                                    Update My Existing Information
+                                </a>
+
+                                <button mat-raised-button color="accent" (click)="goToCheckOut()">
+                                    Continue with Existing Information
+                                </button>
+                            </div>
+                        </div>
+                        <section class="gray-bg small-padding" *ngIf="!isLoading && !hasExistingCustomerAdditionalIncome">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="custom-form">
+                                                <form [formGroup]="customerAdditionalIncome"
+                                                    (ngSubmit)="onSubmitAddIncome()">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label for="name">Extra Income:</label>
+                                                        <input type="text" id="name" formControlName="extraIncomename"
+                                                            class="form-control">
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                                        formArrayName="customerAdditional">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                                Add Extra Income:
+                                                            </div>
+                                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                                <button type="button" (click)="addExtraIncome()"
+                                                                    mat-raised-button color="primary">Add More</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                                            *ngFor="let quantity of customerAdditional().controls; let i=index"
+                                                            [formGroupName]="i">
+                                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                                    Description:
+                                                                    <input type="text" formControlName="description"  placeholder="Enter Description"
+                                                                        class="form-control">
+                                                                    <div class="error"
+                                                                        *ngIf="customerAdditional().controls[i].get('description').hasError('required') && customerAdditional().controls[i].get('description').touched">
+                                                                        Description is required
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                                    Value/Amount:
+                                                                    <input type="text"
+                                                                        formControlName="otherIncomeAmount"  placeholder="Enter Value or Amount r.g 100000"
+                                                                        class="form-control">
+                                                                    <div class="error"
+                                                                        *ngIf="customerAdditional().controls[i].get('otherIncomeAmount').hasError('required') && customerAdditional().controls[i].get('otherIncomeAmount').touched">
+                                                                        Other Income Amount is required
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                                    Period:
+                                                                    <input type="text"
+                                                                        formControlName="otherIncomePeriod"  placeholder="Enter period e.g Annually"
+                                                                        class="form-control">
+                                                                    <div class="error"
+                                                                        *ngIf="customerAdditional().controls[i].get('otherIncomePeriod').hasError('required') && customerAdditional().controls[i].get('otherIncomePeriod').touched">
+                                                                        Other Income Period is required
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                                    Income Type:
+                                                                    <input type="text" formControlName="otherIncomeType"  placeholder="Enter Extra income type "
+                                                                        class="form-control">
+                                                                    <div class="error"
+                                                                        *ngIf="customerAdditional().controls[i].get('otherIncomeType').hasError('required') && customerAdditional().controls[i].get('otherIncomeType').touched">
+                                                                        other Income Type is required
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                                    <button (click)="removeExtraIncome(i)"
+                                                                        mat-raised-button color="warn">Remove</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="buttonstack">
+                                                            <button type="submit" mat-raised-button
+                                                                [disabled]="!customerAdditionalIncome.valid"
+                                                                color="accent">
+                                                                Submit
+                                                            </button>
+                                                            <button mat-raised-button color="primary"
+                                                                (click)="goToCheckOut()">
+                                                                SKIP
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    {{this.customerAdditionalIncome.value | json}}
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

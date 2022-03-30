@@ -2,11 +2,12 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MovingDirection, WizardComponent } from 'angular-archwizard';
 import { forkJoin } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { StoreService } from 'app/shared/services/store.service';
 import { environment } from 'environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
+
 
 
 @Component({
@@ -391,12 +392,28 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
     bankStatmentFileSource: new FormControl('', [Validators.required])
   });
 
+  public customerAssetForm: FormGroup;
+  public customerLiabilityForm: FormGroup;
+  public customerAdditionalIncome: FormGroup;
+
   public existingPersonalInfo: any = false;
   public hasExistingPersonalInfo: boolean = false;
   public existingEmploymentInfo: any = false;
   public hasExistingEmploymentInfo: boolean = false;
   public existingRequiredDocs: Array<any> = [];
   public hasExistingRequiredDocs: boolean = false;
+
+  public existingCustomerAsset: Array<any> = [];
+  public hasExistingCustomerAsset: boolean = false;
+
+  public existingCustomerLiability: Array<any> = [];
+  public hasExistingCustomerLiability: boolean = false;
+
+  public existingCustomerAdditionalIncome: Array<any> = [];
+  public hasExistingCustomerAdditionalIncome: boolean = false;
+
+
+
   public isLoading: boolean = true;
 
   public propertyItem: any = {}
@@ -405,7 +422,8 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
     private storeService: StoreService,
     private router: Router,
     private route: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
+    public formBuilder: FormBuilder
   ) {
     this.hasExistingPersonalInfo = false;
     this.hasExistingEmploymentInfo = false;
@@ -420,7 +438,7 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
           if (cartItem?.PropertyJson) {
             cartItem.PropertyJson = JSON.parse(cartItem.PropertyJson);
           }
-          
+
           this.propertyItem = cartItem;
 
         } else {
@@ -437,30 +455,198 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
     let personalInfo = this.storeService.getUserKYCPersonalInfo();
     let employermentInfo = this.storeService.getUserKYCEmploymentStatus();
     let requiredDocs = this.storeService.getUserKYCRequiredDocs();
+    let requiredAssets = this.storeService.getKYCUserAssets();
+    let requiredLiability = this.storeService.getUserLiability();
+    let requiredExtraIncome = this.storeService.getUserExtraIncome();
 
-    forkJoin([personalInfo, employermentInfo, requiredDocs]).subscribe((results: any) => {
+
+
+    forkJoin([personalInfo, employermentInfo, requiredDocs, requiredAssets, requiredLiability, requiredExtraIncome]).subscribe((results: any) => {
       // console.log('results-show', results)
       if (results[0].data !== null) {
         this.existingPersonalInfo = results[0].data.records[0];
         this.hasExistingPersonalInfo = true
       }
+
+
       if (results[1].data !== null) {
         this.existingEmploymentInfo = results[1].data.records[0];
         this.hasExistingEmploymentInfo = true;
       }
+
+
       if (results[2].data !== null) {
         this.existingRequiredDocs = results[2].data.records;
         this.hasExistingRequiredDocs = true;
       }
+      
+      if (results[3].data !== null) {
+        this.existingCustomerAsset = results[3].data.records;
+        this.hasExistingCustomerAsset = true;
+      }
+      
+      if (results[4].data !== null) {
+        this.existingCustomerLiability = results[4].data.records;
+        this.hasExistingCustomerLiability = true;
+      }
+      
+      if (results[5].data !== null) {
+        this.existingCustomerAdditionalIncome = results[5].data.records;
+        this.hasExistingCustomerAdditionalIncome = true;
+      }
+
       this.isLoading = false
     }, (error) => {
       console.log('Error', error)
       this.isLoading = false
     });
 
+
+    this.customerAssetForm = this.formBuilder.group({
+      assetname: 'NEW_ASSETS_LIST',
+      customerAssets: this.formBuilder.array([]),
+    });
+    this.addAssets();
+
+
+    this.customerLiabilityForm = this.formBuilder.group({
+      liabilityname: 'LIABILITY_LIST',
+      customerLiability: this.formBuilder.array([]),
+    });
+    this.addLiability();
+
+    this.customerAdditionalIncome = this.formBuilder.group({
+      extraIncomename: 'ADDITIONAL_INCOME',
+      customerAdditional: this.formBuilder.array([]),
+    });
+    this.addExtraIncome();
   }
 
-  getData() {
+
+  public customerAssets(): FormArray {
+    return this.customerAssetForm.get("customerAssets") as FormArray;
+  }
+
+  get myAssets(): FormArray {
+    return <FormArray>this.customerAssetForm.get("customerAssets");
+  }
+
+  public customerLiability(): FormArray {
+    return this.customerLiabilityForm.get("customerLiability") as FormArray;
+  }
+
+  public customerAdditional(): FormArray {
+    return this.customerAdditionalIncome.get("customerAdditional") as FormArray;
+  }
+
+  public newAssets(): FormGroup {
+    return this.formBuilder.group({
+      assetType: ['', Validators.required],
+      description: ['', Validators.required],
+      value: ['', Validators.required]
+    })
+  }
+
+  public newLiabilities(): FormGroup {
+    return this.formBuilder.group({
+      accountNumber: ['', Validators.required],
+      balance: ['', Validators.required],
+      description: ['', Validators.required],
+      liabilityType: ['', Validators.required],
+      monthlyPayment: ['', Validators.required]
+    })
+  }
+
+  public newExtraIncome(): FormGroup {
+    return this.formBuilder.group({
+      description: ['', Validators.required],
+      otherIncomeAmount: ['', Validators.required],
+      otherIncomePeriod: ['', Validators.required],
+      otherIncomeType: ['', Validators.required],
+    })
+  }
+
+  public addAssets() {
+    this.customerAssets().push(this.newAssets());
+  }
+
+  public addLiability() {
+    this.customerLiability().push(this.newLiabilities());
+  }
+
+  public addExtraIncome() {
+    this.customerAdditional().push(this.newExtraIncome());
+  }
+
+  public removeAssets(i: number) {
+    this.customerAssets().removeAt(i);
+  }
+
+  public removeLiability(i: number) {
+    this.customerLiability().removeAt(i);
+  }
+
+  public removeExtraIncome(i: number) {
+    this.customerAdditional().removeAt(i);
+  }
+
+  async onSubmitAssets() {
+    console.log(this.customerAssetForm.value);
+    try {
+      if (this.customerAssetForm.valid) {
+        // console.log('this.model', this.model);
+        // console.log('this.form', this.form);
+        const addAssets: any = await this.storeService.addKYCUserAssets(JSON.stringify(this.customerAssetForm.value));
+        if (addAssets instanceof Object && addAssets.status === 'success') {
+          // move to step two
+          this.wizard.goToNextStep()
+        }
+
+      }
+    } catch (error) {
+      console.log('submit', error)
+    }
+  }
+
+  async onSubmitLiability() {
+    console.log(this.customerLiabilityForm.value);
+    try {
+      if (this.customerLiabilityForm.valid) {
+        // console.log('this.model', this.model);
+        // console.log('this.form', this.form);
+        const addLiability: any = await this.storeService.addKYCUserLiability(JSON.stringify(this.customerLiabilityForm.value));
+        if (addLiability instanceof Object && addLiability.status === 'success') {
+          // move to step two
+          this.wizard.goToNextStep()
+        }
+
+      }
+    } catch (error) {
+      console.log('submit', error)
+    }
+  }
+
+  async onSubmitAddIncome() {
+    console.log(this.customerAdditionalIncome.value);
+    try {
+      if (this.customerAdditionalIncome.valid) {
+        // console.log('this.model', this.model);
+        // console.log('this.form', this.form);
+        const addAdditionalIncome: any = await this.storeService.addKYCUserExtraIncome(JSON.stringify(this.customerAdditionalIncome.value));
+        if (addAdditionalIncome instanceof Object && addAdditionalIncome.status === 'success') {
+          // move to step two      
+          this.updateApplicationProcess(this.propertyItem);
+          this.router.navigate([`/listings/checkout/${this.propertyID}`]);
+        }
+
+      }
+    } catch (error) {
+      console.log('submit', error)
+    }
+  }
+
+
+  public getData() {
     this.wizard.wizardSteps.forEach(res => {
       if (res.selected) {
         console.log(res.stepTitle, res);
@@ -595,10 +781,8 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
       this.http.post(`${environment.API_URL}/kyc-documents/add/`, formData)
         .subscribe(res => {
           console.log(res);
-
-          this.updateApplicationProcess(this.propertyItem);
           alert('Uploaded Successfully.');
-          this.router.navigate([`/listings/checkout/${this.propertyID}`]);
+          this.wizard.goToNextStep()
         }, error => {
           console.log('_submit() error', error)
         })
@@ -608,10 +792,9 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
   public updateApplicationProcess(propertyItem: any) {
     const propertyInfo: any = propertyItem;
     propertyInfo.ApplicationStatus = 'PROCESSING';
-
     this.storeService.updateCartItem(JSON.stringify(propertyInfo)).subscribe((response: any) => {
       // console.log('response.data.records', response.data);
-      
+
     }, (error) => {
 
     });

@@ -8,7 +8,7 @@ import { AdminService } from '../admin.service';
   styleUrls: ['./user-admin.component.scss']
 })
 export class UserAdminComponent implements OnInit {
-  users: User[];
+  public users: User[];
 
   constructor(private adminService: AdminService) { }
 

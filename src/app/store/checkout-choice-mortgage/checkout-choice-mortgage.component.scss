@@ -18,6 +18,24 @@
   }
 }
 
-button{
+button {
   margin: 5px;
+}
+
+.buttonstack {
+  margin-top: 26%;
+}
+
+.error {
+  color: red;
+  font-weight: 600;
+}
+
+.custom-form textarea,
+.custom-form input[type="text"],
+.custom-form input[type="email"],
+.custom-form input[type="password"],
+.custom-form input[type="button"],
+.listsearch-input-item input[type="text"] {
+  padding: 15px !important;
 }

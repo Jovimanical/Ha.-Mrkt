@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product.model';
@@ -61,7 +62,7 @@ export class StoreService {
   public fetchCart() {
     return this.http.get<Cart>(`${environment.API_URL}/shopping-cart/list/1/30`);
   }
-  
+
   public fetchUserListing() {
     return this.http.get<any>(`${environment.API_URL}/estate-listings/user-listings/list/1/30`);
   }
@@ -119,17 +120,43 @@ export class StoreService {
       .toPromise();
   }
 
+  public addKYCUserAssets(Assets: any): Promise<any> {
+    return this.http.post(`${environment.API_URL}/kyc-customer-assets/add/`, Assets)
+      .toPromise();
+  }
+
+  public addKYCUserLiability(Liability: any): Promise<any> {
+    return this.http.post(`${environment.API_URL}/kyc-customer-liabilities/add/`, Liability)
+      .toPromise();
+  }
+
+  public addKYCUserExtraIncome(ExtraIncome: any): Promise<any> {
+    return this.http.post(`${environment.API_URL}/kyc-customer-other-income/add/`, ExtraIncome)
+      .toPromise();
+  }
 
   public getUserKYCPersonalInfo(): Observable<any> {
-    return this.http.get<any>(`${environment.API_URL}/kyc-personal-info/list/1/30`);
+    return this.http.get<any>(`${environment.API_URL}/kyc-personal-info/list/1/30`).pipe(catchError(error => of(error)));
   }
 
   public getUserKYCEmploymentStatus(): Observable<any> {
-    return this.http.get<any>(`${environment.API_URL}/kyc-employment-status/list/1/30`);
+    return this.http.get<any>(`${environment.API_URL}/kyc-employment-status/list/1/30`).pipe(catchError(error => of(error)));
   }
 
   public getUserKYCRequiredDocs(): Observable<any> {
-    return this.http.get<any>(`${environment.API_URL}/kyc-documents/list/1/30`);
+    return this.http.get<any>(`${environment.API_URL}/kyc-documents/list/1/30`).pipe(catchError(error => of(error)));
+  }
+
+  public getKYCUserAssets(): Observable<any> {
+    return this.http.get<any>(`${environment.API_URL}/kyc-customer-assets/list/1/30`).pipe(catchError(error => of(error)));
+  }
+
+  public getUserLiability(): Observable<any> {
+    return this.http.get<any>(`${environment.API_URL}/kyc-customer-liabilities/list/1/30`).pipe(catchError(error => of(error)));
+  }
+
+  public getUserExtraIncome(): Observable<any> {
+    return this.http.get<any>(`${environment.API_URL}/kyc-customer-other-income/list/1/30`).pipe(catchError(error => of(error)));
   }
 
 

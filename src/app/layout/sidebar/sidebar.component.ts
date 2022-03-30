@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { UserService } from '../../core/user/user.service';
 import { ThemeService } from '../../core/theme.service';
 declare var $: any
@@ -13,8 +13,9 @@ export class SidebarComponent implements OnInit {
   public toggleTheme: false;
   public isAdmin = false;
   public isVerificationRequired = false;
+  public userRole: any = 'user';
 
-  constructor(private userService: UserService, public themeService: ThemeService) { }
+  constructor(private userService: UserService, public themeService: ThemeService, private _ngZone: NgZone) { }
 
   ngOnInit(): void {
     this.userService.verificationChanged$
@@ -28,6 +29,7 @@ export class SidebarComponent implements OnInit {
           this.isAuthenticated = isAuthenticated;
           if (this.isAuthenticated) {
             this.getCurrentUser();
+            console.log('call')
           }
         }
       });
@@ -37,6 +39,7 @@ export class SidebarComponent implements OnInit {
       $(this).toggleClass("sl_tog");
       $(this).parent("li").find("ul").slideToggle(300);
     });
+    //this.getCurrentUser()
   }
 
 
@@ -45,11 +48,21 @@ export class SidebarComponent implements OnInit {
   }
 
   private getCurrentUser(): void {
-    this.userService.getCurrentUser()
-      .subscribe((user: any) => {
-        this.isAdmin = user.data.roles.indexOf('Administrator') !== -1;
-      }, (error) => {
+    if (!this.isAuthenticated) {
+      return;
+    } else {
+      this.userService.getCurrentUser()
+        .subscribe((user: any) => {
+         // console.log('user.data.roles', user.data.roles)
+          this._ngZone.run(() => {
+            this.isAdmin = user.data.roles.indexOf('admin') !== -1;
+            this.userRole = user.data.roles;
+            // console.log('Outside Done!');
+          });
 
-      });
+        }, (error) => {
+
+        });
+    }
   }
 }

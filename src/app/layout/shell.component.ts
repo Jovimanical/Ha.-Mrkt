@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, AfterViewInit, NgZone } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -17,6 +17,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   private watcher: Subscription;
   public isVerificationRequired = false;
   public showHideFooter: boolean = true;
+  public userInfo: any;
   public pagesToHideFooter: Array<any> = ['/listings/application', '/listings/checkout-option-mortgage', '/listings/checkout', '/listings/products/*']
 
 
@@ -25,6 +26,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     private userService: UserService,
     private media: MediaObserver,
     public themeService: ThemeService,
+    private _ngZone: NgZone,
     private router: Router, private activatedRoute: ActivatedRoute
   ) {
 
@@ -51,11 +53,23 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     //     }
     //   });
     //this.showHide()
+    this.getCurrentUser();
   }
 
 
-  showHide(){
- this.router.events.subscribe((event: any) => {
+  getCurrentUser() {
+    if (this.isAuthenticated) {
+      const userRoles = this.userService.getCurrentActiveUser();
+      this._ngZone.run(() => {
+        this.userInfo = userRoles.roles
+        console.log('userInfo', this.userInfo)
+      });
+    }
+  }
+
+
+  showHide() {
+    this.router.events.subscribe((event: any) => {
       console.log('routerEvent', event.url)
       console.log('this.activatedRoute', this.activatedRoute)
       if (event instanceof Object && event !== undefined) {
@@ -71,7 +85,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-   
+
   }
 
   ngOnDestroy(): void {

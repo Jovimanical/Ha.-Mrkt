@@ -13,6 +13,11 @@ import { LayoutModule } from 'app/layout/layout.module';
 import { UserDetailsComponent } from './user-admin/user-details/user-details.component';
 import { OrderAdminComponent } from './order-admin/order-admin.component';
 import { OrderDetailsComponent } from './order-admin/order-details/order-details.component';
+import { SystemListingsComponent } from './system-listings/system-listings.component';
+import { SystemTransactionHistoryComponent } from './system-transaction-history/system-transaction-history.component';
+import { SystemPersonalInformationComponent } from './system-personal-information/system-personal-information.component';
+import { SystemEmploymentStatusComponent } from './system-employment-status/system-employment-status.component';
+import { SystemRequiredDocumentsComponent } from './system-required-documents/system-required-documents.component';
 
 @NgModule({
   imports: [
@@ -21,7 +26,8 @@ import { OrderDetailsComponent } from './order-admin/order-details/order-details
     AdminRoutingModule,
     AngularMaterialModule,
     FlexLayoutModule,
-    FormsModule
+    FormsModule,
+    LayoutModule
   ],
   declarations: [
     UserAdminComponent,
@@ -29,7 +35,12 @@ import { OrderDetailsComponent } from './order-admin/order-details/order-details
     AdminComponent,
     UserDetailsComponent,
     OrderAdminComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    SystemListingsComponent,
+    SystemTransactionHistoryComponent,
+    SystemPersonalInformationComponent,
+    SystemEmploymentStatusComponent,
+    SystemRequiredDocumentsComponent
   ],
   providers: [
     InviteService,
