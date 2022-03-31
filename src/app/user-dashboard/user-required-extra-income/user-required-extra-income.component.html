@@ -1,0 +1,126 @@
+<!-- wrapper  -->
+<div id="wrapper">
+    <!-- content -->
+    <div class="content">
+        <!-- breadcrumbs-->
+        <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
+            <div class="container">
+                <div class="breadcrumbs-list">
+                    <a>Home</a><a>User dashboard</a> <span>Extra Income Information</span>
+                </div>
+                <div class="share-holder hid-share">
+                    <a class="share-btn showshare sfcs"> <i class="fas fa-exclamation"></i> Help </a>
+                    <div class="share-container  isShare"></div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumbs end -->
+        <!--  section  -->
+        <section class="gray-bg">
+            <div class="section-title st-center fl-wrap">
+                <h2>Extra Income Information</h2>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="services-item fl-wrap">
+                            <div class="dasboard-widget-box fl-wrap" *ngIf="!isLoading">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="custom-form">
+                                            <form *ngIf="customerAdditionalIncome"
+                                                [formGroup]="customerAdditionalIncome">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label for="name">Extra Income:</label>
+                                                    <input type="text" id="name" formControlName="extraIncomename"
+                                                        class="form-control">
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                                    formArrayName="customerAdditional">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                            Add Extra Income:
+                                                        </div>
+                                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                            <button type="button" (click)="addExtraIncome()"
+                                                                mat-raised-button color="primary">Add More</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                                        *ngFor="let quantity of customerAdditional().controls; let i=index"
+                                                        [formGroupName]="i">
+                                                        <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                                Description:
+                                                                <input type="text" formControlName="description"
+                                                                    placeholder="Enter Description"
+                                                                    class="form-control">
+                                                                <div class="error"
+                                                                    *ngIf="customerAdditional().controls[i].get('description').hasError('required') && customerAdditional().controls[i].get('description').touched">
+                                                                    Description is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                                Value/Amount:
+                                                                <input type="text" formControlName="otherIncomeAmount"
+                                                                    placeholder="Enter Value or Amount r.g 100000"
+                                                                    class="form-control">
+                                                                <div class="error"
+                                                                    *ngIf="customerAdditional().controls[i].get('otherIncomeAmount').hasError('required') && customerAdditional().controls[i].get('otherIncomeAmount').touched">
+                                                                    Other Income Amount is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                                Period:
+                                                                <input type="text" formControlName="otherIncomePeriod"
+                                                                    placeholder="Enter period e.g Annually"
+                                                                    class="form-control">
+                                                                <div class="error"
+                                                                    *ngIf="customerAdditional().controls[i].get('otherIncomePeriod').hasError('required') && customerAdditional().controls[i].get('otherIncomePeriod').touched">
+                                                                    Other Income Period is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                                Income Type:
+                                                                <input type="text" formControlName="otherIncomeType"
+                                                                    placeholder="Enter Extra income type "
+                                                                    class="form-control">
+                                                                <div class="error"
+                                                                    *ngIf="customerAdditional().controls[i].get('otherIncomeType').hasError('required') && customerAdditional().controls[i].get('otherIncomeType').touched">
+                                                                    other Income Type is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                                <button (click)="removeExtraIncome(i, quantity)"
+                                                                    mat-raised-button color="warn">Remove</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="buttonstack">
+                                                        <button type="submit" mat-raised-button
+                                                            [disabled]="!customerAdditionalIncome.valid" color="accent"
+                                                            (click)="onSubmitAddIncome()">
+                                                            Submit
+                                                        </button>
+                                                        <button mat-raised-button color="primary"
+                                                            (click)="goToNextStep()">
+                                                            SKIP
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <!-- {{this.customerAdditionalIncome.value | json}} -->
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

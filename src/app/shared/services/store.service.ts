@@ -115,8 +115,18 @@ export class StoreService {
       .toPromise();
   }
 
+  public updateKYCPersonalInfo(personalInfo: any): Promise<any> {
+    return this.http.put(`${environment.API_URL}/kyc-personal-info/update/`, personalInfo)
+      .toPromise();
+  }
+
   public addKYCEmploymentStatus(employerStatus: any): Promise<any> {
     return this.http.post(`${environment.API_URL}/kyc-employment-status/add/`, employerStatus)
+      .toPromise();
+  }
+
+  public updateKYCEmploymentStatus(employerStatus: any): Promise<any> {
+    return this.http.put(`${environment.API_URL}/kyc-employment-status/update/`, employerStatus)
       .toPromise();
   }
 
@@ -125,13 +135,28 @@ export class StoreService {
       .toPromise();
   }
 
+  public updateKYCUserAssets(Assets: any): Promise<any> {
+    return this.http.put(`${environment.API_URL}/kyc-customer-assets/update/`, Assets)
+      .toPromise();
+  }
+
   public addKYCUserLiability(Liability: any): Promise<any> {
     return this.http.post(`${environment.API_URL}/kyc-customer-liabilities/add/`, Liability)
       .toPromise();
   }
 
+  public updateKYCUserLiability(Liability: any): Promise<any> {
+    return this.http.put(`${environment.API_URL}/kyc-customer-liabilities/update/`, Liability)
+      .toPromise();
+  }
+
   public addKYCUserExtraIncome(ExtraIncome: any): Promise<any> {
     return this.http.post(`${environment.API_URL}/kyc-customer-other-income/add/`, ExtraIncome)
+      .toPromise();
+  }
+
+  public updateKYCUserExtraIncome(ExtraIncome: any): Promise<any> {
+    return this.http.put(`${environment.API_URL}/kyc-customer-other-income/update/`, ExtraIncome)
       .toPromise();
   }
 
@@ -151,13 +176,28 @@ export class StoreService {
     return this.http.get<any>(`${environment.API_URL}/kyc-customer-assets/list/1/30`).pipe(catchError(error => of(error)));
   }
 
+  public removeFromUserAsset(id: number): Observable<any> {
+    return this.http.delete<any>(`${environment.API_URL}/kyc-customer-assets/remove/${id}`);
+  }
+
+
   public getUserLiability(): Observable<any> {
     return this.http.get<any>(`${environment.API_URL}/kyc-customer-liabilities/list/1/30`).pipe(catchError(error => of(error)));
   }
 
+  public removeFromUserLiability(id: number): Observable<any> {
+    return this.http.delete<any>(`${environment.API_URL}/kyc-customer-liabilities/remove/${id}`);
+  }
+
+
   public getUserExtraIncome(): Observable<any> {
     return this.http.get<any>(`${environment.API_URL}/kyc-customer-other-income/list/1/30`).pipe(catchError(error => of(error)));
   }
+
+  public removeFromUserExtraIncome(id: number): Observable<any> {
+    return this.http.delete<any>(`${environment.API_URL}/kyc-customer-other-income/remove/${id}`);
+  }
+
 
 
 

@@ -2,8 +2,11 @@ import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, After
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { EventsService } from 'angular4-events';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { UserService } from '../core/user/user.service';
+import { AccountService } from 'app/shared/accounts/account.service';
+import { BroadcastService } from 'app/core/broadcast.service';
 import { ThemeService } from '../core/theme.service';
 
 @Component({
@@ -18,6 +21,8 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   public isVerificationRequired = false;
   public showHideFooter: boolean = true;
   public userInfo: any;
+  public totalBalance: number;
+  public totalPoint: number;
   public pagesToHideFooter: Array<any> = ['/listings/application', '/listings/checkout-option-mortgage', '/listings/checkout', '/listings/products/*']
 
 
@@ -26,8 +31,12 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     private userService: UserService,
     private media: MediaObserver,
     public themeService: ThemeService,
+    private accountService: AccountService,
+    private eventService: EventsService,
     private _ngZone: NgZone,
-    private router: Router, private activatedRoute: ActivatedRoute
+    private broadcastService: BroadcastService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
 
   }
@@ -54,6 +63,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     //   });
     //this.showHide()
     this.getCurrentUser();
+    this.getAccounts();
   }
 
 
@@ -82,6 +92,38 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
     });
+  }
+
+  private getAccounts(): void {
+    if (!this.isAuthenticated) {
+
+      return;
+
+    } else {
+      this.accountService.getUserAccounts()
+        .subscribe((accounts: any) => {
+          // We're just supporting one account right now. Grab the first result.
+
+          if (accounts.data.records instanceof Array && accounts.data.records.length > 0) {
+            const account = accounts.data.records[0];
+           // console.log('Accounts', account)
+            this._ngZone.run(() => {
+              this.totalBalance = account.account_balance !== "0" ? parseFloat(account.account_balance) : 0.00;
+              this.totalPoint = account.account_point !== "0" ? parseInt(account.account_point, 10) : 0;
+              this.eventService.publish("accountBalance", this.totalBalance);
+              this.eventService.publish("accountPoint", this.totalPoint);
+              //console.log('all called')
+            })
+            this.broadcastService.emitBalanceUpdated(this.totalBalance);
+          }
+        }, (error) => {
+          // console.log('getAccounts - Error', error)
+          if (error.error.message === 'Error : Expired token') {
+            console.log('getAccounts call logout')
+            // this.userService.logout();
+          }
+        });
+    }
   }
 
   ngAfterViewInit(): void {

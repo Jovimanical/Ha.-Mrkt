@@ -79,6 +79,7 @@ export class UserProfileComponent implements OnInit {
       firstname: [user.firstname, Validators.required],
       lastname: [user.lastname, Validators.required],
       email: [user.email, Validators.required],
+      mobile: [user.mobile, Validators.required],
       address: [user.address, Validators.required],
       website: [user.website, Validators.required],
       company: [user.company, Validators.required],
@@ -129,12 +130,12 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  public saveSocial(){
+  public saveSocial() {
 
   }
 
-  public changePassword(){
-    
+  public changePassword() {
+
   }
 
 }

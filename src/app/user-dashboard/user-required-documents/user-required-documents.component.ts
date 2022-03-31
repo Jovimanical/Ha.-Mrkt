@@ -41,7 +41,6 @@ export class UserRequiredDocumentsComponent implements OnInit {
   ngOnInit(): void {
     this.storeService.getUserKYCRequiredDocs().subscribe((results: any) => {
       // console.log('results-show', results)
-
       if (results.data !== null) {
         this.existingRequiredDocs = results.data.records;
         this.hasExistingRequiredDocs = true;
@@ -58,7 +57,7 @@ export class UserRequiredDocumentsComponent implements OnInit {
    *
    * @return response()
    */
-   get f() {
+  get f() {
     return this.myForm.controls;
   }
 
@@ -149,7 +148,7 @@ export class UserRequiredDocumentsComponent implements OnInit {
         })
     }
   }
-  
+
   submitStatementRequired() {
     if (this.myStatementUploadForm.valid) {
       const formData = new FormData();
@@ -166,6 +165,37 @@ export class UserRequiredDocumentsComponent implements OnInit {
           console.log('_submit() error', error)
         })
     }
+  }
+
+  public loadDocuments() {
+    this.storeService.getUserKYCRequiredDocs().subscribe((results: any) => {
+      // console.log('results-show', results)
+      if (results.data !== null) {
+        this.existingRequiredDocs = results.data.records;
+        this.hasExistingRequiredDocs = true;
+      }
+      this.isLoading = false
+    }, (error) => {
+      console.log('Error', error)
+      this.isLoading = false
+    });
+  }
+
+  // TODO Implement CDN Removal from backend
+
+  /**
+   * The removeDocument function is used to delete a document from the database
+   * @param {any} param - any
+   */
+  public removeDocument(param: any) {
+    this.http.delete(`${environment.API_URL}/kyc-documents/remove/${param.id}`)
+      .subscribe(res => {
+        console.log(res);
+        alert('Uploaded Successfully.');
+        this.loadDocuments()
+      }, error => {
+        console.log('_submit() error', error)
+      })
   }
 
 }

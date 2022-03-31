@@ -2,3 +2,26 @@
     display: flex;
     justify-content: space-evenly;
 }
+
+.custom-form textarea, 
+.custom-form input[type="text"], 
+.custom-form input[type="number"], 
+.custom-form input[type="tel"], 
+.custom-form input[type="email"], 
+.custom-form input[type="password"], 
+.custom-form input[type="button"], 
+.listsearch-input-item input[type="text"] {
+    float: left;
+    border: 1px solid #e5e7f2;
+    background: #f5f7fb;
+    width: 100%;
+    padding: 15px 20px 15px 70px;
+    border-radius: 4px;
+    color: #7d93b2;
+    font-size: 12px;
+    -webkit-appearance: none;
+    outline: none;
+    overflow: hidden;
+    z-index: 1;
+    font-weight: 400;
+}

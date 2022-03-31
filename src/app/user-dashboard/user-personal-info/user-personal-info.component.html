@@ -22,11 +22,12 @@
             </div>
             <div class="container">
                 <div class="row">
+                    
                     <div class="col-md-2 col-lg-2"></div>
                     <div class="col-md-8 col-lg-8">
                         <div class="services-item fl-wrap">
                             <div class="dasboard-widget-box fl-wrap" *ngIf="!isLoading">
-                                <form [formGroup]="personalInfoForm" role="form">
+                                <form *ngIf="personalInfoForm" [formGroup]="personalInfoForm" role="form">
                                     <div class="custom-form">
                                         <div class="row">
                                             <div class="col-sm-6 col-lg-6 col-md-6">
@@ -61,6 +62,20 @@
                                                     formControlName="customer_email" maxlength="50" />
                                             </div>
                                             <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>BVN <span class="dec-icon">
+                                                        <i class="fal fa-user-lock"></i></span>
+                                                </label>
+                                                <input type="text" placeholder="Enter Your BVN" formControlName="bvn"
+                                                    maxlength="13" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
+                                                <label>PencomPin <span class="dec-icon">
+                                                        <i class="fal fa-user-shield"></i></span>
+                                                </label>
+                                                <input type="text" placeholder="Enter Your Pencom Pin"
+                                                    formControlName="pencomPin" maxlength="50" />
+                                            </div>
+                                            <div class="col-sm-6 col-lg-6 col-md-6">
                                                 <label>Date of Birth <span class="dec-icon">
                                                         <i class="fal fa-calendar-alt"></i></span>
                                                 </label>
@@ -88,8 +103,8 @@
                                                 <div class="row">
                                                     <div class="col-sm-6 col-lg-6 col-md-6">
                                                         <input id="check-aaa5" type="radio"
-                                                            formControlName="customer_residence_type"
-                                                            value="landlord" checked>
+                                                            formControlName="customer_residence_type" value="landlord"
+                                                            checked>
                                                         House Owner
                                                     </div>
                                                     <div class="col-sm-6 col-lg-6 col-md-6">
@@ -106,7 +121,7 @@
                                                 <label>House No <span class="dec-icon"><i
                                                             class="fal fa-map-marker-alt"></i></span></label>
                                                 <input type="text" placeholder="House Number"
-                                                    formControlName="customer_house_number" maxlength="1" />
+                                                    formControlName="customer_house_number" maxlength="6" />
                                             </div>
                                             <div class="col-sm-6 col-lg-6 col-md-6">
                                                 <label>Address <span class="dec-icon"><i
@@ -117,23 +132,17 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6 col-lg-6 col-md-6">
-                                                <label>Nearest Bus Stop <span class="dec-icon"><i
-                                                            class="fal fa-map-marker-alt"></i></span></label>
-                                                <input type="text" placeholder="Nearest Bus Stop"
-                                                    formControlName="customer_nearest_stop" maxlength="50" />
-                                            </div>
-                                            <div class="col-sm-6 col-lg-6 col-md-6">
                                                 <label>State <span class="dec-icon"><i
                                                             class="fal fa-map-marker-alt"></i></span></label>
-                                                <input type="text" placeholder="State"
-                                                    formControlName="customer_state" maxlength="50" />
+                                                <input type="text" placeholder="State" formControlName="customer_state"
+                                                    maxlength="50" />
                                             </div>
-                                        </div>
-                                        <div class="row">
+
                                             <div class="col-sm-6 col-lg-6 col-md-6">
                                                 <label>City <span class="dec-icon"><i
                                                             class="fal fa-map-marker-alt"></i></span></label>
-                                                <input type="text" placeholder="City" formControlName="customer_city" maxlength="50" />
+                                                <input type="text" placeholder="City" formControlName="customer_city"
+                                                    maxlength="50" />
                                             </div>
                                             <div class="col-sm-6 col-lg-6 col-md-6">
                                                 <label>Local Government Area <span class="dec-icon"><i
@@ -153,19 +162,24 @@
                                                 <label>How long have you been living here? <span class="dec-icon"><i
                                                             class="fal fa-map-marker-alt"></i></span></label>
                                                 <input type="text" placeholder="How long have you been living here?"
-                                                    formControlName="customer_stay_duration" maxlength="1" />
+                                                    formControlName="customer_stay_duration" maxlength="3" />
                                             </div>
                                         </div>
                                         <div class="row buy-land-btn"></div>
                                         <div class="geodir-category-footer fl-wrap">
-                                            <button (click)="userRegister(1)" mat-raised-button color="accent">
+                                            <button type="submit" (click)="userRegister(1)" [disabled]="!personalInfoForm.valid"
+                                                mat-raised-button color="accent">
                                                 Save Update
                                             </button>
-                                            <button (click)="userRegister(2)" mat-flat-button color="primary">
-                                                Save And Continue
+                                            <button type="submit" (click)="userRegister(2)" [disabled]="!personalInfoForm.valid"
+                                                mat-flat-button color="primary">
+                                                Update And Continue
                                             </button>
                                         </div>
                                     </div>
+
+                                    <br />
+                                    <!-- {{this.personalInfoForm.value | json}} -->
                                 </form>
                             </div>
                         </div>

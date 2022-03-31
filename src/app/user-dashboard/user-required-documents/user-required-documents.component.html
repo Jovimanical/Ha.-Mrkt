@@ -1,1 +1,133 @@
-<p>user-required-documents works!</p>
+<!-- wrapper  -->
+<div id="wrapper">
+    <!-- content -->
+    <div class="content">
+        <!-- breadcrumbs-->
+        <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
+            <div class="container">
+                <div class="breadcrumbs-list">
+                    <a>Home</a><a>User dashboard</a> <span>Required Documents</span>
+                </div>
+                <div class="share-holder hid-share">
+                    <a class="share-btn showshare sfcs"> <i class="fas fa-exclamation"></i> Help </a>
+                    <div class="share-container  isShare"></div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumbs end -->
+        <!--  section  -->
+        <section class="gray-bg">
+            <div class="section-title st-center fl-wrap">
+                <h2>Required Documents</h2>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="services-item fl-wrap">
+                            <div class="dasboard-widget-box fl-wrap" *ngIf="!isLoading">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <form [formGroup]="myForm" (ngSubmit)="submitRequired()">
+                                            <div class="col-sm-4 col-md-4 ">
+                                                <div class="form-group file-input">
+                                                    <span style="display: block;">Staff ID</span>
+                                                    <input formControlName="staffIdFile" id="staffIdFile" type="file"
+                                                        class="form-control" (change)="onFileChange($event,1)">
+                                                    <span class='button'>Choose</span>
+                                                    <span class='label' data-js-label #labelStaffID>No file
+                                                        selected</span>
+                                                    <div *ngIf="f['staffIdFile'].touched && f['staffIdFile'].invalid"
+                                                        class="error">
+                                                        <span class="error"
+                                                            *ngIf="f['staffIdFile'].errors && f['staffIdFile'].errors['required']">
+                                                            File is required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-4">
+                                                <div class="form-group file-input">
+                                                    <span style="display: block;">Government Issued ID</span>
+                                                    <input formControlName="governmentIdFile" id="governmentIdFile"
+                                                        type="file" class="form-control"
+                                                        (change)="onFileChange($event,2)">
+                                                    <span class='button'>Choose</span>
+                                                    <label class='label' #labelGovtID>No file selected</label>
+                                                    <div *ngIf="f['governmentIdFile'].touched && f['governmentIdFile'].invalid"
+                                                        class="error">
+                                                        <span
+                                                            *ngIf="f['governmentIdFile'].errors && f['governmentIdFile'].errors['required']">
+                                                            File is required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-4 ">
+                                                <div class="form-group file-input">
+                                                    <span style="display: block;">Utility Bill</span>
+                                                    <input formControlName="utilityBillFile" id="utilityBillFile"
+                                                        type="file" class="form-control"
+                                                        (change)="onFileChange($event,3)">
+                                                    <span class='button'>Choose</span>
+                                                    <span class='label' data-js-label #labelUtlity>No file
+                                                        selected</span>
+                                                    <div *ngIf="f['utilityBillFile'].touched && f['utilityBillFile'].invalid"
+                                                        class="error">
+                                                        <span
+                                                            *ngIf="f['utilityBillFile'].errors && f['utilityBillFile'].errors['required']">
+                                                            File is required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-12 col-sm-12 col-md-12"
+                                                style="margin: 10% 0px; display: flex; flex-direction: row; justify-content:center;">
+                                                <a routerLink="/user-dashboard/user-profile" routerLinkActive="active"
+                                                    color="default" mat-raised-button>
+                                                    BACK TO PROFILE
+                                                </a>
+                                                <button color="primary" mat-raised-button type="submit"
+                                                    [disabled]="myForm.invalid">
+                                                    Submit Documents
+                                                </button>
+                                                <a routerLink="/user-dashboard/user-required-assets"
+                                                    routerLinkActive="active" color="accent" mat-raised-button>
+                                                    SKIP UPLOAD
+                                                </a>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <p class="heading">Previously Uploaded</p>
+                                    <div class="gallery-image" *ngIf="hasExistingRequiredDocs">
+                                        <div class="col-sm-4 col-md-4"
+                                            *ngFor="let documents of existingRequiredDocs; let i=index">
+                                            <div class="img-box">
+                                                <img src="https://picsum.photos/350/250?image=444" alt="" />
+                                                <div class="transparent-box">
+                                                    <div class="caption">
+                                                        <p>{{documents.file_name}}</p>
+                                                        <p class="opacity-low">
+                                                            {{documents.file_status}} |
+                                                            {{documents.created_at}}
+                                                        </p>
+                                                        <!-- <p class="opacity-low">{{documents.provider}}</p> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button color="warn" mat-raised-button small
+                                                (click)="removeDocument(documents)">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- wrapper end -->

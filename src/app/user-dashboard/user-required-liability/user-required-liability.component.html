@@ -1,0 +1,135 @@
+<!-- wrapper  -->
+<div id="wrapper">
+    <!-- content -->
+    <div class="content">
+        <!-- breadcrumbs-->
+        <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
+            <div class="container">
+                <div class="breadcrumbs-list">
+                    <a>Home</a><a>User dashboard</a> <span>Liability Information</span>
+                </div>
+                <div class="share-holder hid-share">
+                    <a class="share-btn showshare sfcs"> <i class="fas fa-exclamation"></i> Help </a>
+                    <div class="share-container  isShare"></div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumbs end -->
+        <!--  section  -->
+        <section class="gray-bg">
+            <div class="section-title st-center fl-wrap">
+                <h2>Liability Information</h2>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="services-item fl-wrap">
+                            <div class="dasboard-widget-box fl-wrap" *ngIf="!isLoading">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="custom-form">
+                                            <form *ngIf="customerLiabilityForm" [formGroup]="customerLiabilityForm">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label for="name">Liability Title:</label>
+                                                    <input type="text" id="name" formControlName="liabilityname"
+                                                        class="form-control">
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                                    formArrayName="customerLiability">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                            <h2>Add Liabilities: </h2>
+                                                        </div>
+                                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                            <button type="button" (click)="addLiability()"
+                                                                mat-raised-button color="primary">Add More</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                                        *ngFor="let liabilityInfo of customerLiability().controls; let i=index"
+                                                        [formGroupName]="i">
+                                                        <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                                Account Number :
+                                                                <input type="text" formControlName="accountNumber"
+                                                                    class="form-control"
+                                                                    placeholder="Enter Account Number ">
+                                                                <div class="error"
+                                                                    *ngIf="customerLiability().controls[i].get('accountNumber').hasError('required') && customerLiability().controls[i].get('accountNumber').touched">
+                                                                    Account Number is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                                Balance:
+                                                                <input type="text" formControlName="balance"
+                                                                    placeholder="Enter Balance left "
+                                                                    class="form-control">
+                                                                <div class="error"
+                                                                    *ngIf="customerLiability().controls[i].get('balance').hasError('required') && customerLiability().controls[i].get('balance').touched">
+                                                                    Balance Type is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                                Description:
+                                                                <input type="text" formControlName="description"
+                                                                    placeholder="Enter Description "
+                                                                    class="form-control">
+                                                                <div class="error"
+                                                                    *ngIf="customerLiability().controls[i].get('description').hasError('required') && customerLiability().controls[i].get('description').touched">
+                                                                    Description is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                                Liability Type:
+                                                                <input type="text" formControlName="liabilityType"
+                                                                    placeholder="Enter Liability Type "
+                                                                    class="form-control">
+                                                                <div class="error"
+                                                                    *ngIf="customerLiability().controls[i].get('liabilityType').hasError('required') && customerLiability().controls[i].get('liabilityType').touched">
+                                                                    Liability Type is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                                Monthly Payment:
+                                                                <input type="text" formControlName="monthlyPayment"
+                                                                    placeholder="Enter Monthly Payment "
+                                                                    class="form-control">
+                                                                <div class="error"
+                                                                    *ngIf="customerLiability().controls[i].get('monthlyPayment').hasError('required') && customerLiability().controls[i].get('monthlyPayment').touched">
+                                                                    Monthly Payment is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                                <button (click)="removeLiability(i,liabilityInfo)"
+                                                                    mat-raised-button color="warn">Remove</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="buttonstack">
+                                                        <button type="submit" mat-raised-button
+                                                            (click)="onSubmitLiability()"
+                                                            [disabled]="!customerLiabilityForm.valid" color="accent">
+                                                            Submit
+                                                        </button>
+                                                        <button mat-raised-button color="primary"
+                                                            (click)="goToNextStep()">
+                                                            SKIP
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <!-- {{this.customerLiabilityForm.value | json}} -->
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

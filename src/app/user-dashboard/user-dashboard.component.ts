@@ -67,11 +67,20 @@ export class UserDashboardComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   showItem(property: any) {
-    if (property.ApplicationStatus === 'PROCESSING') {
-      this.router.navigate([`/listings/checkout/${property.id}`]);
-    } else {
-      this.router.navigate([`/listings/checkout-option-mortgage/${property.id}`]);
+    switch (property.ApplicationStatus) {
+      case 'PROCESSING':
+      case 'DECLINED':
+        this.router.navigate([`/user-dashboard/user-application-status/${property.id}`]);
+        break;
+        case 'PENDING':
+        this.router.navigate([`/listings/checkout/${property.id}`]);
+          break;
+    
+      default:
+        this.router.navigate([`/listings/checkout-option-mortgage/${property.id}`]);
+        break;
     }
+  
   }
 
   ngAfterViewInit(): void {

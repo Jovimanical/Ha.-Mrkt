@@ -1,0 +1,116 @@
+<!-- wrapper  -->
+<div id="wrapper">
+    <!-- content -->
+    <div class="content">
+        <!-- breadcrumbs-->
+        <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
+            <div class="container">
+                <div class="breadcrumbs-list">
+                    <a>Home</a><a>User dashboard</a> <span>Asset Information</span>
+                </div>
+                <div class="share-holder hid-share">
+                    <a class="share-btn showshare sfcs"> <i class="fas fa-exclamation"></i> Help </a>
+                    <div class="share-container  isShare"></div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumbs end -->
+        <!--  section  -->
+        <section class="gray-bg">
+            <div class="section-title st-center fl-wrap">
+                <h2>Asset Information</h2>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="services-item fl-wrap">
+                            <div class="dasboard-widget-box fl-wrap" *ngIf="!isLoading">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="custom-form">
+                                            <form *ngIf="customerAssetForm" [formGroup]="customerAssetForm">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label for="name">Asset Name:</label>
+                                                    <input type="text" id="name" formControlName="assetname"
+                                                        class="form-control">
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                                    formArrayName="customerAssets">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                            <h2> Add Assets:</h2>
+                                                        </div>
+                                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                            <button mat-raised-button color="primary" type="button"
+                                                                (click)="addAssets()">Add More</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                                        *ngFor="let quantity of customerAssets().controls; let i=index"
+                                                        [formGroupName]="i">
+                                                        <input type="hidden" formControlName="id" class="form-control">
+                                                        <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                                <label>Asset Type :</label>
+                                                                <input type="text" formControlName="assetType"
+                                                                    placeholder="Enter Asset Type" class="form-control">
+                                                                <div class="error"
+                                                                    *ngIf="customerAssets().controls[i].get('assetType').hasError('required') && customerAssets().controls[i].get('assetType').touched">
+                                                                    Asset Type is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                                <label>Value/Amount:</label>
+                                                                <input type="text" formControlName="value"
+                                                                    placeholder="Enter Asset Value or Amount "
+                                                                    class="form-control">
+                                                                <div class="error"
+                                                                    *ngIf="customerAssets().controls[i].get('value').hasError('required') && customerAssets().controls[i].get('value').touched">
+                                                                    Asset Value or Amount is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                                <label>Description:</label>
+                                                                <input type="text" formControlName="description"
+                                                                    placeholder="Enter Asset Description"
+                                                                    class="form-control">
+                                                                <div class="error"
+                                                                    *ngIf="customerAssets().controls[i].get('description').hasError('required') && customerAssets().controls[i].get('description').touched">
+                                                                    Asset description is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                                <button (click)="removeAssets(i, quantity)"
+                                                                    mat-raised-button color="warn">Remove</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="buttonstack">
+                                                        <button mat-raised-button color="accent"
+                                                            [disabled]="!customerAssetForm.valid" type="submit"
+                                                            (click)="onSubmitAssets()">
+                                                            Submit And Continue
+                                                        </button>
+                                                        <button mat-raised-button color="primary"
+                                                            (click)="goToNextStep()">
+                                                            SKIP
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                            <br />
+                                            <!-- {{this.customerAssetForm.value | json}} -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

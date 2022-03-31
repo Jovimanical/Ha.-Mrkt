@@ -101,12 +101,18 @@
                             </ul>
                           </div>
                           <div class="geodir-category-footer fl-wrap">
-                            <button (click)="removeItem(i)" class="btn float-btn color-bg small-btn">
+                            <button (click)="removeItem(i)" mat-flat-button color="warn">
                               <i class="fal fa-trash-alt"></i>
                               Remove from My Application
                             </button>
-                            <button mat-flat-button color="primary" (click)="goToCheckout(cartProduct)">Continue
-                              Application
+                            <button mat-flat-button color="primary" (click)="goToCheckout(cartProduct)"
+                              *ngIf="cartProduct.ApplicationStatus !== 'PROCESSING' && cartProduct.ApplicationStatus !== 'DECLINED'">
+                              <i class="fal fa-user-check"></i>Continue Application
+                            </button>
+                            <button (click)="showItem(cartProduct)" mat-flat-button color="accent"
+                              *ngIf="cartProduct.ApplicationStatus === 'PROCESSING' || cartProduct.ApplicationStatus !== 'DECLINED'">
+                              <i class="fal fa-user-shield"></i>
+                              Application Status
                             </button>
                           </div>
                         </div>
@@ -120,7 +126,7 @@
                     </div>
                     <div class="col-sm-4 col-md-4">
                       <div style="display: flex; flex-direction: column; justify-content: space-evenly;">
-                        <a routerLink="/listings" routerLinkActive="active" class="btn btn-primary">
+                        <a routerLink="/listings" routerLinkActive="active" mat-raised-button color="primary">
                           <i class="fa fa-shopping-cart"></i>
                           Continue Listings
                         </a>

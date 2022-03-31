@@ -207,14 +207,20 @@
                                                             </div>
                                                             <div class="geodir-category-footer fl-wrap">
                                                                 <button (click)="removeItem(i)" mat-raised-button
-                                                                    color="accent">
+                                                                    color="warn">
                                                                     <i class="fal fa-trash-alt"></i>
                                                                     Cancel Application
                                                                 </button>
                                                                 <button (click)="showItem(cartProduct)" mat-flat-button
-                                                                    color="primary">
+                                                                    color="primary" *ngIf="cartProduct.ApplicationStatus !== 'PROCESSING' && cartProduct.ApplicationStatus !== 'DECLINED'">
                                                                     <i class="fal fa-user-check"></i>
                                                                     Continue Application
+                                                                </button>
+
+                                                                <button (click)="showItem(cartProduct)" mat-flat-button
+                                                                    color="accent" *ngIf="cartProduct.ApplicationStatus === 'PROCESSING' || cartProduct.ApplicationStatus !== 'DECLINED'">
+                                                                    <i class="fal fa-user-shield"></i>
+                                                                     Application Status
                                                                 </button>
 
                                                             </div>

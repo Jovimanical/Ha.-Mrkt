@@ -75,11 +75,11 @@
     <!--  login btn  end -->
     <div class="add-list_wrap" style="margin-right: 30px;" *ngIf="isAuthenticated && !isVerificationRequired">
       <div *ngIf="userRoles === 'user'">
-        <a routerLink="/user-dashboard" routerLinkActive="active" class="add-list color-bg">
+        <a routerLink="/user-dashboard" routerLinkActive="active" class="add-list color-bg spacer">
           <i class="fal fa-home"></i>
           <span>Dashboard</span>
         </a>
-        <a routerLink="/user-dashboard" routerLinkActive="active" class="add-list color-bg">
+        <a routerLink="/user-dashboard" routerLinkActive="active" class="add-list color-bg spacer">
           <i class="fal fa-wallet"></i>
           <span>Wallet Balance</span>
           <span class="badge badge-notification">
@@ -89,7 +89,7 @@
         <app-cart-icon *ngIf="isAuthenticated && !isVerificationRequired"></app-cart-icon>
       </div>
       <div *ngIf="userRoles === 'admin'">
-        <a routerLink="/admin-dashboard" routerLinkActive="active" class="add-list color-bg">
+        <a routerLink="/admin-dashboard" routerLinkActive="active" class="add-list color-bg spacer">
           <i class="fal fa-home"></i>
           <span>Dashboard</span>
         </a>

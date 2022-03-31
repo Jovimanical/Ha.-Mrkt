@@ -24,6 +24,13 @@ import { RegisteredLandProcessComponent } from './registered-land-process/regist
 import { MyMortgageApplicationComponent } from './my-mortgage-application/my-mortgage-application.component';
 import { MyLoanApplicationComponent } from './my-loan-application/my-loan-application.component';
 import { SearchSubscriptionComponent } from './search-subscription/search-subscription.component';
+import { UserRequiredAssetsComponent } from './user-required-assets/user-required-assets.component';
+import { UserRequiredLiabilityComponent } from './user-required-liability/user-required-liability.component';
+import { UserRequiredExtraIncomeComponent } from './user-required-extra-income/user-required-extra-income.component';
+import { UserApplicationStatusComponent } from './user-application-status/user-application-status.component';
+
+
+
 // import { UserAdminComponent } from './user-admin/user-admin.component';
 // import { InviteComponent } from './invite/invite.component';
 // import { UserDetailsComponent } from './user-admin/user-details/user-details.component';
@@ -52,8 +59,13 @@ const userRoutes: Routes = [
     { path: 'user-mortgage-applications', component: MyMortgageApplicationComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
     { path: 'user-loan-applications', component: MyLoanApplicationComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
     { path: 'user-search-subscription', component: SearchSubscriptionComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-required-assets', component: UserRequiredAssetsComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } }, 
+    { path: 'user-required-liability', component: UserRequiredLiabilityComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-required-extra-income', component: UserRequiredExtraIncomeComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-application-status/:id', component: UserApplicationStatusComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
 
 
+    
     //   { path: 'invite', component: InviteComponent },
     //   { path: 'users', component: UserAdminComponent },
     //   { path: 'users/:id', component: UserDetailsComponent },

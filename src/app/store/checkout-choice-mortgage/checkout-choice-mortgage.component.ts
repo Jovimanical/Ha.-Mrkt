@@ -110,6 +110,26 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
           }
         },
         {
+          key: 'bvn',
+          type: 'input',
+          className: 'col-sm-6 col-md-6',
+          templateOptions: {
+            label: 'Email',
+            placeholder: 'Input placeholder',
+            required: true,
+          }
+        },
+        {
+          key: 'pencomPin',
+          type: 'input',
+          className: 'col-sm-6 col-md-6',
+          templateOptions: {
+            label: 'Email',
+            placeholder: 'Input placeholder',
+            required: false,
+          }
+        },
+        {
           key: 'customer_residence_type',
           type: 'radio',
           className: 'col-sm-6 col-md-6',
@@ -479,17 +499,17 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
         this.existingRequiredDocs = results[2].data.records;
         this.hasExistingRequiredDocs = true;
       }
-      
+
       if (results[3].data !== null) {
         this.existingCustomerAsset = results[3].data.records;
         this.hasExistingCustomerAsset = true;
       }
-      
+
       if (results[4].data !== null) {
         this.existingCustomerLiability = results[4].data.records;
         this.hasExistingCustomerLiability = true;
       }
-      
+
       if (results[5].data !== null) {
         this.existingCustomerAdditionalIncome = results[5].data.records;
         this.hasExistingCustomerAdditionalIncome = true;
@@ -522,13 +542,8 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
     this.addExtraIncome();
   }
 
-
   public customerAssets(): FormArray {
     return this.customerAssetForm.get("customerAssets") as FormArray;
-  }
-
-  get myAssets(): FormArray {
-    return <FormArray>this.customerAssetForm.get("customerAssets");
   }
 
   public customerLiability(): FormArray {
@@ -791,7 +806,7 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
 
   public updateApplicationProcess(propertyItem: any) {
     const propertyInfo: any = propertyItem;
-    propertyInfo.ApplicationStatus = 'PROCESSING';
+    propertyInfo.ApplicationStatus = 'PENDING';
     this.storeService.updateCartItem(JSON.stringify(propertyInfo)).subscribe((response: any) => {
       // console.log('response.data.records', response.data);
 

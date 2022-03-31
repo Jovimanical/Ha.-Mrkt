@@ -117,19 +117,18 @@ export class CheckoutComponent implements OnInit {
   }
 
   private initializeForm(user: User): void {
+
     this.checkoutForm = this.formBuilder.group({
-      name: [''],
+      fullname: [user.firstname],
       email: [user.email, Validators.required],
       mobile: [user.mobile, Validators.required],
       termsChecked: [true, Validators.required]
     });
 
     if (user.firstname && user.lastname) {
-      this.checkoutForm.get('name').setValue(`${user.firstname} ${user.lastname}`);
+      this.checkoutForm.get('fullname').setValue(`${user.firstname} ${user.lastname}`);
       this.checkoutForm.updateValueAndValidity();
     }
-
-
   }
 
 
@@ -147,7 +146,7 @@ export class CheckoutComponent implements OnInit {
       console.log(title, response);
 
       this.orderInfo.order_number = response.reference;
-      this.orderInfo.user_info = Object.assign({ name: this.userInfo.firstname + this.userInfo.lastname, email: this.userInfo.email, phone_number: this.userInfo.mobile }, this.meta);
+      this.orderInfo.user_info = Object.assign({ fullname: this.userInfo.firstname + this.userInfo.lastname, email: this.userInfo.email, phone_number: this.userInfo.mobile }, this.meta);
       this.orderInfo.order_details = this.cartProducts[0];
       this.orderInfo.order_payment_method = 'PAYSTACK';
       this.orderInfo.order_charge = this.balance;
@@ -258,7 +257,7 @@ export class CheckoutComponent implements OnInit {
 
   public payWithFlutter() {
 
-    this.customerDetails = { name: this.userInfo.firstname + this.userInfo.lastname, email: this.userInfo.email, phone_number: this.userInfo.mobile }
+    this.customerDetails = { fullname: this.userInfo.firstname + this.userInfo.lastname, email: this.userInfo.email, phone_number: this.userInfo.mobile }
     this.customizations = { title: 'Application Fee', description: 'Application Processing Fee for Estate building and Land', logo: 'https://flutterwave.com/images/logo-colored.svg' }
     this.meta = {
       "propertyUnit": this.cartProducts[0].PropertyId,
@@ -315,7 +314,7 @@ export class CheckoutComponent implements OnInit {
         //console.log('response', response);
         if (response.authorizedAmount === this.balance) {
           this.orderInfo.order_number = response.paymentReference;
-          this.orderInfo.user_info = Object.assign({ name: this.userInfo.firstname + this.userInfo.lastname, email: this.userInfo.email, phone_number: this.userInfo.mobile }, this.meta);
+          this.orderInfo.user_info = Object.assign({ fullname: this.userInfo.firstname + this.userInfo.lastname, email: this.userInfo.email, phone_number: this.userInfo.mobile }, this.meta);
           this.orderInfo.order_details = this.cartProducts[0];
           this.orderInfo.order_payment_method = 'MONNIFY';
           this.orderInfo.order_charge = response.authorizedAmount ? response.authorizedAmount : this.balance;

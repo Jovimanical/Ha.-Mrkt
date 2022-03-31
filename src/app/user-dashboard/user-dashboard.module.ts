@@ -30,6 +30,11 @@ import { RegisteredLandProcessComponent } from './registered-land-process/regist
 import { MyMortgageApplicationComponent } from './my-mortgage-application/my-mortgage-application.component';
 import { MyLoanApplicationComponent } from './my-loan-application/my-loan-application.component';
 import { SearchSubscriptionComponent } from './search-subscription/search-subscription.component';
+import { UserRequiredAssetsComponent } from './user-required-assets/user-required-assets.component';
+import { UserRequiredLiabilityComponent } from './user-required-liability/user-required-liability.component';
+import { UserRequiredExtraIncomeComponent } from './user-required-extra-income/user-required-extra-income.component';
+import { UserApplicationStatusComponent } from './user-application-status/user-application-status.component';
+
 
 // import { InviteComponent } from './invite/invite.component';
 // import { InviteService } from './invite/invite.service';
@@ -72,6 +77,10 @@ import { SearchSubscriptionComponent } from './search-subscription/search-subscr
         MyMortgageApplicationComponent,
         MyLoanApplicationComponent,
         SearchSubscriptionComponent,
+        UserRequiredAssetsComponent,
+        UserRequiredLiabilityComponent,
+        UserRequiredExtraIncomeComponent,
+        UserApplicationStatusComponent,
         // InviteComponent,
         //     UserDetailsComponent,
         //     OrderAdminComponent,

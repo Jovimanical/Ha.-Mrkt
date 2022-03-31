@@ -26,7 +26,7 @@
                     <div class="col-md-8 col-lg-8">
                         <div class="services-item fl-wrap">
                             <div class="dasboard-widget-box fl-wrap" *ngIf="!isLoading">
-                                <form [formGroup]="EmploymentInfoForm" role="form">
+                                <form *ngIf="EmploymentInfoForm" [formGroup]="EmploymentInfoForm" role="form">
                                     <div class="custom-form">
                                         <div class="row">
                                             <div class="col-sm-12 col-lg-12 col-md-12">
@@ -59,13 +59,13 @@
                                                             class="far fa-user"></i></span></label>
                                                 <input type="text" placeholder="Name of Employer"
                                                     formControlName="customer_employer_name" />
-                                            </div>                                         
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6 col-lg-6 col-md-6">
                                                 <label>Office Number <span class="dec-icon"><i
                                                             class="fal fa-map-marker-alt"></i></span></label>
-                                                <input type="text" placeholder="Office Number"
+                                                <input type="number" placeholder="Office Number"
                                                     formControlName="customer_employer_office_number" />
                                             </div>
                                             <div class="col-sm-6 col-lg-6 col-md-6">
@@ -152,14 +152,19 @@
                                         </div>
                                         <div class="row buy-land-btn"></div>
                                         <div class="geodir-category-footer fl-wrap">
-                                            <button (click)="submitEmployerInfo(1)" mat-raised-button color="accent">
+                                            <button (click)="submitEmployerInfo(1)"
+                                                [disabled]="!EmploymentInfoForm.valid" mat-raised-button color="accent">
                                                 Save Update
                                             </button>
-                                            <button (click)="submitEmployerInfo(2)" mat-flat-button color="primary">
+                                            <button (click)="submitEmployerInfo(2)"
+                                                [disabled]="!EmploymentInfoForm.valid" mat-flat-button color="primary">
                                                 Save And Continue
                                             </button>
                                         </div>
                                     </div>
+
+                                    <br />
+                                    <!-- {{this.EmploymentInfoForm.value | json}} -->
                                 </form>
                             </div>
                         </div>

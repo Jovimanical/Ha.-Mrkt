@@ -83,12 +83,21 @@ export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
     const product = this.cartProducts[index];
   }
 
-  goToCheckout(params: any): void {
-    if (params.ApplicationStatus === 'PROCESSING') {
-      this.router.navigate([`/listings/checkout/${params.id}`]);
-    } else {
-      this.router.navigate([`/listings/checkout-option-mortgage/${params.id}`]);
-    }
 
+  goToCheckout(property: any) {
+    switch (property.ApplicationStatus) {
+      case 'PROCESSING':
+      case 'DECLINED':
+        this.router.navigate([`/user-dashboard/user-application-status/${property.id}`]);
+        break;
+        case 'PENDING':
+        this.router.navigate([`/listings/checkout/${property.id}`]);
+          break;
+    
+      default:
+        this.router.navigate([`/listings/checkout-option-mortgage/${property.id}`]);
+        break;
+    }
+  
   }
 }
