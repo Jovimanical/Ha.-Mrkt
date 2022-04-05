@@ -218,7 +218,7 @@
                                                                 </button>
 
                                                                 <button (click)="showItem(cartProduct)" mat-flat-button
-                                                                    color="accent" *ngIf="cartProduct.ApplicationStatus === 'PROCESSING' || cartProduct.ApplicationStatus !== 'DECLINED'">
+                                                                    color="accent" *ngIf="cartProduct.ApplicationStatus === 'PROCESSING' || cartProduct.ApplicationStatus === 'DECLINED'">
                                                                     <i class="fal fa-user-shield"></i>
                                                                      Application Status
                                                                 </button>

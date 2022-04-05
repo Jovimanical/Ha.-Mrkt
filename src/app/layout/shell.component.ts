@@ -23,7 +23,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   public userInfo: any;
   public totalBalance: number;
   public totalPoint: number;
-  public pagesToHideFooter: Array<any> = ['/listings/application', '/listings/checkout-option-mortgage', '/listings/checkout', '/listings/products/*']
+  public pagesToHideFooter: Array<any> = ['/listings/application', '/listings/checkout-application-requirements', '/listings/checkout', '/listings/products/*']
 
 
   constructor(
@@ -72,7 +72,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
       const userRoles = this.userService.getCurrentActiveUser();
       this._ngZone.run(() => {
         this.userInfo = userRoles.roles
-        console.log('userInfo', this.userInfo)
+        // console.log('userInfo', this.userInfo)
       });
     }
   }
@@ -80,8 +80,8 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
 
   showHide() {
     this.router.events.subscribe((event: any) => {
-      console.log('routerEvent', event.url)
-      console.log('this.activatedRoute', this.activatedRoute)
+      // console.log('routerEvent', event.url)
+      // console.log('this.activatedRoute', this.activatedRoute)
       if (event instanceof Object && event !== undefined) {
         const showPageListing = this.pagesToHideFooter.includes(event.url)
         if (showPageListing) {

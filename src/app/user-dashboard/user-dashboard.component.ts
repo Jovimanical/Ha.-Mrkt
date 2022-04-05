@@ -77,7 +77,7 @@ export class UserDashboardComponent implements OnInit, AfterViewInit, OnDestroy 
           break;
     
       default:
-        this.router.navigate([`/listings/checkout-option-mortgage/${property.id}`]);
+        this.router.navigate([`/listings/checkout-application-requirements/${property.id}`]);
         break;
     }
   

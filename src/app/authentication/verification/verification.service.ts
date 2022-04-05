@@ -9,8 +9,8 @@ export class VerificationService {
 
   constructor(private http: HttpClient) { }
 
-  public sendCode(): Observable<any> {
-    return this.http.get(`${environment.API_URL}/verify/send`);
+  public sendCode(params:any): Observable<any> {
+    return this.http.post(`${environment.API_URL}/verify/send`, params);
   }
 
   public verify(verification: Verification): Observable<any> {

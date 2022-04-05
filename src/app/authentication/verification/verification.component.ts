@@ -12,6 +12,7 @@ import { UserService } from 'app/core/user/user.service';
 })
 export class VerificationComponent implements OnInit {
   public verificationForm: FormGroup;
+  public codeResendForm: FormGroup;
   public codeSent = false;
   public verificationFailed = false;
   public userEmail: string = '';
@@ -28,19 +29,24 @@ export class VerificationComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.userEmail = params['email'];
       this.userCode = params['code'];
+      this.codeSent = true;
     });
-    
+
+    this.initializeCodeResendForm();
     this.initializeForm();
   }
 
-  sendCode(): void {
-    this.verificationService.sendCode()
+  public sendCode(): void {
+    if (this.codeResendForm.invalid) {
+      return;
+    }
+    this.verificationService.sendCode(JSON.stringify(this.codeResendForm.value))
       .subscribe(() => {
         this.codeSent = true;
       });
   }
 
-  verify(): boolean {
+  public verify(): boolean {
     if (this.verificationForm.invalid) {
       return;
     }
@@ -53,6 +59,12 @@ export class VerificationComponent implements OnInit {
       }, () => {
         this.verificationFailed = true;
       });
+  }
+
+  private initializeCodeResendForm(): void {
+    this.codeResendForm = this.formBuilder.group({
+      email: ['', Validators.required],
+    });
   }
 
   private initializeForm(): void {

@@ -56,6 +56,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public EstateInfo: any = null
   public EstateBlockAndUnits: Array<any> = [];
   public ESTATE_MAPSOURCE: any;
+  public ESTATE_INFO: any = {};
   public ESTATE_BLOCK_MAP: any;
   public ESTATE_BLOCK_UNITS: any;
   private watcher: Subscription;
@@ -156,7 +157,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       this.returnEstatePropertyObj(PropertyID);
       setTimeout(() => {
         this.checkPropertyObj(PropertyID);
-      }, 500)
+      }, 1000)
     });
 
     this.mobile = this.mobileService.isMobile();
@@ -356,13 +357,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       const availablePoint = parseInt(this.userAccount.account_point, 10);
       const availableAmount = parseFloat(this.userAccount.account_balance);
 
-
-
-
       if (availablePoint > 0) {
 
         const AmountToDeduct = availableAmount / availablePoint
-
 
         this.userAccount.account_balance = availableAmount - AmountToDeduct;
         this.userAccount.account_point = availablePoint - amountDeductable;
@@ -409,20 +406,20 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   private getAccounts(): void {
     this.accountService.getUserAccounts()
       .subscribe((accounts: any) => {
-        console.log('accounts', accounts.data.records[0])
+        // console.log('accounts', accounts.data.records[0])
         // We're just supporting one account right now. Grab the first result.
         if (accounts?.data.records instanceof Array && accounts.data.records.length > 0) {
           const account = accounts.data.records[0];
           this.userAccount = accounts.data.records[0];
 
-          if (account.account_point === "0") {
-            this.insufficentBalanceConfirmation()
-            return;
-          } else {
-            this.totalBalance = account.account_point !== "0" ? parseInt(account.account_point, 10) : 0;
-            this.broadcastService.emitPointBalanceUpdated(this.totalBalance);
-            this.makeAccountDeductions(1);
-          }
+          // if (account.account_point === "0") {
+          //   this.insufficentBalanceConfirmation()
+          //   return;
+          // } else {
+          //   this.totalBalance = account.account_point !== "0" ? parseInt(account.account_point, 10) : 0;
+          //   this.broadcastService.emitPointBalanceUpdated(this.totalBalance);
+          //   this.makeAccountDeductions(1);
+          // }
         } else {
           this.accountRetry()
         }
@@ -513,9 +510,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       this.storeService.addToBookmark(JSON.stringify(property))
         .subscribe(() => {
           this.userBookMarks.push(property);
-          //this.broadcastService.emitGetCart();
-          //this.router.navigate(['/listings/application']);
-          this.notificationService.showSuccessMessage('Successfully added to cart');
+          Swal.fire(
+            'Bookmarked!',
+            'This property has been bookmarked.',
+            'success'
+          )
           this.loading = false;
           this.submitted = false;
           setTimeout(() => {
@@ -568,19 +567,81 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       repakagedUnit.PropertyId = this.propertView.PropertyId;
       repakagedUnit.PropertyName = this.propertView.PropertyName ? this.propertView.PropertyName : 'Not Available'
       repakagedUnit.PropertyJson = this.propertyMap;
-      repakagedUnit.PropertyType = 3;
-      repakagedUnit.PaymentMethod = 1;
+      repakagedUnit.PropertyType = 3;     
       repakagedUnit.PropertyStatus = this.propertView.property_status;
       repakagedUnit.PropertyAmount = this.getRandomInt(1111111, 999999);
 
       if (params === 1) {
-        this.addToCart(repakagedUnit);
+        this.addToCartProcess(repakagedUnit);
       } else {
-        this.addToFavorite(repakagedUnit)
+        this.actionToFavourite(repakagedUnit)
       }
     }
+  }
+
+  public actionToFavourite(repakagedUnit: any) {
+    repakagedUnit.PaymentMethod = 2;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You want to bookmark this property!",
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, bookmark it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.addToFavorite(repakagedUnit);
+      }
+    })
+  }
 
 
+  public addToCartProcess(repakagedUnit: any) {
+    Swal.fire({
+      title: 'Property Purchase Request',
+      text: "Would you like to Proceed with this Application!",
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Continue!',
+      cancelButtonText: 'No, do it later.'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Property Payment',
+          text: "How Would you like to make payments?",
+          icon: 'info',
+          showCancelButton: true,
+          showDenyButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Outright Payment!',
+          cancelButtonText: 'Lets do it later',
+          denyButtonText: 'Apply for Loan/Mortgage',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            repakagedUnit.PaymentMethod = 1;
+            this.addToCart(repakagedUnit, 1);
+          } else if (result.isDenied) {
+            repakagedUnit.PaymentMethod = 2;
+            this.addToCart(repakagedUnit, 2);
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Toast.fire({
+              icon: 'error',
+              title: 'We are sorry to see you cancel, and hope you try again.'
+            })
+
+          }
+        })
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Toast.fire({
+          icon: 'error',
+          title: 'Opps! We are sad to see you cancel, but we have payment Options to help you make a purchase'
+        })
+      }
+    })
   }
 
 
@@ -601,16 +662,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       repakagedUnit.PropertyAmount = this.getRandomInt(1111111, 999999);
 
       if (params === 1) {
-        this.addToCart(repakagedUnit);
+        this.addToCart(repakagedUnit, 1);
       } else {
         this.addToFavorite(repakagedUnit);
       }
     }
-
-
   }
 
-  public addToCart(property: any): void {
+  public addToCart(property: any, action: any): void {
     if (!this.isAuthenticated) {
       this.notificationService.showErrorMessage('Login is required to perform this action');
       return;
@@ -633,9 +692,25 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     if (!cartItemExit) {
       this.openSidebar()
       this.storeService.addToCart(JSON.stringify(property))
-        .subscribe(() => {
+        .subscribe((cartItem:any) => {
           this.broadcastService.emitGetCart();
-          this.router.navigate(['/listings/application']);
+
+          switch (action) {
+            case 1:
+              // Outright payment
+              this.router.navigate([`/listings/checkout-option-outright-payment/${cartItem.data}`]);
+              break;
+            case 2:
+              // Loans payments
+              this.router.navigate([`/listings/checkout-option-loan-application/${cartItem.data}`]);
+              break;
+
+            default:
+              // Mortgage
+              this.router.navigate([`/listings/checkout-option-mortgage-application/${cartItem.data}`]);
+              break;
+          }
+
           this.notificationService.showSuccessMessage('Successfully added to application listing');
           this.userCarts.push(property);
 
@@ -661,9 +736,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   private initMap(): void {
     //console.log('map-called');
     const data = this.ESTATE_MAPSOURCE;
+
     const coordinates = data.features[0].geometry.coordinates;
-    const coord = coordinates[0][0][0]
-    // console.log('center', coordinates[0][0][0])
+    const coord = coordinates[0]
+    //console.log('center', coordinates)
+    this.ESTATE_INFO = this.ESTATE_MAPSOURCE.features[0].properties
+    //console.log('ESTATE_MAPSOURCE', this.ESTATE_MAPSOURCE.features[0].properties)
     const mbAttr = 'Marketplace &copy; Integration by <a href="https://houseafrica.io/">HouseAfrica</a>';
     const mbUrl =
       "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw";
@@ -707,10 +785,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       minZoom: 5,
       maxZoom: 50,
       zoom: 7,
-      layers: [streets]
+      layers: [sattelite]
     });
 
-    var baseLayers = {
+    const baseLayers = {
       Streets: streets,
       Sattelite: sattelite
     };
@@ -725,7 +803,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
             weight: 5,
             opacity: 1,
             fill: true,
-            fillColor: "#f0d1b1",
+            fillColor: "transparent",
             fillOpacity: 1,
             smoothFactor: 0.5,
             interactive: true,
@@ -758,7 +836,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           },
           mouseout: function () {
             this.setStyle({
-              'fillColor': feature.properties.group === 'Estate' ? '#f0d1b1' : "#f2f2f2",
+              'fillColor': feature.properties.group === 'Estate' ? 'transparent' : "#f2f2f2",
             });
 
             if (feature.properties.group !== 'Estate') {
@@ -785,14 +863,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         }
       }
     }).addTo(this.map);
-
+    // controlLayers.addOverlay(estateLayer, 'MapLayer');
 
     var estateUnitsLayer = L.geoJson(this.ESTATE_BLOCK_UNITS, {
       style: style,
       onEachFeature: onEachFeature
     })
     // .addTo(this.map);
-    // controlLayers.addOverlay(estateUnitsLayer, 'Estate Units');
+    // 
 
     this.map.fitBounds(estateLayer.getBounds());
 
@@ -1066,30 +1144,30 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
   public resolveObjectAndMerge(Metadata: any) {
     var blockListing: any = {}
-    blockListing.payment_plans = Metadata.payment_plans ? Metadata.payment_plans.FieldValue : 'Not Available';
-    blockListing.property_address = Metadata.property_address ? Metadata.property_address.FieldValue : 'Not Available';
-    blockListing.property_amenities = Metadata.property_amenities ? Metadata.property_amenities.FieldValue : 'Not Available';
-    blockListing.property_bathroom_count = Metadata.property_bathroom_count ? Metadata.property_bathroom_count.FieldValue : 1;
-    blockListing.property_bedroom_count = Metadata.property_bedroom_count ? Metadata.property_bedroom_count.FieldValue : 1;
-    blockListing.property_country = Metadata.property_country ? Metadata.property_country.FieldValue : 'Nigeria';
-    blockListing.property_description = Metadata.property_description ? Metadata.property_description.FieldValue : 'Not Available';
-    blockListing.property_feature_photo = Metadata.property_feature_photo ? Metadata.property_feature_photo.FieldValue : 'Not Available';
-    blockListing.property_features = Metadata.property_features ? Metadata.property_features.FieldValue : 'Not Available';
-    blockListing.property_floor_plan = Metadata.property_floor_plan ? Metadata.property_floor_plan.FieldValue : 'Not Available';
-    blockListing.property_lga = Metadata.property_lga ? Metadata.property_lga.FieldValue : 'Not Available';
-    blockListing.property_name = Metadata.property_name ? Metadata.property_name.FieldValue : 'Not Available';
-    blockListing.property_parking_space_count = Metadata.property_parking_space_count ? Metadata.property_parking_space_count.FieldValue : 1;
-    blockListing.property_payment_plans = Metadata.property_payment_plans ? Metadata.property_payment_plans.FieldValue : 'Not Available';
-    blockListing.property_photos = Metadata.property_photos ? Metadata.property_photos.FieldValue : 'Not Available';
-    blockListing.property_price = Metadata.property_price ? parseFloat(Metadata.property_price.FieldValue) : (Math.floor(Math.random() * (Math.floor(9999999) - Math.ceil(2222222) + 1)) + Math.ceil(2222222));
-    blockListing.property_sittingroom_count = Metadata.property_sittingroom_count ? Metadata.property_sittingroom_count.FieldValue : 1;
-    blockListing.property_size = Metadata.property_size ? Metadata.property_size.FieldValue : 'Not Available';
-    blockListing.property_state = Metadata.property_state ? Metadata.property_state.FieldValue : 'Not Available';
-    blockListing.property_status = Metadata.property_status ? Metadata.property_status.FieldValue : 'Available';
-    blockListing.property_title = Metadata.property_title ? Metadata.property_title.FieldValue : 'Not Available';
-    blockListing.property_title_photos = Metadata.property_title_photos ? Metadata.property_title_photos.FieldValue : 'Not Available';
-    blockListing.property_type = Metadata.property_type ? Metadata.property_type.FieldValue : 'Land';
-    blockListing.property_video_url = Metadata.property_video_url ? Metadata.property_video_url.FieldValue : 'Not Available';
+    blockListing.payment_plans = Metadata?.payment_plans ? Metadata?.payment_plans.FieldValue : 'Not Available';
+    blockListing.property_address = Metadata?.property_address ? Metadata?.property_address.FieldValue : 'Not Available';
+    blockListing.property_amenities = Metadata?.property_amenities ? Metadata?.property_amenities.FieldValue : 'Not Available';
+    blockListing.property_bathroom_count = Metadata?.property_bathroom_count ? Metadata?.property_bathroom_count.FieldValue : 1;
+    blockListing.property_bedroom_count = Metadata?.property_bedroom_count ? Metadata?.property_bedroom_count.FieldValue : 1;
+    blockListing.property_country = Metadata?.property_country ? Metadata?.property_country.FieldValue : 'Nigeria';
+    blockListing.property_description = Metadata?.property_description ? Metadata?.property_description.FieldValue : 'Not Available';
+    blockListing.property_feature_photo = Metadata?.property_feature_photo ? Metadata?.property_feature_photo.FieldValue : 'Not Available';
+    blockListing.property_features = Metadata?.property_features ? Metadata?.property_features.FieldValue : 'Not Available';
+    blockListing.property_floor_plan = Metadata?.property_floor_plan ? Metadata?.property_floor_plan.FieldValue : 'Not Available';
+    blockListing.property_lga = Metadata?.property_lga ? Metadata?.property_lga.FieldValue : 'Not Available';
+    blockListing.property_name = Metadata?.property_name ? Metadata?.property_name.FieldValue : 'Not Available';
+    blockListing.property_parking_space_count = Metadata?.property_parking_space_count ? Metadata?.property_parking_space_count.FieldValue : 1;
+    blockListing.property_payment_plans = Metadata?.property_payment_plans ? Metadata?.property_payment_plans.FieldValue : 'Not Available';
+    blockListing.property_photos = Metadata?.property_photos ? Metadata?.property_photos.FieldValue : 'Not Available';
+    blockListing.property_price = Metadata?.property_price ? parseFloat(Metadata?.property_price.FieldValue) : (Math.floor(Math.random() * (Math.floor(9999999) - Math.ceil(2222222) + 1)) + Math.ceil(2222222));
+    blockListing.property_sittingroom_count = Metadata?.property_sittingroom_count ? Metadata?.property_sittingroom_count.FieldValue : 1;
+    blockListing.property_size = Metadata?.property_size ? Metadata?.property_size.FieldValue : 'Not Available';
+    blockListing.property_state = Metadata?.property_state ? Metadata?.property_state.FieldValue : 'Not Available';
+    blockListing.property_status = Metadata?.property_status ? Metadata?.property_status.FieldValue : 'Available';
+    blockListing.property_title = Metadata?.property_title ? Metadata?.property_title.FieldValue : 'Not Available';
+    blockListing.property_title_photos = Metadata?.property_title_photos ? Metadata?.property_title_photos.FieldValue : 'Not Available';
+    blockListing.property_type = Metadata?.property_type ? Metadata?.property_type.FieldValue : 'Land';
+    blockListing.property_video_url = Metadata?.property_video_url ? Metadata?.property_video_url.FieldValue : 'Not Available';
     // console.log(blockListing);
     return blockListing
   }
@@ -1113,7 +1191,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         properties.EntityParent = property.EntityParent;
         properties.id = property.LinkedEntity;
         properties.PropertyName = property.PropertyTitle;
-
+        properties.PropertyEstate = property.PropertyEstate;
+        properties.PropertyBlock = property.PropertyBlock;
+        properties.BlockChainAddress = property.BlockChainAddress;
+        properties.PropertyUUID = property.PropertyUUID;
+        properties.DateCreated = property.DateCreated
 
         unitsData.features[0].properties = properties;
         this.ESTATE_BLOCK_UNITS.features.push(unitsData.features[0]);
@@ -1196,9 +1278,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           this.isMapLoading = false;
           this.changeDectection.detectChanges();
           this.saveBlockAndUnits(this.ESTATE_BLOCK_MAP);
-          // console.log('ESTATE_MAPSOURCE', this.ESTATE_MAPSOURCE)
-          // console.log('ESTATE_BLOCK_UNITS', this.ESTATE_BLOCK_UNITS)
-
           this.initMap();
         }, 5000);
 
@@ -1216,12 +1295,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
             this.initMap();
           }, 5000);
 
+
         } else {
           this.removeBlockAndUnit(`${this.STORAGE_NAME}-${this.EstateName}`)
         }
       }
     } catch (error) {
-      //console.log('checkPropertyObj', error);
       return this.EstateBlockAndUnits = []
     }
   }
@@ -1237,7 +1316,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       if (propertyObjListing instanceof Array && propertyObjListing.length > 0) {
         propertyObjListing.forEach((propertyInfo) => {
           if (propertyInfo.PropertyId === PropertyID) {
-            const estateData = JSON.parse(propertyInfo.Entity)
+            let estateData = JSON.parse(propertyInfo.Entity)
             this.EstateInfo = propertyInfo
             this.EstateName = `hae-${propertyInfo.PropertyTitle}`;
             this.ESTATE_MAPSOURCE = {};

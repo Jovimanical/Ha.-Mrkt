@@ -43,7 +43,6 @@ export class CheckoutComponent implements OnInit {
     private broadcastService: BroadcastService,
     private route: ActivatedRoute,
     private flutterwave: Flutterwave,
-    // public changeDectection: ChangeDetectorRef,
     private router: Router) { }
 
   ngOnInit() {

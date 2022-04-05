@@ -47,6 +47,7 @@ import { VerticalTabContentDirective } from 'app/layout/vertical-tabs/directives
 // import { MouseComponent } from './templates/mouse/mouse.component';
 // import { Templates2Component } from './templates2/templates2.component';
 import { VerticalTabLabelDirective } from 'app/layout/vertical-tabs/directives/vertical-tab-label.directive';
+import { CheckOutrightPaymentComponent } from './check-outright-payment/check-outright-payment.component';
 
 export function dateFutureValidator(control: FormControl, field: FormlyFieldConfig, options = {}): ValidationErrors {
   return { 'date-future': { message: `Validator options: ${JSON.stringify(options)}` } };
@@ -144,7 +145,8 @@ export function maxValidationMessage(err, field) {
     VerticalTabComponent,
     VerticalTabContentDirective,
     VerticalTabLabelDirective,
-    VerticalTabLabelDirective
+    VerticalTabLabelDirective,
+    CheckOutrightPaymentComponent
   ],
   providers: [CurrencyPipe, EstateMapSidebarService],
   entryComponents: [EstateMapSidebarComponent],

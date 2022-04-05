@@ -61,6 +61,7 @@
     "ng2-charts": "1.6.0",
     "ngx-img-cropper": "9.0.1",
     "ngx-skeleton-loader": "^4.0.0",
+    "ngx-timeago": "^2.0.0",
     "ngx-toastr": "^13.2.1",
     "rxjs": "6.5.4",
     "sweetalert2": "^11.4.6",

@@ -4,14 +4,12 @@ import Swal from 'sweetalert2';
 import * as L from 'leaflet';
 import { StoreService } from 'app/shared/services/store.service';
 
-
 @Component({
-  selector: 'app-checkout-choice-loan',
-  templateUrl: './checkout-choice-loan.component.html',
-  styleUrls: ['./checkout-choice-loan.component.scss']
+  selector: 'app-check-outright-payment',
+  templateUrl: './check-outright-payment.component.html',
+  styleUrls: ['./check-outright-payment.component.scss']
 })
-export class CheckoutChoiceLoanComponent implements OnInit, AfterViewInit, OnDestroy {
-
+export class CheckOutrightPaymentComponent implements OnInit, AfterViewInit, OnDestroy {
   public propertyID: any = 0;
   public numberOfProperties = 0
   public balance = 0;
@@ -122,7 +120,7 @@ export class CheckoutChoiceLoanComponent implements OnInit, AfterViewInit, OnDes
     propertyInfo.ApplicationStatus = 'PENDING';
     this.storeService.updateCartItem(JSON.stringify(propertyInfo)).subscribe((response: any) => {
       // console.log('response.data.records', response.data);
-      this.router.navigate([`/listings/checkout-option-mortgage-application/${this.propertyID}`]);
+      this.router.navigate([`/listings/checkout/${this.propertyID}`]);
 
     }, (error) => {
 
@@ -246,7 +244,10 @@ export class CheckoutChoiceLoanComponent implements OnInit, AfterViewInit, OnDes
             }
           }
         });
-       
+
+        // if (feature.properties.group === 'unit') {
+        //   layer.bindTooltip(feature.properties.property_name, { permanent: true, direction: 'center', className: 'estateLabel' });
+        // }
       }
     }).addTo(this.map);
     // controlLayers.addOverlay(estateLayer, 'MapLayer');
@@ -315,6 +316,20 @@ export class CheckoutChoiceLoanComponent implements OnInit, AfterViewInit, OnDes
 
       //marker.bindPopup(template);
       marker.openPopup();
+
+      L.DomUtil.get('value-arc').textContent = properties.property_name;
+      L.DomUtil.get('value-speed').textContent = properties.property_title;
+
+      // var buttonSubmit = L.DomUtil.get('button-submit');
+      // L.DomEvent.addListener(buttonSubmit, 'click', async (e) => {
+      //   await EventService.fire("DisplayPropertyInfo", allFeatures);
+
+      //   //Add Add sidebar to the map
+
+      //   marker.closePopup();
+      // });
+
+
     }
 
     // This resets the highlight after hover moves away
@@ -342,9 +357,52 @@ export class CheckoutChoiceLoanComponent implements OnInit, AfterViewInit, OnDes
 
 
     this.map.on('popupclose', (e) => {
-
+      // setTimeout(function(){
+      //     if(LS.Send.IsDragging == false){
+      //         map.removeLayer(LS.Send.Marker);
+      //     }
+      // },300);
     });
 
+    // this.map.on('zoomend', (e) => {
+    //   // console.log('map.getZoom()-1', this.map.getZoom())
+    //   if (this.map.getZoom() >= 7 && this.map.getZoom() <= 16) {
+    //     if (this.simpCounter == 0 || this.simpCounter == 2) {
+    //       this.map.removeLayer(estateUnitsLayer);
+    //       // REMOVING PREVIOUS INFO BOX
+    //       if (legend !== undefined) {
+    //         legend.remove(this.map)
+    //       }
+
+    //       if (info !== undefined) {
+    //         info.addTo(this.map)
+    //       }
+
+    //       //console.log('Showing removing units')
+    //       this.simpCounter = 1;
+    //     }
+    //   }
+    //   else if (this.map.getZoom() >= 17) {
+    //     if (this.simpCounter == 0 || this.simpCounter == 1) {
+    //       this.map.addLayer(estateUnitsLayer);
+    //       if (legend !== undefined) {
+    //         legend.addTo(this.map);
+    //       }
+
+    //       if (info !== undefined) {
+    //         info.remove(this.map)
+    //       }
+    //       //console.log('Showing units -1')
+    //       this.simpCounter = 2;
+    //     }
+    //   }
+    //   else if (this.map.getZoom() <= 7) {
+    //     if (this.simpCounter == 1 || this.simpCounter == 2) {
+    //       //console.log('Showing units')
+    //       this.simpCounter = 0;
+    //     }
+    //   }
+    // });
 
   }
 

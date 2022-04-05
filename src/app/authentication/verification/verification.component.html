@@ -1,60 +1,90 @@
 <div id="wrapper">
   <!-- content -->
   <div class="content">
-    <div class="masthead">
-      <div fxLayout="row" fxLayoutAlign="center center" class="full-height">
-        <mat-card fxFlex="50" fxFlex.md="60" fxFlex.sm="95" fxFlex.xs="100" *ngIf="!codeSent">
-          <mat-card-title>Two-Factor Authentication</mat-card-title>
-          <mat-card-content>
-            Your account requires verification. A message with a verification code will be sent to your phone.
-            Click the "Send Code" button to continue.
-          </mat-card-content>
-          <mat-card-actions>
-            <mat-form-field fxFlex>
-              <input matInput placeholder="Enter Your Email" formControlName="email" required>
-              <!-- <mat-error *ngIf="verificationForm.controls['email'].hasError('required')">
-                Email is required
-              </mat-error> -->
-            </mat-form-field>
-            <div fxLayout="column" class="action-buttons">
-              <button mat-raised-button color="primary" (click)="sendCode()">
-                Send Code
-              </button>
-            </div>
-          </mat-card-actions>
-        </mat-card>
+    <!-- breadcrumbs-->
+    <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
+      <div class="container">
+        <div class="breadcrumbs-list">
+          <a>Home</a><a>Onboarding</a> <span>Account Activation</span>
+        </div>
 
-        <mat-card fxFlex="50" fxFlex.md="60" fxFlex.sm="95" fxFlex.xs="100" *ngIf="codeSent">
-          <mat-card-title>Two-Factor Authentication</mat-card-title>
-          <mat-card-content>
-            A message with a verification code has been sent to your phone. Enter the code to continue.
-          </mat-card-content>
-          <form [formGroup]="verificationForm" (ngSubmit)="verify()" novalidate>
-            <div fxLayout="column">
-              <mat-form-field fxFlex>
-                <input matInput placeholder="Enter Your Email" formControlName="email" required>
-                <mat-error *ngIf="verificationForm.controls['email'].hasError('required')">
-                  Email is required
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field fxFlex>
-                <input matInput placeholder="Enter your Code" formControlName="code" required>
-                <mat-error *ngIf="verificationForm.controls['code'].hasError('required')">
-                  Code is required
-                </mat-error>
-              </mat-form-field>
-              <div fxLayout="column" class="action-buttons">
-                <button mat-raised-button color="primary" type="submit" [disabled]="verificationForm.invalid">
-                  Verify
-                </button>
-              </div>
-              <div fxLayout="row" *ngIf="verificationFailed" class="error">
-                Invalid code entered. Try again.
-              </div>
-            </div>
-          </form>
-        </mat-card>
       </div>
     </div>
+    <!-- breadcrumbs end -->
+    <!--  section  -->
+    <section class="gray-bg">
+      <div class="section-title st-center fl-wrap">
+        <h2>Two-Factor Authentication</h2>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-2 col-lg-2"></div>
+          <div class="col-md-8 col-lg-8">
+            <div class="services-item fl-wrap">
+              <div class="dasboard-widget-box fl-wrap">
+
+                <!-- <div class="masthead"> -->
+                <div fxLayout="row" fxLayoutAlign="center center" class="full-height">
+                  <mat-card fxFlex="100" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" *ngIf="!codeSent">
+                    <mat-card-content>
+                      Your account requires verification. A message with a verification code will be sent to your
+                      email.
+                      Click the "Send Code" button to continue.
+                    </mat-card-content>
+                    <mat-card-actions>
+                      <form [formGroup]="codeResendForm" novalidate>
+                        <mat-form-field fxFlex>
+                          <input matInput placeholder="Enter Your Email" formControlName="email" required>
+                          <mat-error *ngIf="codeResendForm.controls['email'].hasError('required')">
+                            Email is required
+                          </mat-error>
+                        </mat-form-field>
+                        <div fxLayout="column" class="action-buttons">
+                          <button mat-raised-button color="primary" (click)="sendCode()">
+                            Send Code
+                          </button>
+                        </div>
+                      </form>
+                    </mat-card-actions>
+                  </mat-card>
+
+                  <mat-card fxFlex="100" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" *ngIf="codeSent">
+                    <mat-card-title>Two-Factor Authentication</mat-card-title>
+                    <mat-card-content>
+                      A message with a verification code has been sent to your email. Enter the code to continue.
+                    </mat-card-content>
+                    <form [formGroup]="verificationForm" (ngSubmit)="verify()" novalidate>
+                      <div fxLayout="column">
+                        <mat-form-field fxFlex>
+                          <input matInput placeholder="Enter Your Email" formControlName="email" required>
+                          <mat-error *ngIf="verificationForm.controls['email'].hasError('required')">
+                            Email is required
+                          </mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxFlex>
+                          <input matInput placeholder="Enter your Code" formControlName="code" required>
+                          <mat-error *ngIf="verificationForm.controls['code'].hasError('required')">
+                            Code is required
+                          </mat-error>
+                        </mat-form-field>
+                        <div fxLayout="column" class="action-buttons">
+                          <button mat-raised-button color="primary" type="submit" [disabled]="verificationForm.invalid">
+                            Verify
+                          </button>
+                        </div>
+                        <div fxLayout="row" *ngIf="verificationFailed" class="error">
+                          Invalid code entered. Try again.
+                        </div>
+                      </div>
+                    </form>
+                  </mat-card>
+                </div>
+                <!-- </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>
