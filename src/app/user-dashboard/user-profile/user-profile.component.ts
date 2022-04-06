@@ -32,6 +32,7 @@ export class UserProfileComponent implements OnInit {
     this.userService.getCurrentUser()
       .subscribe((user: any) => {
         this.user = user.data;
+        this.profileImage = this.user.profileImage;
         this.initializeForm(user.data);
         this.initChangePasswordForm();
         this.initializeSocialForm(user.data);
@@ -46,25 +47,33 @@ export class UserProfileComponent implements OnInit {
       return;
     }
     this.profileErrors = [];
-    const profile = this.profileForm.value as User;
-    if (this.profileImage != null) {
+    const profile = this.profileForm.value;
+    if (this.profileImage !== null) {
       profile.profileImage = this.profileImage;
     }
     this.loading = true;
-    this.userService.updateProfile(profile)
+    this.userService.updateProfile(JSON.stringify(profile))
       .subscribe(
         (user: any) => {
-          this.user = user.data;
-          this.broadcastService.emitProfileUpdated(this.user);
-          this.notificationService.showSuccessMessage('Profile updated successfully');
-          this.resetPasswordFields();
-          this.loading = false;
+          this.userService.getCurrentUser()
+            .subscribe((user: any) => {
+              this.user = user.data;
+              this.broadcastService.emitProfileUpdated(this.user);
+              this.notificationService.showSuccessMessage('Profile updated successfully');
+              //this.resetPasswordFields();
+              this.loading = false;
+
+            }, (error) => {
+
+            });
         },
         error => {
           this.loading = false;
           this.profileErrors = error.error[0].errorDescription;
+          this.notificationService.showErrorMessage(error.error.message);
         });
   }
+
 
   onProfileImageChanged(image: any): void {
     this.profileImage = image;
@@ -80,21 +89,15 @@ export class UserProfileComponent implements OnInit {
       lastname: [user.lastname, Validators.required],
       email: [user.email, Validators.required],
       mobile: [user.mobile, Validators.required],
-      address: [user.address, Validators.required],
-      website: [user.website, Validators.required],
-      company: [user.company, Validators.required],
-      bio: [user.bio, Validators.required],
-      newPassword: [''],
-      confirmNewPassword: [''],
-      phones: this.formBuilder.array([])
+      address: [user.address, Validators.required]
     });
   }
 
   private initChangePasswordForm(): void {
     this.changePasswordForm = this.formBuilder.group({
-      currentPassword: [''],
-      newPassword: [''],
-      confirmNewPassword: ['']
+      currentPassword: ['', Validators.required],
+      newPassword: ['', Validators.required],
+      confirmNewPassword: ['', Validators.required]
     });
 
     this.changePasswordForm.get('newPassword').valueChanges.subscribe(value => {
@@ -131,10 +134,33 @@ export class UserProfileComponent implements OnInit {
   }
 
   public saveSocial() {
+    this.notificationService.showErrorMessage('No Implementation Yet');
+    if (this.socialMediaForm.invalid) {
+      return;
+    }
 
   }
 
   public changePassword() {
+
+    if (this.changePasswordForm.invalid) {
+      return;
+    }
+
+    const changePassword = this.changePasswordForm.value;
+    this.loading = true;
+    this.userService.updateUserPassword(JSON.stringify(changePassword))
+      .subscribe(
+        (user: any) => {
+          this.notificationService.showSuccessMessage(user.message);
+          this.loading = false;
+          this.resetPasswordFields();
+        },
+        error => {
+          this.loading = false;
+          console.error('error', error)
+          this.notificationService.showErrorMessage(error.error.message);
+        });
 
   }
 

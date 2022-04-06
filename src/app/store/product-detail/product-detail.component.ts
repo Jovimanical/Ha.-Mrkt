@@ -365,8 +365,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         this.userAccount.account_point = availablePoint - amountDeductable;
         const deductSearchAmount = await this.accountService.updateUserAccounts(JSON.stringify(this.userAccount))
         if (deductSearchAmount) {
-
-
           let transactionHistory: any = {}
           transactionHistory.sender_id = this.userInfo.id;
           transactionHistory.receiver_id = 1
@@ -412,14 +410,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           const account = accounts.data.records[0];
           this.userAccount = accounts.data.records[0];
 
-          // if (account.account_point === "0") {
-          //   this.insufficentBalanceConfirmation()
-          //   return;
-          // } else {
-          //   this.totalBalance = account.account_point !== "0" ? parseInt(account.account_point, 10) : 0;
-          //   this.broadcastService.emitPointBalanceUpdated(this.totalBalance);
-          //   this.makeAccountDeductions(1);
-          // }
+          if (account.account_point === "0") {
+            this.insufficentBalanceConfirmation()
+            return;
+          } else {
+            this.totalBalance = account.account_point !== "0" ? parseInt(account.account_point, 10) : 0;
+            this.broadcastService.emitPointBalanceUpdated(this.totalBalance);
+            this.makeAccountDeductions(1);
+          }
         } else {
           this.accountRetry()
         }
@@ -567,7 +565,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       repakagedUnit.PropertyId = this.propertView.PropertyId;
       repakagedUnit.PropertyName = this.propertView.PropertyName ? this.propertView.PropertyName : 'Not Available'
       repakagedUnit.PropertyJson = this.propertyMap;
-      repakagedUnit.PropertyType = 3;     
+      repakagedUnit.PropertyType = 3;
       repakagedUnit.PropertyStatus = this.propertView.property_status;
       repakagedUnit.PropertyAmount = this.getRandomInt(1111111, 999999);
 
@@ -692,7 +690,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     if (!cartItemExit) {
       this.openSidebar()
       this.storeService.addToCart(JSON.stringify(property))
-        .subscribe((cartItem:any) => {
+        .subscribe((cartItem: any) => {
           this.broadcastService.emitGetCart();
 
           switch (action) {
@@ -711,12 +709,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
               break;
           }
 
-          this.notificationService.showSuccessMessage('Successfully added to application listing');
+         // this.notificationService.showSuccessMessage('Successfully added to application listing');
           this.userCarts.push(property);
 
           setTimeout(() => {
             this.saveToLocalStorage(this.userCarts, this.sessionStorageCarts)
-            this.notificationService.showSuccessMessage('Added to Application Listing');
+           // this.notificationService.showSuccessMessage('Added to Application Listing');
             this.loading = false;
           }, 1000);
           this.loading = false;
@@ -1051,9 +1049,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       return legendDiv;
     };
 
-
-
-
     estateLayer.on("click", (event: any) => {
       if (event.layer.feature.properties.group === 'Block') {
         this.map.fitBounds(event.layer.getBounds());
@@ -1083,8 +1078,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           if (info !== undefined) {
             info.addTo(this.map)
           }
-
-          //console.log('Showing removing units')
           this.simpCounter = 1;
         }
       }

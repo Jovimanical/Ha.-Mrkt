@@ -45,8 +45,12 @@ export class UserService {
     return this.http.put<User>(`${environment.API_URL}/users/${userId}/account-status`, status);
   }
 
-  updateProfile(user: User): Observable<User> {
-    return this.http.put<User>(`${environment.API_URL}/users/profiles/me`, user);
+  updateProfile(user: any): Observable<any> {
+    return this.http.put<any>(`${environment.API_URL}/users/update-profiles/`, user);
+  } 
+  
+  updateUserPassword(user: any): Observable<any> {
+    return this.http.put<any>(`${environment.API_URL}/users/password-update/`, user);
   }
 
   emitUserVerificationRequired(required: boolean): void {

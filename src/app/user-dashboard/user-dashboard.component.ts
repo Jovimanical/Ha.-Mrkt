@@ -66,21 +66,23 @@ export class UserDashboardComponent implements OnInit, AfterViewInit, OnDestroy 
     });
   }
 
+  //TODO check the .PaymentMethod and redirect accordingly
+  // if paymentMethod is 1 == outright payment 2 = mortgage  3 = pay small small
   showItem(property: any) {
     switch (property.ApplicationStatus) {
       case 'PROCESSING':
       case 'DECLINED':
         this.router.navigate([`/user-dashboard/user-application-status/${property.id}`]);
         break;
-        case 'PENDING':
+      case 'PENDING':
         this.router.navigate([`/listings/checkout/${property.id}`]);
-          break;
-    
+        break;
+
       default:
         this.router.navigate([`/listings/checkout-application-requirements/${property.id}`]);
         break;
     }
-  
+
   }
 
   ngAfterViewInit(): void {

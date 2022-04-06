@@ -18,7 +18,7 @@
                 <div class="dasboard-widget-box fl-wrap">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <div>
                                     <div class="map-loading fw-map big_map" *ngIf="isMapLoading; else mapLoaded">
                                         <div class="pin"></div>
@@ -33,53 +33,62 @@
                                     <!-- Map end -->
                                 </div>
                             </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <div class="custom-form">
-                                    <div class="checkout-title">OUTRIGHT PAYMENT</div>
+                                    <div class="checkout-title">MORTGAGE APPLICATION</div>
                                     <div>
-                                        <h4 class="text-left mt-20 mb-20">Terms and Condition</h4>
+                                        <h4 class="text-left mt-20 mb-20">Your terms for Mortgage Application</h4>
                                     </div>
                                     <div>
-                                        <ul class="text-left">
-                                            <li> Lorem ipsum dolor sit amet consectetur adipisicing elit. </li>
-                                            <li>
-                                                Quaerat nobis cumque sit itaque aliquam culpa facilis! Mollitia
-                                                explicabo
-                                            </li>
-                                            <li>
-                                                corrupti quidem dolore nulla aliquam recusandae repellendus, laborum
-                                            </li>
-                                            <li>
-                                                doloribus facere Acusamus vitae?Lorem ipsum dolor sit amet
-                                            </li>
-                                        </ul>
+                                        <div class="text-left">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat nobis
+                                            cumque sit itaque aliquam culpa facilis! Mollitia explicabo corrupti quidem
+                                            dolore nulla aliquam recusandae repellendus, laborum doloribus facere
+                                            Acusamus vitae?Lorem ipsum dolor sit amet
+                                        </div>
                                     </div>
                                     <!-- <div style="height: 10px;"></div> -->
                                     <div class="checkout-title">PAYMENT INFORMATION</div>
 
                                     <div class="row">
-                                        <div class="col-xs-4 col-sm-4 col-md-4">
+                                        <div class="col-xs-12 col-sm-4 col-md-4">
                                             <h4>Application Fees</h4>
                                             <span>{{balance | currency:'NGN':'symbol-narrow':'4.2-2'}}</span>
                                         </div>
-                                        <div class="col-xs-4 col-sm-4 col-md-4">
-                                            <h4>Number Of property</h4>
-                                            <span>{{numberOfProperties}}</span>
+                                        <div class="col-xs-12 col-sm-4 col-md-4">
+                                            <h4>Property Price</h4>
+                                            <span>{{subtotal | currency:'NGN':'symbol-narrow':'4.2-2' }}</span>
                                         </div>
-                                        <div class="col-xs-4 col-sm-4 col-md-4">
-                                            <h4>Application Mode</h4>
-                                            <span>OUTRIGHT PAYMENT</span>
+                                        <div class="col-xs-12 col-sm-4 col-md-4">
+                                            <h4>Service Charge</h4>
+                                            <span>{{serviceCharge | currency:'NGN':'symbol-narrow':'4.2-2' }}</span>
                                         </div>
                                     </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-4 col-md-4">
+                                            <h4>Insurance Charge</h4>
+                                            <span>{{InsuranceFees | currency:'NGN':'symbol-narrow':'4.2-2' }}</span>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-4 col-md-4">
+                                            <h4>Down Payment</h4>
+                                            <span>{{downPayment | currency:'NGN':'symbol-narrow':'4.2-2' }}</span>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-4 col-md-4">
+                                            <h4>Total Payment</h4>
+                                            <span>{{TotalPayment | currency:'NGN':'symbol-narrow':'4.2-2' }}</span>
+                                        </div>
+                                    </div>
+                                    <hr>
                                     <div
                                         style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 20px;">
                                         <button mat-button (click)="callToAction(0)" mat-raised-button color="warn">
-                                            <span style="display: block; font-weight: 800; text-transform: uppercase;">
+                                            <span style="display: block; font-weight: 400; text-transform: uppercase;">
                                                 DO LATER
                                             </span>
                                         </button>
                                         <button mat-button (click)="callToAction(1)" mat-raised-button color="primary">
-                                            <span style="display: block; font-weight: 800; text-transform: uppercase;">
+                                            <span style="display: block; font-weight: 400; text-transform: uppercase;">
                                                 CONTINUE WITH LOAN APPLICATION
                                             </span>
                                         </button>
@@ -94,3 +103,6 @@
     </div>
 </div>
 <app-footer [showPageListing]="false"></app-footer>
+
+<!-- show amortization with modal -->
+<div id="inlineamortinsert"></div>

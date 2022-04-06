@@ -75,7 +75,7 @@
                                                 </span></label>
                                             <input type="text" placeholder="Your Address here" formControlName="address"
                                                 required />
-                                            <label>Website <span class="dec-icon"><i class="far fa-globe"></i>
+                                            <!-- <label>Website <span class="dec-icon"><i class="far fa-globe"></i>
                                                 </span></label>
                                             <input type="text" placeholder="yourwebsite.com" formControlName="website"
                                                 required />
@@ -85,9 +85,10 @@
                                                 required />
                                             <label>Notes </label>
                                             <textarea cols="40" rows="3" placeholder="About Me" formControlName="bio"
-                                                required style="margin-bottom:20px;"></textarea>
-                                            <button class="btn color-bg float-btn" [disabled]="loading">Save
-                                                Changes</button>
+                                                required style="margin-bottom:20px;"></textarea> -->
+                                            <button mat-raised-button color="primary" [disabled]="loading">
+                                                Update Profile
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -110,7 +111,7 @@
                                             <div class="pass-input-wrap fl-wrap">
                                                 <label>New Password<span class="dec-icon">
                                                         <i class="far fa-lock-alt"></i></span></label>
-                                                <input type="password" class="pass-input" placeholder="New Password"
+                                                <input type="text" class="pass-input" placeholder="New Password"
                                                     formControlName="newPassword" />
                                                 <span class="eye"><i class="far fa-eye" aria-hidden="true"></i> </span>
                                             </div>
@@ -118,13 +119,14 @@
                                                 <label>Confirm New Password
                                                     <span class="dec-icon"><i class="far fa-shield-check"></i>
                                                     </span></label>
-                                                <input type="password" class="pass-input"
+                                                <input type="text" class="pass-input"
                                                     placeholder="Confirm New Password"
                                                     formControlName="confirmNewPassword" />
                                                 <span class="eye"><i class="far fa-eye" aria-hidden="true"></i> </span>
                                             </div>
-                                            <button class="btn color-bg float-btn" [disabled]="loading">Save
-                                                Changes</button>
+                                            <button mat-raised-button color="primary" [disabled]="loading">
+                                                Change Password
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -151,7 +153,7 @@
                                                 </span></label>
                                             <input type="text" placeholder="https://kingschat.com/"
                                                 formControlName="others" />
-                                            <button type="submit" class="btn color-bg float-btn" [disabled]="loading">
+                                            <button type="submit" mat-raised-button color="accent" [disabled]="loading">
                                                 Save Changes</button>
                                         </div>
                                     </form>
@@ -210,7 +212,7 @@
                                     </div>
                                 </a>
                             </div>
-                            <!-- dashboard-stats end --> 
+                            <!-- dashboard-stats end -->
                             <!--dashboard-stats-->
                             <div class="col-xs-4 col-sm-4 col-md-4">
                                 <a routerLink="/user-dashboard/user-required-assets" routerLinkActive="active">
@@ -235,7 +237,7 @@
                                 </a>
                             </div>
                             <!-- dashboard-stats end -->
-                             <!--dashboard-stats-->
+                            <!--dashboard-stats-->
                             <div class="col-xs-4 col-sm-4 col-md-4">
                                 <a routerLink="/user-dashboard/user-required-extra-income" routerLinkActive="active">
                                     <div class="dashboard-stats fl-wrap"

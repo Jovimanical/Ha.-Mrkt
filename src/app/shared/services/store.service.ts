@@ -96,17 +96,8 @@ export class StoreService {
     return this.http.post(`${environment.API_URL}/orders/add/`, checkout).toPromise();
   }
 
-  public checkoutAccount(checkout: any): Promise<any> {
-    return this.http.post(`${environment.API_URL}/orders/add/`, checkout).toPromise();
-  }
-
-  public deductSearchCreditFromAccount(checkout: any): Promise<any> {
-    return this.http.post(`${environment.API_URL}/orders/add/`, checkout).toPromise();
-  }
-
-
-  public addTransactionHistory(checkout: any): Promise<any> {
-    return this.http.post(`${environment.API_URL}/transactions/add/`, checkout).toPromise();
+  public addTransactionHistory(transaction: any): Promise<any> {
+    return this.http.post(`${environment.API_URL}/transactions/add/`, transaction).toPromise();
   }
 
 

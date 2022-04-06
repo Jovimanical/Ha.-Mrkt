@@ -83,7 +83,8 @@ export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
     const product = this.cartProducts[index];
   }
 
-
+//TODO check the .PaymentMethod and redirect accordingly
+// if paymentMethod is 1 == outright payment 2 = mortgage  3 = pay small small
   goToCheckout(property: any) {
     switch (property.ApplicationStatus) {
       case 'PROCESSING':
