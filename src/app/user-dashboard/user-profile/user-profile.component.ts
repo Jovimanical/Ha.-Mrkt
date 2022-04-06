@@ -5,6 +5,7 @@ import { User } from '../../core/user/user.model';
 import { BroadcastService } from '../../core/broadcast.service';
 import { ConfirmPasswordValidator } from 'app/shared/validators/confirm-password.validator';
 import { NotificationService } from 'app/shared/services/notification.service';
+import { AuthenticationService } from 'app/authentication/authentication.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -24,7 +25,8 @@ export class UserProfileComponent implements OnInit {
     private userService: UserService,
     private formBuilder: FormBuilder,
     private notificationService: NotificationService,
-    private broadcastService: BroadcastService
+    private broadcastService: BroadcastService,
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit() {
@@ -58,6 +60,7 @@ export class UserProfileComponent implements OnInit {
           this.userService.getCurrentUser()
             .subscribe((user: any) => {
               this.user = user.data;
+              this.authService.setUserInfo(user.data);
               this.broadcastService.emitProfileUpdated(this.user);
               this.notificationService.showSuccessMessage('Profile updated successfully');
               //this.resetPasswordFields();

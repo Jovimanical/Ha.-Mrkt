@@ -21,6 +21,7 @@ export class LoginService {
           this.authService.setToken(response.token.access_token);
           this.authService.setUserInfo(response.user);
           return response;
+          
         })
       );
   }
