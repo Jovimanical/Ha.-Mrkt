@@ -25,7 +25,7 @@
                 <!--tab -->
                 <div id="tab-1" class="tab-content first-tab">
                   <div class="custom-form">
-                    <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+                    <form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
                       <label>Username or Email Address * <span class="dec-icon"><i
                             class="fal fa-user"></i></span></label>
                       <input name="email" type="text" placeholder="Enter Email" formControlName="email" required
@@ -43,7 +43,7 @@
                         Password is required
                       </div>
                       <div class="lost_password">
-                        <a href="#">Lost Your Password?</a>
+                        <a routerLink="/authentication/forgot-password">Lost Your Password?</a>
                       </div>
                       <div class="filter-tags">
                         <input id="check-a3" type="checkbox" name="check">

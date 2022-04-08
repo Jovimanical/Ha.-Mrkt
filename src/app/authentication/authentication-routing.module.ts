@@ -10,11 +10,13 @@ import { SmsConfirmationComponent } from './sms-confirmation/sms-confirmation.co
 import { AuthGuardService } from './auth-guard.service';
 import { LinkedInSyncComponent } from './linked-in-sync/linked-in-sync.component';
 import { SmsResponseComponent } from './sms-response/sms-response.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const authRoutes: Routes = [
   { path: 'authentication/login', component: LoginComponent },
   { path: 'authentication/register', component: RegisterComponent },
-  { path: 'authentication/verification', component: VerificationComponent },
+  { path: 'authentication/verification/:token/:email', component: VerificationComponent },
+  { path: 'authentication/reset-password/:token/:email', component: ResetPasswordComponent },
   { path: 'authentication/forgot-password', component: ForgotPasswordComponent, canActivate: [PublicGuardService] },
   { path: 'authentication/sms-confirmation', component: SmsConfirmationComponent, canActivate: [PublicGuardService] },
   { path: 'authentication/sms-response', component: SmsResponseComponent, canActivate: [PublicGuardService] },

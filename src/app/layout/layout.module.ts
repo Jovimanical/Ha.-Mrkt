@@ -19,7 +19,8 @@ import { EmptyStateComponent } from './empty-state/empty-state.component';
 import { ProfileImageComponent } from './profile-image/profile-image.component';
 import { PageIsLoadingComponent } from './page-is-loading/page-is-loading.component';
 import { DashboardToggleComponent } from './dashboard-toggle/dashboard-toggle.component';
-import { StreetViewComponent } from './street-view/street-view.component'
+import { StreetViewComponent } from './street-view/street-view.component';
+import { AlertComponent } from './alert/alert.component'
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import { StreetViewComponent } from './street-view/street-view.component'
     ProfileImageComponent,
     PageIsLoadingComponent,
     DashboardToggleComponent,
-    StreetViewComponent
+    StreetViewComponent,
+    AlertComponent
   ],
   exports: [
     ShellComponent,

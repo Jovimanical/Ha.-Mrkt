@@ -28,7 +28,7 @@ export class VerificationComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.userEmail = params['email'];
-      this.userCode = params['code'];
+      this.userCode = params['token'];
       this.codeSent = true;
     });
 
@@ -53,13 +53,14 @@ export class VerificationComponent implements OnInit {
 
     const verification = this.verificationForm.value as Verification;
     this.verificationService.verify(verification)
-      .subscribe(() => {
+      .subscribe((validate) => {
         this.userService.emitUserVerificationRequired(false);
         this.router.navigate(['/listings']);
-      }, () => {
+      }, (error) => {
         this.verificationFailed = true;
       });
   }
+
 
   private initializeCodeResendForm(): void {
     this.codeResendForm = this.formBuilder.group({

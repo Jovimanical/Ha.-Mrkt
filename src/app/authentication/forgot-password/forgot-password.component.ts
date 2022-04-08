@@ -13,11 +13,11 @@ import { NotificationService } from 'app/shared/services/notification.service';
   styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit {
-  form: FormGroup;
-  model: ForgotPassword = { forgotPasswordStep: ForgotPasswordStep.VerifyUser };
-  codeSent = false;
-  errorMessages: any[];
-  forgotPasswordStep = ForgotPasswordStep;
+  public form: FormGroup;
+  public model: ForgotPassword = { forgotPasswordStep: ForgotPasswordStep.VerifyUser };
+  public codeSent = false;
+  public errorMessages: any[];
+  public forgotPasswordStep = ForgotPasswordStep;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,18 +30,19 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   async sendCode() {
-    if (this.form.get('username').invalid) {
-      this.form.get('username').markAsTouched();
+    if (this.form.get('email').invalid) {
+      this.form.get('email').markAsTouched();
       return;
     }
     try {
-      this.model.username = this.form.get('username').value;
-      this.model = await this.forgotPasswordService.sendVerificationCode(this.model);
+      this.model.email = this.form.get('email').value;
+      this.model = await this.forgotPasswordService.sendVerificationCode(JSON.stringify(this.model));
       this.errorMessages = null;
     } catch (error) {
       this.errorMessages = error.error;
     }
   }
+  
 
   async verifyCode() {
     if (this.form.get('code').invalid) {
@@ -50,7 +51,7 @@ export class ForgotPasswordComponent implements OnInit {
     }
     this.model.verificationCode = this.form.get('code').value;
     try {
-      this.model = await this.forgotPasswordService.verifyCode(this.model);
+      this.model = await this.forgotPasswordService.verifyCode(JSON.stringify(this.model));
       this.errorMessages = null;
     } catch (error) {
       this.errorMessages = [{ errorDescription: 'Code verification failed' }];
@@ -66,7 +67,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.model.newPassword = this.form.get('newPassword').value;
     this.model.confirmNewPassword = this.form.get('confirmNewPassword').value;
     try {
-      await this.forgotPasswordService.changePassword(this.model);
+      await this.forgotPasswordService.changePassword(JSON.stringify(this.model));
       this.notificationService.showSuccessMessage('Password changed successfully');
       this.router.navigate(['/authentication/login']);
     } catch (error) {
@@ -76,7 +77,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   private initializeForm(): void {
     this.form = this.formBuilder.group({
-      username: [null, Validators.required],
+      email: [null, Validators.required],
       code: [null, Validators.required],
       newPassword: [null, Validators.required],
       confirmNewPassword: [null, ConfirmPasswordValidator.MatchPassword]

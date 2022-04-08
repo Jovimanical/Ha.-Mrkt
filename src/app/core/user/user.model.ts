@@ -13,5 +13,6 @@ export class User {
   roles: Array<string>;
   mobile: string;
   profileImage: string;
+  jwtToken?: string;
   isOAuth: boolean;
 }

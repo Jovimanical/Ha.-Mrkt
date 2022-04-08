@@ -10,10 +10,10 @@ export class VerificationService {
   constructor(private http: HttpClient) { }
 
   public sendCode(params:any): Observable<any> {
-    return this.http.post(`${environment.API_URL}/verify/send`, params);
+    return this.http.post(`${environment.API_URL}/users/verifications/resend-email-verification/`, params);
   }
 
   public verify(verification: Verification): Observable<any> {
-    return this.http.post(`${environment.API_URL}/verify`, verification);
+    return this.http.put(`${environment.API_URL}/users/verifications/email-verification/`, JSON.stringify(verification));
   }
 }

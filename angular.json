@@ -13,7 +13,8 @@
           "options": {
             "aot": true,
             "allowedCommonJsDependencies": [
-              "eventservice"
+              "eventservice",
+              "aws-sdk/clients/s3"
             ],
             "outputPath": "dist/ha-marketplace-app",
             "index": "src/index.html",

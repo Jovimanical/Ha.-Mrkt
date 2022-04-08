@@ -8,15 +8,15 @@ export class ForgotPasswordService {
 
   constructor(private http: HttpClient) { }
 
-  sendVerificationCode(model: ForgotPassword): Promise<ForgotPassword> {
-    return this.http.post<ForgotPassword>(`${environment.API_URL}/auth/forgot-password`, model).toPromise();
+ public sendVerificationCode(model: any): Promise<ForgotPassword> {
+    return this.http.post<ForgotPassword>(`${environment.API_URL}/auth/forgot-password/request/`, model).toPromise();
   }
 
-  verifyCode(model: ForgotPassword): Promise<ForgotPassword> {
-    return this.http.post<ForgotPassword>(`${environment.API_URL}/auth/forgot-password/verify`, model).toPromise();
+  public verifyCode(model: any): Promise<ForgotPassword> {
+    return this.http.post<ForgotPassword>(`${environment.API_URL}/auth/forgot-password/verify/`, model).toPromise();
   }
 
-  changePassword(model: ForgotPassword): Promise<ForgotPassword> {
-    return this.http.put<ForgotPassword>(`${environment.API_URL}/auth/forgot-password`, model).toPromise();
+  public changePassword(model: any): Promise<ForgotPassword> {
+    return this.http.post<ForgotPassword>(`${environment.API_URL}/auth/forgot-password/change-password/`, model).toPromise();
   }
 }

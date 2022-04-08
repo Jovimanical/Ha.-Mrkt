@@ -6,7 +6,7 @@ export class ForgotPassword {
   forgotPasswordStep?: ForgotPasswordStep;
   passwordRecoveryToken?: string;
   userId?: string;
-  username?: string;
+  email?: string;
   verificationCode?: string;
   newPassword?: string;
   confirmNewPassword?: string;
