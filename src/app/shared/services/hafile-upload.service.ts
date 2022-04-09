@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import * as AWS from 'aws-sdk/global';
-import * as S3 from 'aws-sdk/clients/s3';
+// import * as AWS from 'aws-sdk/global';
+// import * as S3 from 'aws-sdk/clients/s3';
 
 
 const AWS_S3_BUCKET = "house-africa-file-storage"
@@ -20,33 +20,33 @@ export class HAFileUploadService {
   constructor() { }
 
   uploadFile(file: any) {
-    const contentType = file.type;
-    const bucket = new S3(
-      {
-        accessKeyId: AWS_ACCESS_KEY,
-        secretAccessKey: AWS_SECRET_KEY,
-        region: AWS_REGION_ID
-      }
-    );
+    // const contentType = file.type;
+    // const bucket = new S3(
+    //   {
+    //     accessKeyId: AWS_ACCESS_KEY,
+    //     secretAccessKey: AWS_SECRET_KEY,
+    //     region: AWS_REGION_ID
+    //   }
+    // );
 
-    const params = {
-      Bucket: AWS_S3_BUCKET,
-      Key: this.FOLDER + file.name,
-      Body: file,
-      ACL: 'public-read',
-      ContentType: contentType
-    };
+    // const params = {
+    //   Bucket: AWS_S3_BUCKET,
+    //   Key: this.FOLDER + file.name,
+    //   Body: file,
+    //   ACL: 'public-read',
+    //   ContentType: contentType
+    // };
 
-    bucket.upload(params, (err: any, data: any) => {
-      if (err) {
-        console.log('There was an error uploading your file: ', err);
-        return false;
-      }
-      console.log('Successfully uploaded file.', data);
-      // replace parameters here and send to backend
+    // bucket.upload(params, (err: any, data: any) => {
+    //   if (err) {
+    //     console.log('There was an error uploading your file: ', err);
+    //     return false;
+    //   }
+    //   console.log('Successfully uploaded file.', data);
+    //   // replace parameters here and send to backend
 
-      return true;
-    });
+    //   return true;
+    // });
 
     //for upload progress   
     /*bucket.upload(params).on('httpUploadProgress', function (evt) {
@@ -63,26 +63,26 @@ export class HAFileUploadService {
 
 
   deleteFile(fileName: any) {
-    const bucket = new S3(
-      {
-        accessKeyId: AWS_ACCESS_KEY,
-        secretAccessKey: AWS_SECRET_KEY,
-        region: AWS_REGION_ID
-      }
-    );
-    var params = {
-      Bucket: AWS_S3_BUCKET,
-      Key: fileName
-      /* 
-         where value for 'Key' equals 'pathName1/pathName2/.../pathNameN/fileName.ext'
-         - full path name to your file without '/' at the beginning
-      */
-    };
-    var that = this;
-    bucket.deleteObject(params, (err, data) => {
-      if (err) console.log(err, err.stack); // an error occurred
-      else console.log(data)
+    // const bucket = new S3(
+    //   {
+    //     accessKeyId: AWS_ACCESS_KEY,
+    //     secretAccessKey: AWS_SECRET_KEY,
+    //     region: AWS_REGION_ID
+    //   }
+    // );
+    // var params = {
+    //   Bucket: AWS_S3_BUCKET,
+    //   Key: fileName
+    //   /* 
+    //      where value for 'Key' equals 'pathName1/pathName2/.../pathNameN/fileName.ext'
+    //      - full path name to your file without '/' at the beginning
+    //   */
+    // };
+    // var that = this;
+    // bucket.deleteObject(params, (err, data) => {
+    //   if (err) console.log(err, err.stack); // an error occurred
+    //   else console.log(data)
 
-    });
+    // });
   }
 }
