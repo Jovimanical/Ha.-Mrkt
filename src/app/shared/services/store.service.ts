@@ -5,8 +5,9 @@ import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product.model';
 import { AddToCart } from '../models/addToCart.model';
-import { Cart } from '../models/cart.model';
 import { Checkout } from '../models/checkout.model';
+import { Cart } from '../models/cart.model';
+
 
 @Injectable()
 export class StoreService {
@@ -14,28 +15,28 @@ export class StoreService {
   constructor(private http: HttpClient) { }
 
   public listAllEstate(): Observable<Array<any>> {
-    // return this.http.get<Array<Product>>(`${environment.API_URL}/marketplace/properties/1/30`);
     return this.http.get<Array<any>>(`https://rest.sytemap.com/v1/properties/user-property/list-all-properties?resourceId=1&offset=0&limit=10`);
-
   }
 
 
   public fetchEstateBlockAsPromise(estateNo: any): Promise<any> {
     return this.http
-      .get(`https://rest.sytemap.com/v1/properties/user-property/view-property-children?resourceId=${estateNo}&floorLevel=0`)
+      .get(`https://rest.sytemap.com/v1/properties/user-property/view-property-children?resourceId=${estateNo}&propertyType=estate&floorLevel=0`)
       .toPromise();
   }
 
 
   public fetchBlockUnitsAsPromise(blockNo: any) {
     return this.http
-      .get(`https://rest.sytemap.com/v1/properties/user-property/view-property-children?resourceId=${blockNo}&floorLevel=0`)
+      .get(`https://rest.sytemap.com/v1/properties/user-property/view-property-children?resourceId=${blockNo}&propertyType=block&floorLevel=0`)
       .toPromise();
   }
 
   public fetchSingleUnitsAsPromise(UnitNo: any): Promise<any> {
-    var formdata = new FormData();
+    let formdata = new FormData();
     formdata.append("resourceId", UnitNo);
+    formdata.append("propertyType", "unit");
+
     return this.http
       .post(`https://rest.sytemap.com/v1/properties/user-property/view-property-metadata`, formdata)
       .toPromise();

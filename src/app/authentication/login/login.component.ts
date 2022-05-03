@@ -84,23 +84,30 @@ export class LoginComponent implements OnInit, OnDestroy {
           case 'user':
             // this.router.navigate([this.returnUrl]);
             this.returnUrl = this.route.snapshot.queryParams['redirectUrl'] || '/user-dashboard';
-            this.router.navigateByUrl(this.returnUrl);
+            this.router.navigateByUrl(this.returnUrl).then(() => {
+              window.location.reload();
+            });
             break;
           case 'agents':
             const returnAgentUrl = this.route.snapshot.queryParams['redirectUrl'] || '/agent-dashboard';
-            this.router.navigateByUrl(returnAgentUrl);
+            this.router.navigateByUrl(returnAgentUrl).then(() => {
+              window.location.reload();
+            });
             break;
 
           case 'admin':
             const returnAdminUrl = this.route.snapshot.queryParams['redirectUrl'] || '/admin-dashboard';
-            this.router.navigateByUrl(returnAdminUrl);
+            this.router.navigateByUrl(returnAdminUrl).then(() => {
+              window.location.reload();
+            });
             break;
 
           default:
-            this.router.navigate(['/listings']);
+            this.router.navigate(['/listings']).then(() => {
+              window.location.reload();
+            });
             break;
         }
-
 
 
       }, error => {

@@ -4,7 +4,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
 import rewind from '@mapbox/geojson-rewind';
 import * as L from 'leaflet';
-import * as leafletImage from 'leaflet-image';
+import { imageOverlay, latLng, tileLayer, svgOverlay } from "leaflet";
+import 'leaflet.locatecontrol';
 import Swal from 'sweetalert2';
 import EventService from "eventservice";
 import { EventsService } from 'angular4-events';
@@ -22,6 +23,7 @@ import { StoreService } from 'app/shared/services/store.service';
 import { NavigationService } from 'app/shared/services/navigation.service'
 import { UserService } from 'app/core/user/user.service';
 import { AccountService } from 'app/shared/accounts/account.service';
+// import SVGImage from '../../../assets/data/PEACH_COURT.svg'
 
 const Toast = Swal.mixin({
   toast: true,
@@ -75,6 +77,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public source: any;
   public markers: any;
   public publishProperty: any;
+  public svgElement: any = 'https://house-africa-file-storage.s3.us-west-2.amazonaws.com/house-africa-estates-images/PEACH_COURT.svg';
   public sessionStorageBookmarks = 'houseAfrica.bookmarks';
   public userBookMarks: Array<any> = [];
   public sessionStorageCarts = 'houseAfrica.carts';
@@ -410,14 +413,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           const account = accounts.data.records[0];
           this.userAccount = accounts.data.records[0];
 
-          if (account.account_point === "0") {
-            this.insufficentBalanceConfirmation()
-            return;
-          } else {
-            this.totalBalance = account.account_point !== "0" ? parseInt(account.account_point, 10) : 0;
-            this.broadcastService.emitPointBalanceUpdated(this.totalBalance);
-            this.makeAccountDeductions(1);
-          }
+          // if (account.account_point === "0") {
+          //   this.insufficentBalanceConfirmation()
+          //   return;
+          // } else {
+          //   this.totalBalance = account.account_point !== "0" ? parseInt(account.account_point, 10) : 0;
+          //   this.broadcastService.emitPointBalanceUpdated(this.totalBalance);
+          //   this.makeAccountDeductions(1);
+          // }
         } else {
           this.accountRetry()
         }
@@ -709,12 +712,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
               break;
           }
 
-         // this.notificationService.showSuccessMessage('Successfully added to application listing');
+          // this.notificationService.showSuccessMessage('Successfully added to application listing');
           this.userCarts.push(property);
 
           setTimeout(() => {
             this.saveToLocalStorage(this.userCarts, this.sessionStorageCarts)
-           // this.notificationService.showSuccessMessage('Added to Application Listing');
+            // this.notificationService.showSuccessMessage('Added to Application Listing');
             this.loading = false;
           }, 1000);
           this.loading = false;
@@ -736,14 +739,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     const data = this.ESTATE_MAPSOURCE;
 
     const coordinates = data.features[0].geometry.coordinates;
-    const coord = coordinates[0]
-    //console.log('center', coordinates)
+    const coord = coordinates[0][0][0];
+    // console.log('center', coordinates[0][0])
     this.ESTATE_INFO = this.ESTATE_MAPSOURCE.features[0].properties
-    //console.log('ESTATE_MAPSOURCE', this.ESTATE_MAPSOURCE.features[0].properties)
-    const mbAttr = 'Marketplace &copy; Integration by <a href="https://houseafrica.io/">HouseAfrica</a>';
-    const mbUrl =
-      "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw";
+    // console.log('ESTATE_MAPSOURCE', this.ESTATE_MAPSOURCE)
 
+    const mbAttr = 'Marketplace &copy; Integration by <a href="https://houseafrica.io/">HouseAfrica</a>';
     const template = '<div id="popup-form">\
       <H3">Unit info:</H3>\
       <table class="popup-table">\
@@ -762,37 +763,61 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       </div>\
     </div>';
 
-    const streets = L.tileLayer(mbUrl, {
-      id: "mapbox/streets-v11",
-      tileSize: 512,
-      zoomOffset: -1,
-      maxZoom: 50,
-      attribution: mbAttr
-    });
 
-    const sattelite = L.tileLayer(mbUrl, {
-      id: "mapbox/satellite-v9",
-      tileSize: 512,
-      zoomOffset: -1,
-      maxZoom: 25,
-      attribution: mbAttr
-    });
+    this.map = L.map('estateMap').setView([coord[1], coord[0]], 7);
 
-    this.map = L.map('estateMap', {
-      center: [coord[1], coord[0]],
+    this.map.createPane('HA_Street_Layer');
+    this.map.getPane('HA_Street_Layer').style.zIndex = 500;
+    const googleStreets = tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+      pane: 'HA_Street_Layer',
       minZoom: 5,
-      maxZoom: 50,
-      zoom: 7,
-      layers: [sattelite]
+      maxZoom: 25,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      attribution: mbAttr,
+    });
+    this.map.createPane('HA_Street_Hybrid');
+    this.map.getPane('HA_Street_Hybrid').style.zIndex = 501;
+    const googleHybrid = tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+      pane: 'HA_Street_Hybrid',
+      minZoom: 5,
+      maxZoom: 25,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      attribution: mbAttr,
+    });
+    this.map.createPane('HA_Street_Sat');
+    this.map.getPane('HA_Street_Sat').style.zIndex = 502;
+    const googleSat = tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+      pane: 'HA_Street_Sat',
+      minZoom: 5,
+      maxZoom: 25,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      attribution: mbAttr,
+    });
+    this.map.createPane('HA_Street_Terrain');
+    this.map.getPane('HA_Street_Terrain').style.zIndex = 503;
+    const googleTerrain = tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+      pane: 'HA_Street_Terrain',
+      minZoom: 5,
+      maxZoom: 25,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      attribution: mbAttr,
     });
 
     const baseLayers = {
-      Streets: streets,
-      Sattelite: sattelite
+      Sattelite: googleSat,
+      Streets: googleStreets,
+      Hybrid: googleHybrid,
+      Terrian: googleTerrain
     };
 
-    var controlLayers = L.control.layers(baseLayers).addTo(this.map);
-    var estateLayer = new L.geoJson(this.ESTATE_MAPSOURCE, {
+
+    this.map.createPane('HA_Estate_Blocks');
+
+    const estateLayer = L.geoJson(this.ESTATE_MAPSOURCE, {
+      pane: 'HA_Estate_Blocks',
+      attribution: 'HA ESTATE NAME',
+      interactive: true,
+      layerName: 'estateLayer',
       style: function (feature: any) {
         switch (feature.properties.group) {
           case 'Estate': return {
@@ -842,7 +867,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
             }
 
           },
-          click: (e) => {
+          click: (e: any) => {
             if (feature.properties.group !== 'Estate') {
               // var layer = e.target;
               // this.map.fitBounds(layer.getBounds());
@@ -861,18 +886,72 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         }
       }
     }).addTo(this.map);
-    // controlLayers.addOverlay(estateLayer, 'MapLayer');
 
-    var estateUnitsLayer = L.geoJson(this.ESTATE_BLOCK_UNITS, {
+    this.map.createPane('HA_Units');
+
+    const estateUnitsLayer = L.geoJson(this.ESTATE_BLOCK_UNITS, {
+      pane: 'HA_Units',
+      attribution: 'HA ESTATE UNIT NAME',
+      interactive: true,
+      layerName: 'estateLayer',
       style: style,
       onEachFeature: onEachFeature
     })
-    // .addTo(this.map);
-    // 
+
+
+    var overlaysGroup = L.layerGroup()
+    let svgElementBounds = L.latLngBounds(coordinates[0][0]);
+    this.map.createPane('Ha_DevTiles');
+
+    var development_tiles = imageOverlay(this.svgElement, svgElementBounds, {
+      pane: 'Ha_DevTiles'
+    })
+    // overlaysGroup.addTo(this.map);
+    var allOverlays: Array<any> = [];
+    allOverlays.push(development_tiles)
+    /**
+     * use this for a single image overlay
+     * "Development Tiles": development_tiles,
+     *  use this for a collection of image 
+     * oveerlays stored in a overlayGroup
+     * "Development Tiles": overlaysGroup
+     */
+
+    const controlLayers = {
+      "Dev-Tiles": overlaysGroup
+    }
+
+    this.map.getPane('HA_Estate_Blocks').style.zIndex = 504;
+    this.map.getPane('Ha_DevTiles').style.zIndex = 650;
+    this.map.getPane('HA_Units').style.zIndex = 655;
+
+    L.control.layers(baseLayers, controlLayers).addTo(this.map);
+    googleHybrid.addTo(this.map);
+    //
 
     this.map.fitBounds(estateLayer.getBounds());
 
+    allOverlays.forEach(overlay => {
+      overlay.addTo(overlaysGroup)
+    });
 
+    // this.map.createPane('Ha_DevTiles');
+    // this.map.getPane('Ha_DevTiles').style.zIndex = 405;
+    // L.imageOverlay(this.svgElement, svgElementBounds, {
+    //   pane: 'Ha_DevTiles'
+    // }).addTo(this.map);
+    // L.imageOverlay(this.svgElement, svgElementBounds).bringToFront();
+
+    //development_tiles.bringToFront();
+
+    // In Chrome, the object tag needs to be redrawn after a zoom for some reason.
+    // This causes an unfortunate one-frame flicker.
+    // if (L.Browser.chrome) {
+    //   this.map.on('zoomend', () => {
+    //     development_tiles._image.style.display = 'none';
+    //     development_tiles._image.style.display = 'block';
+    //   });
+    // }
 
 
     // Edit ranges and colors to match your data; see http://colorbrewer.org
@@ -947,29 +1026,15 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       var buttonSubmit = L.DomUtil.get('button-submit');
       L.DomEvent.addListener(buttonSubmit, 'click', async (e) => {
         await EventService.fire("DisplayPropertyInfo", allFeatures);
-
         //Add Add sidebar to the map
-
         marker.closePopup();
       });
-
-      // var buttonEnquire = L.DomUtil.get('button-enquire');
-      // L.DomEvent.addListener(buttonEnquire, 'click', async (e) => {
-      //   await EventService.fire("DoEnquire", allFeatures);
-      //   marker.closePopup();
-      // });
 
       var buttonFavorite = L.DomUtil.get('button-favourite');
       L.DomEvent.addListener(buttonFavorite, 'click', async (e) => {
         await EventService.fire("AddToFavorite", allFeatures);
         marker.closePopup();
       });
-
-      // var buttonAddToCart = L.DomUtil.get('button-cart');
-      // L.DomEvent.addListener(buttonAddToCart, 'click', async (e) => {
-      //   await EventService.fire("AddToCart", allFeatures);
-      //   marker.closePopup();
-      // });
 
     }
 
@@ -1070,6 +1135,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       if (this.map.getZoom() >= 7 && this.map.getZoom() <= 16) {
         if (this.simpCounter == 0 || this.simpCounter == 2) {
           this.map.removeLayer(estateUnitsLayer);
+          // development_tiles.bringToFront();
           // REMOVING PREVIOUS INFO BOX
           if (legend !== undefined) {
             legend.remove(this.map)
@@ -1084,6 +1150,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       else if (this.map.getZoom() >= 17) {
         if (this.simpCounter == 0 || this.simpCounter == 1) {
           this.map.addLayer(estateUnitsLayer);
+          // development_tiles.bringToBack();
           if (legend !== undefined) {
             legend.addTo(this.map);
           }
@@ -1170,10 +1237,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     if (propertyObjectListing instanceof Array && propertyObjectListing.length > 0) {
       propertyObjectListing.forEach((property: any) => {
         var objectElement: any = {};
-        const unitsData = rewind(JSON.parse(property.Entity.EntityGeometry));
+        const unitsData = rewind(JSON.parse(property.EntityGeometry));
         objectElement = property;
         objectElement.Metadata = this.resolveObjectAndMerge(property.Metadata);
-        objectElement.Entity = this.patchGeoJson(property.Entity.EntityGeometry);
+        objectElement.Entity = this.patchGeoJson(property.EntityGeometry);
         propertyObj.push(objectElement);
 
         let properties = Object.assign(unitsData.features[0].properties, objectElement.Metadata);
@@ -1221,10 +1288,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         BlockParam.forEach(async (property: any) => {
           var objectElement: any = {}
           const blockUnitInfo: any = await this.storeService.fetchBlockUnitsAsPromise(property.PropertyId);
-          const blockData = rewind(JSON.parse(property.Entity.EntityGeometry));
+          const blockData = rewind(JSON.parse(property.EntityGeometry));
           objectElement = property;
           objectElement.Metadata = this.resolveObjectAndMerge(property.Metadata);
-          objectElement.Entity = this.patchGeoJson(property.Entity.EntityGeometry);
+          objectElement.Entity = this.patchGeoJson(property.EntityGeometry);
           objectElement.BlockUnit = blockUnitInfo.contentData.length > 0 ? this.formatLoadedData(blockUnitInfo.contentData) : []
           blockParamsListing.push(objectElement);
 

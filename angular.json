@@ -9,12 +9,13 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@ngx-env/builder:browser",
           "options": {
             "aot": true,
             "allowedCommonJsDependencies": [
               "eventservice",
-              "aws-sdk/clients/s3"
+              "aws-sdk/clients/s3",
+              "leaflet.locatecontrol"
             ],
             "outputPath": "dist/ha-marketplace-app",
             "index": "src/index.html",
@@ -34,11 +35,12 @@
             ],
             "styles": [
               "./node_modules/leaflet/dist/leaflet.css",
+              "./node_modules/leaflet.locatecontrol/dist/L.Control.Locate.css",
               "./node_modules/sweetalert2/dist/sweetalert2.css",
               "src/styles.scss",
               "src/themes/house-africa-theme.scss"
             ],
-            "scripts": [             
+            "scripts": [
               "node_modules/hammerjs/hammer.min.js",
               "node_modules/chart.js/dist/Chart.min.js"
             ],
@@ -109,7 +111,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@ngx-env/builder:dev-server",
           "options": {
             "browserTarget": "house-africa-marketplace-app-angular:build",
             "port": 3000
@@ -127,13 +129,13 @@
           }
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@ngx-env/builder:extract-i18n",
           "options": {
             "browserTarget": "house-africa-marketplace-app-angular:build"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@ngx-env/builder:karma",
           "options": {
             "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",

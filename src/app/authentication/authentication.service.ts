@@ -44,8 +44,8 @@ export class AuthenticationService {
         sessionStorage.setItem(this.sessionStorageTokenKey, token);
       }
     }
-    
-    return token ; //helper.isTokenExpired(token) ? token : null;
+
+    return token; //helper.isTokenExpired(token) ? token : null;
   }
 
   async getUserInfo() {
@@ -106,7 +106,9 @@ export class AuthenticationService {
     sessionStorage.removeItem(this.sessionStorageTokenKey);
     sessionStorage.removeItem(this.sessionStorageUserInfo);
     this.userSubject.next(null);
-    this.router.navigate(['authentication/login']);
+    this.router.navigate(['authentication/login']).then(() => {
+      window.location.reload();
+    });
   }
 
   public goToVerification(): void {

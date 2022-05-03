@@ -16,10 +16,12 @@ export class UserRequiredExtraIncomeComponent implements OnInit {
   public hasExistingCustomerAdditionalIncome: boolean = false;
   public isLoading: boolean = true;
 
-  constructor(private storeService: StoreService,
+  constructor(
+    private storeService: StoreService,
     private router: Router,
     private route: ActivatedRoute,
-    public formBuilder: FormBuilder) { }
+    public formBuilder: FormBuilder
+  ) { }
 
   ngOnInit(): void {
     this.storeService.getUserExtraIncome().subscribe((results: any) => {
@@ -56,16 +58,16 @@ export class UserRequiredExtraIncomeComponent implements OnInit {
   }
 
   public removeExtraIncome(i: number, param: any) {
-      // console.log('param', i, param.value.id)
-      if (param.value.id !== 0) {
-        this.storeService.removeFromUserExtraIncome(param.value.id).subscribe((extraIncomeRemoved) => {
-          console.log('extraIncomeRemoved', extraIncomeRemoved)
-          this.customerAdditional().removeAt(i);
-        })
-      } else {
-      this.customerAdditional().removeAt(i);  
-      }
-    
+    // console.log('param', i, param.value.id)
+    if (param.value.id !== 0) {
+      this.storeService.removeFromUserExtraIncome(param.value.id).subscribe((extraIncomeRemoved) => {
+        console.log('extraIncomeRemoved', extraIncomeRemoved)
+        this.customerAdditional().removeAt(i);
+      })
+    } else {
+      this.customerAdditional().removeAt(i);
+    }
+
   }
 
   public addExtraIncome() {
@@ -96,6 +98,7 @@ export class UserRequiredExtraIncomeComponent implements OnInit {
   public customerAdditional(): FormArray {
     return this.customerAdditionalIncome.get("customerAdditional") as FormArray;
   }
+
 
 
   public goToNextStep() {

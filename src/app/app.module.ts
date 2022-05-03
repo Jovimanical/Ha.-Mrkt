@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { NgxEnvModule } from '@ngx-env/core';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { EventsModule } from 'angular4-events';
 import { AgmCoreModule } from '@agm/core';
@@ -27,6 +28,7 @@ import { environment } from '../environments/environment';
   ],
   imports: [
     BrowserModule,
+    NgxEnvModule,
     ReactiveFormsModule,
     HttpClientModule,
     ToastrModule.forRoot({

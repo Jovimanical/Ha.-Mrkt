@@ -27,7 +27,6 @@ export class UserDashboardComponent implements OnInit, AfterViewInit, OnDestroy 
   constructor(private storeService: StoreService, private router: Router, public changeDectection: ChangeDetectorRef, private broadcastService: BroadcastService,) { }
 
   ngOnInit() {
-
     this.storeService.fetchCart().subscribe((response: any) => {
       // console.log('response.data.records', response.data.records);
       if (response.data.records instanceof Array && response.data.records.length > 0) {

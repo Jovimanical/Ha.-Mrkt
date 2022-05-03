@@ -25,6 +25,7 @@ export class UserRequiredDocumentsComponent implements OnInit {
     utilityBillFileSource: new FormControl('', [Validators.required])
   });
 
+
   public myStatementUploadForm = new FormGroup({
     file_password: new FormControl('', [Validators.required]),
     bankStatmentFile: new FormControl('', [Validators.required]),
@@ -154,8 +155,6 @@ export class UserRequiredDocumentsComponent implements OnInit {
       const formData = new FormData();
       formData.append('fileUpload[]', this.myForm.get('bankStatmentFileSource')?.value);
       formData.append('file_password', this.myForm.get('file_password')?.value);
-
-
       this.http.post(`${environment.API_URL}/kyc-documents/add/`, formData)
         .subscribe(res => {
           console.log(res);
