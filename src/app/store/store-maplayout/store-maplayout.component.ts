@@ -176,7 +176,7 @@ export class StoreMaplayoutComponent implements OnInit {
   }
 
   public savePropertyObj(propObjListing: any) {
-    localStorage.setItem(`${this.STORAGE_NAME}-${this.EstateName}`, JSON.stringify(propObjListing));
+    sessionStorage.setItem(`${this.STORAGE_NAME}-${this.EstateName}`, JSON.stringify(propObjListing));
   }
 
 
@@ -204,7 +204,7 @@ export class StoreMaplayoutComponent implements OnInit {
   async checkPropertyObj(EstateID: any) {
 
     try {
-      const propertyListing = localStorage.getItem(`${this.STORAGE_NAME}-${this.EstateName}`);
+      const propertyListing = sessionStorage.getItem(`${this.STORAGE_NAME}-${this.EstateName}`);
       // console.log(propertyListing)
       if (propertyListing === null || propertyListing === undefined) {
         const blockListingInfo: any = await this.storeService.fetchEstateBlockAsPromise(EstateID)

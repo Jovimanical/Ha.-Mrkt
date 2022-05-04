@@ -25,13 +25,13 @@ export class CheckoutConfirmationComponent implements OnInit {
     });
     // 
     // if (clearCart) {
-    //   localStorage.removeItem(this.sessionStorageCarts);
+    //   sessionStorage.removeItem(this.sessionStorageCarts);
     // }
   }
 
 
   // public loadUserCart() {
-  //   const carts = localStorage.getItem(this.sessionStorageCarts);
+  //   const carts = sessionStorage.getItem(this.sessionStorageCarts);
   //   if (carts === null || carts === undefined) {
   //     return
   //   } else {

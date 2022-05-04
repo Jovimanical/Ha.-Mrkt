@@ -33,7 +33,7 @@ export class CartIconComponent implements OnInit {
       this.cartLength = result.data?.records ? result.data.records.length : 0;
       if (result.data.records instanceof Array && result.data.records.length > 0) {
         if (JSON.stringify(result.data.records) !== "[]") {
-          localStorage.setItem(this.sessionStorageCarts, JSON.stringify(result.data.records));
+          sessionStorage.setItem(this.sessionStorageCarts, JSON.stringify(result.data.records));
         }
       }
     }, (error) => {

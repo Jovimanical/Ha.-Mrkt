@@ -462,7 +462,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   public loadFavorite() {
-    const bookmarks = localStorage.getItem(this.sessionStorageBookmarks);
+    const bookmarks = sessionStorage.getItem(this.sessionStorageBookmarks);
     if (bookmarks === null || bookmarks === undefined) {
       this.userBookMarks = [];
     } else {
@@ -471,7 +471,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   public loadUserCart() {
-    const carts = localStorage.getItem(this.sessionStorageCarts);
+    const carts = sessionStorage.getItem(this.sessionStorageCarts);
     if (carts === null || carts === undefined) {
       this.userCarts = [];
     } else {
@@ -482,7 +482,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public saveToLocalStorage(propObjListing: any, tableName: any) {
     //console.log('saveBlockAndUnits', propObjListing)
     if (JSON.stringify(propObjListing) !== "[]") {
-      localStorage.setItem(tableName, JSON.stringify(propObjListing));
+      sessionStorage.setItem(tableName, JSON.stringify(propObjListing));
     }
   }
 
@@ -766,8 +766,16 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
     this.map = L.map('estateMap').setView([coord[1], coord[0]], 7);
 
+    // Set up the OSM layer  
     this.map.createPane('HA_Street_Layer');
-    this.map.getPane('HA_Street_Layer').style.zIndex = 500;
+    this.map.createPane('HA_Street_Hybrid');
+    this.map.createPane('HA_Street_Sat');
+    this.map.createPane('HA_Street_Terrain');
+    this.map.createPane('HA_Estate_Blocks');
+    this.map.createPane('HA_Units');
+    this.map.createPane('Ha_DevTiles');
+
+
     const googleStreets = tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
       pane: 'HA_Street_Layer',
       minZoom: 5,
@@ -775,8 +783,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
       attribution: mbAttr,
     });
-    this.map.createPane('HA_Street_Hybrid');
-    this.map.getPane('HA_Street_Hybrid').style.zIndex = 501;
+
     const googleHybrid = tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
       pane: 'HA_Street_Hybrid',
       minZoom: 5,
@@ -784,8 +791,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
       attribution: mbAttr,
     });
-    this.map.createPane('HA_Street_Sat');
-    this.map.getPane('HA_Street_Sat').style.zIndex = 502;
+
     const googleSat = tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
       pane: 'HA_Street_Sat',
       minZoom: 5,
@@ -793,8 +799,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
       attribution: mbAttr,
     });
-    this.map.createPane('HA_Street_Terrain');
-    this.map.getPane('HA_Street_Terrain').style.zIndex = 503;
+
+
     const googleTerrain = tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
       pane: 'HA_Street_Terrain',
       minZoom: 5,
@@ -811,7 +817,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     };
 
 
-    this.map.createPane('HA_Estate_Blocks');
 
     const estateLayer = L.geoJson(this.ESTATE_MAPSOURCE, {
       pane: 'HA_Estate_Blocks',
@@ -887,7 +892,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       }
     }).addTo(this.map);
 
-    this.map.createPane('HA_Units');
 
     const estateUnitsLayer = L.geoJson(this.ESTATE_BLOCK_UNITS, {
       pane: 'HA_Units',
@@ -899,16 +903,20 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     })
 
 
-    var overlaysGroup = L.layerGroup()
+
     let svgElementBounds = L.latLngBounds(coordinates[0][0]);
-    this.map.createPane('Ha_DevTiles');
 
     var development_tiles = imageOverlay(this.svgElement, svgElementBounds, {
       pane: 'Ha_DevTiles'
-    })
-    // overlaysGroup.addTo(this.map);
-    var allOverlays: Array<any> = [];
-    allOverlays.push(development_tiles)
+    });
+
+    // var overlaysGroup = L.layerGroup([development_tiles])
+    // overlaysGroup.addTo(this.map);     
+    development_tiles.addTo(this.map);
+
+
+    // var allOverlays: Array<any> = [];
+    // allOverlays.push(development_tiles)
     /**
      * use this for a single image overlay
      * "Development Tiles": development_tiles,
@@ -918,22 +926,27 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
      */
 
     const controlLayers = {
-      "Dev-Tiles": overlaysGroup
+      "Dev-Tiles": development_tiles
     }
 
+    this.map.getPane('HA_Street_Layer').style.zIndex = 500;
+    this.map.getPane('HA_Street_Hybrid').style.zIndex = 501;
+    this.map.getPane('HA_Street_Sat').style.zIndex = 502;
+    this.map.getPane('HA_Street_Terrain').style.zIndex = 503;
     this.map.getPane('HA_Estate_Blocks').style.zIndex = 504;
     this.map.getPane('Ha_DevTiles').style.zIndex = 650;
     this.map.getPane('HA_Units').style.zIndex = 655;
 
     L.control.layers(baseLayers, controlLayers).addTo(this.map);
     googleHybrid.addTo(this.map);
+
     //
 
     this.map.fitBounds(estateLayer.getBounds());
 
-    allOverlays.forEach(overlay => {
-      overlay.addTo(overlaysGroup)
-    });
+    // allOverlays.forEach(overlay => {
+    //   overlay.addTo(overlaysGroup)
+    // });
 
     // this.map.createPane('Ha_DevTiles');
     // this.map.getPane('Ha_DevTiles').style.zIndex = 405;
@@ -1270,13 +1283,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public saveBlockAndUnits(propObjListing: any) {
     //console.log('saveBlockAndUnits', propObjListing)
     if (JSON.stringify(propObjListing) !== "[]") {
-      localStorage.setItem(`${this.STORAGE_NAME}${this.EstateName}`, JSON.stringify(propObjListing));
+      sessionStorage.setItem(`${this.STORAGE_NAME}${this.EstateName}`, JSON.stringify(propObjListing));
     }
   }
 
 
   public removeBlockAndUnit(propObjListing: any) {
-    localStorage.removeItem(propObjListing);
+    sessionStorage.removeItem(propObjListing);
   }
 
 
@@ -1288,19 +1301,22 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         BlockParam.forEach(async (property: any) => {
           var objectElement: any = {}
           const blockUnitInfo: any = await this.storeService.fetchBlockUnitsAsPromise(property.PropertyId);
-          const blockData = rewind(JSON.parse(property.EntityGeometry));
-          objectElement = property;
-          objectElement.Metadata = this.resolveObjectAndMerge(property.Metadata);
-          objectElement.Entity = this.patchGeoJson(property.EntityGeometry);
-          objectElement.BlockUnit = blockUnitInfo.contentData.length > 0 ? this.formatLoadedData(blockUnitInfo.contentData) : []
-          blockParamsListing.push(objectElement);
+          if (blockUnitInfo instanceof Object) {
+            const blockData = rewind(JSON.parse(property.EntityGeometry));
+            objectElement = property;
+            objectElement.Metadata = this.resolveObjectAndMerge(property.Metadata);
+            objectElement.Entity = this.patchGeoJson(property.EntityGeometry);
+            objectElement.BlockUnit = blockUnitInfo.contentData.length > 0 ? this.formatLoadedData(blockUnitInfo.contentData) : []
+            blockParamsListing.push(objectElement);
 
 
-          let properties = Object.assign(blockData.features[0].properties, objectElement.Metadata);
-          properties.group = 'Block'
-          blockData.features[0].properties = properties;
-          this.ESTATE_MAPSOURCE.features.push(blockData.features[0]);
-          this.changeDectection.detectChanges();
+            let properties = Object.assign(blockData.features[0].properties, objectElement.Metadata);
+            properties.group = 'Block'
+            blockData.features[0].properties = properties;
+            this.ESTATE_MAPSOURCE.features.push(blockData.features[0]);
+            this.changeDectection.detectChanges();
+          }
+          
         });
 
         return blockParamsListing;
@@ -1317,7 +1333,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   async checkPropertyObj(EstateID: any) {
 
     try {
-      const propertyListing = localStorage.getItem(`${this.STORAGE_NAME}-${this.EstateName}`);
+      const propertyListing = sessionStorage.getItem(`${this.STORAGE_NAME}-${this.EstateName}`);
       // console.log(propertyListing)
       if (propertyListing === null || propertyListing === undefined) {
         const blockListingInfo: any = await this.storeService.fetchEstateBlockAsPromise(EstateID);
@@ -1366,7 +1382,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   public returnEstatePropertyObj(PropertyID: any) {
-    const propertyListing = localStorage.getItem('HA_ESTATE_LISTING');
+    const propertyListing = sessionStorage.getItem('HA_ESTATE_LISTING');
     // console.log(propertyListing)
     if (propertyListing === null || propertyListing === undefined) {
       console.log('Got No Estate')

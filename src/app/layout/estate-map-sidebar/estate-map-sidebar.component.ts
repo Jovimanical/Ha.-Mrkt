@@ -97,7 +97,7 @@ export class EstateMapSidebarComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   public loadUserCart() {
-    const carts = localStorage.getItem(this.sessionStorageCarts);
+    const carts = sessionStorage.getItem(this.sessionStorageCarts);
     if (carts === null || carts === undefined) {
       this.userCarts = [];
     } else {
@@ -106,7 +106,7 @@ export class EstateMapSidebarComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   public loadFavorite() {
-    const bookmarks = localStorage.getItem(this.sessionStorageBookmarks);
+    const bookmarks = sessionStorage.getItem(this.sessionStorageBookmarks);
     if (bookmarks === null || bookmarks === undefined) {
       this.userBookMarks = [];
     } else {
@@ -119,7 +119,7 @@ export class EstateMapSidebarComponent implements OnInit, AfterViewInit, OnDestr
   public saveToLocalStorage(propObjListing: any, tableName: any) {
     //console.log('saveBlockAndUnits', propObjListing)
     if (JSON.stringify(propObjListing) !== "[]") {
-      localStorage.setItem(tableName, JSON.stringify(propObjListing));
+      sessionStorage.setItem(tableName, JSON.stringify(propObjListing));
     }
   }
 
@@ -213,7 +213,7 @@ export class EstateMapSidebarComponent implements OnInit, AfterViewInit, OnDestr
   public saveBlockAndUnits(propObjListing: any) {
     //console.log('saveBlockAndUnits', propObjListing)
     if (JSON.stringify(propObjListing) !== "[]") {
-      localStorage.setItem(this.propertyUnitName, JSON.stringify(propObjListing));
+      sessionStorage.setItem(this.propertyUnitName, JSON.stringify(propObjListing));
     }
   }
 
@@ -306,7 +306,7 @@ export class EstateMapSidebarComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   public checkPropertyObj() {
-    const propertyListing = localStorage.getItem('HA_ESTATE_LISTING');
+    const propertyListing = sessionStorage.getItem('HA_ESTATE_LISTING');
     // console.log(propertyListing)
     if (propertyListing === null || propertyListing === undefined) {
       // this.storeService.listAllEstate()

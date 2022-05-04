@@ -88,12 +88,12 @@ export class LandOnlyListingComponent implements OnInit, AfterViewInit {
   }
 
   public savePropertyObj(propObjListing: any) {
-    localStorage.setItem('HA_ESTATE_LISTING', JSON.stringify(propObjListing));
+    sessionStorage.setItem('HA_ESTATE_LISTING', JSON.stringify(propObjListing));
   }
 
 
   public checkPropertyObj() {
-    const propertyListing = localStorage.getItem('HA_ESTATE_LISTING');
+    const propertyListing = sessionStorage.getItem('HA_ESTATE_LISTING');
     // console.log(propertyListing)
     if (propertyListing === null || propertyListing === undefined) {
       this.storeService.listAllEstate()

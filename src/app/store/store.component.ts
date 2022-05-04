@@ -134,19 +134,19 @@ export class StoreComponent implements OnInit, AfterViewInit {
       var objectElement: any = {}
       objectElement = property;
       objectElement.Metadata = this.resolveObjectAndMerge(property.Metadata);
-      objectElement.Entity = this.patchGeoJson(property.Entity[0].EntityGeometry);
+      objectElement.Entity = this.patchGeoJson(property.EntityGeometry);
       propertyObj.push(objectElement);
     });
     return propertyObj
   }
 
   public savePropertyObj(propObjListing: any) {
-    localStorage.setItem('HA_ESTATE_LISTING', JSON.stringify(propObjListing));
+    sessionStorage.setItem('HA_ESTATE_LISTING', JSON.stringify(propObjListing));
   }
 
 
   public checkPropertyObj() {
-    const propertyListing = localStorage.getItem('HA_ESTATE_LISTING');
+    const propertyListing = sessionStorage.getItem('HA_ESTATE_LISTING');
     // console.log(propertyListing)
     if (propertyListing === null || propertyListing === undefined) {
       this.storeService.listAllEstate()

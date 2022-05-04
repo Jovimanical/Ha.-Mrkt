@@ -34,10 +34,10 @@ describe('AuthenticationService', () => {
         store = {};
       }
     };
-    spyOn(localStorage, 'getItem').and.callFake(mockSessionStorage.getItem);
-    spyOn(localStorage, 'setItem').and.callFake(mockSessionStorage.setItem);
-    spyOn(localStorage, 'removeItem').and.callFake(mockSessionStorage.removeItem);
-    spyOn(localStorage, 'clear').and.callFake(mockSessionStorage.clear);
+    spyOn(sessionStorage, 'getItem').and.callFake(mockSessionStorage.getItem);
+    spyOn(sessionStorage, 'setItem').and.callFake(mockSessionStorage.setItem);
+    spyOn(sessionStorage, 'removeItem').and.callFake(mockSessionStorage.removeItem);
+    spyOn(sessionStorage, 'clear').and.callFake(mockSessionStorage.clear);
   });
 
   it('should ...', inject([AuthenticationService], (service: AuthenticationService) => {
