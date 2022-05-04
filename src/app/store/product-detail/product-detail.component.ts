@@ -23,7 +23,7 @@ import { StoreService } from 'app/shared/services/store.service';
 import { NavigationService } from 'app/shared/services/navigation.service'
 import { UserService } from 'app/core/user/user.service';
 import { AccountService } from 'app/shared/accounts/account.service';
-// import SVGImage from '../../../assets/data/PEACH_COURT.svg'
+
 
 const Toast = Swal.mixin({
   toast: true,
@@ -50,7 +50,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public submitted = false;
   public mobile = false;
   public map: any;
-  public style = 'mapbox://styles/mapbox/satellite-v9';//'mapbox://styles/mapbox/outdoors-v9';
   public lat = 9.077751;
   public lng = 8.6774567;
   public STORAGE_NAME = 'ha_marketplace_';
@@ -174,9 +173,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   ngAfterViewInit(): void {
-    // subscribe to event with name "DisplayPropertyInfo"
     EventService.on("DisplayPropertyInfo", async (propertyFeature) => {
-      // this.router.navigate([`/listings/marketplace/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}`]);
       this.openSidebar();
       setTimeout(() => {
         // create estate with single unit
@@ -742,7 +739,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     const coord = coordinates[0][0][0];
     // console.log('center', coordinates[0][0])
     this.ESTATE_INFO = this.ESTATE_MAPSOURCE.features[0].properties
-    // console.log('ESTATE_MAPSOURCE', this.ESTATE_MAPSOURCE)
+    //  console.log('ESTATE_MAPSOURCE', this.EstateInfo)
 
     const mbAttr = 'Marketplace &copy; Integration by <a href="https://houseafrica.io/">HouseAfrica</a>';
     const template = '<div id="popup-form">\
@@ -818,9 +815,187 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
 
 
+
+    // Edit ranges and colors to match your data; see http://colorbrewer.org
+    // Any values not listed in the ranges below displays as the last color
+    function getColor(color_status: any) {
+      switch (color_status) {
+        case 'Uncliamed': return '#FF0000';
+        case 'Unavailable': return '#7CFC00';
+        case 'Litigation': return '#FF0000';
+        case 'Unreleased': return '#7d7d7d';
+        case 'Available for Resale': return '#0e4382';
+        case 'Sold': return '#ac0e0b';
+        case 'Available': return '#338a0e';
+        case "Available for Rental": return "#00ADCD";
+        case "Reserved": return "#cab60e";
+        case "Pending": return "#d06200";
+        case "Sold": return "#ac0e0b";
+        case "Granted": return "#ffafc8";
+        case "Bankable": return "#ee0e0b";
+        case "Transferred": return "#ac0ec3";
+        case "Rented": return "#ac0e0b";
+        case "Mortagage": return "#6900C3";
+        default: return "black";
+
+      }
+    }
+
+    // Edit the getColor property to match data column header in your GeoJson file
+    function style(feature: any) {
+      return {
+        fillColor: getColor(feature.properties.property_status),
+        weight: 2,
+        opacity: 0.6,
+        color: 'white',
+        fillOpacity: 1,
+        smoothFactor: 0.5,
+        interactive: true,
+      };
+    }
+
+
+    /**
+     * The function takes an event as an argument, resets the highlight, sets the marker to the event
+     * target, sets the properties to the event target's feature properties, sets the color to the
+     * property status, and then sets the marker style
+     * @param {any} e - any - this is the event that is triggered when the user clicks on a marker.
+     * This highlights the layer on hover, also for mobile
+     */
+    function highlightFeature(e: any) {
+      resetHighlight(e);
+      var marker = e.target,
+        properties = e.target.feature.properties;
+      var color = getColor(properties.property_status)
+      marker.setStyle({
+        weight: 10,
+        color: 'white',
+        opacity: 0.6,
+        fillOpacity: 0.65,
+        fillColor: color
+      });
+    }
+
+
+    /**
+     * The function is called when a user clicks on a marker on the map. It opens a popup with a form.
+     * The form has two buttons: one to submit the form and one to add the property to the user's
+     * favorites
+     * @param {any} e - any - This is the event object that is passed to the function.
+     */
+    function layerClickHandler(e: any) {
+      var marker = e.target;
+      var properties = e.target.feature.properties;
+      var allFeatures = e.target.feature
+
+      if (marker.hasOwnProperty('_popup')) {
+        marker.unbindPopup();
+      }
+
+      marker.bindPopup(template);
+      marker.openPopup();
+
+      L.DomUtil.get('value-arc').textContent = properties.property_name;
+      L.DomUtil.get('value-speed').textContent = properties.property_title;
+
+      var buttonSubmit = L.DomUtil.get('button-submit');
+      L.DomEvent.addListener(buttonSubmit, 'click', async (e) => {
+        await EventService.fire("DisplayPropertyInfo", allFeatures);
+        //Add Add sidebar to the map
+        marker.closePopup();
+      });
+
+      var buttonFavorite = L.DomUtil.get('button-favourite');
+      L.DomEvent.addListener(buttonFavorite, 'click', async (e) => {
+        await EventService.fire("AddToFavorite", allFeatures);
+        marker.closePopup();
+      });
+
+    }
+
+
+
+
+    /**
+     * The function is called on each feature in the GeoJSON file. It adds a mouseover, mouseout, and
+     * click event listener to each feature
+     * @param {any} feature - the feature that was clicked on
+     * @param {any} layer - the layer that was clicked
+     * This instructs highlight and reset functions on hover movement
+     */
+    function onEachFeature(feature: any, layer: any) {
+      layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: layerClickHandler
+      });
+    }
+
+    // Creates an info box on the map
+    var info = L.control({ position: 'topleft' });
+    info.onAdd = function (map: any) {
+      this._div = L.DomUtil.create('div', 'estateInfo');
+      this._div.style.padding = '10px';
+      this._div.style.display = 'flex';
+      this._div.style.flexDirection = 'column';
+      this._div.style.alignItems = 'flex-start'
+      this._div.style.margin = '5px';
+      this._div.style.borderRadius = "5px";
+      this._div.style.backgroundColor = "white";
+      this._div.style.marginTop = '10px';
+      this._div.style.fontWeight = 'bold';
+      this._div.style.color = '#000';
+
+      this.update();
+      return this._div;
+    };
+
+    // Edit info box text and variables (such as props.density2010) to match those in your GeoJSON data
+    info.update = function (props: any) {
+      this._div.innerHTML = '<h3>Zoom Closer to Explore Estate and view available units</h3>';
+      var value = props && props.percent ? props.percent + '%' : 'No data'
+      this._div.innerHTML += (props
+        ? '<b>' + props.property_name + '</b><br />' + props.property_title + '</b><br />'
+        + (props.property_price ? 'Most recent data: ' + props.property_price : '')
+        : 'OR Click over Block Units');
+    };
+    info.addTo(this.map);
+
+
+    let legend = new L.Control({ position: 'topright' });
+    legend.onAdd = function (map: any) {
+      let labels = ['Available', 'Sold', 'Unreleased', 'Available for Resale'];
+      var legendDiv = document.createElement('div');
+      legendDiv.id = 'legendDiv';
+      legendDiv.style.padding = '10px';
+      legendDiv.style.display = 'flex';
+      legendDiv.style.flexDirection = 'column';
+      legendDiv.style.alignItems = 'flex-start'
+      legendDiv.style.margin = '5px';
+      legendDiv.style.borderRadius = "3px 3px 3px 3px";
+      legendDiv.style.backgroundColor = "white";
+      legendDiv.style.marginTop = '10px';
+
+      var legend = document.createElement('div');
+      legend.innerHTML = '<span>Status &nbsp; &nbsp; <i class="fa fa-angle-double-right" style="font-size: 140%; cursor: pointer;" id="legendToggler"></i></span>';
+      legend.style.fontWeight = "bold";
+      legendDiv.appendChild(legend);
+
+      for (var l in labels) {
+        var color = getColor(labels[l]);
+        var legEl = document.createElement('div');
+        legEl.innerHTML = '<span><i class="fa fa-circle" style="color: ' + color + ';opacity:0.8;" ></i> &nbsp; ' + labels[l] + '</span>';
+        legEl.style.marginTop = "10px";
+        legEl.className = "legEl";
+        legendDiv.appendChild(legEl);
+      }
+      return legendDiv;
+    };
+
+
     const estateLayer = L.geoJson(this.ESTATE_MAPSOURCE, {
       pane: 'HA_Estate_Blocks',
-      attribution: 'HA ESTATE NAME',
+      attribution: this.EstateInfo?.PropertyTitle ? this.EstateInfo?.PropertyTitle.toUpperCase() : 'HA ESTATES',
       interactive: true,
       layerName: 'estateLayer',
       style: function (feature: any) {
@@ -902,21 +1077,27 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       onEachFeature: onEachFeature
     })
 
+    /**
+        * The function resets the style of the estateUnitsLayer to the style function
+        * @param {any} e - the event object
+        * This resets the highlight after hover moves away
+        */
+    function resetHighlight(e: any) {
+      estateUnitsLayer.setStyle(style);
+      info.update();
+    }
 
 
-    let svgElementBounds = L.latLngBounds(coordinates[0][0]);
+    const ImageMapOverlay = this.EstateInfo?.MapSnapshot !== null ? this.EstateInfo.MapSnapshot : this.svgElement
 
-    var development_tiles = imageOverlay(this.svgElement, svgElementBounds, {
+    let svgElementBounds = estateLayer.getBounds(); //L.latLngBounds(coordinates[0][0]);
+    const imageOverlay = L.imageOverlay(ImageMapOverlay, svgElementBounds, {
       pane: 'Ha_DevTiles'
-    });
+    })
 
-    // var overlaysGroup = L.layerGroup([development_tiles])
-    // overlaysGroup.addTo(this.map);     
-    development_tiles.addTo(this.map);
+    const overlaysGroup = L.layerGroup([imageOverlay])
+    overlaysGroup.addTo(this.map);
 
-
-    // var allOverlays: Array<any> = [];
-    // allOverlays.push(development_tiles)
     /**
      * use this for a single image overlay
      * "Development Tiles": development_tiles,
@@ -926,7 +1107,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
      */
 
     const controlLayers = {
-      "Dev-Tiles": development_tiles
+      "Dev-Tiles": imageOverlay
     }
 
     this.map.getPane('HA_Street_Layer').style.zIndex = 500;
@@ -940,200 +1121,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     L.control.layers(baseLayers, controlLayers).addTo(this.map);
     googleHybrid.addTo(this.map);
 
-    //
+    imageOverlay.bringToFront();
 
-    this.map.fitBounds(estateLayer.getBounds());
-
-    // allOverlays.forEach(overlay => {
-    //   overlay.addTo(overlaysGroup)
-    // });
-
-    // this.map.createPane('Ha_DevTiles');
-    // this.map.getPane('Ha_DevTiles').style.zIndex = 405;
-    // L.imageOverlay(this.svgElement, svgElementBounds, {
-    //   pane: 'Ha_DevTiles'
-    // }).addTo(this.map);
-    // L.imageOverlay(this.svgElement, svgElementBounds).bringToFront();
-
-    //development_tiles.bringToFront();
-
-    // In Chrome, the object tag needs to be redrawn after a zoom for some reason.
-    // This causes an unfortunate one-frame flicker.
-    // if (L.Browser.chrome) {
-    //   this.map.on('zoomend', () => {
-    //     development_tiles._image.style.display = 'none';
-    //     development_tiles._image.style.display = 'block';
-    //   });
-    // }
-
-
-    // Edit ranges and colors to match your data; see http://colorbrewer.org
-    // Any values not listed in the ranges below displays as the last color
-    function getColor(color_status: any) {
-      switch (color_status) {
-        case 'Uncliamed': return '#FF0000';
-        case 'Unavailable': return '#7CFC00';
-        case 'Litigation': return '#FF0000';
-        case 'Unreleased': return '#7d7d7d';
-        case 'Available for Resale': return '#0e4382';
-        case 'Sold': return '#ac0e0b';
-        case 'Available': return '#338a0e';
-        case "Available for Rental": return "#00ADCD";
-        case "Reserved": return "#cab60e";
-        case "Pending": return "#d06200";
-        case "Sold": return "#ac0e0b";
-        case "Granted": return "#ffafc8";
-        case "Bankable": return "#ee0e0b";
-        case "Transferred": return "#ac0ec3";
-        case "Rented": return "#ac0e0b";
-        case "Mortagage": return "#6900C3";
-        default: return "black";
-
-      }
-    }
-
-    // Edit the getColor property to match data column header in your GeoJson file
-    function style(feature: any) {
-      return {
-        fillColor: getColor(feature.properties.property_status),
-        weight: 2,
-        opacity: 0.6,
-        color: 'white',
-        fillOpacity: 1,
-        smoothFactor: 0.5,
-        interactive: true,
-      };
-    }
-
-    // This highlights the layer on hover, also for mobile
-    function highlightFeature(e: any) {
-      resetHighlight(e);
-      var marker = e.target,
-        properties = e.target.feature.properties;
-      var color = getColor(properties.property_status)
-      marker.setStyle({
-        weight: 10,
-        color: 'white',
-        opacity: 0.6,
-        fillOpacity: 0.65,
-        fillColor: color
-      });
-    }
-
-
-    function layerClickHandler(e: any) {
-      var marker = e.target;
-      var properties = e.target.feature.properties;
-      var allFeatures = e.target.feature
-
-      if (marker.hasOwnProperty('_popup')) {
-        marker.unbindPopup();
-      }
-
-      marker.bindPopup(template);
-      marker.openPopup();
-
-      L.DomUtil.get('value-arc').textContent = properties.property_name;
-      L.DomUtil.get('value-speed').textContent = properties.property_title;
-
-      var buttonSubmit = L.DomUtil.get('button-submit');
-      L.DomEvent.addListener(buttonSubmit, 'click', async (e) => {
-        await EventService.fire("DisplayPropertyInfo", allFeatures);
-        //Add Add sidebar to the map
-        marker.closePopup();
-      });
-
-      var buttonFavorite = L.DomUtil.get('button-favourite');
-      L.DomEvent.addListener(buttonFavorite, 'click', async (e) => {
-        await EventService.fire("AddToFavorite", allFeatures);
-        marker.closePopup();
-      });
-
-    }
-
-    // This resets the highlight after hover moves away
-    function resetHighlight(e: any) {
-      estateUnitsLayer.setStyle(style);
-      info.update();
-    }
-
-    // This instructs highlight and reset functions on hover movement
-    function onEachFeature(feature: any, layer: any) {
-      layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
-        click: layerClickHandler
-      });
-    }
-
-    // Creates an info box on the map
-    var info = L.control({ position: 'topleft' });
-    info.onAdd = function (map: any) {
-      this._div = L.DomUtil.create('div', 'estateInfo');
-      this._div.style.padding = '10px';
-      this._div.style.display = 'flex';
-      this._div.style.flexDirection = 'column';
-      this._div.style.alignItems = 'flex-start'
-      this._div.style.margin = '5px';
-      this._div.style.borderRadius = "5px";
-      this._div.style.backgroundColor = "white";
-      this._div.style.marginTop = '10px';
-      this._div.style.fontWeight = 'bold';
-      this._div.style.color = '#000';
-
-      this.update();
-      return this._div;
-    };
-
-    // Edit info box text and variables (such as props.density2010) to match those in your GeoJSON data
-    info.update = function (props: any) {
-      this._div.innerHTML = '<h3>Zoom Closer to Explore Estate and view available units</h3>';
-      var value = props && props.percent ? props.percent + '%' : 'No data'
-      this._div.innerHTML += (props
-        ? '<b>' + props.property_name + '</b><br />' + props.property_title + '</b><br />'
-        + (props.property_price ? 'Most recent data: ' + props.property_price : '')
-        : 'OR Click over Block Units');
-    };
-    info.addTo(this.map);
-
-
-    let legend = new L.Control({ position: 'topright' });
-    legend.onAdd = function (map: any) {
-      let labels = ['Available', 'Sold', 'Unreleased', 'Available for Resale'];
-      var legendDiv = document.createElement('div');
-      legendDiv.id = 'legendDiv';
-      legendDiv.style.padding = '10px';
-      legendDiv.style.display = 'flex';
-      legendDiv.style.flexDirection = 'column';
-      legendDiv.style.alignItems = 'flex-start'
-      legendDiv.style.margin = '5px';
-      legendDiv.style.borderRadius = "3px 3px 3px 3px";
-      legendDiv.style.backgroundColor = "white";
-      legendDiv.style.marginTop = '10px';
-
-      var legend = document.createElement('div');
-      legend.innerHTML = '<span>Status &nbsp; &nbsp; <i class="fa fa-angle-double-right" style="font-size: 140%; cursor: pointer;" id="legendToggler"></i></span>';
-      legend.style.fontWeight = "bold";
-      legendDiv.appendChild(legend);
-
-      for (var l in labels) {
-        var color = getColor(labels[l]);
-        var legEl = document.createElement('div');
-        legEl.innerHTML = '<span><i class="fa fa-circle" style="color: ' + color + ';opacity:0.8;" ></i> &nbsp; ' + labels[l] + '</span>';
-        legEl.style.marginTop = "10px";
-        legEl.className = "legEl";
-        legendDiv.appendChild(legEl);
-      }
-      return legendDiv;
-    };
-
-    estateLayer.on("click", (event: any) => {
-      if (event.layer.feature.properties.group === 'Block') {
-        this.map.fitBounds(event.layer.getBounds());
-        //zoom in
-      }
-    })
-
+    this.map.fitBounds(imageOverlay.getBounds());
 
     this.map.on('popupclose', (e) => {
       // setTimeout(function(){
@@ -1316,7 +1306,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
             this.ESTATE_MAPSOURCE.features.push(blockData.features[0]);
             this.changeDectection.detectChanges();
           }
-          
+
         });
 
         return blockParamsListing;
