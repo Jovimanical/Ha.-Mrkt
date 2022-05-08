@@ -32,6 +32,9 @@ export class StoreComponent implements OnInit, AfterViewInit {
     }, 2000);
   }
 
+  /**
+   * The function above is used to initialize the isotope plugin
+   */
   public initIsotope() {
     if ($(".gallery-items").length) {
       var agf = $(".gallery-items").isotope({
@@ -57,25 +60,16 @@ export class StoreComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * We're using the router to navigate to the product detail page, and we're passing in the id of the
+   * product we want to display
+   * @param {any} id - any - The id of the product we want to navigate to.
+   */
 
   public openProductDetail(id: any) {
     this.router.navigate(['products', id], { relativeTo: this.route });
   }
 
-  /**
-   * Create an array of arrays, where each inner array contains three products
-   */
-  private createProductRows(): void {
-    const rowSize = 3;
-    const numGroups = Math.ceil(this.propertyListing.length / rowSize);
-    for (let i = 0; i < numGroups; i++) {
-      const currentIndex = i * rowSize;
-      const remainder = this.propertyListing.slice(currentIndex).length;
-      const take = remainder > rowSize ? rowSize : remainder;
-      const group = this.propertyListing.slice(currentIndex, currentIndex + take);
-      this.productRows[i] = [...group];
-    }
-  }
 
   /**
    * Generate a list of numbers from 0 to count - 1
@@ -91,6 +85,11 @@ export class StoreComponent implements OnInit, AfterViewInit {
   }
 
 
+  /**
+   * It takes in a metadata object and returns a blockListing object
+   * @param {any} Metadata - This is the metadata object returned from the blockchain.
+   * @returns a blockListing object.
+   */
   public resolveObjectAndMerge(Metadata: any) {
     var blockListing: any = {}
     blockListing.payment_plans = Metadata?.payment_plans ? Metadata.payment_plans.FieldValue : 'Not Available';
@@ -108,7 +107,7 @@ export class StoreComponent implements OnInit, AfterViewInit {
     blockListing.property_parking_space_count = Metadata?.property_parking_space_count ? Metadata.property_parking_space_count.FieldValue : 1;
     blockListing.property_payment_plans = Metadata?.property_payment_plans ? Metadata.property_payment_plans.FieldValue : 'Not Available';
     blockListing.property_photos = Metadata?.property_photos ? Metadata.property_photos.FieldValue : 'Not Available';
-    blockListing.property_price = Metadata?.property_price ? parseFloat(Metadata.property_price.FieldValue):(Math.floor(Math.random() * (Math.floor(9999999) - Math.ceil(2222222) + 1)) + Math.ceil(2222222));
+    blockListing.property_price = Metadata?.property_price ? parseFloat(Metadata.property_price.FieldValue) : (Math.floor(Math.random() * (Math.floor(9999999) - Math.ceil(2222222) + 1)) + Math.ceil(2222222));
     blockListing.property_sittingroom_count = Metadata?.property_sittingroom_count ? Metadata.property_sittingroom_count.FieldValue : 'Not Available';
     blockListing.property_size = Metadata?.property_size ? Metadata.property_size.FieldValue : 'Not Available';
     blockListing.property_state = Metadata?.property_state ? Metadata.property_state.FieldValue : 'Not Available';
@@ -122,12 +121,16 @@ export class StoreComponent implements OnInit, AfterViewInit {
     return blockListing
   }
 
+  /**
+   * A function that formats the data gotten from the server and saves it in the session storage.
+   * */
   public patchGeoJson(geoJsonObj: any) {
     const patchedJson: any = rewind(JSON.parse(geoJsonObj));
     delete patchedJson.crs;
     return JSON.stringify(patchedJson)
   }
 
+  /* A function that formats the data gotten from the server and saves it in the session storage. */
   public formatLoadedData(propertyObjectListing: any) {
     let propertyObj = [];
     propertyObjectListing.forEach((property: any) => {
@@ -145,27 +148,27 @@ export class StoreComponent implements OnInit, AfterViewInit {
   }
 
 
+  /**
+   * It checks if the property listing is in the session storage, if it is, it returns the property
+   * listing, if it isn't, it fetches the property listing from the server and saves it in the session
+   * storage
+   * @returns The propertyListing array is being returned.
+   */
   public checkPropertyObj() {
     const propertyListing = sessionStorage.getItem('HA_ESTATE_LISTING');
-    // console.log(propertyListing)
     if (propertyListing === null || propertyListing === undefined) {
       this.storeService.listAllEstate()
         .subscribe((result: any) => {
-          // console.log('result', result)
           if (result.contentData instanceof Array && result.contentData.length > 0) {
             this.propertyListing = this.formatLoadedData(result.contentData)
-            // console.log('this.propertyListing', this.propertyListing)
-            // this.createProductRows();
             this.savePropertyObj(this.propertyListing)
           }
         }, (error: any) => {
           return this.propertyListing = []
         });
     } else {
-
       return this.propertyListing = JSON.parse(propertyListing);
     }
-
   }
 
 

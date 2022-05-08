@@ -253,6 +253,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
 
+  /**
+   * It's a function that displays a confirmation modal to the user when they try to view a property that
+   * requires them to be logged in
+   */
   public notLoggedInConfirmation() {
     Swal.fire({
       title: 'Opps! Login is required?',
@@ -287,6 +291,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
 
+  /**
+   * It's a function that displays a confirmation modal to the user when the user's search credit is
+   * insufficient
+   */
   public insufficentBalanceConfirmation() {
     Swal.fire({
       title: 'Insufficent Search Credit',
@@ -320,6 +328,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
 
+  /**
+   * It's a function that displays a sweet alert modal with a title, text, icon, showCancelButton,
+   * confirmButtonText, and cancelButtonText
+   */
   public accountRetry() {
     Swal.fire({
       title: 'Account Error?',
@@ -351,6 +363,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     return 'HA-Ref' + Math.floor((Math.random() * 1000000000) + 1) + date.getTime().toString();
   }
 
+  /**
+   * It deducts the amount of points used for the search from the user's account
+   * @param {number} amountDeductable - This is the number of points you want to deduct from the user's
+   * account.
+   */
   async makeAccountDeductions(amountDeductable: number) {
     try {
 
@@ -401,26 +418,32 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
   }
 
+  /**
+   * We're calling the `getUserAccounts` function from the `accountService` and if the response is
+   * successful, we're checking if the `account_point` is 0. If it is, we're calling the
+   * `insufficentBalanceConfirmation` function. If it's not, we're calling the `makeAccountDeductions`
+   * function
+   */
   private getAccounts(): void {
     this.accountService.getUserAccounts()
       .subscribe((accounts: any) => {
         // console.log('accounts', accounts.data.records[0])
         // We're just supporting one account right now. Grab the first result.
-        if (accounts?.data.records instanceof Array && accounts.data.records.length > 0) {
-          const account = accounts.data.records[0];
-          this.userAccount = accounts.data.records[0];
+        // if (accounts?.data.records instanceof Array && accounts.data.records.length > 0) {
+        //   const account = accounts.data.records[0];
+        //   this.userAccount = accounts.data.records[0];
 
-          // if (account.account_point === "0") {
-          //   this.insufficentBalanceConfirmation()
-          //   return;
-          // } else {
-          //   this.totalBalance = account.account_point !== "0" ? parseInt(account.account_point, 10) : 0;
-          //   this.broadcastService.emitPointBalanceUpdated(this.totalBalance);
-          //   this.makeAccountDeductions(1);
-          // }
-        } else {
-          this.accountRetry()
-        }
+        //   if (account.account_point === "0") {
+        //     this.insufficentBalanceConfirmation()
+        //     return;
+        //   } else {
+        //     this.totalBalance = account.account_point !== "0" ? parseInt(account.account_point, 10) : 0;
+        //     this.broadcastService.emitPointBalanceUpdated(this.totalBalance);
+        //     this.makeAccountDeductions(1);
+        //   }
+        // } else {
+        //   this.accountRetry()
+        // }
       }, (error) => {
         // console.log('getAccounts - Error', error)
         if (error.error.message === 'Error : Expired token') {
@@ -458,6 +481,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
   }
 
+  /**
+   * If the user has bookmarks, load them from session storage. 
+   * If not, create an empty array
+   */
   public loadFavorite() {
     const bookmarks = sessionStorage.getItem(this.sessionStorageBookmarks);
     if (bookmarks === null || bookmarks === undefined) {
@@ -467,6 +494,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+  /* The above code is adding a property to the user's bookmark list. */
   public loadUserCart() {
     const carts = sessionStorage.getItem(this.sessionStorageCarts);
     if (carts === null || carts === undefined) {
@@ -476,12 +504,27 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+  /**
+   * It takes two parameters, the first is an object and the second is a string. It then checks if the
+   * object is empty, if it is not empty it saves the object to the session storage
+   * @param {any} propObjListing - This is the object that you want to save to local storage.
+   * @param {any} tableName - The name of the table you want to save to local storage.
+   */
   public saveToLocalStorage(propObjListing: any, tableName: any) {
     //console.log('saveBlockAndUnits', propObjListing)
     if (JSON.stringify(propObjListing) !== "[]") {
       sessionStorage.setItem(tableName, JSON.stringify(propObjListing));
     }
   }
+
+
+  /**
+   * It checks if the user is authenticated, if not, it shows an error message. If the user is
+   * authenticated, it checks if the property is already bookmarked, if not, it adds the property to the
+   * user's bookmarks
+   * @param {any} property - This is the property object that is being bookmarked.
+   * @returns a boolean value.
+   */
 
   public addToFavorite(property: any): void {
     if (!this.isAuthenticated) {
@@ -534,10 +577,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
-  public initializeStreetView(latitude: any, longitude: any) {
-
-
-  }
 
   /**
    * Returns a random integer between min (inclusive) and max (inclusive).
@@ -554,6 +593,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
 
 
+  /**
+   * It takes the data from the property view and repackages it into a new object that can be used for
+   * the cart and favourite
+   * @param {any} [params=1] - 1 - Add to cart
+   */
   public packageUnitForExport(params: any = 1) {
     let repakagedUnit: any = {};
 
@@ -577,6 +621,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+  /**
+   * It takes a repackaged unit as a parameter, sets the payment method to 2, and then displays a
+   * confirmation message to the user. If the user confirms, it calls the addToFavorite function
+   * @param {any} repakagedUnit - This is the unit that is being added to the favourites.
+   */
   public actionToFavourite(repakagedUnit: any) {
     repakagedUnit.PaymentMethod = 2;
     Swal.fire({
@@ -595,6 +644,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
 
+  /**
+   * The function takes in a repackaged unit, and then displays a modal to the user, asking if they would
+   * like to proceed with the application, if they click yes, another modal is displayed asking if they
+   * would like to make an outright payment or apply for a loan/mortgage, if they click yes, the function
+   * is called again with the payment method set to 1, if they click no, the function is called again
+   * with the payment method set to 2
+   * @param {any} repakagedUnit - This is the unit that is being added to the cart.
+   */
   public addToCartProcess(repakagedUnit: any) {
     Swal.fire({
       title: 'Property Purchase Request',
@@ -643,6 +700,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
 
+  /**
+   * It takes in a UnitMap and UnitInfo object, and returns a repackagedUnit object
+   * @param {any} UnitMap - This is the object that contains the unit map.
+   * @param {any} UnitInfo - This is the object that contains the information about the property.
+   * @param {any} [params=1] - 1 = Add to Cart
+   */
   public packageUnitForExport_(UnitMap: any, UnitInfo: any, params: any = 1) {
     let repakagedUnit: any = {};
 
@@ -667,6 +730,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+  /**
+   * It adds a property to the cart
+   * @param {any} property - This is the property object that is being added to the cart.
+   * @param {any} action - 1 - Outright payment
+   * @returns a boolean value.
+   */
   public addToCart(property: any, action: any): void {
     if (!this.isAuthenticated) {
       this.notificationService.showErrorMessage('Login is required to perform this action');
@@ -816,8 +885,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
 
 
-    // Edit ranges and colors to match your data; see http://colorbrewer.org
-    // Any values not listed in the ranges below displays as the last color
+    /**
+    * It returns a color based on the status of the property.
+    * @param {any} color_status - The status of the property.
+    * @returns The color of the status of the property.
+    * Edit ranges and colors to match your data; see http://colorbrewer.org
+    * Any values not listed in the ranges below displays as the last color
+    */
     function getColor(color_status: any) {
       switch (color_status) {
         case 'Uncliamed': return '#FF0000';
@@ -841,7 +915,15 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       }
     }
 
-    // Edit the getColor property to match data column header in your GeoJson file
+
+    /**
+     * The function style() takes a feature as an argument and returns an object with the following
+     * properties: fillColor, weight, opacity, color, fillOpacity, smoothFactor, and interactive
+     * @param {any} feature - any - this is the feature that is being styled.
+     * @returns A function that returns an object.
+     * Edit the getColor property to match data column header in your GeoJson file
+     */
+
     function style(feature: any) {
       return {
         fillColor: getColor(feature.properties.property_status),
@@ -1068,6 +1150,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     }).addTo(this.map);
 
 
+
     const estateUnitsLayer = L.geoJson(this.ESTATE_BLOCK_UNITS, {
       pane: 'HA_Units',
       attribution: 'HA ESTATE UNIT NAME',
@@ -1087,17 +1170,19 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       info.update();
     }
 
+    console.log('this.EstateInfo.MapSnapshot', this.EstateInfo.MapSnapshot)
 
     const ImageMapOverlay = this.EstateInfo?.MapSnapshot !== null ? this.EstateInfo.MapSnapshot : this.svgElement
 
-    let svgElementBounds = estateLayer.getBounds(); //L.latLngBounds(coordinates[0][0]);
-    const imageOverlay = L.imageOverlay(ImageMapOverlay, svgElementBounds, {
-      pane: 'Ha_DevTiles'
-    })
+    //if (ImageMapOverlay !== null) {
+      let svgElementBounds = estateLayer.getBounds();
+      const imageOverlay = L.imageOverlay(ImageMapOverlay, svgElementBounds, {
+        pane: 'Ha_DevTiles'
+      })
 
-    const overlaysGroup = L.layerGroup([imageOverlay])
-    overlaysGroup.addTo(this.map);
-
+      const overlaysGroup = L.layerGroup([imageOverlay])
+      overlaysGroup.addTo(this.map);
+   // }
     /**
      * use this for a single image overlay
      * "Development Tiles": development_tiles,
@@ -1110,6 +1195,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       "Dev-Tiles": imageOverlay
     }
 
+
     this.map.getPane('HA_Street_Layer').style.zIndex = 500;
     this.map.getPane('HA_Street_Hybrid').style.zIndex = 501;
     this.map.getPane('HA_Street_Sat').style.zIndex = 502;
@@ -1121,7 +1207,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     L.control.layers(baseLayers, controlLayers).addTo(this.map);
     googleHybrid.addTo(this.map);
 
-    imageOverlay.bringToFront();
+    //if (ImageMapOverlay !== null) {
+      imageOverlay.bringToFront();
+    //}
 
     this.map.fitBounds(imageOverlay.getBounds());
 
@@ -1177,6 +1265,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
 
 
+  /**
+   * It returns an observable that emits the current position of the user, and completes
+   * @returns An observable that returns the current position of the user.
+   */
   private getCurrentPosition(): any {
     return new Observable((observer: Subscriber<any>) => {
       if (navigator.geolocation) {
@@ -1193,6 +1285,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     });
   }
 
+  /**
+   * It takes a GeoJSON object, rewinds it, and deletes the crs property
+   * @param {any} geoJsonObj - The GeoJSON object that you want to patch.
+   * @returns A stringified version of the geoJsonObj with the crs property deleted.
+   */
 
   public patchGeoJson(geoJsonObj: any) {
     const patchedJson: any = rewind(JSON.parse(geoJsonObj));
@@ -1205,6 +1302,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
 
+  /**
+   * It takes in a JSON object and returns a JSON object with the same keys but with the values of the
+   * keys being the values of the keys in the JSON object passed in
+   * @param {any} Metadata - This is the metadata object returned from the blockchain.
+   * @returns a blockListing object.
+   */
   public resolveObjectAndMerge(Metadata: any) {
     var blockListing: any = {}
     blockListing.payment_plans = Metadata?.payment_plans ? Metadata?.payment_plans.FieldValue : 'Not Available';
@@ -1235,6 +1338,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     return blockListing
   }
 
+  /**
+   * It takes a list of properties, formats them into a GeoJSON object and returns a list of formatted
+   * properties
+   * @param {any} propertyObjectListing - This is the data that is returned from the API call.
+   * @returns An array of objects.
+   */
   public formatLoadedData(propertyObjectListing: any) {
     let propertyObj = [];
     if (propertyObjectListing instanceof Array && propertyObjectListing.length > 0) {
@@ -1283,6 +1392,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
 
+  /**
+   * It loops through the block data and fetches the block units and then returns the block data with the
+   * block units
+   * @param {any} BlockParam - This is the array of block objects that are returned from the API.
+   * @returns An array of objects
+   */
   public loopBlockAndUnit(BlockParam: any) {
     try {
       var blockParamsListing = []
@@ -1320,6 +1435,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
 
+  /* Checking if the property is in the session storage. If it is not, it will fetch the property from
+  the server and save it in the session storage. If it is, it will return the property from the
+  session storage. */
   async checkPropertyObj(EstateID: any) {
 
     try {
@@ -1371,6 +1489,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+  /**
+   * It returns the estate object from the session storage
+   * @param {any} PropertyID - This is the ID of the property you want to return.
+   * @returns The EstateInfo, EstateName, ESTATE_MAPSOURCE, and ESTATE_BLOCK_UNITS
+   */
   public returnEstatePropertyObj(PropertyID: any) {
     const propertyListing = sessionStorage.getItem('HA_ESTATE_LISTING');
     // console.log(propertyListing)

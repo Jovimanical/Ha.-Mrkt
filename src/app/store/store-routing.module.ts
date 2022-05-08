@@ -27,7 +27,7 @@ import { CheckOutrightPaymentComponent } from './check-outright-payment/check-ou
 const storeRoutes: Routes = [
   { path: '', component: StoreComponent },
   { path: 'application', component: CartComponent, canActivate: [AuthGuardService] },
-  { path: 'products/:id', component: ProductDetailComponent },
+  { path: 'products/:id', component: ProductDetailComponent, canActivate: [AuthGuardService] },
   { path: 'land-listing', component: LandOnlyListingComponent },
   { path: 'building-listing', component: BuildingOnlyListingComponent },
   { path: 'compare-listing', component: CompareListingsComponent },
