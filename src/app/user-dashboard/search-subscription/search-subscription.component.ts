@@ -235,7 +235,7 @@ export class SearchSubscriptionComponent implements OnInit, AfterViewInit {
 
   public payWithPaystack() {
 
-    this.router.navigate(['/listings/checkout/confirmation']);
+    this.router.navigate(['/property-search/checkout/confirmation']);
   }
 
 

@@ -106,7 +106,7 @@ export class CheckoutComponent implements OnInit {
     // this.storeService.checkout(model).subscribe(result => {
     //   this.broadcastService.emitGetCart();
     //   this.broadcastService.emitGetBalance();
-    //   this.router.navigate(['/listings/checkout/confirmation']);
+    //   this.router.navigate(['/property-search/checkout/confirmation']);
     //   this.loading = false;
     // }, error => {
     //   this.notificationService.showErrorMessage(error.error[0].errorDescription);
@@ -181,7 +181,7 @@ export class CheckoutComponent implements OnInit {
         if (addTHistory) {
           this.createOrder()
         }
-        this.router.navigate([`/listings/checkout/confirmation/${this.propertyID}`]);
+        this.router.navigate([`/property-search/checkout/confirmation/${this.propertyID}`]);
       }
     } catch (error) {
       console.log('error-paystack', error)
@@ -237,7 +237,7 @@ export class CheckoutComponent implements OnInit {
       }
 
       this.flutterwave.closePaymentModal(5)
-      this.router.navigate([`/listings/checkout/confirmation/${this.propertyID}`]);
+      this.router.navigate([`/property-search/checkout/confirmation/${this.propertyID}`]);
     } catch (error) {
       console.log('Error-flutter', error)
     }
@@ -288,7 +288,7 @@ export class CheckoutComponent implements OnInit {
 
   public payWithPaystack() {
 
-    this.router.navigate(['/listings/checkout/confirmation']);
+    this.router.navigate(['/property-search/checkout/confirmation']);
   }
 
 
@@ -351,8 +351,8 @@ export class CheckoutComponent implements OnInit {
             }
 
           }
-          // this.router.navigate(['/listings/checkout/confirmation']);
-          this.router.navigate([`/listings/checkout/confirmation/${this.propertyID}`]);
+          // this.router.navigate(['/property-search/checkout/confirmation']);
+          this.router.navigate([`/property-search/checkout/confirmation/${this.propertyID}`]);
         }
       },
       onClose: function (data) {

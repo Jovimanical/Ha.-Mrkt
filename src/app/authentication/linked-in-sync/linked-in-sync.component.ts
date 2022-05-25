@@ -32,7 +32,7 @@ export class LinkedInSyncComponent implements OnInit {
   }
 
   dismiss(): void {
-    this.router.navigate(['/listings']);
+    this.router.navigate(['/property-search']);
     this.userService.emitUserVerificationRequired(false);
   }
 }

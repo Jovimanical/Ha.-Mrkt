@@ -363,3 +363,9 @@ aside .contact .socialise:hover {
 .leaflet-control-layers-expanded .leaflet-control-layers-list {
   padding: 0px;
 }
+
+aw-wizard-navigation-bar.horizontal.large-empty
+  ul.steps-indicator
+  li:not(:last-child):after {
+  height: 0px !important;
+}

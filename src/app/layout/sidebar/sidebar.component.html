@@ -13,13 +13,18 @@
             Dashboard
           </a>
         </li>
+        <li><a routerLink="/property-search" routerLinkActive="user-profile-act"
+          [routerLinkActiveOptions]="{exact:
+        true}">
+          <i class="fal fa-search"></i> Find Properties</a>
+      </li>
         <li><a routerLink="/user-dashboard/user-properties" routerLinkActive="user-profile-act"
             [routerLinkActiveOptions]="{exact:
           true}">
             <i class="fal fa-home"></i> My Properties</a>
         </li>
         <li>
-          <a routerLink="/listings/application" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
+          <a routerLink="/property-search/application" routerLinkActive="user-profile-act" [routerLinkActiveOptions]="{exact:
           true}">
             <i class="fal fa-check"></i>My Application (s)</a>
         </li>

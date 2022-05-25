@@ -143,7 +143,7 @@ export class UserRequiredDocumentsComponent implements OnInit {
         .subscribe(res => {
           console.log(res);
           alert('Uploaded Successfully.');
-          this.router.navigate(['/listings/checkout']);
+          this.router.navigate(['/property-search/checkout']);
         }, error => {
           console.log('_submit() error', error)
         })
@@ -159,7 +159,7 @@ export class UserRequiredDocumentsComponent implements OnInit {
         .subscribe(res => {
           console.log(res);
           alert('Uploaded Successfully.');
-          this.router.navigate(['/listings/checkout']);
+          this.router.navigate(['/property-search/checkout']);
         }, error => {
           console.log('_submit() error', error)
         })

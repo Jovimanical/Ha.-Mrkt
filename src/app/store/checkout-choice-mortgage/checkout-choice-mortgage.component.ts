@@ -651,7 +651,7 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
         if (addAdditionalIncome instanceof Object && addAdditionalIncome.status === 'success') {
           // move to step two      
           this.updateApplicationProcess(this.propertyItem);
-          this.router.navigate([`/listings/checkout/${this.propertyID}`]);
+          this.router.navigate([`/property-search/checkout/${this.propertyID}`]);
         }
 
       }
@@ -675,7 +675,7 @@ export class CheckoutChoiceMortgageComponent implements OnInit {
 
   public goToCheckOut() {
     this.updateApplicationProcess(this.propertyItem);
-    this.router.navigate([`/listings/checkout/${this.propertyID}`]);
+    this.router.navigate([`/property-search/checkout/${this.propertyID}`]);
   }
 
   async submit() {

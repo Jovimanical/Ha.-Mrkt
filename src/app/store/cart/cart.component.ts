@@ -92,11 +92,11 @@ export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
         this.router.navigate([`/user-dashboard/user-application-status/${property.id}`]);
         break;
         case 'PENDING':
-        this.router.navigate([`/listings/checkout/${property.id}`]);
+        this.router.navigate([`/property-search/checkout/${property.id}`]);
           break;
     
       default:
-        this.router.navigate([`/listings/checkout-application-requirements/${property.id}`]);
+        this.router.navigate([`/property-search/checkout-application-requirements/${property.id}`]);
         break;
     }
   

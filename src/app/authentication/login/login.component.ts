@@ -103,7 +103,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             break;
 
           default:
-            this.router.navigate(['/listings']).then(() => {
+            this.router.navigate(['/property-search']).then(() => {
               window.location.reload();
             });
             break;

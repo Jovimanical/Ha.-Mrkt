@@ -39,3 +39,9 @@ button {
 .listsearch-input-item input[type="text"] {
   padding: 15px !important;
 }
+
+
+aw-wizard-navigation-bar.horizontal.large-empty ul.steps-indicator li:not(:last-child):after {
+    height: 0px !important;
+
+}

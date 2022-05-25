@@ -199,7 +199,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
     // subscribe to event with name "DoEnquire"
     EventService.on("DoEnquire", async (propertyFeature) => {
-      this.router.navigate([`/listings/marketplace/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}/#enquire`]);
+      this.router.navigate([`/property-search/marketplace/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}/#enquire`]);
       setTimeout(() => {
         // create estate with single unit
         let RepakageUnit = this.ESTATE_MAPSOURCE;
@@ -765,16 +765,16 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           switch (action) {
             case 1:
               // Outright payment
-              this.router.navigate([`/listings/checkout-option-outright-payment/${cartItem.data}`]);
+              this.router.navigate([`/property-search/checkout-option-outright-payment/${cartItem.data}`]);
               break;
             case 2:
               // Loans payments
-              this.router.navigate([`/listings/checkout-option-loan-application/${cartItem.data}`]);
+              this.router.navigate([`/property-search/checkout-option-loan-application/${cartItem.data}`]);
               break;
 
             default:
               // Mortgage
-              this.router.navigate([`/listings/checkout-option-mortgage-application/${cartItem.data}`]);
+              this.router.navigate([`/property-search/checkout-option-mortgage-application/${cartItem.data}`]);
               break;
           }
 
@@ -802,6 +802,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
   private initMap(): void {
     //console.log('map-called');
+    
     const data = this.ESTATE_MAPSOURCE;
 
     const coordinates = data.features[0].geometry.coordinates;

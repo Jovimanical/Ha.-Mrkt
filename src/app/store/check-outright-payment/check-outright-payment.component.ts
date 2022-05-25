@@ -120,7 +120,7 @@ export class CheckOutrightPaymentComponent implements OnInit, AfterViewInit, OnD
     propertyInfo.ApplicationStatus = 'PENDING';
     this.storeService.updateCartItem(JSON.stringify(propertyInfo)).subscribe((response: any) => {
       // console.log('response.data.records', response.data);
-      this.router.navigate([`/listings/checkout/${this.propertyID}`]);
+      this.router.navigate([`/property-search/checkout/${this.propertyID}`]);
 
     }, (error) => {
 

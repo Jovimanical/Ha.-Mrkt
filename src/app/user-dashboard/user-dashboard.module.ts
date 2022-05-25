@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormControl, ValidationErrors } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { Angular4PaystackModule } from 'angular4-paystack';
 import { FlutterwaveModule } from "flutterwave-angular-v3"
@@ -52,6 +53,7 @@ import { UserApplicationStatusComponent } from './user-application-status/user-a
         FormsModule,
         LayoutModule,
         FlutterwaveModule,
+        ChartsModule,
         Angular4PaystackModule.forRoot('pk_test_a153339870d0227aa490acb9d88fd220a90f02f2'),
     ],
     declarations: [

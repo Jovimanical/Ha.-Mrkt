@@ -131,13 +131,14 @@ export class CheckoutChoiceLoanComponent implements OnInit, AfterViewInit, OnDes
     propertyInfo.ApplicationStatus = 'DRAFT';
     this.storeService.updateCartItem(JSON.stringify(propertyInfo)).subscribe((response: any) => {
        console.log('response.data.records', response.data);
-      this.router.navigate([`/listings/checkout-application-requirements/${this.propertyID}`]);
+      this.router.navigate([`/property-search/checkout-application-requirements/${this.propertyID}`]);
 
     }, (error) => {
 
     });
   }
 
+  
 
   private initMap(): void {
     //console.log('map-called');

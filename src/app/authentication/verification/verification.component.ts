@@ -55,7 +55,7 @@ export class VerificationComponent implements OnInit {
     this.verificationService.verify(verification)
       .subscribe((validate) => {
         this.userService.emitUserVerificationRequired(false);
-        this.router.navigate(['/listings']);
+        this.router.navigate(['/property-search']);
       }, (error) => {
         this.verificationFailed = true;
       });

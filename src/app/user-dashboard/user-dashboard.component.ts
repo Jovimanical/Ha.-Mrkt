@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { ChartType, ChartOptions } from 'chart.js';
+import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } from 'ng2-charts';
 import { BroadcastService } from 'app/core/broadcast.service';
 import { StoreService } from 'app/shared/services/store.service';
 import { forkJoin } from 'rxjs';
@@ -24,7 +26,20 @@ export class UserDashboardComponent implements OnInit, AfterViewInit, OnDestroy 
   public isLoading: boolean = true;
 
 
-  constructor(private storeService: StoreService, private router: Router, public changeDectection: ChangeDetectorRef, private broadcastService: BroadcastService,) { }
+  public pieChartOptions: ChartOptions = {
+    responsive: true,
+  };
+  public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
+  public pieChartData: SingleDataSet = [300, 500, 100];
+  public pieChartType: ChartType = 'pie';
+  public pieChartLegend = true;
+  public pieChartPlugins = [];
+
+
+  constructor(private storeService: StoreService, private router: Router, public changeDectection: ChangeDetectorRef, private broadcastService: BroadcastService,) {
+    monkeyPatchChartJsTooltip();
+    monkeyPatchChartJsLegend();
+   }
 
   ngOnInit() {
     this.storeService.fetchCart().subscribe((response: any) => {
@@ -74,11 +89,11 @@ export class UserDashboardComponent implements OnInit, AfterViewInit, OnDestroy 
         this.router.navigate([`/user-dashboard/user-application-status/${property.id}`]);
         break;
       case 'PENDING':
-        this.router.navigate([`/listings/checkout/${property.id}`]);
+        this.router.navigate([`/property-search/checkout/${property.id}`]);
         break;
 
       default:
-        this.router.navigate([`/listings/checkout-application-requirements/${property.id}`]);
+        this.router.navigate([`/property-search/checkout-application-requirements/${property.id}`]);
         break;
     }
 

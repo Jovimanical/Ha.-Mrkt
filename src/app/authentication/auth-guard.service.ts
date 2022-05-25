@@ -26,7 +26,7 @@ export class AuthGuardService implements CanActivate {
       if (route.data.roles && route.data.roles.indexOf(user.roles) === -1) {
         this.userService.emitUserAuthenticated(true);
         // role not authorised so redirect to home page
-        this.router.navigate(['/listings']).then(() => {
+        this.router.navigate(['/property-search']).then(() => {
           window.location.reload();
         });
         return false;

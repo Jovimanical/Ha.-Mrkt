@@ -1420,6 +1420,7 @@ nav li ul a:after {
 .custom-form button {
   outline: none;
   border: none;
+  width: 100%;
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: 20px;
@@ -1827,7 +1828,7 @@ nav li ul a:after {
   overflow: hidden;
 }
 .main-register-holder {
-  max-width: 850px;
+  max-width: 90%;
   margin: 150px auto 50px;
   position: relative;
   z-index: 5;
@@ -2660,7 +2661,7 @@ section.single-par2 .scroll-down-wrap {
   height: 550px;
 }
 .half-carousel-item {
-  height: 550px;
+  min-height: 300px;
 }
 .half-carousel-item-half {
   height: 260px;
@@ -7649,7 +7650,7 @@ section.single-par2 .scroll-down-wrap {
   }
   .main-register-holder .tabs-menu,
   .main-register-holder .tabs-container {
-    padding: 0 30px;
+    padding: 0 50px;
   }
   .main-register-holder {
     padding: 0 10px;
