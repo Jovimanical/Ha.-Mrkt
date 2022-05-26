@@ -14,8 +14,8 @@ export class StoreService {
 
   constructor(private http: HttpClient) { }
 
-  public listAllEstate(): Observable<Array<any>> {
-    return this.http.get<Array<any>>(`https://rest.sytemap.com/v1/properties/user-property/list-all-properties?resourceId=1&offset=0&limit=20`);
+  public listAllEstate(pageOffset: any = 1, pageLimit: any = 20): Observable<Array<any>> {
+    return this.http.get<Array<any>>(`https://rest.sytemap.com/v1/properties/user-property/list-all-properties?resourceId=1&offset=${pageOffset}&limit=${pageLimit}`);
   }
 
 

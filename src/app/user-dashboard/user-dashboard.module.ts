@@ -35,6 +35,10 @@ import { UserRequiredAssetsComponent } from './user-required-assets/user-require
 import { UserRequiredLiabilityComponent } from './user-required-liability/user-required-liability.component';
 import { UserRequiredExtraIncomeComponent } from './user-required-extra-income/user-required-extra-income.component';
 import { UserApplicationStatusComponent } from './user-application-status/user-application-status.component';
+import { UserRentPropertyComponent } from './user-rent-property/user-rent-property.component';
+import { UserLeasePropertyComponent } from './user-lease-property/user-lease-property.component';
+import { UserTransferPropertyComponent } from './user-transfer-property/user-transfer-property.component';
+import { UserResellPropertyComponent } from './user-resell-property/user-resell-property.component';
 
 
 // import { InviteComponent } from './invite/invite.component';
@@ -83,6 +87,10 @@ import { UserApplicationStatusComponent } from './user-application-status/user-a
         UserRequiredLiabilityComponent,
         UserRequiredExtraIncomeComponent,
         UserApplicationStatusComponent,
+        UserRentPropertyComponent,
+        UserLeasePropertyComponent,
+        UserTransferPropertyComponent,
+        UserResellPropertyComponent,
         // InviteComponent,
         //     UserDetailsComponent,
         //     OrderAdminComponent,

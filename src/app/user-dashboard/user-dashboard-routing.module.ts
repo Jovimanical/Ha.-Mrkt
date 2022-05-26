@@ -28,6 +28,10 @@ import { UserRequiredAssetsComponent } from './user-required-assets/user-require
 import { UserRequiredLiabilityComponent } from './user-required-liability/user-required-liability.component';
 import { UserRequiredExtraIncomeComponent } from './user-required-extra-income/user-required-extra-income.component';
 import { UserApplicationStatusComponent } from './user-application-status/user-application-status.component';
+import { UserRentPropertyComponent } from './user-rent-property/user-rent-property.component';
+import { UserLeasePropertyComponent } from './user-lease-property/user-lease-property.component';
+import { UserTransferPropertyComponent } from './user-transfer-property/user-transfer-property.component';
+import { UserResellPropertyComponent } from './user-resell-property/user-resell-property.component';
 
 
 
@@ -59,13 +63,17 @@ const userRoutes: Routes = [
     { path: 'user-mortgage-applications', component: MyMortgageApplicationComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
     { path: 'user-loan-applications', component: MyLoanApplicationComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
     { path: 'user-search-subscription', component: SearchSubscriptionComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
-    { path: 'user-required-assets', component: UserRequiredAssetsComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } }, 
+    { path: 'user-required-assets', component: UserRequiredAssetsComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
     { path: 'user-required-liability', component: UserRequiredLiabilityComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
     { path: 'user-required-extra-income', component: UserRequiredExtraIncomeComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
     { path: 'user-application-status/:id', component: UserApplicationStatusComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-rent-property/:id', component: UserRentPropertyComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-lease-property/:id', component: UserLeasePropertyComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-transfer-property/:id', component: UserTransferPropertyComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-resell-property/:id', component: UserResellPropertyComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
 
 
-    
+
     //   { path: 'invite', component: InviteComponent },
     //   { path: 'users', component: UserAdminComponent },
     //   { path: 'users/:id', component: UserDetailsComponent },

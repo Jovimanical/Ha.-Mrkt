@@ -5,6 +5,7 @@ import { Angular4PaystackModule } from 'angular4-paystack';
 import { FlutterwaveModule } from "flutterwave-angular-v3"
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule, FormsModule, FormControl, ValidationErrors } from '@angular/forms';
+import {NgxPaginationModule} from 'ngx-pagination';
 import { FormlyModule, FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
@@ -86,6 +87,7 @@ export function maxValidationMessage(err, field) {
     OverlayModule,
     LayoutModule,
     FlutterwaveModule,
+    NgxPaginationModule,
     Angular4PaystackModule.forRoot('pk_test_a153339870d0227aa490acb9d88fd220a90f02f2'),
     FormlyModule.forRoot({
       types: [

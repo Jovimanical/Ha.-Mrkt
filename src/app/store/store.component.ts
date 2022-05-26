@@ -15,6 +15,8 @@ export class StoreComponent implements OnInit, AfterViewInit {
   public spinnerStyle = Spinkit;
   public productRows: Product[][] = [];
   public propertyListing: Array<any> = [];
+  public pageOffSet: number = 0;
+  public pageLimit: number = 20;
 
   constructor(private storeService: StoreService,
     private router: Router,
@@ -162,6 +164,7 @@ export class StoreComponent implements OnInit, AfterViewInit {
           if (result.contentData instanceof Array && result.contentData.length > 0) {
             this.propertyListing = this.formatLoadedData(result.contentData)
             this.savePropertyObj(this.propertyListing)
+            this.pageOffSet += 1
           }
         }, (error: any) => {
           return this.propertyListing = []
@@ -169,6 +172,25 @@ export class StoreComponent implements OnInit, AfterViewInit {
     } else {
       return this.propertyListing = JSON.parse(propertyListing);
     }
+  }
+
+
+  public paginateListing() {
+
+    this.storeService.listAllEstate()
+      .subscribe((result: any) => {
+        if (result.contentData instanceof Array && result.contentData.length > 0) {
+
+          const addListingToCount: Array<any> = this.formatLoadedData(result.contentData);
+          addListingToCount.forEach(element => {
+            this.propertyListing.push(element);
+          });
+          this.savePropertyObj(this.propertyListing)
+          this.pageOffSet++
+        }
+      }, (error: any) => {
+        return
+      });
   }
 
 

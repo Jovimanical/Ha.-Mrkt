@@ -10,6 +10,7 @@ import { NgxEnvModule } from '@ngx-env/core';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { EventsModule } from 'angular4-events';
 import { AgmCoreModule } from '@agm/core';
+import { ChartsModule } from 'ng2-charts';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
@@ -31,6 +32,7 @@ import { environment } from '../environments/environment';
     NgxEnvModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ChartsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
       preventDuplicates: true,

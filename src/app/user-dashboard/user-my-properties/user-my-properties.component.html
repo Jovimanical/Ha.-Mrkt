@@ -35,22 +35,24 @@
 
                                 <div class="row" *ngIf="myProperties.length > 0">
                                     <!-- dashboard-listings-item-->
-                                    <div class="col-md-6" *ngFor="let cartProduct of myProperties; let i = index">
+                                    <div class="col-md-6" *ngFor="let userProperty of myProperties; let i = index">
                                         <div class="dashboard-listings-item fl-wrap">
-                                            <div class="dashboard-listings-item_img">
-                                                <div class="bg-wrap">
-                                                    <div class="bg"
-                                                        [ngStyle]="{'background': 'url(./assets/images/all/3.jpg) no-repeat 0 0 / cover'}"
-                                                        data-bg="/assets/images/all/3.jpg"></div>
-                                                </div>
-                                                <div class="overlay"></div>
-                                                <a href="#" class="color-bg">View</a>
+                                            <div class="dashboard-listings-item_img_land">
+                                                <img src="/assets/images/all/3.jpg" alt="{{userProperty.PropertyName}}"
+                                                    class="img-fluid">
                                             </div>
-                                            <div class="dashboard-listings-item_content">
-                                                <h4>{{cartProduct.PropertyName}}</h4>
+                                            <div class="dashboard-listings-item_content_land">
+                                                <button class="btn btn-success" (click)="callToAction(userProperty)"
+                                                    style="float: right;">
+                                                    <i class="fal fa-ellipsis-v"></i>
+                                                </button>
+                                                <h4
+                                                    style="text-align: left; padding: 0 0 5px 0; font-weight: 600;font-size: 16px;">
+                                                    {{userProperty.PropertyName}}</h4>
+
                                                 <div class="geodir-category-location">
                                                     <i class="fas fa-map-marker-alt"></i> <span>
-                                                        {{cartProduct.PropertyJson?.name}}</span>
+                                                        {{userProperty.PropertyJson?.name}}</span>
                                                 </div>
                                                 <div class="clearfix"></div>
                                                 <div class="listing-rating card-popup-rainingvis tolt"
@@ -59,22 +61,21 @@
                                                 </div>
                                                 <div class="dashboard-listings-item_opt"
                                                     style="margin: 20px 0; padding: 10px;">
-                                                    <!-- <span class="viewed-counter"><i class="fas fa-eye"></i> Viewed - 645 </span> -->
                                                     <ul class="small-facts fl-wrap">
                                                         <li><i class="fal fa-home"></i>
                                                             <span>
                                                                 Block &nbsp;
-                                                                <strong>{{cartProduct.LinkedEntity}}</strong>
+                                                                <strong>{{userProperty.LinkedEntity}}</strong>
                                                             </span>
                                                         </li>
                                                         <li><i class="fal fa-users-class"></i>
                                                             <span>
                                                                 Estate Unit&nbsp;
-                                                                <strong>{{cartProduct.PropertyId}}</strong>
+                                                                <strong>{{userProperty.PropertyId}}</strong>
                                                             </span>
                                                         </li>
                                                         <li><i class="fal fa-comment-alt"></i>
-                                                            <span>&nbsp; {{cartProduct.ApplicationStatus}}</span>
+                                                            <span>&nbsp; {{userProperty.ApplicationStatus}}</span>
                                                         </li>
                                                     </ul>
                                                     <div style="height: 10px; display: block;"></div>
@@ -101,7 +102,12 @@
                             </div>
                             <!-- dashboard-listings-wrap-->
                             <div class="dashboard-listings-wrap fl-wrap">
-                                <div class="row" *ngIf="myProperties.length === 0">
+                                <div class="container-fluid page-padding"
+                                    style="margin-top:3%; display: flex; justify-content: center; align-items: center;"
+                                    *ngIf="isLoading">
+                                    <mat-spinner role="progressbar"></mat-spinner>
+                                </div>
+                                <div class="row" *ngIf="!isLoading && myProperties.length === 0">
                                     <div class="col-sm-12 col-md-12">
                                         <div class="dashboard-listings-item fl-wrap">
                                             <h4>No Listing Available</h4>
@@ -111,7 +117,7 @@
 
                                 <div class="row" *ngIf="myProperties.length > 0">
                                     <!-- dashboard-listings-item-->
-                                    <div class="col-md-6" *ngFor="let cartProduct of myProperties; let i = index">
+                                    <div class="col-md-6" *ngFor="let userProperty of myProperties; let i = index">
                                         <div class="dashboard-listings-item fl-wrap">
                                             <div class="dashboard-listings-item_img">
                                                 <div class="bg-wrap">
@@ -123,10 +129,16 @@
                                                 <a href="#" class="color-bg">View</a>
                                             </div>
                                             <div class="dashboard-listings-item_content">
-                                                <h4>{{cartProduct.PropertyName}}</h4>
+                                                <button class="btn btn-success" (click)="callToAction(userProperty)"
+                                                    style="float: right;">
+                                                    <i class="fal fa-ellipsis-v"></i>
+                                                </button>
+                                                <h4
+                                                    style="text-align: left; padding: 0 0 5px 0; font-weight: 600;font-size: 16px;">
+                                                    {{userProperty.PropertyName}}</h4>
                                                 <div class="geodir-category-location">
                                                     <i class="fas fa-map-marker-alt"></i> <span>
-                                                        {{cartProduct.PropertyJson?.name}}</span>
+                                                        {{userProperty.PropertyJson?.name}}</span>
                                                 </div>
                                                 <div class="clearfix"></div>
                                                 <div class="listing-rating card-popup-rainingvis tolt"
@@ -140,17 +152,17 @@
                                                         <li><i class="fal fa-home"></i>
                                                             <span>
                                                                 Block &nbsp;
-                                                                <strong>{{cartProduct.LinkedEntity}}</strong>
+                                                                <strong>{{userProperty.LinkedEntity}}</strong>
                                                             </span>
                                                         </li>
                                                         <li><i class="fal fa-users-class"></i>
                                                             <span>
                                                                 Estate Unit&nbsp;
-                                                                <strong>{{cartProduct.PropertyId}}</strong>
+                                                                <strong>{{userProperty.PropertyId}}</strong>
                                                             </span>
                                                         </li>
                                                         <li><i class="fal fa-comment-alt"></i>
-                                                            <span>&nbsp; {{cartProduct.ApplicationStatus}}</span>
+                                                            <span>&nbsp; {{userProperty.ApplicationStatus}}</span>
                                                         </li>
                                                     </ul>
                                                     <div style="height: 10px; display: block;"></div>

@@ -1,0 +1,84 @@
+<!-- wrapper  -->
+<div id="wrapper">
+    <!-- content -->
+    <div class="content">
+        <!-- breadcrumbs-->
+        <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
+            <div class="container">
+                <div class="breadcrumbs-list">
+                    <a>Home</a><a>User dashboard</a> <span>Lease Property</span>
+                </div>
+                <div class="share-holder hid-share">
+                    <a class="share-btn showshare sfcs"> <i class="fas fa-exclamation"></i> Help </a>
+                    <div class="share-container  isShare"></div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumbs end -->
+        <!--  section  -->
+        <section class="gray-bg">
+            <div class="section-title st-center fl-wrap">
+                <h2>Lease Property</h2>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="services-item fl-wrap">
+                            <div class="container-fluid page-padding"
+                            style="margin-top:3%; display: flex; justify-content: center; align-items: center;"
+                            *ngIf="isLoading">
+                            <mat-spinner role="progressbar"></mat-spinner>
+                        </div>
+                            <div class="dasboard-widget-box fl-wrap" *ngIf="!isLoading">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="custom-form">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <h4>{{propertyInfo.PropertyName}}</h4>
+                                                <span>{{propertyInfo.PropertyStatus}}</span>
+                                                <span>{{propertyInfo.PropertyId}}</span>
+                                                <span>{{propertyInfo.LinkedEntity}}</span>
+                                            </div>
+                                            <form *ngIf="customerAssetForm" [formGroup]="customerAssetForm">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label for="name">Current Price:</label>
+                                                    <input type="text" id="name" formControlName="currentPrice"
+                                                        class="form-control">
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label>New Value/Amount:</label>
+                                                    <input type="text" formControlName="newPriceOrValue"
+                                                        placeholder="Enter Property Value or Amount "
+                                                        class="form-control">
+                                                    <div class="error"
+                                                        *ngIf="f.newPriceOrValue.touched && f.newPriceOrValue.invalid">
+                                                        <div *ngIf="f.paymode.errors?.required">
+                                                            Property New Value or Amount is required
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <h5>Selected Value: {{customerAssetForm.value | json}}</h5>
+                                                <div class="buttonstack">
+                                                    <button mat-raised-button color="default" (click)="goToNextStep()">
+                                                        CANCEL
+                                                    </button>
+                                                    <button mat-raised-button color="accent"
+                                                        [disabled]="!customerAssetForm.valid" type="submit"
+                                                        (click)="onSubmitAssets()">
+                                                        Submit And Continue
+                                                    </button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

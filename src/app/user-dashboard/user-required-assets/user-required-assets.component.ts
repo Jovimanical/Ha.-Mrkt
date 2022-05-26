@@ -16,7 +16,7 @@ export class UserRequiredAssetsComponent implements OnInit {
     private storeService: StoreService,
     private router: Router,
     private route: ActivatedRoute,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
@@ -117,3 +117,4 @@ export class UserRequiredAssetsComponent implements OnInit {
 
 
 }
+
