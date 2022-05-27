@@ -32,7 +32,8 @@ import { UserRentPropertyComponent } from './user-rent-property/user-rent-proper
 import { UserLeasePropertyComponent } from './user-lease-property/user-lease-property.component';
 import { UserTransferPropertyComponent } from './user-transfer-property/user-transfer-property.component';
 import { UserResellPropertyComponent } from './user-resell-property/user-resell-property.component';
-
+import { UserDigitalTitleComponent } from './user-digital-title/user-digital-title.component';
+import { UserViewPropertyComponent } from './user-view-property/user-view-property.component';
 
 
 // import { UserAdminComponent } from './user-admin/user-admin.component';
@@ -71,6 +72,9 @@ const userRoutes: Routes = [
     { path: 'user-lease-property/:id', component: UserLeasePropertyComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
     { path: 'user-transfer-property/:id', component: UserTransferPropertyComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
     { path: 'user-resell-property/:id', component: UserResellPropertyComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-view-digital-title/:id', component: UserDigitalTitleComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    { path: 'user-view-property/:id', component: UserViewPropertyComponent, canActivate: [AuthGuardService], data: { roles: [Role.User] } },
+    
 
 
 

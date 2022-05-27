@@ -33,7 +33,7 @@ export class UserRentPropertyComponent implements OnInit, OnDestroy {
     }
   ]
 
-  public customerAssetForm: FormGroup;
+  public propertyOptionForm: FormGroup;
 
   // = new FormGroup({
   //   id: new FormControl('', Validators.required),
@@ -46,7 +46,7 @@ export class UserRentPropertyComponent implements OnInit, OnDestroy {
   constructor(
     private storeService: StoreService,
     private router: Router,
-    private route: ActivatedRoute,
+    private activateRoute: ActivatedRoute,
     public formBuilder: FormBuilder,
     private eventService: EventsService,
   ) { }
@@ -59,26 +59,24 @@ export class UserRentPropertyComponent implements OnInit, OnDestroy {
       }
     });
 
+
+    this.activateRoute.params.subscribe(params => {
+      const PropertyID = params['id'];
+      const unitProperty = this.storeService.fetchSingleUnitsAsPromise(PropertyID);
+      console.log('this.unitPropety', unitProperty)
+
+      if (unitProperty) {
+
+      }
+
+    });
+
     setTimeout(() => {
       this.processExistingAssets()
-      // console.log('waka', this.propertyInfo)
       this.isLoading = false
     }, 1000);
 
-    // this.storeService.getKYCUserAssets().subscribe((results: any) => {
-    //   if (results.data !== null) {
-    //     this.this.propertyInfo = results.data.records;
-    //     this.hasExistingCustomerAsset = true;
-    //     this.processExistingAssets(results.data.records)
-    //   } else {
-    //     this.processExistingAssets([])
-    //   }
 
-    //   this.isLoading = false
-    // }, (error) => {
-    //   console.log('Error', error)
-    //   this.isLoading = false
-    // });
   }
 
   ngOnDestroy(): void {
@@ -88,7 +86,7 @@ export class UserRentPropertyComponent implements OnInit, OnDestroy {
 
 
   public processExistingAssets() {
-    this.customerAssetForm = this.formBuilder.group({
+    this.propertyOptionForm = this.formBuilder.group({
       id: [this.propertyInfo?.id ? this.propertyInfo.id : 0, Validators.required],
       currentPrice: [this.propertyInfo?.PropertyAmount ? this.propertyInfo?.PropertyAmount : 0, Validators.required],
       newPriceOrValue: ['', Validators.required],
@@ -97,17 +95,17 @@ export class UserRentPropertyComponent implements OnInit, OnDestroy {
   }
 
   get f() {
-    return this.customerAssetForm.controls;
+    return this.propertyOptionForm.controls;
   }
 
 
-  async onSubmitAssets() {
-    // console.log(this.customerAssetForm.value);
+  async onPropertyChange() {
+    // console.log(this.propertyOptionForm.value);
     try {
-      if (this.customerAssetForm.valid) {
+      if (this.propertyOptionForm.valid) {
         // console.log('this.model', this.model);
         // console.log('this.form', this.form);
-        // const addUpdateAssets: any = await this.storeService.updateKYCUserAssets(JSON.stringify(this.customerAssetForm.value));
+        // const addUpdateAssets: any = await this.storeService.updateKYCUserAssets(JSON.stringify(this.propertyOptionForm.value));
         // if (addUpdateAssets instanceof Object && addUpdateAssets.status === 'success') {
         //   this.router.navigate([`/user-dashboard/user-properties/`]);
         // }
@@ -121,7 +119,7 @@ export class UserRentPropertyComponent implements OnInit, OnDestroy {
   }
 
   public goToNextStep() {
-    this.customerAssetForm.reset()
+    this.propertyOptionForm.reset()
     this.router.navigate([`/user-dashboard/user-properties/`]);
   }
 

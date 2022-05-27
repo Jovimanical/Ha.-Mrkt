@@ -21,9 +21,9 @@
                 <h2>Personal Information</h2>
             </div>
             <div class="container">
-                <div class="row">                    
-                    <div class="col-md-2 col-lg-2"></div>
-                    <div class="col-md-8 col-lg-8">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2"></div>
+                    <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
                         <div class="services-item fl-wrap">
                             <div class="dasboard-widget-box fl-wrap" *ngIf="!isLoading">
                                 <form *ngIf="personalInfoForm" [formGroup]="personalInfoForm" role="form">
@@ -166,12 +166,12 @@
                                         </div>
                                         <div class="row buy-land-btn"></div>
                                         <div class="geodir-category-footer fl-wrap">
-                                            <button type="submit" (click)="userRegister(1)" [disabled]="!personalInfoForm.valid"
-                                                mat-raised-button color="accent">
+                                            <button type="submit" (click)="userRegister(1)"
+                                                [disabled]="!personalInfoForm.valid" mat-raised-button color="accent">
                                                 Save Update
                                             </button>
-                                            <button type="submit" (click)="userRegister(2)" [disabled]="!personalInfoForm.valid"
-                                                mat-flat-button color="primary">
+                                            <button type="submit" (click)="userRegister(2)"
+                                                [disabled]="!personalInfoForm.valid" mat-flat-button color="primary">
                                                 Update And Continue
                                             </button>
                                         </div>

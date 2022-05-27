@@ -53,10 +53,12 @@ export class UserMyPropertiesComponent implements OnInit {
       title: 'What Would you want to do with your property?',
       input: 'radio',
       inputOptions: {
-        'RENT': 'Rent',
-        'RESALE': 'Resell',
-        'LEASE': 'Lease',
-        'TRANSFER': 'Transfer'
+        'RENT': 'Rent Property',
+        'RESALE': 'Resell Property',
+        'LEASE': 'Lease Property',
+        'TRANSFER': 'Transfer Property',
+        'DIGITAL-TITLE': 'Download Digital Title',
+        'MAPVIEW': 'View On Map'
       },
       showCancelButton: true,
       inputValidator: (value) => {
@@ -69,7 +71,7 @@ export class UserMyPropertiesComponent implements OnInit {
     if (choice) {
       Swal.fire({
         title: 'Do you want to proceed?',
-        html: `You selected: ${choice}`,       
+        html: `You selected: ${choice}`,
         showCancelButton: true,
         confirmButtonText: 'Yes Proceed',
       }).then((result) => {
@@ -101,13 +103,26 @@ export class UserMyPropertiesComponent implements OnInit {
               }, 1000);
               break;
 
-            default:
+            case 'RENT':
 
-              this.router.navigate([`/user-dashboard/user-rent-property/${params.PropertyId}`]);
+              this.router.navigate([`/user-dashboard/user-rent-property/${params.LinkedEntity}`]);
               setTimeout(() => {
                 this.eventService.publish("RENT:PROPERTY", params);
               }, 500);
               break;
+
+            case 'DIGITAL-TITLE':
+              this.router.navigate([`/user-dashboard/user-view-digital-title/${params.PropertyId}`]);
+              break;
+
+            case 'MAPVIEW':
+              this.router.navigate([`/user-dashboard/user-view-propertye/${params.PropertyId}`]);
+              break;
+
+            default:
+
+              break;
+
           }
         } else if (result.isDenied) {
           Swal.fire('Request was canceled', '', 'info')

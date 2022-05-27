@@ -17,15 +17,20 @@
                             <ng-template mat-tab-label>
                                 <span>Land</span>
                             </ng-template>
-                            <div class="dasboard-opt sl-opt fl-wrap">
+                            <!-- <div class="dasboard-opt sl-opt fl-wrap">
                                 <div class="dashboard-search-listing">
                                     <input type="text" onclick="this.select()" placeholder="Search" value="">
                                     <button type="submit"><i class="far fa-search"></i></button>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- dashboard-listings-wrap-->
                             <div class="dashboard-listings-wrap fl-wrap">
-                                <div class="row" *ngIf="myProperties.length === 0">
+                                <div class="container-fluid page-padding"
+                                    style="margin-top:3%; display: flex; justify-content: center; align-items: center;"
+                                    *ngIf="isLoading">
+                                    <mat-spinner role="progressbar"></mat-spinner>
+                                </div>
+                                <div class="row" *ngIf="!isLoading && myProperties.length === 0">
                                     <div class="col-sm-12 col-md-12">
                                         <div class="dashboard-listings-item fl-wrap">
                                             <h4>No Listing Available</h4>
@@ -94,12 +99,12 @@
                             <ng-template mat-tab-label>
                                 <span>House</span>
                             </ng-template>
-                            <div class="dasboard-opt sl-opt fl-wrap">
+                            <!-- <div class="dasboard-opt sl-opt fl-wrap">
                                 <div class="dashboard-search-listing">
                                     <input type="text" onclick="this.select()" placeholder="Search" value="">
                                     <button type="submit"><i class="far fa-search"></i></button>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- dashboard-listings-wrap-->
                             <div class="dashboard-listings-wrap fl-wrap">
                                 <div class="container-fluid page-padding"

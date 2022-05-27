@@ -39,7 +39,7 @@
                                                 <span>{{propertyInfo.PropertyId}}</span>
                                                 <span>{{propertyInfo.LinkedEntity}}</span>
                                             </div>
-                                            <form *ngIf="customerAssetForm" [formGroup]="customerAssetForm">
+                                            <form *ngIf="propertyOptionForm" [formGroup]="propertyOptionForm">
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                     <label for="name">Current Price:</label>
                                                     <input type="text" id="name" formControlName="currentPrice"
@@ -69,15 +69,15 @@
                                                     </div>
                                                 </div>
 
-                                                <h5>Selected Value: {{customerAssetForm.value | json}}</h5>
+                                                <h5>Selected Value: {{propertyOptionForm.value | json}}</h5>
                                                 <div class="buttonstack">
                                                     <button mat-raised-button color="default" (click)="goToNextStep()">
                                                         CANCEL
                                                     </button>
                                                     <button mat-raised-button color="accent"
-                                                        [disabled]="!customerAssetForm.valid" type="submit"
-                                                        (click)="onSubmitAssets()">
-                                                        Submit And Continue
+                                                        [disabled]="!propertyOptionForm.valid" type="submit"
+                                                        (click)="onPropertyChange()">
+                                                       Transfer Property
                                                     </button>
 
                                                 </div>

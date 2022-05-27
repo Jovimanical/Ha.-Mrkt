@@ -4,10 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Flutterwave, InlinePaymentOptions, PaymentSuccessResponse } from "flutterwave-angular-v3";
 import { NotificationService } from 'app/shared/services/notification.service';
-
 import { UserService } from 'app/core/user/user.service';
 import { BroadcastService } from 'app/core/broadcast.service';
-import { User } from 'app/core/user/user.model';
 import { StoreService } from 'app/shared/services/store.service';
 import { AccountService } from 'app/shared/accounts/account.service';
 
@@ -93,9 +91,6 @@ export class SearchSubscriptionComponent implements OnInit, AfterViewInit {
       'success'
     );
   }
-
-
-
   checkout(): void {
     if (this.searchSubsForm.invalid) {
       return;
@@ -104,7 +99,7 @@ export class SearchSubscriptionComponent implements OnInit, AfterViewInit {
   }
 
   public paystackPaymentInit() {
-    console.log('Payment initialized');
+    //console.log('Payment initialized');
     this.meta = {
       "searchName": "",
       "searchValue": ""
@@ -149,7 +144,7 @@ export class SearchSubscriptionComponent implements OnInit, AfterViewInit {
   }
 
   public paystackPaymentCancel() {
-    console.log('payment failed');
+    // console.log('payment failed');
   }
 
 
@@ -297,7 +292,7 @@ export class SearchSubscriptionComponent implements OnInit, AfterViewInit {
   }
 
 
-  selectPaidService(searchNo: any, searchAmount: any) {
+  public selectPaidService(searchNo: any, searchAmount: any) {
     this.searchAmount = searchAmount;
     this.searchTotal = searchNo;
     Toast.fire({

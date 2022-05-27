@@ -4,6 +4,10 @@ button {
   
   .buttonstack {
     margin-top: 26%;
+    display: flex;
+    width: 60%;
+    justify-content: flex-end;
+    float: right;
   }
   
   .error {

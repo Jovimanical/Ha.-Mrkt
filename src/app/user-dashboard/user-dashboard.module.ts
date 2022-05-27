@@ -39,6 +39,7 @@ import { UserRentPropertyComponent } from './user-rent-property/user-rent-proper
 import { UserLeasePropertyComponent } from './user-lease-property/user-lease-property.component';
 import { UserTransferPropertyComponent } from './user-transfer-property/user-transfer-property.component';
 import { UserResellPropertyComponent } from './user-resell-property/user-resell-property.component';
+import { UserDigitalTitleComponent } from './user-digital-title/user-digital-title.component';
 
 
 // import { InviteComponent } from './invite/invite.component';
@@ -91,6 +92,7 @@ import { UserResellPropertyComponent } from './user-resell-property/user-resell-
         UserLeasePropertyComponent,
         UserTransferPropertyComponent,
         UserResellPropertyComponent,
+        UserDigitalTitleComponent,
         // InviteComponent,
         //     UserDetailsComponent,
         //     OrderAdminComponent,

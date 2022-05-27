@@ -13,45 +13,50 @@
             <div class="dasboard-wrapper fl-wrap">
                 <div class="dasboard-listing-box fl-wrap">
                     <!-- <app-empty-state></app-empty-state> -->
-
                     <mat-form-field appearance="standard">
                         <mat-label>Filter</mat-label>
                         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. application" #input>
                     </mat-form-field>
-                    <table mat-table [dataSource]="transactionHistory" class="mat-elevation-z8">
+                    <table mat-table [dataSource]="transactionHistory" class="mat-elevation-z8" matSort
+                        matSortStart="desc">
                         <!-- Position Column -->
                         <ng-container matColumnDef="id">
-                            <th mat-header-cell *matHeaderCellDef [ngClass]="'w-75'"> No. </th>
-                            <td mat-cell *matCellDef="let element" [ngClass]="'w-75'"> {{element.id}} </td>
+                            <th mat-header-cell *matHeaderCellDef [ngClass]="'w-75'"> NO. </th>
+                            <td mat-cell *matCellDef="let element" [ngClass]="'w-75'">
+                                <!-- {{element.id}}  -->
+                                <button mat-icon-button color="primary" (click)="redirectToDetails(element.id)">
+                                    <mat-icon class="mat-18">reorder</mat-icon>
+                                </button>
+                            </td>
                         </ng-container>
 
                         <!-- Name Column -->
                         <ng-container matColumnDef="amount">
-                            <th mat-header-cell *matHeaderCellDef> Amount </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> AMOUNT </th>
                             <td mat-cell *matCellDef="let element"> {{element.amount |
                                 currency:'NGN':'symbol-narrow':'4.2-2'}} </td>
                         </ng-container>
 
                         <!-- Weight Column -->
                         <ng-container matColumnDef="details">
-                            <th mat-header-cell *matHeaderCellDef> Details </th>
+                            <th mat-header-cell *matHeaderCellDef> DETAILS </th>
                             <td mat-cell *matCellDef="let element"> {{element.details}} </td>
                         </ng-container>
 
                         <!-- Symbol Column -->
                         <ng-container matColumnDef="transaction_type">
-                            <th mat-header-cell *matHeaderCellDef> Type </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> TYPE </th>
                             <td mat-cell *matCellDef="let element"> {{element.transaction_type}} </td>
                         </ng-container>
 
                         <!-- Symbol Column -->
                         <ng-container matColumnDef="receiver_Account">
-                            <th mat-header-cell *matHeaderCellDef> reciever </th>
+                            <th mat-header-cell *matHeaderCellDef> RECIEVER </th>
                             <td mat-cell *matCellDef="let element"> {{element.receiver_Account}} </td>
                         </ng-container>
                         <!-- Symbol Column -->
                         <ng-container matColumnDef="created_at">
-                            <th mat-header-cell *matHeaderCellDef> Date </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> DATE </th>
                             <td mat-cell *matCellDef="let element"> {{element.created_at |date:'fullDate'}} </td>
                         </ng-container>
 
@@ -62,7 +67,7 @@
                             <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
                         </tr>
                     </table>
-                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users">
+                    <mat-paginator [pageSizeOptions]="[25, 50, 100, 150]" aria-label="Select page list of transaction">
                     </mat-paginator>
                 </div>
             </div>

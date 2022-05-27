@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-view-property.component.scss']
 })
 export class UserViewPropertyComponent implements OnInit {
-
+  public PageName = "Property View"
   constructor() { }
 
   ngOnInit(): void {

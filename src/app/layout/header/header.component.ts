@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, NgZone, OnDestroy, AfterViewInit } from '@angular/core';
 import { EventsService } from 'angular4-events';
+import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 import { UserService } from 'app/core/user/user.service';
 import { AccountService } from 'app/shared/accounts/account.service';
 import { BroadcastService } from 'app/core/broadcast.service';
@@ -30,7 +32,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private accountService: AccountService,
     private broadcastService: BroadcastService,
     private eventService: EventsService,
-    public ngZone: NgZone
+    public ngZone: NgZone,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -109,6 +112,22 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         });
     }
+  }
+
+  public showWalletCredit() {
+    Swal.fire({
+      title: `<strong>${this.totalPoint} Units</strong>`,
+      text: 'Credit Unit Balance',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#393',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Top Up Units'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate([`/user-dashboard/user-search-subscription`]);
+      }
+    })
   }
 
 

@@ -349,16 +349,15 @@ aside .contact .socialise:hover {
 
 .mat-tab-label {
   background: white;
-  border: 2px solid #041D58;
-  color:#041D58;
+  border: 2px solid #041d58;
+  color: #041d58;
   margin-bottom: 10px;
 }
 
 .mat-tab-label-active {
-  background: #041D58 !important;
-  color:#FFFFFF !important;
+  background: #041d58 !important;
+  color: #ffffff !important;
 }
-
 
 .leaflet-control-layers-expanded .leaflet-control-layers-list {
   padding: 0px;
@@ -368,4 +367,16 @@ aw-wizard-navigation-bar.horizontal.large-empty
   ul.steps-indicator
   li:not(:last-child):after {
   height: 0px !important;
+}
+
+aw-wizard-navigation-bar.horizontal.large-empty
+  ul.steps-indicator
+  li
+  .step-indicator {
+  margin-top: -11px;
+}
+
+.swal2-radio {
+  display: grid !important;
+  text-align: left !important;
 }

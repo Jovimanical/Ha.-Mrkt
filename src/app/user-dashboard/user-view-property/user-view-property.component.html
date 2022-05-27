@@ -1,1 +1,35 @@
-<p>user-view-property works!</p>
+<!-- wrapper  -->
+<div id="wrapper">
+    <!-- dashbard-menu-wrap -->
+    <app-sidebar></app-sidebar>
+    <!-- dashbard-menu-wrap end  -->
+    <!-- content -->
+    <div class="dashboard-content">
+        <app-dashboard-toggle></app-dashboard-toggle>
+        <div class="container dasboard-container">
+            <!-- dashboard-title -->
+            <app-dashboard-menu-status [dashboardTitle]="PageName"></app-dashboard-menu-status>
+            <!-- dashboard-title end -->
+            <div class="dasboard-wrapper fl-wrap">
+                <!--dashboard-stats-->
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <a routerLink="/property-search/application" routerLinkActive="active">
+                        <div class="dashboard-stats fl-wrap"
+                            style="display: flex; flex-direction: column; justify-content: center; margin: 10px;">
+                            <i class="fal fa-map-marked"></i>
+                            <div class="dashboard-stats-count">All</div>
+                            <h4 style="text-align: center;">Application</h4>
+                        </div>
+                    </a>
+                </div>
+               
+            </div>
+        </div>
+        <!-- dashboard-footer -->
+        <app-dashboard-footer-menu></app-dashboard-footer-menu>
+        <!-- dashboard-footer end -->
+    </div>
+    <!-- content end -->
+    <div class="dashbard-bg gray-bg"></div>
+</div>
+<!-- wrapper end -->

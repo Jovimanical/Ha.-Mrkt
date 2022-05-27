@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-application-status.component.scss']
 })
 export class UserApplicationStatusComponent implements OnInit {
-
+  public PageName = "Application Status"
   constructor() { }
 
   ngOnInit(): void {
