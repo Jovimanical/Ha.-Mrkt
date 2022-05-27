@@ -11,7 +11,12 @@
             <app-dashboard-menu-status [dashboardTitle]="PageName"></app-dashboard-menu-status>
             <!-- dashboard-title end -->
             <div class="dasboard-wrapper fl-wrap">
-                <div class="dasboard-listing-box fl-wrap">
+                <div class="container-fluid page-padding"
+                    style="margin-top:3%; display: flex; justify-content: center; align-items: center;"
+                    *ngIf="isLoading">
+                    <mat-spinner role="progressbar"></mat-spinner>
+                </div>
+                <div class="dasboard-listing-box fl-wrap" *ngIf="!isLoading">
                     <!-- <app-empty-state></app-empty-state> -->
                     <mat-form-field appearance="standard">
                         <mat-label>Filter</mat-label>

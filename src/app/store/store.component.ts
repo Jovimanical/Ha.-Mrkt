@@ -17,6 +17,8 @@ export class StoreComponent implements OnInit, AfterViewInit {
   public propertyListing: Array<any> = [];
   public pageOffSet: number = 0;
   public pageLimit: number = 20;
+  public total: number = 200;
+  public isLoading: boolean = true;
 
   constructor(private storeService: StoreService,
     private router: Router,
@@ -43,6 +45,7 @@ export class StoreComponent implements OnInit, AfterViewInit {
         singleMode: true,
         columnWidth: ".grid-sizer, .grid-sizer-second, .grid-sizer-three",
         itemSelector: ".gallery-item, .gallery-item-second, .gallery-item-three",
+        layoutMode: 'fitRows',
         transformsEnabled: true,
         transitionDuration: "700ms",
         resizable: true
@@ -165,12 +168,15 @@ export class StoreComponent implements OnInit, AfterViewInit {
             this.propertyListing = this.formatLoadedData(result.contentData)
             this.savePropertyObj(this.propertyListing)
             this.pageOffSet += 1
+            this.isLoading = false;
           }
         }, (error: any) => {
-          return this.propertyListing = []
+          this.propertyListing = []
+          this.isLoading = false;
         });
     } else {
-      return this.propertyListing = JSON.parse(propertyListing);
+      this.propertyListing = JSON.parse(propertyListing);
+      this.isLoading = false;
     }
   }
 
@@ -191,6 +197,11 @@ export class StoreComponent implements OnInit, AfterViewInit {
       }, (error: any) => {
         return
       });
+  }
+
+  public pageChanged(event: any) {
+    console.log('Event', event)
+
   }
 
 

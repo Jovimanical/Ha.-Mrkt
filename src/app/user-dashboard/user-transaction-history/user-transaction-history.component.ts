@@ -15,7 +15,7 @@ export class UserTransactionHistoryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) public sort: MatSort;
   public transactionHistory: MatTableDataSource<any> = new MatTableDataSource<any>();
   public displayedColumns: string[] = ['id', 'amount', 'details', 'transaction_type', 'receiver_Account', 'created_at'];
-  //dataSource = ELEMENT_DATA;
+  public isLoading: boolean = true;
 
   constructor(
     private accountService: AccountService,
@@ -34,6 +34,7 @@ export class UserTransactionHistoryComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.transactionHistory.sort = this.sort;
       this.transactionHistory.paginator = this.paginator;
+      this.isLoading = false
     }, 3000);
 
   }

@@ -20,7 +20,8 @@ import { ProfileImageComponent } from './profile-image/profile-image.component';
 import { PageIsLoadingComponent } from './page-is-loading/page-is-loading.component';
 import { DashboardToggleComponent } from './dashboard-toggle/dashboard-toggle.component';
 import { StreetViewComponent } from './street-view/street-view.component';
-import { AlertComponent } from './alert/alert.component'
+import { AlertComponent } from './alert/alert.component';
+import { GenericImageLoadingComponentComponent } from './generic-image-loading-component/generic-image-loading-component.component'
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import { AlertComponent } from './alert/alert.component'
     PageIsLoadingComponent,
     DashboardToggleComponent,
     StreetViewComponent,
-    AlertComponent
+    AlertComponent,
+    GenericImageLoadingComponentComponent
   ],
   exports: [
     ShellComponent,
@@ -59,7 +61,8 @@ import { AlertComponent } from './alert/alert.component'
     PageIsLoadingComponent,
     DashboardToggleComponent,
     FooterComponent,
-    StreetViewComponent
+    StreetViewComponent,
+    GenericImageLoadingComponentComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

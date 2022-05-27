@@ -2,7 +2,7 @@
 <div id="wrapper">
   <!-- content -->
   <div class="content">
-    <!--  section  -->  
+    <!--  section  -->
     <!-- breadcrumbs-->
     <div class="breadcrumbs fw-breadcrumbs sp-brd fl-wrap">
       <div class="container">
@@ -39,39 +39,42 @@
         <div class="grid-item-holder gallery-items gisp fl-wrap" *ngIf="propertyListing.length > 0">
           <!-- gallery-item-->
           <div class="gallery-item {{property.property_type === 'Land'? for_sale : for_rent}}"
-            *ngFor="let property of propertyListing">
+            *ngFor="let property of propertyListing | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }">
             <!-- listing-item -->
             <div class="listing-item">
               <article class="geodir-category-listing fl-wrap">
                 <div class="geodir-category-img fl-wrap">
                   <div (click)="openProductDetail(property.PropertyId)" class="geodir-category-img_item">
-                    <img src="/assets/images/all/3.jpg" alt="">
+                    <!-- <img src="{{property.MapSnapshot}}" alt=""> -->
+                    <app-generic-image-loading-component [alt]="property.PropertyTitle" [id]="'id-'+property.PropertyId"
+                      [imageLoading]="true"
+                      [imageLoadingUrl]="'https://media.tenor.com/images/f864cbf3ea7916572605edd3b3fe637f/tenor.gif'"
+                      [imageUrl]="property.MapSnapshot"
+                      [noImageUrl]="'https://via.placeholder.com/2150x2150.png?text=House+Africa+Estates'"
+                      [imageHeight]="'1200'" [imageWidth]="'1200'">
+                    </app-generic-image-loading-component>
                     <div class="overlay"></div>
                   </div>
                   <div class="geodir-category-location">
-                    <a class="single-map-item tolt" data-newlatitude="40.72956781" data-newlongitude="-73.99726866"
-                      data-microtip-position="top-left" data-tooltip="On the map"><i class="fas fa-map-marker-alt"></i>
+                    <a routerLink="/listings/products/{{property.PropertyId}}" class="single-map-item tolt"
+                      data-newlatitude="40.72956781" data-newlongitude="-73.99726866" data-microtip-position="top-left"
+                      data-tooltip="On the map"><i class="fas fa-map-marker-alt"></i>
                       <span> {{property.Metadata.property_address}}</span></a>
                   </div>
                   <ul class="list-single-opt_header_cat">
                     <li><a class="cat-opt blue-bg">{{property.Metadata.property_type}}</a></li>
                   </ul>
-                  <button class="geodir_save-btn tolt" data-microtip-position="left" data-tooltip="Save">
+                  <!-- <button class="geodir_save-btn tolt" data-microtip-position="left" data-tooltip="Save">
                     <span><i class="fal fa-heart"></i></span>
                   </button>
                   <button class="compare-btn tolt" data-microtip-position="left" data-tooltip="Compare">
                     <span><i class="fal fa-random"></i></span>
-                  </button>
+                  </button> -->
                   <div class="geodir-category-listing_media-list">
-                    <span><i class="fas fa-camera"></i> 8</span>
                   </div>
                 </div>
                 <div class="geodir-category-content fl-wrap">
                   <h3 class="title-sin_item">{{property.PropertyTitle}}</h3>
-                  <div class="geodir-category-content_price">
-                    {{property.Metadata.property_price | currency:'NGN':'symbol-narrow':'4.2-2'}}
-                  </div>
-                  <p>{{property.Metadata.property_description}}</p>
                   <div class="geodir-category-content-details">
                     <ul>
                       <li><i class="fal fa-cube"></i><span>{{property.Metadata.property_size}} ft2</span></li>
@@ -79,7 +82,7 @@
                   </div>
                   <div class="geodir-category-footer fl-wrap">
                     <div class="list-single-opt_header_cat">
-                      <a routerLink="/listings/products/{{property.PropertyId}}" class="cat-opt blue-bg">
+                      <a routerLink="/listings/products/{{property.PropertyId}}" class="cat-opt-button blue-bg">
                         <i class="fas fa-map-marker-alt"></i>
                         &nbsp;
                         <span>Get Full Access</span>
@@ -94,15 +97,20 @@
           <!-- gallery-item end-->
         </div>
         <!-- grid-item-holder-->
-        <div class="col-sm-12 col-md-12" style="margin: 20px;">
-          <a routerLink="/search" routerLinkActive="active" class="mt-20 mb-20 herroo-button">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin: 20px;">
+          <pagination-controls id="home-search-id" (pageChange)="pageChanged($event)"
+            (pageBoundsCorrection)="pageChanged($event)" maxSize="20" directionLinks="true" autoHide="false"
+            responsive="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
+            screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+          </pagination-controls>
+          <!-- <a routerLink="/search" routerLinkActive="active" class="mt-20 mb-20 herroo-button">
             View All Properties
-          </a>
+          </a> -->
         </div>
       </div>
     </section>
     <!-- section end-->
-    
+
 
     <div style="display:block; margin-bottom: 210px;"></div>
     <!-- content end -->

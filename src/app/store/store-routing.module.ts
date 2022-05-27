@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FlutterwaveModule } from "flutterwave-angular-v3"
 import { Angular4PaystackModule } from 'angular4-paystack';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { StoreComponent } from './store.component';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { AuthGuardService } from '../authentication/auth-guard.service';
@@ -53,6 +54,7 @@ const storeRoutes: Routes = [
     CommonModule,
     FlutterwaveModule,
     AuthenticationModule,
+    NgxPaginationModule,
     RouterModule.forChild(storeRoutes),
     Angular4PaystackModule.forRoot('pk_test_xxxxxxxxxxxxxxxxxxxxxxxx'),
   ],
