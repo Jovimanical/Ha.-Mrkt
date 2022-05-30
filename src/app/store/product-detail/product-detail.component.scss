@@ -176,6 +176,19 @@ mat-drawer-content {
   text-transform: uppercase;
 }
 
+.list-single-main-wrapper {
+  padding-left: 0px !important;
+}
+.list-single-main-container {
+  margin-top: 10px;
+}
+
+.locked-region {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
 // @media only screen and (min-width: 520px) {
 //   .example-container-sidebar {
 //     width: 40vw;
@@ -198,5 +211,5 @@ mat-drawer-content {
 }
 
 .bg-wrap {
-  border-radius: 0px!important;
+  border-radius: 0px !important;
 }

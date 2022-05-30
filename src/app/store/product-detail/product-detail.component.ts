@@ -23,6 +23,16 @@ import { StoreService } from 'app/shared/services/store.service';
 import { NavigationService } from 'app/shared/services/navigation.service'
 import { UserService } from 'app/core/user/user.service';
 import { AccountService } from 'app/shared/accounts/account.service';
+import {
+  PROPERTY_INFO_CHARGE,
+  PROPERTY_STREETVIEW_CHARGE,
+  PROPERTY_ESTATE_CHARGE,
+  PROPERTY_HISTORY_CHARGE,
+  PROPERTY_FLOOR_PLAN_CHARGE,
+  PROPERTY_DOCUMENTS_CHARGE
+} from 'app/shared/constants';
+
+
 
 
 const Toast = Swal.mixin({
@@ -76,7 +86,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public source: any;
   public markers: any;
   public publishProperty: any;
-  public svgElement: any = 'https://house-africa-file-storage.s3.us-west-2.amazonaws.com/house-africa-estates-images/PEACH_COURT.svg';
+  public svgElement: any = './assets/images/estate-placeholder.png';
   public sessionStorageBookmarks = 'houseAfrica.bookmarks';
   public userBookMarks: Array<any> = [];
   public sessionStorageCarts = 'houseAfrica.carts';
@@ -94,6 +104,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public totalBalance = 0;
   public userAccount: any = {};
   public userInfo: any = {};
+
+  public showEstateInfo: boolean = false;
+  public showPropertyInfo: boolean = false;
+  public showPropertyStreetView: boolean = false;
+  public showPropertyFloorPlans: boolean = false;
+  public showPropertyHistory: boolean = false;
+  public showPropertyDocuments: boolean = false;
+
 
 
 
@@ -127,32 +145,19 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         // We're just supporting one account right now. Grab the first result.
         if (user.data instanceof Object && Object.keys(user.data).length !== 0) {
           this.userInfo = user.data;
-          this.getAccounts();
+
         } else {
           this.notLoggedInConfirmation()
         }
       }, (error) => {
-        // console.log('getAccounts - Error', error)
         if (error.error.message === 'Error : Expired token') {
-          console.log('getAccounts call logout')
-          // this.userService.logout();
+          console.log('Call logout')
         }
         // show payment Modal
       });
     } else {
       this.notLoggedInConfirmation()
     }
-
-    // this.userService.authenticationChanged$
-    //   .subscribe((isAuthenticated: any) => {
-    //     if (isAuthenticated !== null) {
-    //       this.isAuthenticated = isAuthenticated;
-    //       this.getAccounts();
-    //     }
-    //     else {
-
-    //     }
-    //   });
 
     this.route.params.subscribe(params => {
       const PropertyID = params['id'];
@@ -167,7 +172,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       .subscribe(isMobile => this.mobile = isMobile);
 
     this.broadcastService.getBalance$.subscribe(() => {
-      this.getAccounts();
+      this.getAccounts(null, null);
     });
 
   }
@@ -183,6 +188,15 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         // this.eventService.publish("UnitOptions", RepakageUnit);
         // console.log("Did something!", propertyFeature);
 
+
+
+        this.showPropertyInfo = false;
+        this.showPropertyStreetView = false;
+        this.showPropertyFloorPlans = false;
+        this.showPropertyHistory = false;
+        this.showPropertyDocuments = false;
+        this.showEstateInfo = false;
+
         this.propertyMap = RepakageUnit;
         this.propertView = propertyFeature.properties
         this.totalRooms = this.propertView.property_bathroom_count + this.propertView.property_bedroom_count + this.propertView.property_sittingroom_count
@@ -193,13 +207,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         this.locationUnitLat = coord[0];
         this.locationUnitLong = coord[1];
         // this.initializeStreetView(coord[0], coord[1])
+        this.changeDectection.detectChanges();
 
       }, 500);
     });
 
     // subscribe to event with name "DoEnquire"
     EventService.on("DoEnquire", async (propertyFeature) => {
-      this.router.navigate([`/property-search/marketplace/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}/#enquire`]);
+      this.router.navigate([`/property-search/property-details/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}/#enquire`]);
       setTimeout(() => {
         // create estate with single unit
         let RepakageUnit = this.ESTATE_MAPSOURCE;
@@ -318,11 +333,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Toast.fire({
           icon: 'error',
-          title: 'You would be redirected to the previous page ...'
+          title: 'You would be not be able to access the information requested ...'
         })
-        setTimeout(() => {
-          this.navigation.back()
-        }, 3000);
+        // setTimeout(() => {
+        //   this.navigation.back()
+        // }, 3000);
+        this.openSidebar()
       }
     });
   }
@@ -349,11 +365,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Toast.fire({
           icon: 'error',
-          title: 'You would be redirected to the previous page ...'
+          title: 'You would be able to access this information ...'
         })
-        setTimeout(() => {
-          this.navigation.back()
-        }, 3000);
+        // setTimeout(() => {
+        //   this.navigation.back()
+        // }, 3000);
+        this.openSidebar()
       }
     })
   }
@@ -368,7 +385,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
    * @param {number} amountDeductable - This is the number of points you want to deduct from the user's
    * account.
    */
-  async makeAccountDeductions(amountDeductable: number) {
+  async makeAccountDeductions(amountDeductable: number, accountNarration: any = false, action: any = false) {
     try {
 
       const availablePoint = parseInt(this.userAccount.account_point, 10);
@@ -388,17 +405,50 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           transactionHistory.amount = AmountToDeduct;
           transactionHistory.charge = 1
           transactionHistory.post_balance = availableAmount
-          transactionHistory.transaction_type = 'PROPERTY SEARCH DEDUCTION'
+          transactionHistory.transaction_type = `${accountNarration}`
           transactionHistory.sender_Account = this.userInfo.mobile
           transactionHistory.receiver_Account = 'HOUSEAFRICA001'
           transactionHistory.trx = this.generateReference();
-          transactionHistory.details = 'DEDUCTION FOR USER PROPERTY SEARCH';
+          transactionHistory.details = `DEDUCTION FOR USER ACTION TO ${accountNarration}`;
           transactionHistory.created_at = new Date()
           transactionHistory.updated_at = new Date()
 
           const addTHistory = await this.storeService.addTransactionHistory(JSON.stringify(transactionHistory));
           if (addTHistory) {
-            // this.createOrder()
+            // console.log('paid in full', action)
+            switch (action) {
+              case 'SHOW-PROPERTY-INFO':
+                this.showPropertyInfo = true;
+                this.changeDectection.detectChanges();
+                break;
+              case 'SHOW-PROPERTY-STREETVIEW':
+                this.showPropertyStreetView = true;
+                this.changeDectection.detectChanges();
+                break;
+              case 'SHOW-PROPERTY-DOCUMENT':
+                this.showPropertyDocuments = true;
+                this.changeDectection.detectChanges();
+
+                break;
+              case 'SHOW-PROPERTY-FLOORPLANS':
+                this.showPropertyFloorPlans = true;
+                this.changeDectection.detectChanges();
+                break;
+              case 'SHOW-PROPERTY-HISTORY':
+                this.showPropertyHistory = true;
+                this.changeDectection.detectChanges();
+                break;
+              case 'SHOW-ESTATE-INFO':
+                this.showEstateInfo = true;
+                this.changeDectection.detectChanges();
+                break;
+
+              default:
+                break;
+            }
+
+
+
           }
 
 
@@ -408,11 +458,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       console.error('Error Deduce Amount', error)
       Toast.fire({
         icon: 'error',
-        title: 'We are unable to make deductions for search, you would be redirected to previous page ...'
+        title: 'We are unable to make deductions for last Request, You would be able to access the Information ...'
       })
-      setTimeout(() => {
-        this.navigation.back()
-      }, 3000);
+      // setTimeout(() => {
+      //   this.navigation.back()
+      // }, 3000);
+      this.openSidebar()
 
     }
 
@@ -424,31 +475,34 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
    * `insufficentBalanceConfirmation` function. If it's not, we're calling the `makeAccountDeductions`
    * function
    */
-  private getAccounts(): void {
+  private getAccounts(amountToDeduct: any, accountNaration: any, action: any = null): void {
     this.accountService.getUserAccounts()
       .subscribe((accounts: any) => {
         // console.log('accounts', accounts.data.records[0])
         // We're just supporting one account right now. Grab the first result.
-        // if (accounts?.data.records instanceof Array && accounts.data.records.length > 0) {
-        //   const account = accounts.data.records[0];
-        //   this.userAccount = accounts.data.records[0];
 
-        //   if (account.account_point === "0") {
-        //     this.insufficentBalanceConfirmation()
-        //     return;
-        //   } else {
-        //     this.totalBalance = account.account_point !== "0" ? parseInt(account.account_point, 10) : 0;
-        //     this.broadcastService.emitPointBalanceUpdated(this.totalBalance);
-        //     this.makeAccountDeductions(1);
-        //   }
-        // } else {
-        //   this.accountRetry()
-        // }
+        if (accounts?.data.records instanceof Array && accounts.data.records.length > 0) {
+          const account = accounts.data.records[0];
+          this.userAccount = accounts.data.records[0];
+
+          if (amountToDeduct !== null) {
+            if (account.account_point === "0") {
+              this.insufficentBalanceConfirmation()
+              return;
+            } else {
+              this.totalBalance = account.account_point !== "0" ? parseInt(account.account_point, 10) : 0;
+              this.broadcastService.emitPointBalanceUpdated(this.totalBalance);
+              this.makeAccountDeductions(amountToDeduct, accountNaration, action);
+            }
+          } else {
+            return;
+          }
+        } else {
+          this.accountRetry()
+        }
       }, (error) => {
-        // console.log('getAccounts - Error', error)
         if (error.error.message === 'Error : Expired token') {
-          console.log('getAccounts call logout')
-          // this.userService.logout();
+          console.log('Call logout action')
         }
         // show payment Modal
         this.accountRetry();
@@ -802,7 +856,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
   private initMap(): void {
     //console.log('map-called');
-    
+
     const data = this.ESTATE_MAPSOURCE;
 
     const coordinates = data.features[0].geometry.coordinates;
@@ -1171,19 +1225,19 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       info.update();
     }
 
-    console.log('this.EstateInfo.MapSnapshot', this.EstateInfo.MapSnapshot)
+    // console.log('this.EstateInfo.MapSnapshot', this.EstateInfo.MapSnapshot)
 
     const ImageMapOverlay = this.EstateInfo?.MapSnapshot !== null ? this.EstateInfo.MapSnapshot : this.svgElement
 
     //if (ImageMapOverlay !== null) {
-      let svgElementBounds = estateLayer.getBounds();
-      const imageOverlay = L.imageOverlay(ImageMapOverlay, svgElementBounds, {
-        pane: 'Ha_DevTiles'
-      })
+    let svgElementBounds = estateLayer.getBounds();
+    const imageOverlay = L.imageOverlay(ImageMapOverlay, svgElementBounds, {
+      pane: 'Ha_DevTiles'
+    })
 
-      const overlaysGroup = L.layerGroup([imageOverlay])
-      overlaysGroup.addTo(this.map);
-   // }
+    const overlaysGroup = L.layerGroup([imageOverlay])
+    overlaysGroup.addTo(this.map);
+    // }
     /**
      * use this for a single image overlay
      * "Development Tiles": development_tiles,
@@ -1209,7 +1263,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     googleHybrid.addTo(this.map);
 
     //if (ImageMapOverlay !== null) {
-      imageOverlay.bringToFront();
+    imageOverlay.bringToFront();
     //}
 
     this.map.fitBounds(imageOverlay.getBounds());
@@ -1500,7 +1554,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     // console.log(propertyListing)
     if (propertyListing === null || propertyListing === undefined) {
       console.log('Got No Estate')
-      return
+      this.router.navigate([`/property-search`]);
+      //return
     } else {
       const propertyObjListing = JSON.parse(propertyListing);
       if (propertyObjListing instanceof Array && propertyObjListing.length > 0) {
@@ -1531,5 +1586,79 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
   }
+
+  //show user Amount Charge
+  // User Accepts , Do Charge else retur false
+  // Check if user has Required Amount in Account
+  // Yes Perform Deduction No Display TopUP  Call to action
+  // Show Tab Information
+
+  /**
+   * It takes an action as a parameter, and depending on the action, it calls the processPropertyAction
+   * function with the appropriate charge, description and action
+   * @param {any} action - This is the action that will be performed after the user has paid for the
+   * service.
+   */
+  public showInfoAndCharge(action: any) {
+    switch (action) {
+      case 'SHOW-PROPERTY-INFO':
+
+        this.processPropertyAction(PROPERTY_INFO_CHARGE, 'VIEW PROPERTY INFO', action);
+        break;
+      case 'SHOW-PROPERTY-STREETVIEW':
+        this.processPropertyAction(PROPERTY_STREETVIEW_CHARGE, 'VIEW PROPERTY STREETVIEW', action);
+        break;
+      case 'SHOW-PROPERTY-DOCUMENT':
+        this.processPropertyAction(PROPERTY_DOCUMENTS_CHARGE, 'VIEW PROPERTY DOCUMENT', action);
+        break;
+      case 'SHOW-PROPERTY-FLOORPLANS':
+        this.processPropertyAction(PROPERTY_FLOOR_PLAN_CHARGE, 'VIEW PROPERTY FLOORPLANS', action);
+        break;
+      case 'SHOW-PROPERTY-HISTORY':
+        this.processPropertyAction(PROPERTY_HISTORY_CHARGE, 'VIEW PROPERTY HISTORY', action);
+        break;
+      case 'SHOW-ESTATE-INFO':
+        this.processPropertyAction(PROPERTY_ESTATE_CHARGE, 'VIEW ESTATE INFO', action);
+        break;
+
+      default:
+        break;
+    }
+
+  }
+
+
+  /**
+   * It checks the account balance and deducts the amount from the account
+   * @param {any} amountToDeduct - This is the amount to be deducted from the user's account.
+   * @param {any} accountNaration - This is the account naration that will be used to identify the
+   * transaction.
+   * @param {any} actionRefence - This is the reference to the action you want to perform.
+   */
+  public processPropertyAction(amountToDeduct: any, accountNaration: any, actionRefence: any) {
+    Swal.fire({
+      title: 'Property Information Request',
+      text: `Would you like to Proceed with this Request? Request Cost ${amountToDeduct} Units(s)!`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Continue!',
+      cancelButtonText: 'No, do it later.'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //check account balance and deduct
+        this.getAccounts(amountToDeduct, accountNaration, actionRefence);
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Toast.fire({
+          icon: 'error',
+          title: 'We are sorry to see you cancel, and hope you try again.'
+        })
+        this.openSidebar();
+      }
+    })
+  }
+
 
 }

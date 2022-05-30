@@ -28,7 +28,7 @@ import { CheckOutrightPaymentComponent } from './check-outright-payment/check-ou
 const storeRoutes: Routes = [
   { path: '', component: StoreComponent },
   { path: 'application', component: CartComponent, canActivate: [AuthGuardService] },
-  { path: 'products/:id', component: ProductDetailComponent, canActivate: [AuthGuardService] },
+  { path: 'property/:id', component: ProductDetailComponent, canActivate: [AuthGuardService] },
   { path: 'land-listing', component: LandOnlyListingComponent },
   { path: 'building-listing', component: BuildingOnlyListingComponent },
   { path: 'compare-listing', component: CompareListingsComponent },
@@ -36,7 +36,7 @@ const storeRoutes: Routes = [
   { path: 'checkout-option-loan-application/:id', component: CheckoutOptionStep2Component, canActivate: [AuthGuardService] },
   { path: 'checkout-option-mortgage-application/:id', component: CheckoutChoiceLoanComponent, canActivate: [AuthGuardService] },
   { path: 'search', component: MarketPlaceSearchComponent },
-  { path: 'marketplace/:estate/unit/:id', component: ProductBlockListingComponent },
+  { path: 'property-details/:estate/unit/:id', component: ProductBlockListingComponent },
 
 
 

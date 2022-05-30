@@ -23,7 +23,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   public userInfo: any;
   public totalBalance: number;
   public totalPoint: number;
-  public pagesToHideFooter: Array<any> = ['/property-search/application', '/property-search/checkout-application-requirements', '/property-search/checkout', '/property-search/products/*']
+  public pagesToHideFooter: Array<any> = ['/property-search/application', '/property-search/checkout-application-requirements', '/property-search/checkout', '/property-search/property/*']
 
 
   constructor(

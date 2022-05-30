@@ -45,7 +45,7 @@ export class StoreService {
 
 
   public getProduct(id: number): Observable<Product> {
-    return this.http.get<Product>(`${environment.API_URL}/marketplace/properties/${id}`);
+    return this.http.get<Product>(`${environment.API_URL}/property-details/properties/${id}`);
   }
 
   public addToCart(addToCart: any) {

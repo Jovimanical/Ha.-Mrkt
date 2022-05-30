@@ -7,3 +7,11 @@ export const MONIFY_CONTRACT_CODE = '3569003763';
 export const MONIFY_TEST_ENCRYPTION_KEY = 'https://sandbox.monnify.com';
 export const PAYSTACK_PUBLIC_KEY = 'pk_test_a153339870d0227aa490acb9d88fd220a90f02f2';
 export const PAYSTACK_SECRET_KEY = 'sk_test_5109b049b56912a1bfa00c0f7b50a9021cea442f';
+
+export const PROPERTY_INFO_CHARGE = 4;
+export const PROPERTY_STREETVIEW_CHARGE = 4;
+export const PROPERTY_ESTATE_CHARGE = 4;
+export const PROPERTY_HISTORY_CHARGE = 4;
+export const PROPERTY_DOCUMENTS_CHARGE = 4;
+export const PROPERTY_FLOOR_PLAN_CHARGE = 4;
+export const PROPERTY_APPLICATION_FEE_CHARGE = 4

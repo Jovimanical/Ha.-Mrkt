@@ -23,104 +23,29 @@
                   </div>
                 </div>
                 <ng-template #viewLoaded>
-                  <div class="contianer-fluid">
+                  <div class="locked-region gray-bg small-padding fl-wrap" *ngIf="!showEstateInfo">
+                    <!-- Apply Charges algorithm -->
+                    <button class="like-btn" (click)="showInfoAndCharge('SHOW-ESTATE-INFO')">
+                      <i class="fas fa-times"></i>
+                      View Information
+                    </button>
                     <button class="like-btn" (click)="openSidebar()">
                       <i class="fas fa-times"></i>
                       close
                     </button>
                   </div>
-                  <section class="hidden-section single-hero-section" data-scrollax-parent="true" id="estate1">
-                    <div class="bg-wrap bg-parallax-wrap-gradien">
-                      <div class="bg par-elem"
-                        style="background-image: url('./assets/images/bg/1.jpg');background-size:cover"
-                        data-bg="assets/images/bg/1.jpg" data-scrollax="properties: { translateY: '30%' }"></div>
-                    </div>
-                    <div class="container highligted">
-                      <!--  list-single-header-item-->
-                      <div class="list-single-header-item no-bg-list_sh fl-wrap">
-                        <div class="row">
-                          <div class="col-md-12">
-                            <h1>
-                              {{ESTATE_INFO.property_name}} <span class="verified-badge tolt"
-                                data-microtip-position="bottom" data-tooltip="Verified"><i
-                                  class="fas fa-check"></i></span>
-                            </h1>
-                            <div class="geodir-category-location fl-wrap">
-                              <a href="#"><i class="fas fa-map-marker-alt"></i>{{ESTATE_INFO.property_address}},
-                                {{ESTATE_INFO.property_country}}</a>
-                              <div class="listing-rating card-popup-rainingvis" data-starrating2="4"><span
-                                  class="re_stars-title">{{ESTATE_INFO.property_status}}</span></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="list-single-header-footer fl-wrap">
-                          <div class="list-single-header-price" data-propertyprise="{{ESTATE_INFO.property_address}} ">
-                            <strong>Price:</strong><span>
-                              {{ESTATE_INFO.property_price | currency:'NGN':'symbol-narrow':'4.2-2'}}
-                            </span>
-                          </div>
-                          <div class="list-single-header-date"><span>Date:</span>20.05.2020</div>
-                          <div class="list-single-stats">
-                            <ul class="no-list-style">
-                              <li>
-                                <span class="viewed-counter">
-                                  <i class="fas fa-eye"></i>
-                                  Viewed - 156
-                                </span>
-                              </li>
-                              <li>
-                                <span class="bookmark-counter">
-                                  <i class="fas fa-heart"></i>
-                                  Bookmark - 24
-                                </span>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
+                  <div class="gray-bg small-padding fl-wrap" *ngIf="showEstateInfo">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <button class="like-btn" (click)="openSidebar()">
+                          <i class="fas fa-times"></i>
+                          close
+                        </button>
                       </div>
-                    </div>
-                  </section>
-
-                  <div class="gray-bg small-padding fl-wrap">
-                    <div class="container">
                       <div class="row">
                         <!--  listing-single content -->
                         <div class="col-md-12">
                           <div class="list-single-main-wrapper fl-wrap">
-                            <!--  scroll-nav-wrap -->
-                            <div class="scroll-nav-wrap">
-                              <nav class="scroll-nav scroll-init fixed-column_menu-init">
-                                <ul class="no-list-style">
-                                  <li>
-                                    <a class="act-scrlink" href="#estate1">
-                                      <i class="fal fa-home-lg-alt"></i>
-                                    </a>
-                                    <span>Main</span>
-                                  </li>
-                                  <li>
-                                    <a href="#estate2"><i class="fal fa-image"></i></a><span>Gallery</span>
-                                  </li>
-                                  <li>
-                                    <a href="#estate3"><i class="fal fa-info"></i> </a><span>Details</span>
-                                  </li>
-                                  <li>
-                                    <a href="#estate4"><i class="fal fa-bed"></i></a><span>Rooms</span>
-                                  </li>
-                                  <li>
-                                    <a href="#estate5"><i class="fal fa-video"></i></a><span>Video</span>
-                                  </li>
-
-                                </ul>
-                                <div class="progress-indicator">
-                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
-                                    <circle cx="16" cy="16" r="15.9155" class="progress-bar__background" />
-                                    <circle cx="16" cy="16" r="15.9155" class="progress-bar__progress 
-                                                        js-progress-bar" />
-                                  </svg>
-                                </div>
-                              </nav>
-                            </div>
-                            <!--  scroll-nav-wrap end-->
                             <div class="list-single-main-media fl-wrap" id="estate2">
                               <!-- gallery-items   -->
                               <div class="gallery-items grid-small-pad  list-single-gallery three-coulms lightgallery">
@@ -193,44 +118,7 @@
                               </div>
                               <!-- end gallery items -->
                             </div>
-                            <div class="list-single-facts fl-wrap">
-                              <!-- inline-facts -->
-                              <div class="inline-facts-wrap">
-                                <div class="inline-facts">
-                                  <i class="fal fa-home-lg"></i>
-                                  <h6>Type</h6>
-                                  <span>{{ESTATE_INFO.property_type}} </span>
-                                </div>
-                              </div>
-                              <!-- inline-facts end -->
-                              <!-- inline-facts  -->
-                              <div class="inline-facts-wrap">
-                                <div class="inline-facts">
-                                  <i class="fal fa-users"></i>
-                                  <h6>Sitting Rooms</h6>
-                                  <span>{{ESTATE_INFO.property_sittingroom_count}}</span>
-                                </div>
-                              </div>
-                              <!-- inline-facts end -->
-                              <!-- inline-facts -->
-                              <div class="inline-facts-wrap">
-                                <div class="inline-facts">
-                                  <i class="fal fa-bed"></i>
-                                  <h6>Bedrooms</h6>
-                                  <span>{{ESTATE_INFO.property_bedroom_count}}</span>
-                                </div>
-                              </div>
-                              <!-- inline-facts end -->
-                              <!-- inline-facts -->
-                              <div class="inline-facts-wrap">
-                                <div class="inline-facts">
-                                  <i class="fal fa-bath"></i>
-                                  <h6>Bathrooms</h6>
-                                  <span>{{ESTATE_INFO.property_bathroom_count}}</span>
-                                </div>
-                              </div>
-                              <!-- inline-facts end -->
-                            </div>
+
                             <div class="list-single-main-container fl-wrap" id="estate3">
                               <!-- list-single-main-item -->
                               <div class="list-single-main-item fl-wrap">
@@ -265,49 +153,6 @@
                                       <li><span>Available from:</span>25.05.2020</li>
                                       <li><span>Type:</span>{{ESTATE_INFO.property_type}}</li>
                                     </ul>
-                                  </div>
-                                </div>
-                              </div>
-                              <!-- list-single-main-item end -->
-                              <!-- list-single-main-item -->
-                              <div class="list-single-main-item fl-wrap"
-                                *ngIf="ESTATE_INFO.property_floor_plan !== 'Not Available'">
-                                <div class="list-single-main-item-title">
-                                  <h3>Floor Plans</h3>
-                                </div>
-                                <div class="accordion">
-                                  <a class="toggle act-accordion" href="#"> First Floor Plan <strong>286
-                                      sq
-                                      ft</strong> <span></span> </a>
-                                  <div class="accordion-inner visible">
-                                    <img src="assets/images/plans/1.jpg" alt="">
-                                    <p>Lorem ipsum dolor sit amet, conestatetetur adipiscing elit. Maecenas
-                                      in
-                                      pulvinar neque. Nulla finibus lobortis pulvinar. Donec a
-                                      conestatetetur
-                                      nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar
-                                      nisi
-                                      tincidunt. .</p>
-                                  </div>
-                                  <a class="toggle" href="#">Second Floor Plan <strong>280 sq ft</strong>
-                                    <span></span></a>
-                                  <div class="accordion-inner">
-                                    <img src="assets/images/plans/2.jpg" alt="">
-                                    <p>Aliquam erat volutpat. Curabitur convallis fringilla diam sed
-                                      aliquam.
-                                      Sed tempor iaculis massa faucibus feugiat. In fermentum
-                                      facilisis
-                                      massa,
-                                      a consequat purus viverra</p>
-                                  </div>
-                                  <a class="toggle" href="#"> Garage Plan <strong>180 sq ft</strong>
-                                    <span></span></a>
-                                  <div class="accordion-inner">
-                                    <img src="assets/images/plans/3.jpg" alt="">
-                                    <p>Lorem ipsum dolor sit amet, conestatetetur adipiscing elit. Sed
-                                      tempor
-                                      iaculis massa faucibus feugiat. In fermentum facilisis massa, a
-                                      consequat purus viverra.</p>
                                   </div>
                                 </div>
                               </div>
@@ -389,62 +234,18 @@
                   </div>
                 </div>
                 <ng-template #viewLoaded>
-                  <div class="contianer-fluid">
+                  <div class="locked-region gray-bg small-padding fl-wrap" *ngIf="!showEstateInfo">
+                    <!-- Apply Charges algorithm -->
+                    <button class="like-btn" (click)="showInfoAndCharge('SHOW-PROPERTY-INFO')">
+                      <i class="fas fa-times"></i>
+                      View Information
+                    </button>
                     <button class="like-btn" (click)="openSidebar()">
                       <i class="fas fa-times"></i>
                       close
                     </button>
                   </div>
-                  <section class="hidden-section single-hero-section" data-scrollax-parent="true" id="sec1">
-                    <div class="bg-wrap bg-parallax-wrap-gradien">
-                      <div class="bg par-elem"
-                        style="background-image: url('./assets/images/bg/1.jpg');background-size:cover"
-                        data-bg="assets/images/bg/1.jpg" data-scrollax="properties: { translateY: '30%' }"></div>
-                    </div>
-                    <div class="container highligted">
-                      <!--  list-single-header-item-->
-                      <div class="list-single-header-item no-bg-list_sh fl-wrap">
-                        <div class="row">
-                          <div class="col-md-12">
-                            <h1>{{propertView.property_name}} <span class="verified-badge tolt"
-                                data-microtip-position="bottom" data-tooltip="Verified"><i
-                                  class="fas fa-check"></i></span>
-                            </h1>
-                            <div class="geodir-category-location fl-wrap">
-                              <a href="#"><i class="fas fa-map-marker-alt"></i>{{propertView.property_address}},
-                                {{propertView.property_country}}</a>
-                              <div class="listing-rating card-popup-rainingvis" data-starrating2="4"><span
-                                  class="re_stars-title">{{propertView.property_status}}</span></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="list-single-header-footer fl-wrap">
-                          <div class="list-single-header-price" data-propertyprise="{{propertView.property_address}} ">
-                            <strong>Price:</strong><span>
-                              {{propertView.property_price | currency:'NGN':'symbol-narrow':'4.2-2'}}
-                            </span>
-                          </div>
-                          <div class="list-single-header-date"><span>Date:</span>20.05.2020</div>
-                          <div class="list-single-stats">
-                            <ul class="no-list-style">
-                              <li>
-                                <span class="viewed-counter">
-                                  <i class="fas fa-eye"></i>
-                                  Viewed - 156
-                                </span>
-                              </li>
-                              <li>
-                                <span class="bookmark-counter">
-                                  <i class="fas fa-heart"></i>
-                                  Bookmark - 24
-                                </span>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
+
                   <div class="breadcrumbs fw-breadcrumbs smpar fl-wrap">
                     <div class="container-fluid">
                       <button (click)="packageUnitForExport(1)" class="like-btn">
@@ -460,42 +261,15 @@
                   <div class="gray-bg small-padding fl-wrap">
                     <div class="container">
                       <div class="row">
+                        <button class="like-btn" (click)="openSidebar()">
+                          <i class="fas fa-times"></i>
+                          close
+                        </button>
+                      </div>
+                      <div class="row">
                         <!--  listing-single content -->
                         <div class="col-md-12">
                           <div class="list-single-main-wrapper fl-wrap">
-                            <!--  scroll-nav-wrap -->
-                            <div class="scroll-nav-wrap">
-                              <nav class="scroll-nav scroll-init fixed-column_menu-init">
-                                <ul class="no-list-style">
-                                  <li>
-                                    <a class="act-scrlink" href="#sec1">
-                                      <i class="fal fa-home-lg-alt"></i>
-                                    </a>
-                                    <span>Main</span>
-                                  </li>
-                                  <li><a href="#sec2"><i class="fal fa-image"></i></a><span>Gallery</span>
-                                  </li>
-                                  <li><a href="#sec3"><i class="fal fa-info"></i> </a><span>Details</span>
-                                  </li>
-                                  <li><a href="#sec4"><i class="fal fa-bed"></i></a><span>Rooms</span>
-                                  </li>
-                                  <li><a href="#sec5"><i class="fal fa-video"></i></a><span>Video</span>
-                                  </li>
-                                  <li><a href="#sec6"><i class="fal fa-map-pin"></i></a><span>Location</span>
-                                  </li>
-                                  <li><a href="#sec7"><i class="fal fa-comment-alt-lines"></i></a><span>Reviews</span>
-                                  </li>
-                                </ul>
-                                <div class="progress-indicator">
-                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
-                                    <circle cx="16" cy="16" r="15.9155" class="progress-bar__background" />
-                                    <circle cx="16" cy="16" r="15.9155" class="progress-bar__progress 
-                                                        js-progress-bar" />
-                                  </svg>
-                                </div>
-                              </nav>
-                            </div>
-                            <!--  scroll-nav-wrap end-->
                             <div class="list-single-main-media fl-wrap" id="sec2">
                               <!-- gallery-items   -->
                               <div class="gallery-items grid-small-pad  list-single-gallery three-coulms lightgallery">
@@ -844,10 +618,23 @@
         </ng-template>
         <ng-template verticalTabContent>
           <div fxFlex>
-            <agm-map [latitude]="locationUnitLat" [longitude]="locationUnitLong">
-              <agm-marker [latitude]="locationUnitLat" [longitude]="locationUnitLong"></agm-marker>
-            </agm-map>
-            <app-street-view [latitude]="locationUnitLat" [longitude]="locationUnitLong"></app-street-view>
+            <div class="locked-region gray-bg small-padding fl-wrap" *ngIf="!showPropertyStreetView">
+              <!-- Apply Charges algorithm -->
+              <button class="like-btn" (click)="showInfoAndCharge('SHOW-PROPERTY-STREETVIEW')">
+                <i class="fas fa-times"></i>
+                View Information
+              </button>
+              <button class="like-btn" (click)="openSidebar()">
+                <i class="fas fa-times"></i>
+                close
+              </button>
+            </div>
+            <div *ngIf="showPropertyStreetView">
+              <agm-map [latitude]="locationUnitLat" [longitude]="locationUnitLong">
+                <agm-marker [latitude]="locationUnitLat" [longitude]="locationUnitLong"></agm-marker>
+              </agm-map>
+              <app-street-view [latitude]="locationUnitLat" [longitude]="locationUnitLong"></app-street-view>
+            </div>
           </div>
         </ng-template>
       </app-vertical-tab>
@@ -857,7 +644,22 @@
           <span class="info-xs">Property History</span>
         </ng-template>
         <ng-template verticalTabContent>
-          <div fxFlex>Files</div>
+          <div fxFlex>
+            <div class="locked-region gray-bg small-padding fl-wrap" *ngIf="!showPropertyHistory">
+              <!-- Apply Charges algorithm -->
+              <button class="like-btn" (click)="showInfoAndCharge('SHOW-PROPERTY-HISTORY')">
+                <i class="fas fa-times"></i>
+                View Information
+              </button>
+              <button class="like-btn" (click)="openSidebar()">
+                <i class="fas fa-times"></i>
+                close
+              </button>
+            </div>
+            <div class="locked-region gray-bg small-padding fl-wrap" *ngIf="showPropertyHistory">
+              <h4>Show Property History</h4>
+            </div>
+          </div>
         </ng-template>
       </app-vertical-tab>
       <app-vertical-tab>
@@ -866,7 +668,88 @@
           <span class="info-xs">Documents</span>
         </ng-template>
         <ng-template verticalTabContent>
-          <div fxFlex>Work</div>
+          <div fxFlex>
+            <div class="locked-region gray-bg small-padding fl-wrap" *ngIf="!showPropertyDocuments">
+              <!-- Apply Charges algorithm -->
+              <button class="like-btn" (click)="showInfoAndCharge('SHOW-PROPERTY-DOCUMENT')">
+                <i class="fas fa-times"></i>
+                View Information
+              </button>
+              <button class="like-btn" (click)="openSidebar()">
+                <i class="fas fa-times"></i>
+                close
+              </button>
+            </div>
+            <div class="locked-region gray-bg small-padding fl-wrap" *ngIf="showPropertyDocuments">
+              <h4>Show Property Documents</h4>
+            </div>
+          </div>
+        </ng-template>
+      </app-vertical-tab>
+      <app-vertical-tab>
+        <ng-template verticalTabLabel>
+          <mat-icon>help_outline</mat-icon>
+          <span class="info-xs">Floor Plans</span>
+        </ng-template>
+        <ng-template verticalTabContent>
+          <div fxFlex>
+            <div class="locked-region gray-bg small-padding fl-wrap" *ngIf="!showPropertyFloorPlans">
+              <!-- Apply Charges algorithm -->
+              <button class="like-btn" (click)="showInfoAndCharge('SHOW-PROPERTY-FLOORPLANS')">
+                <i class="fas fa-times"></i>
+                View Information
+              </button>
+              <button class="like-btn" (click)="openSidebar()">
+                <i class="fas fa-times"></i>
+                close
+              </button>
+            </div>
+            <div class="list-single-main-container fl-wrap" *ngIf="!showPropertyFloorPlans">
+              <!-- list-single-main-item -->
+              <h4>Show Property Floor Plans</h4>
+              <div class="list-single-main-item fl-wrap" *ngIf="ESTATE_INFO.property_floor_plan !== 'Not Available'">
+                <div class="list-single-main-item-title">
+                  <h3>Floor Plans</h3>
+                </div>
+                <div class="accordion">
+                  <a class="toggle act-accordion" href="#"> First Floor Plan <strong>286
+                      sq
+                      ft</strong> <span></span> </a>
+                  <div class="accordion-inner visible">
+                    <img src="assets/images/plans/1.jpg" alt="">
+                    <p>Lorem ipsum dolor sit amet, conestatetetur adipiscing elit. Maecenas
+                      in
+                      pulvinar neque. Nulla finibus lobortis pulvinar. Donec a
+                      conestatetetur
+                      nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar
+                      nisi
+                      tincidunt. .</p>
+                  </div>
+                  <a class="toggle" href="#">Second Floor Plan <strong>280 sq ft</strong>
+                    <span></span></a>
+                  <div class="accordion-inner">
+                    <img src="assets/images/plans/2.jpg" alt="">
+                    <p>Aliquam erat volutpat. Curabitur convallis fringilla diam sed
+                      aliquam.
+                      Sed tempor iaculis massa faucibus feugiat. In fermentum
+                      facilisis
+                      massa,
+                      a consequat purus viverra</p>
+                  </div>
+                  <a class="toggle" href="#"> Garage Plan <strong>180 sq ft</strong>
+                    <span></span></a>
+                  <div class="accordion-inner">
+                    <img src="assets/images/plans/3.jpg" alt="">
+                    <p>Lorem ipsum dolor sit amet, conestatetetur adipiscing elit. Sed
+                      tempor
+                      iaculis massa faucibus feugiat. In fermentum facilisis massa, a
+                      consequat purus viverra.</p>
+                  </div>
+                </div>
+              </div>
+              <!-- list-single-main-item end -->
+            </div>
+          </div>
         </ng-template>
       </app-vertical-tab>
       <app-vertical-tab>
@@ -876,15 +759,6 @@
         </ng-template>
         <ng-template verticalTabContent>
           <div fxFlex>Favorites</div>
-        </ng-template>
-      </app-vertical-tab>
-      <app-vertical-tab>
-        <ng-template verticalTabLabel>
-          <mat-icon>help_outline</mat-icon>
-          <span class="info-xs">Help</span>
-        </ng-template>
-        <ng-template verticalTabContent>
-          <div fxFlex>Help</div>
         </ng-template>
       </app-vertical-tab>
     </app-vertical-tab-group>

@@ -50,13 +50,13 @@
                       [imageLoading]="true"
                       [imageLoadingUrl]="'https://media.tenor.com/images/f864cbf3ea7916572605edd3b3fe637f/tenor.gif'"
                       [imageUrl]="property.MapSnapshot"
-                      [noImageUrl]="'https://via.placeholder.com/2150x2150.png?text=House+Africa+Estates'"
+                      [noImageUrl]="'/assets/images/all/3.jpg'"
                       [imageHeight]="'1200'" [imageWidth]="'1200'">
                     </app-generic-image-loading-component>
                     <div class="overlay"></div>
                   </div>
                   <div class="geodir-category-location">
-                    <a routerLink="/listings/products/{{property.PropertyId}}" class="single-map-item tolt"
+                    <a routerLink="/property-search/property/{{property.PropertyId}}" class="single-map-item tolt"
                       data-newlatitude="40.72956781" data-newlongitude="-73.99726866" data-microtip-position="top-left"
                       data-tooltip="On the map"><i class="fas fa-map-marker-alt"></i>
                       <span> {{property.Metadata.property_address}}</span></a>
@@ -82,7 +82,7 @@
                   </div>
                   <div class="geodir-category-footer fl-wrap">
                     <div class="list-single-opt_header_cat">
-                      <a routerLink="/listings/products/{{property.PropertyId}}" class="cat-opt-button blue-bg">
+                      <a routerLink="/property-search/property/{{property.PropertyId}}" class="cat-opt-button blue-bg">
                         <i class="fas fa-map-marker-alt"></i>
                         &nbsp;
                         <span>Get Full Access</span>
