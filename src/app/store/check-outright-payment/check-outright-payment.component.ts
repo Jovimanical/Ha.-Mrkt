@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import * as L from 'leaflet';
 import { StoreService } from 'app/shared/services/store.service';
+import { NavigationService } from 'app/shared/services/navigation.service'
 
 @Component({
   selector: 'app-check-outright-payment',
@@ -18,7 +19,7 @@ export class CheckOutrightPaymentComponent implements OnInit, AfterViewInit, OnD
   public loading = true;
   public isMapLoading = true;
   public map: any;
-  constructor(private route: ActivatedRoute, private storeService: StoreService, private router: Router) {
+  constructor(private route: ActivatedRoute, private storeService: StoreService, private navigation: NavigationService, private router: Router) {
     this.isMapLoading = true;
   }
 
@@ -26,7 +27,7 @@ export class CheckOutrightPaymentComponent implements OnInit, AfterViewInit, OnD
     this.route.params.subscribe((params: any) => {
       this.propertyID = params['id'];
       this.storeService.fetchCartItem(params['id']).subscribe((response: any) => {
-        // console.log('response.data.records', response.data);
+        console.log('response.data.records', response.data);
         if (response.data instanceof Object && Object.keys(response.data).length !== 0) {
           // save to loal store
           let cartItem = response.data
@@ -80,9 +81,8 @@ export class CheckOutrightPaymentComponent implements OnInit, AfterViewInit, OnD
   }
 
   public callToAction(param: any) {
-
     switch (param) {
-      case 1:
+      case 'PAYNOW':
         this.updateApplicationProcess(this.PROPERTY_INFO)
         break;
 
@@ -116,15 +116,54 @@ export class CheckOutrightPaymentComponent implements OnInit, AfterViewInit, OnD
   }
 
   public updateApplicationProcess(propertyItem: any) {
-    const propertyInfo: any = propertyItem;
-    propertyInfo.ApplicationStatus = 'PENDING';
-    this.storeService.updateCartItem(JSON.stringify(propertyInfo)).subscribe((response: any) => {
-      // console.log('response.data.records', response.data);
-      this.router.navigate([`/property-search/checkout/${this.propertyID}`]);
 
-    }, (error) => {
+    Swal.fire({
+      title: 'Ouright Payment',
+      text: `You have choosing to make an outright payment for this property, Please allow 24hrs to book for inspection and follow up contact with our team. Do you wish to continue?`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Continue!',
+      cancelButtonText: 'No, do it later.'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const propertyInfo: any = propertyItem;
+        propertyInfo.ApplicationStatus = 'PENDING';
+        this.storeService.updateCartItem(JSON.stringify(propertyInfo)).subscribe((response: any) => {
+          // console.log('response.data.records', response.data);
+          this.router.navigate([`/property-search/checkout/${this.propertyID}`]);
 
-    });
+        }, (error) => {
+          console.log('error', error)
+          Swal.fire(
+            'Unable to process request',
+            'Error Caught processing your request, Please try again later.',
+            'error'
+          )
+        });
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+          title: 'Outright Payment Cancelled',
+          text: "What would you want to do?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Previous Page!',
+          cancelButtonText: 'Dashboard.'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.navigation.back()
+          } else {
+            this.router.navigate([`/user-dashboard`]);
+          }
+        })
+      }
+    })
+
+
   }
 
 
@@ -133,7 +172,7 @@ export class CheckOutrightPaymentComponent implements OnInit, AfterViewInit, OnD
     const ESTATE_AND_UNIT_INFO = this.PROPERTY_INFO.PropertyJson;
 
     const coordinates = ESTATE_AND_UNIT_INFO.features[0].geometry.coordinates;
-    const coord = coordinates[0]
+    const coord = coordinates[0][0][0]
     //console.log('center', coordinates)
     //console.log('ESTATE_MAPSOURCE', this.ESTATE_MAPSOURCE.features[0].properties)
     const mbAttr = 'Marketplace &copy; Integration by <a href="https://houseafrica.io/">HouseAfrica</a>';

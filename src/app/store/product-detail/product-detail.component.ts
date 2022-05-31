@@ -112,9 +112,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public showPropertyHistory: boolean = false;
   public showPropertyDocuments: boolean = false;
 
-
-
-
   constructor(
     private storeService: StoreService,
     private route: ActivatedRoute,
@@ -1219,7 +1216,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     googleHybrid.addTo(this.map);
 
     //if (ImageMapOverlay !== null) {
-    imageOverlay.bringToFront();
+    imageOverlay.bringToBack();
+    // imageOverlay.bringToFront();
     //}
 
     this.map.fitBounds(imageOverlay.getBounds());
@@ -1237,7 +1235,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       if (this.map.getZoom() >= 7 && this.map.getZoom() <= 16) {
         if (this.simpCounter == 0 || this.simpCounter == 2) {
           this.map.removeLayer(estateUnitsLayer);
-          // development_tiles.bringToFront();
           // REMOVING PREVIOUS INFO BOX
           if (legend !== undefined) {
             legend.remove(this.map)
@@ -1612,6 +1609,32 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           title: 'We are sorry to see you cancel, and hope you try again.'
         })
         this.openSidebar();
+      }
+    })
+  }
+
+  public claimProperty(PropertyInfo: any, action: any = 'Estate') {
+    // console.log('PropertyInfo', PropertyInfo)
+    Swal.fire({
+      title: 'Claim Property Request',
+      text: `You would be contacted via Your details in the next 24hrs concerning this property. Note that you would be required to provide proof of ownership`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Continue!',
+      cancelButtonText: 'No, do it later.'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //check account balance and deduct
+        // this.claimPropertyRequest(PropertyInfo, claimerEmail, claimerPhone);
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Toast.fire({
+          icon: 'error',
+          title: 'Your Last request was not processed, Because you cancelled.'
+        })
+        // this.openSidebar();
       }
     })
   }

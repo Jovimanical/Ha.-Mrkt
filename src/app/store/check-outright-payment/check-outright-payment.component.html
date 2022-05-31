@@ -37,21 +37,14 @@
                                 <div class="custom-form">
                                     <div class="checkout-title">OUTRIGHT PAYMENT</div>
                                     <div>
-                                        <h4 class="text-left mt-20 mb-20">Terms and Condition</h4>
+                                        <h4 class="text-left mt-20 mb-20">{{PROPERTY_INFO.PropertyName}}</h4>
                                     </div>
                                     <div>
                                         <ul class="text-left">
-                                            <li> Lorem ipsum dolor sit amet consectetur adipisicing elit. </li>
-                                            <li>
-                                                Quaerat nobis cumque sit itaque aliquam culpa facilis! Mollitia
-                                                explicabo
-                                            </li>
-                                            <li>
-                                                corrupti quidem dolore nulla aliquam recusandae repellendus, laborum
-                                            </li>
-                                            <li>
-                                                doloribus facere Acusamus vitae?Lorem ipsum dolor sit amet
-                                            </li>
+                                            <li>Property Amount: {{PROPERTY_INFO.PropertyAmount | currency:'NGN':'symbol-narrow':'4.2-2'}} </li>
+                                            <li>Property ID: {{PROPERTY_INFO.PropertyId}}</li>
+                                            <li>Property Estate: {{PROPERTY_INFO.PropertyEstate}}</li>
+                                            <li>Property Status:{{PROPERTY_INFO.PropertyStatus}}</li>
                                         </ul>
                                     </div>
                                     <!-- <div style="height: 10px;"></div> -->
@@ -73,12 +66,12 @@
                                     </div>
                                     <div
                                         style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 20px;">
-                                        <button mat-button (click)="callToAction(0)" mat-raised-button color="warn">
+                                        <button mat-button (click)="callToAction('DOLATER')" mat-raised-button color="warn">
                                             <span style="display: block; font-weight: 800; text-transform: uppercase;">
                                                 DO LATER
                                             </span>
                                         </button>
-                                        <button mat-button (click)="callToAction(1)" mat-raised-button color="primary">
+                                        <button mat-button (click)="callToAction('PAYNOW')" mat-raised-button color="primary">
                                             <span style="display: block; font-weight: 800; text-transform: uppercase;">
                                                 CONTINUE
                                             </span>

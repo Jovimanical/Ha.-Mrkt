@@ -21,6 +21,10 @@
   bottom: 0;
 }
 
+.fw-map.big_map {
+  height: 100vh !important;
+}
+
 @media only screen and (max-width: 600px) {
   #estateMap {
     border-radius: 0;

@@ -36,7 +36,7 @@
                   </div>
                   <div class="gray-bg small-padding fl-wrap" *ngIf="showEstateInfo">
                     <div class="container-fluid">
-                      <div class="row">
+                      <div class="row" style="display: flex;justify-content: flex-end;">
                         <button class="like-btn" (click)="openSidebar()">
                           <i class="fas fa-times"></i>
                           close
@@ -123,11 +123,24 @@
                               <!-- list-single-main-item -->
                               <div class="list-single-main-item fl-wrap">
                                 <div class="list-single-main-item-title">
-                                  <h3>About This Listing</h3>
+                                  <h3>{{ESTATE_INFO.PropertyTitle}}</h3>
+                                </div>
+                                <div class="geodir-category-location fl-wrap">
+                                  <a href="#">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    {{ESTATE_INFO.property_address}},
+                                    {{ESTATE_INFO.property_country}}
+                                  </a>
+                                  <div class="listing-rating card-popup-rainingvis" data-starrating2="4">
+                                    <span class="re_stars-title">{{ESTATE_INFO.property_status}}</span>
+                                  </div>
                                 </div>
                                 <div class="list-single-main-item_content fl-wrap">
                                   <p>{{ESTATE_INFO.property_description}}</p>
                                 </div>
+                                <button class="like-btn" (click)="claimProperty(ESTATE_INFO)">
+                                  Claim Property
+                                </button>
                               </div>
                               <!-- list-single-main-item end -->
                               <!-- list-single-main-item -->
@@ -138,20 +151,24 @@
                                 <div class="list-single-main-item_content fl-wrap">
                                   <div class="details-list">
                                     <ul>
-                                      <li><span>Property Id:</span>{{ESTATE_INFO.id}}</li>
-                                      <li><span>Property Lot Size:</span>{{ESTATE_INFO.property_size}}
-                                        m2
+                                      <li *ngIf="ESTATE_INFO.property_size !== 'Not Available'">
+                                        <span>Property Lot Size:</span>
+                                        {{ESTATE_INFO.property_size}}m2
                                       </li>
-                                      <li><span>Bathrooms:</span>{{ESTATE_INFO.property_bathroom_count}}
+                                      <li *ngIf="ESTATE_INFO.property_bathroom_count !== 'Not Available'">
+                                        <span>Bathrooms:</span>{{ESTATE_INFO.property_bathroom_count}}
                                       </li>
-                                      <li><span>Rooms:</span>{{totalRooms}}</li>
-                                      <li><span>Bedrooms:</span>{{ESTATE_INFO.property_bedroom_count}}
+
+                                      <li *ngIf="ESTATE_INFO.property_bedroom_count !== 'Not Available'">
+                                        <span>Bedrooms:</span>{{ESTATE_INFO.property_bedroom_count}}
                                       </li>
-                                      <li><span>Garage Size:</span>
+                                      <li *ngIf="ESTATE_INFO.property_parking_space_count !== 'Not Available'">
+                                        <span>Garage Size:</span>
                                         {{ESTATE_INFO.property_parking_space_count}}
                                       </li>
-                                      <li><span>Available from:</span>25.05.2020</li>
-                                      <li><span>Type:</span>{{ESTATE_INFO.property_type}}</li>
+                                      <li *ngIf="ESTATE_INFO.property_type !== 'Not Available'">
+                                        <span>Type:</span>{{ESTATE_INFO.property_type}}
+                                      </li>
                                     </ul>
                                   </div>
                                 </div>
@@ -176,22 +193,38 @@
                               <div class="list-single-main-item fl-wrap"
                                 *ngIf="ESTATE_INFO.property_amenities !== 'Not Available'">
                                 <div class="list-single-main-item-title">
-                                  <h3>Features</h3>
+                                  <h3>Neighborhood</h3>
                                 </div>
                                 <div class="list-single-main-item_content fl-wrap">
                                   <div class="listing-features ">
                                     <ul>
-                                      <li><a href="#"><i class="fal fa-dumbbell"></i> Gym</a></li>
-                                      <li><a href="#"><i class="fal fa-wifi"></i> Wi Fi</a></li>
-                                      <li><a href="#"><i class="fal fa-parking"></i> Parking</a></li>
-                                      <li><a href="#"><i class="fal fa-cloud"></i> Air Conditioned</a>
+                                      <li>
+                                        <span><i class="fal fa-dumbbell"></i> Gym</span>
                                       </li>
-                                      <li><a href="#"><i class="fal fa-swimmer"></i> Pool</a></li>
-                                      <li><a href="#"><i class="fal fa-cctv"></i> Security</a></li>
-                                      <li><a href="#"><i class="fal fa-washer"></i> Laundry Room</a>
+                                      <li>
+                                        <span><i class="fal fa-wifi"></i> Wi Fi</span>
                                       </li>
-                                      <li><a href="#"><i class="fal fa-utensils"></i> Equipped
-                                          Kitchen</a>
+                                      <li>
+                                        <span><i class="fal fa-parking"></i> Parking</span>
+                                      </li>
+                                      <li>
+                                        <span><i class="fal fa-cloud"></i> Air Conditioned</span>
+                                      </li>
+                                      <li>
+                                        <span><i class="fal fa-swimmer"></i> Pool</span>
+                                      </li>
+                                      <li>
+                                        <span><i class="fal fa-cctv"></i> Security</span>
+                                      </li>
+                                      <li>
+                                        <span>
+                                          <i class="fal fa-washer"></i> Laundry Room</span>
+                                      </li>
+                                      <li>
+                                        <span>
+                                          <i class="fal fa-utensils"></i>
+                                          Equipped Kitchen
+                                        </span>
                                       </li>
                                     </ul>
                                   </div>
@@ -234,7 +267,7 @@
                   </div>
                 </div>
                 <ng-template #viewLoaded>
-                  <div class="locked-region gray-bg small-padding fl-wrap" *ngIf="!showEstateInfo">
+                  <div class="locked-region gray-bg small-padding fl-wrap" *ngIf="!showPropertyInfo">
                     <!-- Apply Charges algorithm -->
                     <button class="like-btn" (click)="showInfoAndCharge('SHOW-PROPERTY-INFO')">
                       <i class="fas fa-times"></i>
@@ -245,22 +278,9 @@
                       close
                     </button>
                   </div>
-
-                  <div class="breadcrumbs fw-breadcrumbs smpar fl-wrap">
+                  <div class="gray-bg small-padding fl-wrap" *ngIf="showPropertyInfo">
                     <div class="container-fluid">
-                      <button (click)="packageUnitForExport(1)" class="like-btn">
-                        <i class="fas fa-shopping-cart"></i>
-                        Buy Property
-                      </button>
-                      <button (click)="packageUnitForExport(0)" class="like-btn">
-                        <i class="fas fa-heart"></i>
-                        Bookmark property
-                      </button>
-                    </div>
-                  </div>
-                  <div class="gray-bg small-padding fl-wrap">
-                    <div class="container">
-                      <div class="row">
+                      <div class="row" style="display: flex;justify-content: flex-end;">
                         <button class="like-btn" (click)="openSidebar()">
                           <i class="fas fa-times"></i>
                           close
@@ -341,53 +361,28 @@
                                 <!-- 7 end -->
                               </div>
                               <!-- end gallery items -->
-                            </div>
-                            <div class="list-single-facts fl-wrap">
-                              <!-- inline-facts -->
-                              <div class="inline-facts-wrap">
-                                <div class="inline-facts">
-                                  <i class="fal fa-home-lg"></i>
-                                  <h6>Type</h6>
-                                  <span>{{propertView.property_type}} </span>
-                                </div>
-                              </div>
-                              <!-- inline-facts end -->
-                              <!-- inline-facts  -->
-                              <div class="inline-facts-wrap">
-                                <div class="inline-facts">
-                                  <i class="fal fa-users"></i>
-                                  <h6>Sitting Rooms</h6>
-                                  <span>{{propertView.property_sittingroom_count}}</span>
-                                </div>
-                              </div>
-                              <!-- inline-facts end -->
-                              <!-- inline-facts -->
-                              <div class="inline-facts-wrap">
-                                <div class="inline-facts">
-                                  <i class="fal fa-bed"></i>
-                                  <h6>Bedrooms</h6>
-                                  <span>{{propertView.property_bedroom_count}}</span>
-                                </div>
-                              </div>
-                              <!-- inline-facts end -->
-                              <!-- inline-facts -->
-                              <div class="inline-facts-wrap">
-                                <div class="inline-facts">
-                                  <i class="fal fa-bath"></i>
-                                  <h6>Bathrooms</h6>
-                                  <span>{{propertView.property_bathroom_count}}</span>
-                                </div>
-                              </div>
-                              <!-- inline-facts end -->
-                            </div>
+                            </div>                          
                             <div class="list-single-main-container fl-wrap" id="sec3">
                               <!-- list-single-main-item -->
                               <div class="list-single-main-item fl-wrap">
                                 <div class="list-single-main-item-title">
-                                  <h3>About This Listing</h3>
+                                  <h3>{{propertView.PropertyName}}</h3>
                                 </div>
                                 <div class="list-single-main-item_content fl-wrap">
                                   <p>{{propertView.property_description}}</p>
+                                </div>                              
+                              </div>
+                              <div class="breadcrumbs fw-breadcrumbs smpar fl-wrap">
+                                <div class="container-fluid">
+                                  <button (click)="packageUnitForExport(1)" class="like-btn">                                    
+                                    Buy Property
+                                  </button>
+                                  <button (click)="packageUnitForExport(0)" class="like-btn">                                 
+                                    Bookmark property
+                                  </button>
+                                  <button class="like-btn" (click)="claimProperty(propertView)">
+                                    Claim Property
+                                  </button>
                                 </div>
                               </div>
                               <!-- list-single-main-item end -->
@@ -399,64 +394,25 @@
                                 <div class="list-single-main-item_content fl-wrap">
                                   <div class="details-list">
                                     <ul>
-                                      <li><span>Property Id:</span>{{propertView.id}}</li>
-                                      <li><span>Property Lot Size:</span>{{propertView.property_size}}
-                                        m2
+                                      <li *ngIf="propertView.property_size !== 'Not Available'">
+                                        <span>Property Lot Size:</span>
+                                        {{propertView.property_size}} m2
                                       </li>
-                                      <li><span>Bathrooms:</span>{{propertView.property_bathroom_count}}
+                                      <li *ngIf="propertView.property_bathroom_count !== 'Not Available'">
+                                        <span>Bathrooms:</span>{{propertView.property_bathroom_count}}
                                       </li>
-                                      <li><span>Rooms:</span>{{totalRooms}}</li>
-                                      <li><span>Bedrooms:</span>{{propertView.property_bedroom_count}}
+
+                                      <li *ngIf="propertView.property_bedroom_count !== 'Not Available'">
+                                        <span>Bedrooms:</span>{{propertView.property_bedroom_count}}
                                       </li>
-                                      <li><span>Garage Size:</span>
+                                      <li *ngIf="propertView.property_parking_space_count !== 'Not Available'">
+                                        <span>Garage Size:</span>
                                         {{propertView.property_parking_space_count}}
                                       </li>
-                                      <li><span>Available from:</span>25.05.2020</li>
-                                      <li><span>Type:</span>{{propertView.property_type}}</li>
+                                      <li *ngIf="propertView.property_type !== 'Not Available'">
+                                        <span>Type:</span>{{propertView.property_type}}
+                                      </li>
                                     </ul>
-                                  </div>
-                                </div>
-                              </div>
-                              <!-- list-single-main-item end -->
-                              <!-- list-single-main-item -->
-                              <div class="list-single-main-item fl-wrap"
-                                *ngIf="propertView.property_floor_plan !== 'Not Available'">
-                                <div class="list-single-main-item-title">
-                                  <h3>Floor Plans</h3>
-                                </div>
-                                <div class="accordion">
-                                  <a class="toggle act-accordion" href="#"> First Floor Plan <strong>286
-                                      sq
-                                      ft</strong> <span></span> </a>
-                                  <div class="accordion-inner visible">
-                                    <img src="assets/images/plans/1.jpg" alt="">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-                                      in
-                                      pulvinar neque. Nulla finibus lobortis pulvinar. Donec a
-                                      consectetur
-                                      nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar
-                                      nisi
-                                      tincidunt. .</p>
-                                  </div>
-                                  <a class="toggle" href="#">Second Floor Plan <strong>280 sq ft</strong>
-                                    <span></span></a>
-                                  <div class="accordion-inner">
-                                    <img src="assets/images/plans/2.jpg" alt="">
-                                    <p>Aliquam erat volutpat. Curabitur convallis fringilla diam sed
-                                      aliquam.
-                                      Sed tempor iaculis massa faucibus feugiat. In fermentum
-                                      facilisis
-                                      massa,
-                                      a consequat purus viverra</p>
-                                  </div>
-                                  <a class="toggle" href="#"> Garage Plan <strong>180 sq ft</strong>
-                                    <span></span></a>
-                                  <div class="accordion-inner">
-                                    <img src="assets/images/plans/3.jpg" alt="">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                                      tempor
-                                      iaculis massa faucibus feugiat. In fermentum facilisis massa, a
-                                      consequat purus viverra.</p>
                                   </div>
                                 </div>
                               </div>
@@ -502,99 +458,7 @@
                                 </div>
                               </div>
                               <!-- list-single-main-item end -->
-                              <!-- list-single-main-item -->
-                              <div class="list-single-main-item fl-wrap" id="sec7"
-                                *ngIf="listPropertyReviews.length > 0">
-                                <div class="list-single-main-item-title">
-                                  <h3>Reviews <span>2</span></h3>
-                                </div>
-                                <div class="list-single-main-item_content fl-wrap">
-                                  <div class="reviews-comments-wrap fl-wrap">
-                                    <div class="review-total">
-                                      <span class="review-number blue-bg">4.0</span>
-                                      <div class="listing-rating card-popup-rainingvis" data-starrating2="4">
-                                        <span class="re_stars-title">Good</span>
-                                      </div>
-                                    </div>
-                                    <!-- reviews-comments-item -->
-                                    <div class="reviews-comments-item" *ngFor="let reviews of listPropertyReviews">
-                                      <div class="review-comments-avatar">
-                                        <img src="assets/images/avatar/2.jpg" alt="">
-                                      </div>
-                                      <div class="reviews-comments-item-text smpar">
-                                        <div class="box-widget-menu-btn smact"><i class="far fa-ellipsis-h"></i></div>
-                                        <div class="show-more-snopt-tooltip bxwt">
-                                          <a href="#"> <i class="fas fa-reply"></i> Reply</a>
-                                          <a href="#"> <i class="fas fa-exclamation-triangle"></i>
-                                            Report
-                                          </a>
-                                        </div>
-                                        <h4><a href="#">Liza Rose</a></h4>
-                                        <div class="listing-rating card-popup-rainingvis" data-starrating2="3"><span
-                                            class="re_stars-title">Average</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <p>" Donec quam felis, ultricies nec, pellentesque eu,
-                                          pretium
-                                          quis,
-                                          sem. Nulla consequat massa quis enim. Donec pede justo,
-                                          fringilla vel, aliquet nec, vulputate eget, arcu. In
-                                          enim
-                                          justo,
-                                          rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam
-                                          dictum
-                                          felis eu pede mollis pretium. "</p>
-                                        <div class="reviews-comments-item-date">
-                                          <span class="reviews-comments-item-date-item">
-                                            <i class="far fa-calendar-check"></i>
-                                            12 April 2018
-                                          </span>
-                                          <a href="#" class="rate-review">
-                                            <i class="fal fa-thumbs-up"></i>
-                                            Helpful Review
-                                            <span>6</span>
-                                          </a>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <!--reviews-comments-item end-->
-                                    <!-- reviews-comments-item -->
-                                    <div class="reviews-comments-item">
-                                      <div class="review-comments-avatar">
-                                        <img src="assets/images/avatar/3.jpg" alt="">
-                                      </div>
-                                      <div class="reviews-comments-item-text smpar">
-                                        <div class="box-widget-menu-btn smact"><i class="far fa-ellipsis-h"></i></div>
-                                        <div class="show-more-snopt-tooltip bxwt">
-                                          <a href="#"> <i class="fas fa-reply"></i> Reply</a>
-                                          <a href="#"> <i class="fas fa-exclamation-triangle"></i>
-                                            Report
-                                          </a>
-                                        </div>
-                                        <h4><a href="#">Adam Koncy</a></h4>
-                                        <div class="listing-rating card-popup-rainingvis" data-starrating2="5"><span
-                                            class="re_stars-title">Excellent</span></div>
-                                        <div class="clearfix"></div>
-                                        <p>" Lorem ipsum dolor sit amet, consectetur adipiscing
-                                          elit.
-                                          Nunc
-                                          posuere convallis purus non cursus. Cras metus neque,
-                                          gravida
-                                          sodales massa ut. "</p>
-                                        <div class="reviews-comments-item-date"><span
-                                            class="reviews-comments-item-date-item"><i
-                                              class="far fa-calendar-check"></i>03
-                                            December
-                                            2017</span><a href="#" class="rate-review"><i class="fal fa-thumbs-up"></i>
-                                            Helpful
-                                            Review
-                                            <span>2</span> </a></div>
-                                      </div>
-                                    </div>
-                                    <!--reviews-comments-item end-->
-                                  </div>
-                                </div>
-                              </div>
+
                             </div>
                           </div>
                         </div>
@@ -630,10 +494,20 @@
               </button>
             </div>
             <div *ngIf="showPropertyStreetView">
-              <agm-map [latitude]="locationUnitLat" [longitude]="locationUnitLong">
-                <agm-marker [latitude]="locationUnitLat" [longitude]="locationUnitLong"></agm-marker>
-              </agm-map>
-              <app-street-view [latitude]="locationUnitLat" [longitude]="locationUnitLong"></app-street-view>
+              <div class="container-fluid">
+                <div class="row" style="display: flex;justify-content: flex-end;">
+                  <button class="like-btn" (click)="openSidebar()">
+                    <i class="fas fa-times"></i>
+                    close
+                  </button>
+                </div>
+                <div class="row">
+                  <agm-map [latitude]="locationUnitLat" [longitude]="locationUnitLong">
+                    <agm-marker [latitude]="locationUnitLat" [longitude]="locationUnitLong"></agm-marker>
+                  </agm-map>
+                  <app-street-view [latitude]="locationUnitLat" [longitude]="locationUnitLong"></app-street-view>
+                </div>
+              </div>
             </div>
           </div>
         </ng-template>
@@ -657,7 +531,18 @@
               </button>
             </div>
             <div class="locked-region gray-bg small-padding fl-wrap" *ngIf="showPropertyHistory">
-              <h4>Show Property History</h4>
+              <div class="container-fluid">
+                <div class="row" style="display: flex;justify-content: flex-end;">
+                  <button class="like-btn" (click)="openSidebar()">
+                    <i class="fas fa-times"></i>
+                    close
+                  </button>
+                </div>
+                <div class="row">
+                  <h4>Show Property History</h4>
+
+                </div>
+              </div>
             </div>
           </div>
         </ng-template>
@@ -681,7 +566,17 @@
               </button>
             </div>
             <div class="locked-region gray-bg small-padding fl-wrap" *ngIf="showPropertyDocuments">
-              <h4>Show Property Documents</h4>
+              <div class="container-fluid">
+                <div class="row" style="display: flex;justify-content: flex-end;">
+                  <button class="like-btn" (click)="openSidebar()">
+                    <i class="fas fa-times"></i>
+                    close
+                  </button>
+                </div>
+                <div class="row">
+                  <h4>Show Property Documents</h4>
+                </div>
+              </div>
             </div>
           </div>
         </ng-template>
@@ -705,49 +600,60 @@
               </button>
             </div>
             <div class="list-single-main-container fl-wrap" *ngIf="!showPropertyFloorPlans">
-              <!-- list-single-main-item -->
-              <h4>Show Property Floor Plans</h4>
-              <div class="list-single-main-item fl-wrap" *ngIf="ESTATE_INFO.property_floor_plan !== 'Not Available'">
-                <div class="list-single-main-item-title">
-                  <h3>Floor Plans</h3>
+              <div class="container-fluid">
+                <div class="row" style="display: flex;justify-content: flex-end;">
+                  <button class="like-btn" (click)="openSidebar()">
+                    <i class="fas fa-times"></i>
+                    close
+                  </button>
                 </div>
-                <div class="accordion">
-                  <a class="toggle act-accordion" href="#"> First Floor Plan <strong>286
-                      sq
-                      ft</strong> <span></span> </a>
-                  <div class="accordion-inner visible">
-                    <img src="assets/images/plans/1.jpg" alt="">
-                    <p>Lorem ipsum dolor sit amet, conestatetetur adipiscing elit. Maecenas
-                      in
-                      pulvinar neque. Nulla finibus lobortis pulvinar. Donec a
-                      conestatetetur
-                      nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar
-                      nisi
-                      tincidunt. .</p>
+                <div class="row">
+                  <!-- list-single-main-item -->
+                  <h4>Show Property Floor Plans</h4>
+                  <div class="list-single-main-item fl-wrap"
+                    *ngIf="propertView.property_floor_plan !== 'Not Available'">
+                    <div class="list-single-main-item-title">
+                      <h3>Floor Plans</h3>
+                    </div>
+                    <div class="accordion">
+                      <a class="toggle act-accordion" href="#"> First Floor Plan <strong>286
+                          sq
+                          ft</strong> <span></span> </a>
+                      <div class="accordion-inner visible">
+                        <img src="assets/images/plans/1.jpg" alt="">
+                        <p>Lorem ipsum dolor sit amet, conestatetetur adipiscing elit. Maecenas
+                          in
+                          pulvinar neque. Nulla finibus lobortis pulvinar. Donec a
+                          conestatetetur
+                          nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar
+                          nisi
+                          tincidunt. .</p>
+                      </div>
+                      <a class="toggle" href="#">Second Floor Plan <strong>280 sq ft</strong>
+                        <span></span></a>
+                      <div class="accordion-inner">
+                        <img src="assets/images/plans/2.jpg" alt="">
+                        <p>Aliquam erat volutpat. Curabitur convallis fringilla diam sed
+                          aliquam.
+                          Sed tempor iaculis massa faucibus feugiat. In fermentum
+                          facilisis
+                          massa,
+                          a consequat purus viverra</p>
+                      </div>
+                      <a class="toggle" href="#"> Garage Plan <strong>180 sq ft</strong>
+                        <span></span></a>
+                      <div class="accordion-inner">
+                        <img src="assets/images/plans/3.jpg" alt="">
+                        <p>Lorem ipsum dolor sit amet, conestatetetur adipiscing elit. Sed
+                          tempor
+                          iaculis massa faucibus feugiat. In fermentum facilisis massa, a
+                          consequat purus viverra.</p>
+                      </div>
+                    </div>
                   </div>
-                  <a class="toggle" href="#">Second Floor Plan <strong>280 sq ft</strong>
-                    <span></span></a>
-                  <div class="accordion-inner">
-                    <img src="assets/images/plans/2.jpg" alt="">
-                    <p>Aliquam erat volutpat. Curabitur convallis fringilla diam sed
-                      aliquam.
-                      Sed tempor iaculis massa faucibus feugiat. In fermentum
-                      facilisis
-                      massa,
-                      a consequat purus viverra</p>
-                  </div>
-                  <a class="toggle" href="#"> Garage Plan <strong>180 sq ft</strong>
-                    <span></span></a>
-                  <div class="accordion-inner">
-                    <img src="assets/images/plans/3.jpg" alt="">
-                    <p>Lorem ipsum dolor sit amet, conestatetetur adipiscing elit. Sed
-                      tempor
-                      iaculis massa faucibus feugiat. In fermentum facilisis massa, a
-                      consequat purus viverra.</p>
-                  </div>
+                  <!-- list-single-main-item end -->
                 </div>
               </div>
-              <!-- list-single-main-item end -->
             </div>
           </div>
         </ng-template>
@@ -758,7 +664,18 @@
           <span class="info-xs">Share</span>
         </ng-template>
         <ng-template verticalTabContent>
-          <div fxFlex>Favorites</div>
+          <div fxFlex>
+            <div class="container-fluid">
+              <div class="row" style="display: flex;justify-content: flex-end;">
+                <button class="like-btn" (click)="openSidebar()">
+                  <i class="fas fa-times"></i>
+                  close
+                </button>
+              </div>
+              <div class="row">
+              </div>
+            </div>
+          </div>
         </ng-template>
       </app-vertical-tab>
     </app-vertical-tab-group>

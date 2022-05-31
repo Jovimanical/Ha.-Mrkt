@@ -38,7 +38,7 @@
         <!-- grid-item-holder-->
         <div class="grid-item-holder gallery-items gisp fl-wrap" *ngIf="propertyListing.length > 0">
           <!-- gallery-item-->
-          <div class="gallery-item {{property.property_type === 'Land'? for_sale : for_rent}}"
+          <div class="gallery-item {{property.property_type === 'Land'? 'for_sale' : 'for_rent'}}"
             *ngFor="let property of propertyListing | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }">
             <!-- listing-item -->
             <div class="listing-item">
