@@ -43,8 +43,17 @@
                                     <div class="col-md-6" *ngFor="let userProperty of myProperties; let i = index">
                                         <div class="dashboard-listings-item fl-wrap">
                                             <div class="dashboard-listings-item_img_land">
-                                                <img src="/assets/images/all/3.jpg" alt="{{userProperty.PropertyName}}"
-                                                    class="img-fluid">
+                                                <!-- <img src="/assets/images/all/3.jpg" alt="{{userProperty.PropertyName}}"
+                                                    class="img-fluid"> -->                                            
+                                                    <app-generic-image-loading-component
+                                                        [alt]="userProperty.PropertyName"
+                                                        [id]="'id-'+userProperty.PropertyId" [imageLoading]="true"
+                                                        [imageLoadingUrl]="'https://media.tenor.com/images/f864cbf3ea7916572605edd3b3fe637f/tenor.gif'"
+                                                        [imageUrl]="userProperty.MapSnapshot"
+                                                        [noImageUrl]="'/assets/images/all/3.jpg'"
+                                                        [imageClass]="img-fluid" [imageHeight]="'1200'"
+                                                        [imageWidth]="'1200'">
+                                                    </app-generic-image-loading-component>                                               
                                             </div>
                                             <div class="dashboard-listings-item_content_land">
                                                 <button class="btn btn-success" (click)="callToAction(userProperty)"
@@ -70,7 +79,7 @@
                                                         <li><i class="fal fa-home"></i>
                                                             <span>
                                                                 Block &nbsp;
-                                                                <strong>{{userProperty.LinkedEntity}}</strong>
+                                                                <strong>{{userProperty.PropertyBlock}}</strong>
                                                             </span>
                                                         </li>
                                                         <li><i class="fal fa-users-class"></i>
@@ -157,7 +166,7 @@
                                                         <li><i class="fal fa-home"></i>
                                                             <span>
                                                                 Block &nbsp;
-                                                                <strong>{{userProperty.LinkedEntity}}</strong>
+                                                                <strong>{{userProperty.PropertyBlock}}</strong>
                                                             </span>
                                                         </li>
                                                         <li><i class="fal fa-users-class"></i>

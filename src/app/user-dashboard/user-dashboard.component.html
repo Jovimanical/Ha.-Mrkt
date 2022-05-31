@@ -132,7 +132,7 @@
                                                         <div class="card">
                                                             <div class="card-body cart">
                                                                 <div class="empty-cart-cls">
-                                                                    <img src="https://i.imgur.com/dCdflKN.png"
+                                                                    <img src="https://via.placeholder.com/1020x1020.png?text=HouseAfrica+Estates+No+Listing"
                                                                         width="300" height="300"
                                                                         class="img-fluid mb-4 mr-3">
 
@@ -173,26 +173,28 @@
                                                             <div class="listing-item has_one_column">
                                                                 <article class="geodir-category-listing fl-wrap">
                                                                     <div class="geodir-category-img fl-wrap">
-                                                                        <a class="geodir-category-img_item">
-                                                                            <img src="assets/images/agency/1.png"
-                                                                                alt="">
-                                                                        </a>
+                                                                        <app-generic-image-loading-component
+                                                                            [alt]="cartProduct.PropertyName"
+                                                                            [id]="'id-'+cartProduct.PropertyId"
+                                                                            [imageLoading]="true"
+                                                                            [imageLoadingUrl]="'https://media.tenor.com/images/f864cbf3ea7916572605edd3b3fe637f/tenor.gif'"
+                                                                            [imageUrl]="cartProduct.MapSnapshot"
+                                                                            [noImageUrl]="'/assets/images/all/3.jpg'"
+                                                                            [imageClass]="geodir-category-img_item"
+                                                                            [imageHeight]="'1200'"
+                                                                            [imageWidth]="'1200'">
+                                                                        </app-generic-image-loading-component>
                                                                     </div>
                                                                     <div class="geodir-category-content fl-wrap">
-                                                                        <div class="card-verified tolt"
-                                                                            data-microtip-position="left"
-                                                                            data-tooltip="Verified">
-                                                                            <i class="fal fa-user-check"></i>
-                                                                        </div>
                                                                         <div class="agent_card-title fl-wrap">
-                                                                            <h4>{{cartProduct.PropertyName}}</h4>
+                                                                            <h4>{{cartProduct?.PropertyName}}</h4>
                                                                             <div
                                                                                 class="geodir-category-location fl-wrap">
                                                                                 <a><i class="fas fa-map-marker-alt"></i>
                                                                                     {{cartProduct.PropertyJson?.name}}</a>
                                                                                 <div class="listing-rating card-popup-rainingvis"
                                                                                     data-starrating2="4"><span
-                                                                                        class="re_stars-title">{{cartProduct.PropertyStatus}}</span>
+                                                                                        class="re_stars-title">{{cartProduct?.PropertyStatus}}</span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -201,38 +203,37 @@
                                                                                 <li><i class="fal fa-home"></i>
                                                                                     <span>
                                                                                         Block &nbsp;
-                                                                                        <strong>{{cartProduct.LinkedEntity}}</strong>
+                                                                                        <strong>{{cartProduct?.PropertyBlock}}</strong>
                                                                                     </span>
                                                                                 </li>
                                                                                 <li><i class="fal fa-users-class"></i>
                                                                                     <span>
                                                                                         Estate Unit&nbsp;
-                                                                                        <strong>{{cartProduct.PropertyId}}</strong>
+                                                                                        <strong>{{cartProduct?.PropertyId}}</strong>
                                                                                     </span>
                                                                                 </li>
                                                                                 <li><i class="fal fa-comment-alt"></i>
                                                                                     <span>&nbsp;
-                                                                                        {{cartProduct.ApplicationStatus}}</span>
+                                                                                        {{cartProduct?.ApplicationStatus}}</span>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
                                                                         <div class="geodir-category-footer fl-wrap">
                                                                             <button (click)="removeItem(i)"
                                                                                 mat-raised-button color="warn">
-                                                                                <i class="fal fa-trash-alt"></i>
                                                                                 Cancel Application
                                                                             </button>
                                                                             <button (click)="showItem(cartProduct)"
                                                                                 mat-flat-button color="primary"
                                                                                 *ngIf="cartProduct.ApplicationStatus !== 'PROCESSING' && cartProduct.ApplicationStatus !== 'DECLINED'">
-                                                                                <i class="fal fa-user-check"></i>
+
                                                                                 Continue Application
                                                                             </button>
 
                                                                             <button (click)="showItem(cartProduct)"
                                                                                 mat-flat-button color="accent"
                                                                                 *ngIf="cartProduct.ApplicationStatus === 'PROCESSING' || cartProduct.ApplicationStatus === 'DECLINED'">
-                                                                                <i class="fal fa-user-shield"></i>
+
                                                                                 Application Status
                                                                             </button>
 
@@ -253,10 +254,10 @@
                                         <div class="listing-item has_one_column">
                                             <article class="geodir-category-listing fl-wrap">
                                                 <div style="display: block;">
-                                                    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels"
+                                                    <!-- <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels"
                                                         [chartType]="pieChartType" [options]="pieChartOptions"
                                                         [plugins]="pieChartPlugins" [legend]="pieChartLegend">
-                                                    </canvas>
+                                                    </canvas> -->
                                                 </div>
                                             </article>
                                         </div>

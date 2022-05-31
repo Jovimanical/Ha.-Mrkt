@@ -105,7 +105,7 @@ export class UserMyPropertiesComponent implements OnInit {
 
             case 'RENT':
 
-              this.router.navigate([`/user-dashboard/user-rent-property/${params.LinkedEntity}`]);
+              this.router.navigate([`/user-dashboard/user-rent-property/${params.PropertyId}`]);
               setTimeout(() => {
                 this.eventService.publish("RENT:PROPERTY", params);
               }, 500);

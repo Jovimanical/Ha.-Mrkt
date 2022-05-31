@@ -73,15 +73,20 @@
                     <!--  agecy card item -->
                     <div class="listing-item has_one_column">
                       <article class="geodir-category-listing fl-wrap">
-                        <div class="geodir-category-img fl-wrap">
-                          <a class="geodir-category-img_item">
-                            <img src="assets/images/agency/1.png" alt="">
-                          </a>
+                        <div class="geodir-category-img fl-wrap">                        
+                            <app-generic-image-loading-component
+                            [alt]="cartProduct.PropertyName"
+                            [id]="'id-'+cartProduct.PropertyId"
+                            [imageLoading]="true"
+                            [imageLoadingUrl]="'https://media.tenor.com/images/f864cbf3ea7916572605edd3b3fe637f/tenor.gif'"
+                            [imageUrl]="cartProduct.MapSnapshot"
+                            [noImageUrl]="'/assets/images/all/3.jpg'"
+                            [imageClass]="geodir-category-img_item"
+                            [imageHeight]="'1200'"
+                            [imageWidth]="'1200'">
+                        </app-generic-image-loading-component>                     
                         </div>
-                        <div class="geodir-category-content fl-wrap">
-                          <div class="card-verified tolt" data-microtip-position="left" data-tooltip="Verified">
-                            <i class="fal fa-user-check"></i>
-                          </div>
+                        <div class="geodir-category-content fl-wrap">                       
                           <div class="agent_card-title fl-wrap">
                             <h4>{{cartProduct.PropertyName}}</h4>
                             <div class="geodir-category-location fl-wrap">
@@ -102,16 +107,16 @@
                           </div>
                           <div class="geodir-category-footer fl-wrap">
                             <button (click)="removeItem(i)" mat-flat-button color="warn">
-                              <i class="fal fa-trash-alt"></i>
+                           
                               Remove from My Application
                             </button>
                             <button mat-flat-button color="primary" (click)="goToCheckout(cartProduct)"
                               *ngIf="cartProduct.ApplicationStatus !== 'PROCESSING' && cartProduct.ApplicationStatus !== 'DECLINED'">
-                              <i class="fal fa-user-check"></i>Continue Application
+                            Continue Application
                             </button>
                             <button (click)="showItem(cartProduct)" mat-flat-button color="accent"
                               *ngIf="cartProduct.ApplicationStatus === 'PROCESSING' || cartProduct.ApplicationStatus === 'DECLINED'">
-                              <i class="fal fa-user-shield"></i>
+                             
                               Application Status
                             </button>
                           </div>

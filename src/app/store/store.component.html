@@ -45,7 +45,6 @@
               <article class="geodir-category-listing fl-wrap">
                 <div class="geodir-category-img fl-wrap">
                   <div (click)="openProductDetail(property.PropertyId)" class="geodir-category-img_item">
-                    <!-- <img src="{{property.MapSnapshot}}" alt=""> -->
                     <app-generic-image-loading-component [alt]="property.PropertyTitle" [id]="'id-'+property.PropertyId"
                       [imageLoading]="true"
                       [imageLoadingUrl]="'https://media.tenor.com/images/f864cbf3ea7916572605edd3b3fe637f/tenor.gif'"

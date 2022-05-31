@@ -184,11 +184,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         // create estate with single unit
         let RepakageUnit = this.ESTATE_MAPSOURCE;
         RepakageUnit.features.push(propertyFeature);
-        // this.eventService.publish("ShowProperty", propertyFeature.properties);
-        // this.eventService.publish("UnitOptions", RepakageUnit);
-        // console.log("Did something!", propertyFeature);
-
-
 
         this.showPropertyInfo = false;
         this.showPropertyStreetView = false;
@@ -212,38 +207,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       }, 500);
     });
 
-    // subscribe to event with name "DoEnquire"
-    EventService.on("DoEnquire", async (propertyFeature) => {
-      this.router.navigate([`/property-search/property-details/${this.EstateInfo.PropertyTitle}/unit/${propertyFeature.properties.id}/#enquire`]);
-      setTimeout(() => {
-        // create estate with single unit
-        let RepakageUnit = this.ESTATE_MAPSOURCE;
-        RepakageUnit.features.push(propertyFeature);
-        this.eventService.publish("ShowProperty", propertyFeature.properties);
-        this.eventService.publish("UnitOptions", RepakageUnit);
-        //console.log("Did something!");
-      }, 500);
-    });
-
-
-    // subscribe to event with name "AddToFavorite"
-    EventService.on("AddToFavorite", async (propertyFeature) => {
-      let RepakageUnit = this.ESTATE_MAPSOURCE;
-      RepakageUnit.features.push(propertyFeature);
-      setTimeout(() => {
-        // create estate with single unit
-        // this.packageUnitForExport(RepakageUnit, propertyFeature.properties, 0);
-      }, 500);
-    });
-
-    EventService.on("AddToCart", async (propertyFeature) => {
-      let RepakageUnit = this.ESTATE_MAPSOURCE;
-      RepakageUnit.features.push(propertyFeature);
-      setTimeout(() => {
-        // create estate with single unit
-        // this.packageUnitForExport(RepakageUnit, propertyFeature.properties, 1);
-      }, 500);
-    });
 
     this.loadFavorite();
     this.loadUserCart();
@@ -261,10 +224,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       this.map.remove();
     }
     this.watcher.unsubscribe();
-    EventService.off("DisplayPropertyInfo", "SomeKey");
-    EventService.off("DoEnquire", "SomeKey");
-    EventService.off("AddToFavorite", "SomeKey");
-    EventService.off("AddToCart", "SomeKey");
+    EventService.off("DisplayPropertyInfo", "HAKeyID");
   }
 
 
@@ -446,12 +406,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
               default:
                 break;
             }
-
-
-
           }
-
-
         }
       }
     } catch (error) {
@@ -591,7 +546,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
     if (this.userBookMarks instanceof Array && this.userBookMarks.length > 0) {
       this.userBookMarks.forEach((element) => {
-        if (element.LinkedEntity === property.LinkedEntity) {
+        if (element.PropertyId === property.PropertyId) {
           this.notificationService.showErrorMessage('Item has already been bookmarked');
           alreadyExit = true;
           return;
@@ -657,9 +612,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
     if (Object.keys(this.propertView).length !== 0 && Object.keys(this.propertyMap).length !== 0) {
 
-      repakagedUnit.EntityParent = this.propertView.EntityParent;
-      repakagedUnit.LinkedEntity = this.propertView.LinkedEntity;
+      repakagedUnit.PropertyEstate = this.propertView.PropertyEstate;
+      repakagedUnit.PropertyBlock = this.propertView.PropertyBlock;
       repakagedUnit.PropertyFloor = this.propertView.PropertyFloor;
+      repakagedUnit.MapSnapshot = this.propertView.MapSnapshot;
       repakagedUnit.PropertyId = this.propertView.PropertyId;
       repakagedUnit.PropertyName = this.propertView.PropertyName ? this.propertView.PropertyName : 'Not Available'
       repakagedUnit.PropertyJson = this.propertyMap;
@@ -765,8 +721,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
     if (Object.keys(UnitInfo).length !== 0 && Object.keys(UnitMap).length !== 0) {
 
-      repakagedUnit.EntityParent = UnitInfo.EntityParent
-      repakagedUnit.LinkedEntity = UnitInfo.LinkedEntity
+      repakagedUnit.PropertyEstate = UnitInfo.PropertyEstate
+      repakagedUnit.PropertyBlock = UnitInfo.PropertyBlock
       repakagedUnit.PropertyFloor = UnitInfo.PropertyFloor
       repakagedUnit.PropertyId = UnitInfo.PropertyId
       repakagedUnit.PropertyName = UnitInfo.PropertyName ? UnitInfo.PropertyName : 'Not Available'
@@ -801,7 +757,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
     if (this.userCarts instanceof Array && this.userCarts.length > 0) {
       this.userCarts.forEach((element) => {
-        if (element.LinkedEntity === property.LinkedEntity) {
+        if (element.PropertyId === property.PropertyId) {
           this.notificationService.showErrorMessage('Item has already added to cart');
           cartItemExit = true;
           return;
@@ -1415,8 +1371,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         properties.PropertyFloor = property.PropertyFloor ? property.PropertyFloor : 0;
         properties.PropertyId = property.PropertyId;
         properties.LinkedEntity = property.LinkedEntity;
-        properties.EntityParent = property.EntityParent;
-        properties.id = property.LinkedEntity;
+        properties.MapSnapshot = property.MapSnapshot;
+        properties.id = property.PropertyId;
         properties.PropertyName = property.PropertyTitle;
         properties.PropertyEstate = property.PropertyEstate;
         properties.PropertyBlock = property.PropertyBlock;
