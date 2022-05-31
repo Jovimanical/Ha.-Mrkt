@@ -29,7 +29,7 @@
                                 *ngIf="isLoading && !existingPersonalInfo">
                                 <mat-spinner role="progressbar"></mat-spinner>
                             </div>
-                            <section class="gray-bg small-padding">
+                            <section class="gray-bg small-padding" *ngIf="!isLoading && !existingPersonalInfo">
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-12">
@@ -53,12 +53,13 @@
                         </ng-template>
                         <ng-template [ngIf]="existingPersonalInfo" [ngIfElse]="loading">
                             <div class="container-fluid page-padding" style="margin-top: 10%;">
-                                <h2 class="form-title">You have Previously filled this information. What would you like to do?</h2>
+                                <h2 class="form-title">You have Previously filled this information. What would you like
+                                    to do?</h2>
                                 <div
                                     style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
                                     <a routerLink="/user-dashboard/user-personal-information" routerLinkActive="active"
                                         mat-raised-button color="warn">
-                                        <i class="fa fa-person-sign"></i>
+
                                         Update My Existing Information
                                     </a>
 
@@ -77,12 +78,12 @@
                         <div class="container-fluid page-padding" style="margin-top: 10%;"
                             *ngIf="!isLoading && existingEmploymentInfo">
                             <!-- show continue button -->
-                            <h2 class="form-title">You have Previously filled this information. What would you like to do?</h2>
+                            <h2 class="form-title">You have Previously filled this information. What would you like to
+                                do?</h2>
                             <div
                                 style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
                                 <a routerLink="/user-dashboard/user-employment-status" routerLinkActive="active"
                                     mat-raised-button color="warn">
-                                    <i class="fa fa-person-sign"></i>
                                     Update My Existing Information
                                 </a>
 
@@ -103,7 +104,6 @@
                                                         style="display: flex; justify-content: center; margin-top: 20px;">
                                                         <button type="submit" color="primary" mat-raised-button
                                                             [disabled]="!formEmployerInfo.valid">
-
                                                             Submit Emploment status
                                                         </button>
                                                     </div>
@@ -123,12 +123,12 @@
                         <div class="container-fluid page-padding" style="margin-top: 10%;"
                             *ngIf="!isLoading && hasExistingRequiredDocs">
                             <!-- show continue button -->
-                            <h2 class="form-title">You have Previously filled this information. What would you like to do?</h2>
+                            <h2 class="form-title">You have Previously filled this information. What would you like to
+                                do?</h2>
                             <div
                                 style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
                                 <a routerLink="/user-dashboard/user-required-documents" routerLinkActive="active"
                                     mat-raised-button color="warn">
-                                    <i class="fa fa-person-sign"></i>
                                     Update My Existing Information
                                 </a>
 
@@ -214,12 +214,12 @@
                         <div class="container-fluid page-padding" style="margin-top: 10%;"
                             *ngIf="!isLoading && hasExistingCustomerAsset">
                             <!-- show continue button -->
-                            <h2 class="form-title">You have Previously filled this information. What would you like to do?</h2>
+                            <h2 class="form-title">You have Previously filled this information. What would you like to
+                                do?</h2>
                             <div
                                 style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
                                 <a routerLink="/user-dashboard/user-required-assets" routerLinkActive="active"
                                     mat-raised-button color="warn">
-                                    <i class="fa fa-person-sign"></i>
                                     Update My Existing Information
                                 </a>
 
@@ -323,12 +323,12 @@
                         <div class="container-fluid page-padding" style="margin-top: 10%;"
                             *ngIf="!isLoading && hasExistingCustomerLiability">
                             <!-- show continue button -->
-                            <h2 class="form-title">You have Previously filled this information. What would you like to do?</h2>
+                            <h2 class="form-title">You have Previously filled this information. What would you like to
+                                do?</h2>
                             <div
                                 style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
                                 <a routerLink="/user-dashboard/user-required-liability" routerLinkActive="active"
                                     mat-raised-button color="warn">
-                                    <i class="fa fa-person-sign"></i>
                                     Update My Existing Information
                                 </a>
 
@@ -368,7 +368,8 @@
                                                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                                     Account Number :
                                                                     <input type="text" formControlName="accountNumber"
-                                                                        class="form-control"  placeholder="Enter Account Number ">
+                                                                        class="form-control"
+                                                                        placeholder="Enter Account Number ">
                                                                     <div class="error"
                                                                         *ngIf="customerLiability().controls[i].get('accountNumber').hasError('required') && customerLiability().controls[i].get('accountNumber').touched">
                                                                         Account Number is required
@@ -376,7 +377,8 @@
                                                                 </div>
                                                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                                     Balance:
-                                                                    <input type="text" formControlName="balance"  placeholder="Enter Balance left "
+                                                                    <input type="text" formControlName="balance"
+                                                                        placeholder="Enter Balance left "
                                                                         class="form-control">
                                                                     <div class="error"
                                                                         *ngIf="customerLiability().controls[i].get('balance').hasError('required') && customerLiability().controls[i].get('balance').touched">
@@ -385,7 +387,8 @@
                                                                 </div>
                                                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                                     Description:
-                                                                    <input type="text" formControlName="description"  placeholder="Enter Description "
+                                                                    <input type="text" formControlName="description"
+                                                                        placeholder="Enter Description "
                                                                         class="form-control">
                                                                     <div class="error"
                                                                         *ngIf="customerLiability().controls[i].get('description').hasError('required') && customerLiability().controls[i].get('description').touched">
@@ -394,7 +397,8 @@
                                                                 </div>
                                                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                                     Liability Type:
-                                                                    <input type="text" formControlName="liabilityType"  placeholder="Enter Liability Type "
+                                                                    <input type="text" formControlName="liabilityType"
+                                                                        placeholder="Enter Liability Type "
                                                                         class="form-control">
                                                                     <div class="error"
                                                                         *ngIf="customerLiability().controls[i].get('liabilityType').hasError('required') && customerLiability().controls[i].get('liabilityType').touched">
@@ -403,7 +407,8 @@
                                                                 </div>
                                                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                                     Monthly Payment:
-                                                                    <input type="text" formControlName="monthlyPayment"  placeholder="Enter Monthly Payment "
+                                                                    <input type="text" formControlName="monthlyPayment"
+                                                                        placeholder="Enter Monthly Payment "
                                                                         class="form-control">
                                                                     <div class="error"
                                                                         *ngIf="customerLiability().controls[i].get('monthlyPayment').hasError('required') && customerLiability().controls[i].get('monthlyPayment').touched">
@@ -448,12 +453,12 @@
                         <div class="container-fluid page-padding" style="margin-top: 10%;"
                             *ngIf="!isLoading && hasExistingCustomerAdditionalIncome">
                             <!-- show continue button -->
-                            <h2 class="form-title">You have Previously filled this information. What would you like to do?</h2>
+                            <h2 class="form-title">You have Previously filled this information. What would you like to
+                                do?</h2>
                             <div
                                 style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
                                 <a routerLink="/user-dashboard/user-required-extra-income" routerLinkActive="active"
                                     mat-raised-button color="warn">
-                                    <i class="fa fa-person-sign"></i>
                                     Update My Existing Information
                                 </a>
 
@@ -462,7 +467,8 @@
                                 </button>
                             </div>
                         </div>
-                        <section class="gray-bg small-padding" *ngIf="!isLoading && !hasExistingCustomerAdditionalIncome">
+                        <section class="gray-bg small-padding"
+                            *ngIf="!isLoading && !hasExistingCustomerAdditionalIncome">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -492,7 +498,8 @@
                                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
                                                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                                     Description:
-                                                                    <input type="text" formControlName="description"  placeholder="Enter Description"
+                                                                    <input type="text" formControlName="description"
+                                                                        placeholder="Enter Description"
                                                                         class="form-control">
                                                                     <div class="error"
                                                                         *ngIf="customerAdditional().controls[i].get('description').hasError('required') && customerAdditional().controls[i].get('description').touched">
@@ -502,7 +509,8 @@
                                                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                                     Value/Amount:
                                                                     <input type="text"
-                                                                        formControlName="otherIncomeAmount"  placeholder="Enter Value or Amount r.g 100000"
+                                                                        formControlName="otherIncomeAmount"
+                                                                        placeholder="Enter Value or Amount r.g 100000"
                                                                         class="form-control">
                                                                     <div class="error"
                                                                         *ngIf="customerAdditional().controls[i].get('otherIncomeAmount').hasError('required') && customerAdditional().controls[i].get('otherIncomeAmount').touched">
@@ -512,7 +520,8 @@
                                                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                                     Period:
                                                                     <input type="text"
-                                                                        formControlName="otherIncomePeriod"  placeholder="Enter period e.g Annually"
+                                                                        formControlName="otherIncomePeriod"
+                                                                        placeholder="Enter period e.g Annually"
                                                                         class="form-control">
                                                                     <div class="error"
                                                                         *ngIf="customerAdditional().controls[i].get('otherIncomePeriod').hasError('required') && customerAdditional().controls[i].get('otherIncomePeriod').touched">
@@ -521,7 +530,8 @@
                                                                 </div>
                                                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                                     Income Type:
-                                                                    <input type="text" formControlName="otherIncomeType"  placeholder="Enter Extra income type "
+                                                                    <input type="text" formControlName="otherIncomeType"
+                                                                        placeholder="Enter Extra income type "
                                                                         class="form-control">
                                                                     <div class="error"
                                                                         *ngIf="customerAdditional().controls[i].get('otherIncomeType').hasError('required') && customerAdditional().controls[i].get('otherIncomeType').touched">

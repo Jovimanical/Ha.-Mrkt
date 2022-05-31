@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Flutterwave, InlinePaymentOptions, PaymentSuccessResponse } from "flutterwave-angular-v3";
 import { NotificationService } from 'app/shared/services/notification.service';
-
 import { UserService } from 'app/core/user/user.service';
 import { BroadcastService } from 'app/core/broadcast.service';
 import { User } from 'app/core/user/user.model';
