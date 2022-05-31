@@ -1824,18 +1824,23 @@ nav li ul a:after {
   z-index: 1;
   background: none;
 }
+
 .hid-body {
   overflow: hidden;
 }
+
 .main-register-holder {
-  max-width: 90%;
-  margin: 150px auto 50px;
+  max-width: 100%;
+  max-height: 100vh;
   position: relative;
   z-index: 5;
 }
+
 .main-register-wrapper {
-  margin-bottom: 50px;
+  margin-bottom: 0px;
+  height: 100vh;
 }
+
 .main-register {
   float: right;
   width: 60%;
@@ -1844,6 +1849,7 @@ nav li ul a:after {
   background: #fff;
   border-radius: 0 6px 6px 0;
 }
+
 .main-register-header {
   position: absolute;
   left: 0;
@@ -1853,6 +1859,7 @@ nav li ul a:after {
   border-radius: 6px 0 0 6px;
   overflow: hidden;
 }
+
 .mrb_dec {
   position: absolute;
   width: 250px;

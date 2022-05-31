@@ -71,7 +71,7 @@
                             class="fal fa-user"></i></span></label>
                       <input name="email" type="text" placeholder="Enter Email" formControlName="email" required
                         onClick="this.select()">
-                      <div class="error" *ngIf="loginForm.controls['email'].hasError('required')">
+                      <div class="error" *ngIf="loginForm.controls['email'].hasError('required') && loginForm.controls['email']?.touched">
                         Email Address is required
                       </div>
                       <div class="pass-input-wrap fl-wrap">
@@ -80,7 +80,7 @@
                           autocomplete="off" onClick="this.select()" value="">
                         <span class="eye"><i class="fal fa-eye"></i> </span>
                       </div>
-                      <div class="error" *ngIf="loginForm.controls['password'].hasError('required')">
+                      <div class="error" *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password']?.touched">
                         Password is required
                       </div>
                       <div class="lost_password">

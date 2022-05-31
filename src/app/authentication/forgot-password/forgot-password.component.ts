@@ -42,7 +42,7 @@ export class ForgotPasswordComponent implements OnInit {
       this.errorMessages = error.error;
     }
   }
-  
+
 
   async verifyCode() {
     if (this.form.get('code').invalid) {

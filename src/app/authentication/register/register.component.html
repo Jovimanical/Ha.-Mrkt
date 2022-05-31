@@ -5,7 +5,7 @@
   <div class="content">
     <div class="main-register-wrap-login">
       <div class="main-register-holder">
-        <div class="main-register-wrapper modal_main_login fl-wrap">         
+        <div class="main-register-wrapper modal_main_login fl-wrap">
           <div class="main-register-header color-bg">
             <div class="main-register-logo fl-wrap">
               <img src="/assets/images/ls-roundel-white.png" alt="">
@@ -74,7 +74,7 @@
                           <label>FirstName * <span class="dec-icon"><i class="fal fa-user"></i></span></label>
                           <input name="firstname" type="text" formControlName="firstname" placeholder="Your First name"
                             onClick="this.select()" required>
-                          <mat-error *ngIf="registerForm.controls['firstname'].hasError('required')">
+                          <mat-error *ngIf="registerForm.controls['firstname'].hasError('required') && registerForm.controls['firstname']?.touched">
                             First Name is required
                           </mat-error>
                         </div>
@@ -82,7 +82,7 @@
                           <label>LastName * <span class="dec-icon"><i class="fal fa-user"></i></span></label>
                           <input name="lastname" type="text" formControlName="lastname" placeholder="Your Name"
                             onClick="this.select()" required>
-                          <mat-error *ngIf="registerForm.controls['lastname'].hasError('required')">
+                          <mat-error *ngIf="registerForm.controls['lastname'].hasError('required') && registerForm.controls['lastname']?.touched">
                             Last Name is required
                           </mat-error>
                         </div>
@@ -90,7 +90,7 @@
                           <label>Email Address * <span class="dec-icon"><i class="fal fa-envelope"></i></span></label>
                           <input name="email" type="text" formControlName="email" placeholder="Your Mail"
                             onClick="this.select()" required>
-                          <mat-error *ngIf="registerForm.controls['email'].hasError('required')">
+                          <mat-error *ngIf="registerForm.controls['email'].hasError('required') &&registerForm.controls['email']?.touched">
                             Email is required
                           </mat-error>
                         </div>
@@ -101,7 +101,7 @@
                               placeholder="Your Password" autocomplete="off" onClick="this.select()" required>
                             <span class="eye"><i class="fal fa-eye"></i> </span>
                           </div>
-                          <mat-error *ngIf="registerForm.controls['password'].hasError('required')">
+                          <mat-error *ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password']?.touched">
                             Password is required
                           </mat-error>
                         </div>
@@ -109,7 +109,7 @@
                           <label>Phone Number * <span class="dec-icon"><i class="fal fa-phone"></i></span></label>
                           <input name="mobile" type="text" formControlName="mobile" placeholder="Your Name"
                             onClick="this.select()" required>
-                          <mat-error *ngIf="registerForm.controls['mobile'].hasError('required')">
+                          <mat-error *ngIf="registerForm.controls['mobile'].hasError('required') && registerForm.controls['mobile']?.touched">
                             Mobile Phone is required
                           </mat-error>
                         </div>
@@ -118,7 +118,7 @@
                           <label for="check-a2">I agree to the <a routerLink="/terms-of-use">Privacy Policy</a> and <a
                               routerLink="/privacy-policy">Terms and
                               Conditions</a></label>
-                          <mat-error *ngIf="registerForm.controls['agreement'].hasError('required')">
+                          <mat-error *ngIf="registerForm.controls['agreement'].hasError('required') && registerForm.controls['agreement']?.touched">
                             You would have to accept our terms and conditions to proceed
                           </mat-error>
                         </div>
